@@ -1,379 +1,322 @@
+"use client";
+
 import Link from "next/link";
 import { treks } from "@/data/treks";
 import { peaks } from "@/data/peaks";
-import { dayHikes } from "@/data/day-hikes";
-import { regions } from "@/data/regions";
 import { guides } from "@/data/guides";
-import { ContentCard } from "@/components/content/ContentCard";
-import { ScrollReveal } from "@/components/animation/ScrollReveal";
 import { CloudinaryImage } from "@/components/media/CloudinaryImage";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ChevronDown, ArrowRight, ArrowLeft, Mountain, Compass, Map, BookOpen, Activity } from "lucide-react";
+import { ContentCard } from "@/components/content/ContentCard";
 
-export default function Home() {
-  const featuredTreks = treks.slice(0, 3);
-  const popularPeaks = peaks.slice(0, 3);
-  const bestDayHikes = dayHikes;
-  const latestGuides = guides.slice(0, 3);
+// The signature easing from Stitch's Ethereal Obsidian system
+const TRANSITION_EASE = [0.23, 1, 0.32, 1];
+
+function ParallaxHero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
-    <>
-      {/* Hero Section — Full Screen */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background z-10" />
-        {/* Cinematic background placeholder */}
-        <div className="absolute inset-0">
-          <CloudinaryImage
-            src="/images/hero-himalayas.jpg"
-            alt="Panoramic view of the Himalayan mountain range"
-            fill
-            priority
-            className="object-cover"
-          />
-        </div>
-        {/* Hero content */}
-        <div className="relative z-20 container mx-auto px-4 text-center">
-          <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-tight tracking-tight">
-            Discover The Himalayas
-            <br />
-            <span className="text-primary">Beyond The Guidebooks</span>
-          </h1>
-          <p className="mt-6 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
-            Trek through ancient forests, summit towering peaks, and explore hidden valleys
-            in the world&apos;s greatest mountain range.
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/treks"
-              className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-colors min-w-[44px] min-h-[44px]"
+    <section ref={ref} className="relative h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
+      {/* Cinematic Parallax Background */}
+      <motion.div className="absolute inset-0" style={{ y: imgY, scale: imgScale }}>
+        <CloudinaryImage
+          src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+          alt="Himalayan mountain panorama above the Kullu Valley"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-background" />
+      </motion.div>
+
+      {/* Foreground Content */}
+      <motion.div
+        className="relative z-10 text-center px-6 max-w-4xl mx-auto space-y-4 mt-12"
+        style={{ opacity: contentOpacity, y: contentY }}
+      >
+        <motion.span 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: TRANSITION_EASE }}
+          className="font-mono text-[10px] text-primary tracking-[0.3em] uppercase opacity-80 block mb-4"
+        >
+          Ascend to greatness
+        </motion.span>
+        
+        <h1 className="font-heading text-5xl sm:text-6xl md:text-[80px] font-medium leading-[1.1] tracking-tighter text-white mb-6 drop-shadow-2xl flex flex-col items-center" style={{ perspective: "1000px" }}>
+          <motion.span 
+            initial={{ opacity: 0, y: 60, rotateX: -20 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 1.2, delay: 0.1, ease: TRANSITION_EASE }}
+            className="block origin-bottom"
+          >
+            Beyond the Peaks.
+          </motion.span>
+          <motion.span 
+            initial={{ opacity: 0, y: 60, rotateX: -20 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 1.2, delay: 0.25, ease: TRANSITION_EASE }}
+            className="italic text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/30 block origin-bottom -mt-1 md:-mt-4"
+          >
+            Into the Soul.
+          </motion.span>
+        </h1>
+        
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: TRANSITION_EASE }}
+          className="font-sans text-lg text-white/60 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+        >
+          Embark on curated expeditions that transcend mere travel. Experience the silence of the highest altitudes and the warmth of mountain culture.
+        </motion.p>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: TRANSITION_EASE }}
+          className="flex flex-col md:flex-row gap-4 justify-center"
+        >
+          <button 
+            onClick={() => document.getElementById('treks')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-primary text-primary-foreground px-10 py-4 rounded-full font-medium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(249,115,22,0.3)]"
+          >
+            Start Exploring
+          </button>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white/40 cursor-pointer hover:text-white transition-colors"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        onClick={() => document.getElementById('treks')?.scrollIntoView({ behavior: 'smooth' })}
+      >
+        <ChevronDown className="w-6 h-6 opacity-40" />
+      </motion.div>
+    </section>
+  );
+}
+
+function FeaturedTreks() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
+  return (
+    <section id="treks" className="py-24 bg-background overflow-hidden relative z-10">
+      <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+        >
+          <h2 className="font-heading text-4xl md:text-5xl text-white mb-2">Featured Treks</h2>
+          <p className="text-white/60">Curated journeys through the roof of the world.</p>
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+          className="flex gap-4"
+        >
+          <button 
+            onClick={() => scrollRef.current?.scrollBy({ left: -400, behavior: 'smooth' })}
+            className="w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors"
+            aria-label="Scroll left"
+          >
+            <ArrowLeft className="w-5 h-5 text-white" />
+          </button>
+          <button 
+            onClick={() => scrollRef.current?.scrollBy({ left: 400, behavior: 'smooth' })}
+            className="w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors"
+            aria-label="Scroll right"
+          >
+            <ArrowRight className="w-5 h-5 text-white" />
+          </button>
+        </motion.div>
+      </div>
+
+      <motion.div 
+        ref={scrollRef}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, delay: 0.2, ease: TRANSITION_EASE }}
+        className="flex gap-6 overflow-x-auto px-6 pb-12 snap-x scroll-smooth no-scrollbar max-w-7xl mx-auto"
+      >
+        {treks.map((trek) => (
+          <div key={trek.slug} className="w-[85vw] sm:w-[320px] md:w-[400px] snap-start shrink-0">
+            <ContentCard
+              title={trek.title}
+              slug={trek.slug}
+              basePath="/treks"
+              image={trek.heroImage}
+              description={trek.description}
+              badges={[trek.difficulty]}
+              meta={[{ label: "Duration", value: trek.duration }]}
+            />
+          </div>
+        ))}
+      </motion.div>
+    </section>
+  );
+}
+
+function NotablePeaks() {
+  return (
+    <section className="py-24 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+          className="text-center mb-16"
+        >
+          <h2 className="font-heading text-4xl md:text-5xl text-white mb-4">The Giants</h2>
+          <p className="text-white/60 max-w-xl mx-auto">Explore the peaks that define the Himalayan skyline. More than just mountains, they are legends of endurance.</p>
+        </motion.div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {peaks.slice(0, 3).map((peak, idx) => (
+            <motion.div
+              key={peak.slug}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: idx * 0.1, ease: TRANSITION_EASE }}
             >
-              Explore Treks
-            </Link>
-            <Link
-              href="/peaks"
-              className="px-8 py-4 rounded-xl border border-white/20 text-foreground font-semibold text-lg hover:bg-white/10 transition-colors min-w-[44px] min-h-[44px]"
-            >
-              Explore Peaks
-            </Link>
-          </div>
+              <Link href={`/peaks/${peak.slug}`} className="block glass-card p-4 rounded-2xl transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 border-white/10 group h-full">
+                <div className="h-64 rounded-xl overflow-hidden mb-6 relative">
+                  <CloudinaryImage 
+                    src={peak.heroImage} 
+                    alt={peak.title} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                  />
+                </div>
+                <h3 className="font-heading text-2xl text-white mb-2 group-hover:text-primary transition-colors">{peak.title}</h3>
+                <p className="text-white/60 text-sm mb-6 line-clamp-2">{peak.description}</p>
+                <div className="flex items-center gap-4 text-primary font-mono text-[10px] tracking-widest uppercase">
+                  <span className="flex items-center gap-1"><Mountain className="w-3 h-3" /> {peak.height}m</span>
+                  <span className="flex items-center gap-1"><Map className="w-3 h-3" /> {peak.region}</span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-          <svg className="w-6 h-6 text-foreground/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+      </div>
+    </section>
+  );
+}
+
+function EssentialGuides() {
+  const iconMap: Record<string, React.ReactNode> = {
+    'packing-list-himalayan-treks': <BookOpen className="w-6 h-6" />,
+    'best-time-to-visit-manali': <Compass className="w-6 h-6" />,
+    'how-to-reach-manali': <Map className="w-6 h-6" />,
+    'trekking-permits-himachal': <Activity className="w-6 h-6" />,
+  };
+
+  return (
+    <section className="py-24 bg-white/[0.02]">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+          >
+            <span className="font-mono text-[10px] text-primary tracking-[0.3em] uppercase mb-4 block">Knowledge Base</span>
+            <h2 className="font-heading text-4xl md:text-5xl text-white mb-8 leading-tight">Preparation is the Difference Between Success and Survival.</h2>
+            
+            <div className="space-y-4">
+              {guides.slice(0, 3).map((guide) => (
+                <Link key={guide.slug} href={`/guides/${guide.slug}`} className="flex gap-6 p-6 glass-card rounded-xl transition-all duration-300 hover:bg-white/10 group">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 border border-primary/20">
+                    {iconMap[guide.slug] || <BookOpen className="w-6 h-6" />}
+                  </div>
+                  <div>
+                    <h4 className="font-heading text-xl text-white mb-1 group-hover:text-primary transition-colors">{guide.title}</h4>
+                    <p className="text-white/60 text-sm line-clamp-2">{guide.description}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            
+            <Link href="/guides" className="mt-8 inline-flex items-center gap-2 text-primary font-medium group text-sm uppercase tracking-widest hover:text-white transition-colors">
+              View All Guides <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: TRANSITION_EASE }}
+            className="relative hidden lg:block"
+          >
+            <div className="aspect-square glass-card rounded-3xl overflow-hidden p-4 border-white/5">
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-background">
+                <CloudinaryImage 
+                  src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777212041/14SummitSelfie.jpg" 
+                  alt="High altitude preparation" 
+                  fill 
+                  className="object-cover opacity-90" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+              </div>
+            </div>
+            {/* Decorative element */}
+            <div className="absolute -bottom-6 -right-6 w-48 h-48 glass-card rounded-2xl p-6 backdrop-blur-3xl border border-white/10 flex flex-col justify-center">
+              <div className="text-primary font-heading text-4xl mb-2">450+</div>
+              <div className="text-white/60 font-mono text-[10px] tracking-widest uppercase">Successful Summits Completed</div>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* Search Shell Section */}
-      <ScrollReveal>
-        <section className="py-16 border-b border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="glass-card rounded-2xl p-6 md:p-8">
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-                Find Your Next Adventure
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Region filter */}
-                <div>
-                  <label htmlFor="region-filter" className="block text-sm text-foreground/70 mb-2">
-                    Region
-                  </label>
-                  <select
-                    id="region-filter"
-                    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[44px]"
-                  >
-                    <option value="">All Regions</option>
-                    <option value="kullu-manali">Kullu-Manali</option>
-                    <option value="solang-valley">Solang Valley</option>
-                    <option value="parvati-valley">Parvati Valley</option>
-                  </select>
-                </div>
-                {/* Difficulty filter */}
-                <div>
-                  <label htmlFor="difficulty-filter" className="block text-sm text-foreground/70 mb-2">
-                    Difficulty
-                  </label>
-                  <select
-                    id="difficulty-filter"
-                    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[44px]"
-                  >
-                    <option value="">All Difficulties</option>
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="difficult">Difficult</option>
-                    <option value="challenging">Challenging</option>
-                  </select>
-                </div>
-                {/* Duration filter */}
-                <div>
-                  <label htmlFor="duration-filter" className="block text-sm text-foreground/70 mb-2">
-                    Duration
-                  </label>
-                  <select
-                    id="duration-filter"
-                    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[44px]"
-                  >
-                    <option value="">Any Duration</option>
-                    <option value="1-3">1–3 Days</option>
-                    <option value="4-6">4–6 Days</option>
-                    <option value="7+">7+ Days</option>
-                  </select>
-                </div>
-              </div>
-              <div className="mt-6 flex justify-center">
-                <button className="px-8 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors min-w-[44px] min-h-[44px]">
-                  Search Adventures
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
+function FinalCTA() {
+  return (
+    <section className="py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+        className="max-w-4xl mx-auto px-6 text-center relative z-10"
+      >
+        <h2 className="font-heading text-4xl md:text-5xl text-white mb-6">Ready to write your mountain story?</h2>
+        <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">Our expedition season is now open for bookings. Join a small group of like-minded adventurers on the journey of a lifetime.</p>
+        <Link href="/contact" className="inline-block bg-primary text-primary-foreground px-12 py-5 rounded-full font-medium text-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+          Book Your Adventure
+        </Link>
+      </motion.div>
+    </section>
+  );
+}
 
-      {/* Featured Treks Section */}
-      <ScrollReveal>
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                  Featured Treks
-                </h2>
-                <p className="mt-2 text-foreground/70">
-                  Handpicked routes through the heart of the Himalayas
-                </p>
-              </div>
-              <Link
-                href="/treks"
-                className="hidden sm:inline-block text-primary hover:text-primary/80 font-medium transition-colors"
-              >
-                View all →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredTreks.map((trek) => (
-                <ContentCard
-                  key={trek.slug}
-                  title={trek.title}
-                  slug={trek.slug}
-                  basePath="/treks"
-                  image={trek.heroImage}
-                  description={trek.description}
-                  badges={[trek.difficulty, trek.region]}
-                  meta={[
-                    { label: "Duration", value: trek.duration },
-                    { label: "Altitude", value: trek.maxAltitude },
-                  ]}
-                />
-              ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link href="/treks" className="text-primary font-medium">
-                View all treks →
-              </Link>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Popular Peaks Section */}
-      <ScrollReveal>
-        <section className="py-20 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                  Popular Peaks
-                </h2>
-                <p className="mt-2 text-foreground/70">
-                  Summit objectives for aspiring mountaineers
-                </p>
-              </div>
-              <Link
-                href="/peaks"
-                className="hidden sm:inline-block text-primary hover:text-primary/80 font-medium transition-colors"
-              >
-                View all →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {popularPeaks.map((peak) => (
-                <ContentCard
-                  key={peak.slug}
-                  title={peak.title}
-                  slug={peak.slug}
-                  basePath="/peaks"
-                  image={peak.heroImage}
-                  description={peak.description}
-                  badges={[peak.difficulty, `${peak.height}m`]}
-                  meta={[
-                    { label: "Season", value: peak.expeditionSeason.split(",")[0] },
-                    { label: "Region", value: peak.region },
-                  ]}
-                />
-              ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link href="/peaks" className="text-primary font-medium">
-                View all peaks →
-              </Link>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Best Day Hikes Section */}
-      <ScrollReveal>
-        <section className="py-20 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                  Best Day Hikes
-                </h2>
-                <p className="mt-2 text-foreground/70">
-                  Short adventures, unforgettable views
-                </p>
-              </div>
-              <Link
-                href="/day-hikes"
-                className="hidden sm:inline-block text-primary hover:text-primary/80 font-medium transition-colors"
-              >
-                View all →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bestDayHikes.map((hike) => (
-                <ContentCard
-                  key={hike.slug}
-                  title={hike.title}
-                  slug={hike.slug}
-                  basePath="/day-hikes"
-                  image={hike.heroImage}
-                  description={hike.description}
-                  badges={[hike.difficulty, hike.region]}
-                  meta={[
-                    { label: "Duration", value: hike.duration },
-                    { label: "Distance", value: hike.distance },
-                  ]}
-                />
-              ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link href="/day-hikes" className="text-primary font-medium">
-                View all day hikes →
-              </Link>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Explore Regions Section */}
-      <ScrollReveal>
-        <section className="py-20 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="mb-10 text-center">
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                Explore Regions
-              </h2>
-              <p className="mt-2 text-foreground/70">
-                Discover adventures organized by destination
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {regions.map((region) => (
-                <ContentCard
-                  key={region.slug}
-                  title={region.title}
-                  slug={region.slug}
-                  basePath="/regions"
-                  image={region.heroImage}
-                  description={region.description}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Latest Guides Section */}
-      <ScrollReveal>
-        <section className="py-20 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                  Latest Guides
-                </h2>
-                <p className="mt-2 text-foreground/70">
-                  Expert tips and travel information for the Himalayas
-                </p>
-              </div>
-              <Link
-                href="/guides"
-                className="hidden sm:inline-block text-primary hover:text-primary/80 font-medium transition-colors"
-              >
-                View all →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {latestGuides.map((guide) => (
-                <ContentCard
-                  key={guide.slug}
-                  title={guide.title}
-                  slug={guide.slug}
-                  basePath="/guides"
-                  image={guide.heroImage}
-                  description={guide.description}
-                  badges={[guide.category]}
-                />
-              ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link href="/guides" className="text-primary font-medium">
-                View all guides →
-              </Link>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Newsletter Signup Section */}
-      <ScrollReveal>
-        <section className="py-20 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="glass-card rounded-2xl p-8 md:p-12 text-center max-w-3xl mx-auto">
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                Stay on the Trail
-              </h2>
-              <p className="mt-4 text-foreground/70 max-w-lg mx-auto">
-                Get weekly updates on new treks, seasonal guides, and exclusive Himalayan insights
-                delivered to your inbox.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <label htmlFor="newsletter-email" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="newsletter-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  className="flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[44px]"
-                />
-                <button
-                  type="button"
-                  className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors min-h-[44px] min-w-[44px]"
-                >
-                  Subscribe
-                </button>
-              </div>
-              <p className="mt-4 text-xs text-foreground/50">
-                No spam. Unsubscribe anytime.
-              </p>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-    </>
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+      <ParallaxHero />
+      <FeaturedTreks />
+      <NotablePeaks />
+      <EssentialGuides />
+      <FinalCTA />
+    </main>
   );
 }
