@@ -1,47 +1,32 @@
 import { Metadata } from "next";
 import { guides } from "@/data/guides";
-import { ContentCard } from "@/components/content/ContentCard";
+import { GuidesHub } from "@/components/content/GuidesHub";
 
 export const metadata: Metadata = {
-  title: "Travel Guides | TheHimalayanTrails",
+  title: "Field Guides & Planning | The Himalayan Trails",
   description:
-    "Comprehensive travel guides covering transportation, permits, packing, and planning for Himalayan adventures.",
+    "Comprehensive field guides covering transportation, permits, gear packing, and route planning for Himalayan expeditions.",
   alternates: { canonical: "https://thehimalayantrails.com/guides" },
-  openGraph: {
-    title: "Travel Guides",
-    description:
-      "Comprehensive travel guides covering transportation, permits, packing, and planning for Himalayan adventures.",
-    url: "https://thehimalayantrails.com/guides",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Travel Guides",
-    description:
-      "Comprehensive travel guides covering transportation, permits, packing, and planning for Himalayan adventures.",
-  },
 };
 
 export default function GuidesListingPage() {
   return (
-    <section className="container mx-auto px-4 py-16">
-      <h1 className="text-4xl font-heading font-bold text-foreground mb-8">
-        Travel Guides
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {guides.map((guide) => (
-          <ContentCard
-            key={guide.slug}
-            title={guide.title}
-            slug={guide.slug}
-            basePath="/guides"
-            image={guide.featuredImage}
-            description={guide.description}
-            badges={[guide.category]}
-            meta={[{ label: "Author", value: guide.author }]}
-          />
-        ))}
+    <main className="min-h-screen bg-background pt-28 pb-20">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="mb-12">
+          <span className="font-mono text-xs text-primary uppercase tracking-[0.25em] block mb-2">
+            Field Dispatches &amp; Knowledge Base
+          </span>
+          <h1 className="font-display tracking-tight font-semibold text-3xl sm:text-5xl md:text-6xl text-white mb-4">
+            Travel &amp; Trail Guides
+          </h1>
+          <p className="text-white/65 text-base sm:text-lg font-light max-w-2xl">
+            In-depth advice on seasons, permits, hiring local guides, high-altitude logistics, and equipment checklists.
+          </p>
+        </div>
+
+        <GuidesHub guides={guides} />
       </div>
-    </section>
+    </main>
   );
 }

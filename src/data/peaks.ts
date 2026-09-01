@@ -53,13 +53,10 @@ export const peaks: Peak[] = [
       },
     ],
     images: [
-      "/images/peaks/friendship-peak-1.jpg",
-      "/images/peaks/friendship-peak-2.jpg",
-      "/images/peaks/friendship-peak-3.jpg",
-      "/images/peaks/friendship-peak-4.jpg",
-      "/images/peaks/friendship-peak-5.jpg",
+      "https://images.pexels.com/photos/8303567/pexels-photo-8303567.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
-    heroImage: "/images/peaks/friendship-peak-hero.jpg",
+    heroImage:
+      "https://images.pexels.com/photos/8303567/pexels-photo-8303567.jpeg?auto=compress&cs=tinysrgb&w=1600",
     description:
       "A 5289m peak in the Pir Panjal range near Manali, ideal for climbers seeking their first high-altitude summit experience.",
   },
@@ -109,14 +106,8 @@ export const peaks: Peak[] = [
           "Solo climbing is strongly discouraged and permit regulations require a minimum team size. The technical terrain, crevasse hazards, and need for fixed ropes make a roped team of at least 4 members essential for safety.",
       },
     ],
-    images: [
-      "/images/peaks/hanuman-tibba-1.jpg",
-      "/images/peaks/hanuman-tibba-2.jpg",
-      "/images/peaks/hanuman-tibba-3.jpg",
-      "/images/peaks/hanuman-tibba-4.jpg",
-      "/images/peaks/hanuman-tibba-5.jpg",
-    ],
-    heroImage: "/images/peaks/hanuman-tibba-hero.jpg",
+    images: [],
+    heroImage: "",
     description:
       "The highest peak of the Dhauladhar range at 5982m, a technically demanding climb requiring advanced mountaineering skills.",
   },
@@ -171,14 +162,8 @@ export const peaks: Peak[] = [
           "You need a climbing permit from the Indian Mountaineering Foundation (IMF) and a liaison officer is required for the expedition. Additionally, inner line permits may be needed for certain approach routes. Your expedition operator typically handles all permit logistics.",
       },
     ],
-    images: [
-      "/images/peaks/deo-tibba-1.jpg",
-      "/images/peaks/deo-tibba-2.jpg",
-      "/images/peaks/deo-tibba-3.jpg",
-      "/images/peaks/deo-tibba-4.jpg",
-      "/images/peaks/deo-tibba-5.jpg",
-    ],
-    heroImage: "/images/peaks/deo-tibba-hero.jpg",
+    images: [],
+    heroImage: "",
     description:
       "An elegant 6001m pyramidal peak near Manali, offering a comprehensive mountaineering challenge at the gateway to high-altitude climbing.",
   },
@@ -233,14 +218,8 @@ export const peaks: Peak[] = [
           "There are no permanent rescue facilities near Indrasan. Helicopter rescue is theoretically possible but depends on weather and visibility. Teams must be self-sufficient for emergency situations. Carrying a satellite communicator and having an evacuation plan with your expedition operator is mandatory.",
       },
     ],
-    images: [
-      "/images/peaks/indrasan-1.jpg",
-      "/images/peaks/indrasan-2.jpg",
-      "/images/peaks/indrasan-3.jpg",
-      "/images/peaks/indrasan-4.jpg",
-      "/images/peaks/indrasan-5.jpg",
-    ],
-    heroImage: "/images/peaks/indrasan-hero.jpg",
+    images: [],
+    heroImage: "",
     description:
       "A formidable 6221m peak with steep ice walls and technical ridges, one of the most challenging mountaineering objectives near Manali.",
   },

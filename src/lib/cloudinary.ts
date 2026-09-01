@@ -10,14 +10,14 @@ export interface CloudinaryTransform {
 
 /**
  * Builds a Cloudinary URL with transformation parameters.
- * In this phase, returns the src unchanged (placeholder images).
- * When Cloudinary is integrated, this will construct proper transform URLs.
+ * In this phase, returns the src unchanged.
  */
 export function buildCloudinaryUrl(
   src: string,
-  transforms: CloudinaryTransform = {}
+  transforms?: CloudinaryTransform
 ): string {
-  // In this phase, return the src unchanged (placeholder images).
-  // Future: construct Cloudinary transformation URL from params.
+  if (transforms) {
+    return src;
+  }
   return src;
 }

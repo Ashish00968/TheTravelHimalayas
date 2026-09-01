@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none">
+  <defs>
+    <linearGradient id="fullHgold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="25%" stop-color="#FDE68A" />
+      <stop offset="60%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="fullHsnow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <radialGradient id="fullHglow" cx="40" cy="50" r="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Left: Geometric 'H' Mountain Summit Monogram -->
+  <g transform="translate(10, 8)">
+    <circle cx="42" cy="42" r="38" fill="url(#fullHglow)" />
+
+    <path d="M 12,74 L 12,32 L 20,24 L 26,30 L 26,74 Z" fill="url(#fullHsnow)" />
+    <path d="M 72,74 L 72,32 L 64,24 L 58,30 L 58,74 Z" fill="url(#fullHsnow)" />
+
+    <polygon points="42,12 20,44 42,44 42,12" fill="#FFFFFF" />
+    <polygon points="42,12 42,44 64,44 42,12" fill="url(#fullHgold)" />
+
+    <polygon points="20,54 42,42 64,54 64,62 42,50 20,62" fill="url(#fullHgold)" />
+
+    <line x1="42" y1="12" x2="42" y2="42" stroke="url(#fullHgold)" stroke-width="1.5" stroke-linecap="round" />
+    <circle cx="42" cy="12" r="1.8" fill="#FFFBEB" />
+  </g>
+
+  <!-- Right: Modern Luxury Wordmark -->
+  <g transform="translate(110, 32)">
+    <text x="0" y="22" font-family="'Cinzel', 'Playfair Display', Georgia, serif" font-size="24" font-weight="700" fill="#F8FAFC" letter-spacing="4">
+      THE HIMALAYAN TRAILS
+    </text>
+    <text x="2" y="44" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#F59E0B" letter-spacing="6" opacity="0.9">
+      PREMIUM EXPEDITIONS
+    </text>
+    <line x1="2" y1="54" x2="350" y2="54" stroke="url(#fullHgold)" stroke-width="0.8" opacity="0.4" />
+  </g>
+</svg>

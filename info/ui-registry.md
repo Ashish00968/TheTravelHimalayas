@@ -1,44 +1,61 @@
-# UI Component Registry
+# UI Component Registry (Deep Black Obsidian Aesthetic)
 
-This registry tracks the visual patterns extracted from the codebase to ensure consistency in all future UI components.
+This registry documents the design tokens and visual patterns used across The Himalayan Trails to maintain visual excellence, consistency, and performance.
 
-## Core Patterns
+## Core Design Tokens
 
-### 1. The "Interactive Card" Pattern (`ContentCard.tsx`)
-- **Aspect Ratio**: `aspect-[4/5] sm:aspect-[3/4]`
-- **Border Radius**: `rounded-2xl`
-- **Overflow**: `overflow-hidden`
-- **Image Hover Effect**: `group-hover:scale-[1.03] transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]`
-- **Gradient Overlay**: `absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300`
-- **Typography (Card Title)**: `font-heading text-2xl font-medium text-white mb-2 group-hover:text-primary transition-colors leading-tight`
-- **Typography (Description)**: `text-sm text-white/60 line-clamp-2 leading-relaxed`
+### Color Palette
+- **Deep Black Background:** `#000000` (Pure Obsidian Black)
+- **Card Surfaces:** `#0c0c0e` (Primary Card Surface), `#121216` (Card Hover Surface), `#18181b` (Elevated Layers)
+- **Borders & Dividers:** `border-white/10` (`rgba(255, 255, 255, 0.1)`), `#1a1a1a`
+- **Primary Accent:** Action Blue `#0066cc`, Focus State `#0071e3`, Subtle Glow `rgba(0, 102, 204, 0.15)`
+- **Typography Colors:**
+  - Headings: `#ffffff` (Pure White, 100%)
+  - Subheadings/Body: `text-white/80` to `text-white/65`
+  - Metadata & Labels: `text-white/50` to `text-white/40`
+  - Badges & Accents: `text-primary` with `bg-primary/10` and `border-primary/20`
 
-### 2. Badges & Tags
-- **Pill Badge**: `text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/10 text-white font-medium backdrop-blur-md`
-- **Meta Info Divider**: `w-1 h-1 rounded-full bg-white/20`
+### Typography System
+- **Display Headings:** `font-display tracking-tight font-semibold` (for page titles, hero headers, region names)
+- **Body & Editorial:** `font-sans font-light leading-relaxed`
+- **Monospace Metadata:** `font-mono text-xs uppercase tracking-widest` (for difficulty badges, elevation markers, dates, author bylines)
 
-### 3. The "Interactive Button" & Navigation (`Navigation.tsx`)
-- **Nav Links (Desktop)**: `text-sm tracking-wide transition-all duration-200` (active state uses primary color and bottom indicator)
-- **Active Indicator**: `absolute -bottom-1.5 left-0 w-full h-[1px] bg-primary rounded-full`
-- **Primary CTA Button**: `py-4 rounded-full bg-primary text-primary-foreground font-medium text-base hover:bg-primary/90`
-- **Icon Buttons**: `p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-foreground/70 hover:text-foreground hover:bg-white/5 transition-colors`
+### Border Radii
+- **Cards & Banners:** `rounded-2xl` (16px) to `rounded-3xl` (24px)
+- **Pill Buttons & Badges:** `rounded-full`
+- **Inputs & Smaller Containers:** `rounded-xl` (12px)
 
-### 4. Glassmorphism & Overlays
-- **Header (Scrolled state)**: `bg-background/80 backdrop-blur-xl border-b border-white/5 shadow-[0_2px_24px_rgba(0,0,0,0.4)]`
-- **Full Screen Overlay**: `bg-background/95 backdrop-blur-3xl`
-- **Glass Card (New)**: `glass-card p-4 rounded-2xl transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 border-white/10 group`
-- **Glass Floating Action**: `w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors`
+---
 
-### 5. Animations & Easing
-- **Custom Easing**: `ease-[cubic-bezier(0.23,1,0.32,1)]` is used extensively for smooth, premium motion. This is exported as `TRANSITION_EASE` in components.
-- **Slide-In Indicator (ArrowRight)**: `opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]`
-- **Staggered Entrances**: `framer-motion` `staggerChildren: 0.1` used on list containers (e.g. `ImageGallery`, `RelatedContent`, `ContactForm`) to cascade animations.
-- **Item Entrance**: Items fade in and slide up (`y: 20 -> 0`) or slide right (`x: -10 -> 0`) using the signature cubic-bezier ease.
+## Component Patterns
 
-### 6. Forms (Stitch AI / Alpine Obsidian)
-- **Inputs**: Minimalist dark inputs with a single bottom border.
-- **Input Style**: `bg-white/5 border-0 border-b border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-0 focus:border-primary`
-- **Labels**: `text-xs font-semibold uppercase tracking-wider text-white/70`
+### 1. The Obsidian Card Pattern (`ContentCard.tsx`, Division Cards, Region Cards)
+- **Container:** `bg-[#0c0c0e] hover:bg-[#121216] border border-white/10 hover:border-primary/40 rounded-3xl p-7 transition-all duration-300 shadow-xl flex flex-col justify-between`
+- **Top Row:** Emoji icon or category badge (`bg-primary/10 text-primary border border-primary/20 rounded-full font-mono text-[11px] px-3 py-1`)
+- **Title:** `font-display font-semibold text-xl sm:text-2xl text-white group-hover:text-primary transition-colors`
+- **Description:** `text-white/65 text-sm line-clamp-2 leading-relaxed font-light`
+- **Bottom Metadata Bar:** `border-t border-white/5 pt-4 flex items-center justify-between`
 
-### 7. Layouts & Containers
-- **Horizontal Scrolling List**: `flex gap-6 overflow-x-auto px-6 pb-12 snap-x scroll-smooth no-scrollbar max-w-7xl mx-auto` with `snap-start shrink-0` on children.
+### 2. Category Filter Pill Bar (`DivisionClient.tsx`, `SafetyClient.tsx`)
+- **Container:** `flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[#0c0c0e] border border-white/10 w-fit`
+- **Active Tab:** `bg-primary text-white font-semibold shadow-md shadow-primary/30 rounded-xl font-mono text-xs uppercase tracking-wider`
+- **Inactive Tab:** `text-white/60 hover:text-white hover:bg-white/5 rounded-xl font-mono text-xs uppercase tracking-wider`
+- **Count Badge:** `text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white` (Active) / `bg-white/5 text-white/40` (Inactive)
+
+### 3. Featured Photo Showcase Banner (`PlacePage`)
+- **Aspect Ratio:** `aspect-[16/9] md:aspect-[21/9] max-h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl group`
+- **Image:** Full-color `next/image` with `fill`, `object-cover`, and `group-hover:scale-105 transition-transform duration-700`
+- **Overlays:** Gradient vignette from `black/80` to transparent, floating expedition badge, and elevation marker.
+
+### 4. Ambient Hero Section (`HeroSection.tsx`, `ParallaxHero`)
+- **Ambient Glow:** Radial glow mesh using `bg-primary/10 rounded-full blur-[140px]`
+- **Subtle Texture:** Dot matrix overlay `bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:32px_32px]`
+- **Hierarchy:** Monospace pill badge -> Display title (gradient text) -> Supporting lead -> Pill CTA buttons
+
+### 5. Floating Sticky Navigation (`Navigation.tsx`)
+- **Nav Header:** `frosted-glass-dark` with `backdrop-blur-[20px] bg-black/80 border-b border-white/10`
+- **Active Link Indicator:** Animated `layoutId="activeNav"` underline with `bg-primary shadow-[0_0_8px_rgba(0,102,204,0.6)]`
+
+### 6. Detail & Accordion Elements (`QuickFacts.tsx`, `FAQAccordion.tsx`)
+- **Quick Facts Grid:** Key-value pairs in glowing dark containers with primary accent values
+- **Itinerary Timeline:** Numbered circular badge with vertical gradient border connector

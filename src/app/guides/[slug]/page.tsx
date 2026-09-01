@@ -6,7 +6,6 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContentCard } from "@/components/content/ContentCard";
 import { buildBreadcrumbs } from "@/lib/breadcrumbs";
 import { buildArticleJsonLd, buildBreadcrumbJsonLd } from "@/lib/json-ld";
-import { AdSlot } from "@/components/monetization/AdSlot";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -22,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!guide) return {};
 
   return {
-    title: `${guide.title} | TheHimalayanTrails`,
+    title: `${guide.title} | The Himalayan Trails`,
     description: guide.description,
     alternates: { canonical: `https://thehimalayantrails.com/guides/${guide.slug}` },
     openGraph: {
@@ -30,13 +29,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: guide.description,
       url: `https://thehimalayantrails.com/guides/${guide.slug}`,
       type: "article",
-      images: [{ url: guide.heroImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: guide.title,
       description: guide.description,
-      images: [guide.heroImage],
     },
   };
 }
@@ -66,51 +63,36 @@ export default async function GuidePage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <HeroSection title={guide.title} image={guide.heroImage} />
+      <HeroSection title={guide.title} subtitle={guide.description} />
 
-      {/* Ad slot after hero */}
-      <div className="container mx-auto px-4 mt-6">
-        <AdSlot position="banner" />
-      </div>
-
-      <article className="container mx-auto px-4 py-12">
+      <article className="container mx-auto px-6 py-12 max-w-4xl">
         <Breadcrumbs items={breadcrumbs} />
 
-        <div className="flex flex-wrap items-center gap-4 mb-6">
-          <span className="text-xs px-3 py-1 rounded-full bg-primary/20 text-primary">
+        <div className="flex flex-wrap items-center gap-4 my-8 pb-6 border-b border-white/10">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
             {guide.category}
           </span>
-          <span className="text-sm text-foreground/60">
+          <span className="text-sm text-white/50 font-mono">
             By {guide.author}
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-8">
-          {guide.title}
-        </h1>
-
-        <div className="text-foreground/80 whitespace-pre-line leading-relaxed text-base max-w-3xl">
+        <div className="prose prose-invert max-w-none text-white/80 whitespace-pre-line leading-relaxed text-base sm:text-lg font-light">
           {guide.content}
         </div>
 
-        {/* Inline ad slot within content body */}
-        <div className="max-w-3xl mt-8">
-          <AdSlot position="inline" />
-        </div>
-
         {relatedGuides.length > 0 && (
-          <section className="mt-16">
-            <h2 className="text-2xl font-heading font-bold text-foreground mb-6">
-              Related Guides
+          <section className="mt-20 pt-12 border-t border-white/10">
+            <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-semibold text-white mb-8">
+              Related Field Guides
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {relatedGuides.map((related) => (
                 <ContentCard
                   key={related.slug}
                   title={related.title}
                   slug={related.slug}
                   basePath="/guides"
-                  image={related.featuredImage}
                   description={related.description}
                   badges={[related.category]}
                   meta={[{ label: "Author", value: related.author }]}

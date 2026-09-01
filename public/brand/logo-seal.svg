@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <radialGradient id="sealHbg" cx="100" cy="100" r="95" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="65%" stop-color="#080C14" />
+      <stop offset="100%" stop-color="#020408" />
+    </radialGradient>
+    <linearGradient id="sealHgold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="25%" stop-color="#FDE68A" />
+      <stop offset="60%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="sealHsnow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <path id="sealHarcTop" d="M 24,100 A 76,76 0 1,1 176,100" />
+    <path id="sealHarcBottom" d="M 176,100 A 76,76 0 0,1 24,100" />
+  </defs>
+
+  <!-- Dark Base Plate -->
+  <circle cx="100" cy="100" r="98" fill="#000000" opacity="0.8" />
+  <circle cx="100" cy="100" r="96" fill="url(#sealHbg)" />
+
+  <!-- Outer Bezel Rings -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#sealHgold)" stroke-width="2" />
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#F59E0B" stroke-width="0.75" stroke-dasharray="2.5 2.5" opacity="0.5" />
+
+  <!-- Circular Typography -->
+  <text fill="#FEF08A" font-family="'Cinzel', 'Playfair Display', Georgia, serif" font-size="8.5" font-weight="700" letter-spacing="3.2" opacity="0.95">
+    <textPath href="#sealHarcTop" startOffset="50%" text-anchor="middle">
+      THE HIMALAYAN TRAILS
+    </textPath>
+  </text>
+  <text fill="#E2E8F0" font-family="'Inter', sans-serif" font-size="6.5" font-weight="600" letter-spacing="2.8" opacity="0.85">
+    <textPath href="#sealHarcBottom" startOffset="50%" text-anchor="middle">
+      ★ EST. 2026 • PREMIUM EXPEDITIONS ★
+    </textPath>
+  </text>
+
+  <!-- Inner Gold Frame -->
+  <circle cx="100" cy="100" r="62" fill="none" stroke="url(#sealHgold)" stroke-width="1.5" />
+
+  <!-- Center 'H' Mountain Monogram Artwork -->
+  <g transform="translate(50, 50)">
+    <path d="M 16,84 L 16,36 L 26,26 L 32,32 L 32,84 Z" fill="url(#sealHsnow)" />
+    <path d="M 84,84 L 84,36 L 74,26 L 68,32 L 68,84 Z" fill="url(#sealHsnow)" />
+
+    <polygon points="50,14 26,50 50,50 50,14" fill="#FFFFFF" />
+    <polygon points="50,14 50,50 74,50 50,14" fill="url(#sealHgold)" />
+
+    <polygon points="26,62 50,48 74,62 74,72 50,58 26,72" fill="url(#sealHgold)" />
+
+    <line x1="50" y1="14" x2="50" y2="48" stroke="url(#sealHgold)" stroke-width="1.8" stroke-linecap="round" />
+    <circle cx="50" cy="14" r="2.2" fill="#FFFBEB" />
+  </g>
+</svg>

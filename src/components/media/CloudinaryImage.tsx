@@ -1,30 +1,36 @@
 "use client";
 
 import Image, { ImageProps } from "next/image";
-import { buildCloudinaryUrl, CloudinaryTransform } from "@/lib/cloudinary";
-
-const FALLBACK_IMAGE = "/images/placeholder-mountain.jpg";
 
 interface CloudinaryImageProps extends Omit<ImageProps, "src"> {
-  src: string;
-  transforms?: CloudinaryTransform;
+  src?: string;
+  transforms?: Record<string, unknown>;
 }
 
 export function CloudinaryImage({
   src,
-  transforms,
   alt,
+  className = "",
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   ...props
 }: CloudinaryImageProps) {
-  const url = buildCloudinaryUrl(src || FALLBACK_IMAGE, transforms);
+  if (!src) {
+    return (
+      <div
+        className={`w-full h-full bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/5 flex items-center justify-center ${className}`}
+      />
+    );
+  }
 
   return (
     <Image
-      src={url}
-      alt={alt}
+      src={src}
+      alt={alt || "Himalayan landscape"}
+      sizes={sizes}
       placeholder="blur"
       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
       loading={props.priority ? undefined : "lazy"}
+      className={`transform-gpu ${className}`}
       {...props}
     />
   );

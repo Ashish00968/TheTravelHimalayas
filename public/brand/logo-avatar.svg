@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <radialGradient id="avHbg" cx="60" cy="60" r="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="65%" stop-color="#080C14" />
+      <stop offset="100%" stop-color="#020408" />
+    </radialGradient>
+    <linearGradient id="avHgold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="25%" stop-color="#FDE68A" />
+      <stop offset="60%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="avHsnow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular DP Background Plate -->
+  <circle cx="60" cy="60" r="59" fill="#000000" opacity="0.8" />
+  <circle cx="60" cy="60" r="58" fill="url(#avHbg)" />
+
+  <!-- Outer Precision Gold Rim -->
+  <circle cx="60" cy="60" r="57.5" fill="none" stroke="url(#avHgold)" stroke-width="1.8" />
+  <circle cx="60" cy="60" r="54" fill="none" stroke="#F59E0B" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.4" />
+
+  <!-- Center 'H' Mountain Monogram Artwork -->
+  <g transform="translate(10, 10)">
+    <path d="M 16,84 L 16,36 L 26,26 L 32,32 L 32,84 Z" fill="url(#avHsnow)" />
+    <path d="M 84,84 L 84,36 L 74,26 L 68,32 L 68,84 Z" fill="url(#avHsnow)" />
+
+    <polygon points="50,14 26,50 50,50 50,14" fill="#FFFFFF" />
+    <polygon points="50,14 50,50 74,50 50,14" fill="url(#avHgold)" />
+
+    <polygon points="26,62 50,48 74,62 74,72 50,58 26,72" fill="url(#avHgold)" />
+
+    <line x1="50" y1="14" x2="50" y2="48" stroke="url(#avHgold)" stroke-width="1.8" stroke-linecap="round" />
+    <circle cx="50" cy="14" r="2.2" fill="#FFFBEB" />
+  </g>
+</svg>

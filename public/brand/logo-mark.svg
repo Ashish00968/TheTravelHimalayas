@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" className="w-full h-full">
+  <defs>
+    <!-- Master 24k Gold Gradient -->
+    <linearGradient id="hGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="25%" stop-color="#FDE68A" />
+      <stop offset="60%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <!-- Master Platinum Snow Gradient -->
+    <linearGradient id="hSnow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+
+    <!-- Subtle Ambient Glow -->
+    <radialGradient id="hGlow" cx="50" cy="50" r="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="50" cy="50" r="42" fill="url(#hGlow)" />
+
+  <!-- THE HIMALAYAN 'H' + MOUNTAIN SUMMIT GEOMETRIC MONOGRAM -->
+  <g id="himalayan-monogram">
+    <!-- Left Pillar of 'H' (Left Mountain Ridge) -->
+    <path d="M 16,84 L 16,36 L 26,26 L 32,32 L 32,84 Z" fill="url(#hSnow)" />
+
+    <!-- Right Pillar of 'H' (Right Mountain Ridge) -->
+    <path d="M 84,84 L 84,36 L 74,26 L 68,32 L 68,84 Z" fill="url(#hSnow)" />
+
+    <!-- Soaring Central Pyramid Summit (Himalayan Peak) -->
+    <!-- Lit Snow Facet -->
+    <polygon points="50,14 26,50 50,50 50,14" fill="#FFFFFF" />
+    <!-- Golden Shadow Facet -->
+    <polygon points="50,14 50,50 74,50 50,14" fill="url(#hGold)" />
+
+    <!-- Central 'H' Crossbar (Ascending Ridge Trail Pass) -->
+    <polygon points="26,62 50,48 74,62 74,72 50,58 26,72" fill="url(#hGold)" />
+
+    <!-- Golden Knife-Edge Arête (Center Spine) -->
+    <line x1="50" y1="14" x2="50" y2="48" stroke="url(#hGold)" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Summit Golden Apex -->
+    <circle cx="50" cy="14" r="2.2" fill="#FFFBEB" />
+  </g>
+</svg>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { SITE, absoluteUrl } from "./site";
 
 interface SeoParams {
   title: string;
@@ -8,8 +9,6 @@ interface SeoParams {
   type?: "website" | "article";
 }
 
-const BASE_URL = "https://thehimalayantrails.com";
-
 export function generatePageMetadata({
   title,
   description,
@@ -17,17 +16,18 @@ export function generatePageMetadata({
   image,
   type = "website",
 }: SeoParams): Metadata {
-  const url = `${BASE_URL}${path}`;
-  const ogImage = image || `${BASE_URL}/og-default.jpg`;
+  const url = absoluteUrl(path);
+  const ogImage = image || absoluteUrl(SITE.ogImage);
 
   return {
-    title: `${title} | TheHimalayanTrails`,
+    title: `${title} | ${SITE.name}`,
     description,
     alternates: { canonical: url },
     openGraph: {
       title,
       description,
       url,
+      siteName: SITE.name,
       type,
       images: [{ url: ogImage, width: 1200, height: 630 }],
     },
