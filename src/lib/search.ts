@@ -1,4 +1,4 @@
-import { himalayaAtlas } from "@/data/atlas";
+import { himalayaAtlas, placeLocationIndex } from "@/data/atlas";
 import { guides } from "@/data/guides";
 import { ALTITUDE_ILLNESSES, GLOSSARY_TERMS, SAFETY_PROTOCOLS } from "@/data/mountain-safety";
 import { treks } from "@/data/treks";
@@ -20,70 +20,79 @@ export interface SearchFilters {
   altitude?: string; // "<3000", "3000-4500", ">4500"
 }
 
+// ── Pre-built trek → href lookup (O(1) per trek) ───────────────────────────
+// Resolves each trek slug to its correct /explore/[state]/[division]/[slug] path
+// from the atlas rather than hard-coding a single region.
+const trekHrefIndex = new Map<string, string>(
+  treks.map((t) => {
+    const loc = placeLocationIndex.get(t.slug);
+    const href = loc
+      ? `/explore/${loc.regionId}/${loc.subRegionId}/${t.slug}`
+      : `/explore/himachal-pradesh/kullu/${t.slug}`; // safe fallback for treks not yet in atlas
+    return [t.slug, href];
+  })
+);
+
 export function searchContent(filters: SearchFilters): SearchResult[] {
   const { query, region, difficulty, duration, altitude } = filters;
   const normalizedQuery = query.toLowerCase().trim();
   const results: SearchResult[] = [];
 
   // 1. Search Treks (with facets)
-  treks.forEach((trek) => {
-    // Basic Text Match
-    const matchesText = 
-      !normalizedQuery || 
+  for (const trek of treks) {
+    // Text match
+    const matchesText =
+      !normalizedQuery ||
       trek.title.toLowerCase().includes(normalizedQuery) ||
       trek.overview.toLowerCase().includes(normalizedQuery) ||
       trek.region.toLowerCase().includes(normalizedQuery);
 
-    if (!matchesText) return;
+    if (!matchesText) continue;
 
-    // Facet Matches
-    if (difficulty && difficulty !== "Any" && trek.difficulty.toLowerCase() !== difficulty.toLowerCase()) return;
-    
-    if (region && region !== "Any" && !trek.region.toLowerCase().includes(region.toLowerCase())) return;
+    // Facet guards
+    if (difficulty && difficulty !== "Any" && trek.difficulty.toLowerCase() !== difficulty.toLowerCase()) continue;
+    if (region && region !== "Any" && !trek.region.toLowerCase().includes(region.toLowerCase())) continue;
 
     if (duration && duration !== "Any") {
       const days = parseDuration(trek.duration);
-      if (duration === "1-3" && days > 3) return;
-      if (duration === "4-7" && (days < 4 || days > 7)) return;
-      if (duration === "8+" && days < 8) return;
+      if (duration === "1-3" && days > 3) continue;
+      if (duration === "4-7" && (days < 4 || days > 7)) continue;
+      if (duration === "8+" && days < 8) continue;
     }
 
     if (altitude && altitude !== "Any") {
       const alt = parseAltitude(trek.maxAltitude);
-      if (altitude === "<3000" && alt >= 3000) return;
-      if (altitude === "3000-4500" && (alt < 3000 || alt > 4500)) return;
-      if (altitude === ">4500" && alt <= 4500) return;
+      if (altitude === "<3000" && alt >= 3000) continue;
+      if (altitude === "3000-4500" && (alt < 3000 || alt > 4500)) continue;
+      if (altitude === ">4500" && alt <= 4500) continue;
     }
 
     results.push({
       title: trek.title,
       slug: trek.slug,
       category: "trek",
-      // Inferring region ID for href. Assuming himachal-pradesh/kullu for all currently in DB.
-      // This is a simplification based on the current dataset where all are Kullu-Manali.
-      href: `/explore/himachal-pradesh/kullu/${trek.slug}`,
+      href: trekHrefIndex.get(trek.slug) ?? `/explore/himachal-pradesh/kullu/${trek.slug}`,
       subtitle: `${trek.duration} • ${trek.difficulty} • ${trek.maxAltitude}`,
     });
-  });
+  }
 
-  // 2. Search Atlas places (Peaks and Destinations, excluding Treks which we handled above)
-  // Non-trek entities don't have the same strict facets, so if strict facets are active, we might filter them out, 
-  // but for a rich search, if a user selects "Difficulty: Easy", it only applies to treks.
-  // We'll hide non-treks if specific trek-only facets are active to avoid confusion, 
-  // OR we just return them if they match the region/query. Let's hide them if difficulty/duration is set.
-  const isTrekFacetActive = (difficulty && difficulty !== "Any") || (duration && duration !== "Any") || (altitude && altitude !== "Any");
+  // 2–4: Non-trek results are only shown when trek-specific facets are inactive
+  const isTrekFacetActive =
+    (difficulty && difficulty !== "Any") ||
+    (duration && duration !== "Any") ||
+    (altitude && altitude !== "Any");
 
   if (!isTrekFacetActive) {
-    himalayaAtlas.forEach((atlasRegion) => {
-      // Check region facet
-      if (region && region !== "Any" && !atlasRegion.name.toLowerCase().includes(region.toLowerCase())) return;
+    // 2. Atlas places (peaks, destinations — treks are handled above)
+    for (const atlasRegion of himalayaAtlas) {
+      if (region && region !== "Any" && !atlasRegion.name.toLowerCase().includes(region.toLowerCase())) continue;
 
-      atlasRegion.subregions.forEach((sub) => {
-        sub.places.forEach((place) => {
-          if (place.type === "trek" || place.type === "day-hike") return; // Handled natively above
-          
-          const matchesText = 
-            !normalizedQuery || 
+      for (const sub of atlasRegion.subregions) {
+        for (const place of sub.places) {
+          if (place.type === "trek" || place.type === "day-hike") continue;
+
+          const matchesText =
+            !normalizedQuery ||
             place.name.toLowerCase().includes(normalizedQuery) ||
             (place.overview && place.overview.toLowerCase().includes(normalizedQuery)) ||
             place.type.toLowerCase().includes(normalizedQuery);
@@ -97,13 +106,13 @@ export function searchContent(filters: SearchFilters): SearchResult[] {
               subtitle: `${sub.name}, ${atlasRegion.name}`,
             });
           }
-        });
-      });
-    });
+        }
+      }
+    }
 
-    // 3. Search across Guides
+    // 3. Guides
     if (!region || region === "Any") {
-      guides.forEach((g) => {
+      for (const g of guides) {
         if (
           !normalizedQuery ||
           g.title.toLowerCase().includes(normalizedQuery) ||
@@ -118,12 +127,12 @@ export function searchContent(filters: SearchFilters): SearchResult[] {
             subtitle: `${g.category} Guide`,
           });
         }
-      });
+      }
     }
 
-    // 4. Search across Altitude & Safety
+    // 4. Safety & Glossary
     if (!region || region === "Any") {
-      ALTITUDE_ILLNESSES.forEach((ill) => {
+      for (const ill of ALTITUDE_ILLNESSES) {
         if (
           !normalizedQuery ||
           ill.name.toLowerCase().includes(normalizedQuery) ||
@@ -137,9 +146,9 @@ export function searchContent(filters: SearchFilters): SearchResult[] {
             subtitle: `Altitude Medicine (${ill.severity})`,
           });
         }
-      });
+      }
 
-      SAFETY_PROTOCOLS.forEach((sp) => {
+      for (const sp of SAFETY_PROTOCOLS) {
         if (
           !normalizedQuery ||
           sp.title.toLowerCase().includes(normalizedQuery) ||
@@ -153,9 +162,9 @@ export function searchContent(filters: SearchFilters): SearchResult[] {
             subtitle: "Safety & Emergency Protocol",
           });
         }
-      });
+      }
 
-      GLOSSARY_TERMS.forEach((term) => {
+      for (const term of GLOSSARY_TERMS) {
         if (
           !normalizedQuery ||
           term.term.toLowerCase().includes(normalizedQuery) ||
@@ -170,11 +179,11 @@ export function searchContent(filters: SearchFilters): SearchResult[] {
             subtitle: `Glossary (${term.category})`,
           });
         }
-      });
+      }
     }
   }
 
-  // If there's no query AND no active filters, we might return everything. Let's limit or return empty to avoid massive lists initially.
+  // Return empty when no filters are active (avoids dumping the entire DB)
   if (!normalizedQuery && region === "Any" && difficulty === "Any" && duration === "Any" && altitude === "Any") {
     return [];
   }

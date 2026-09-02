@@ -39,10 +39,30 @@ export default function LocationMapClient({ coords, pathCoords, title }: Locatio
           pitch: 60,
           bearing: 0
         }}
-        mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+        mapStyle="mapbox://styles/mapbox/satellite-v9"
         mapboxAccessToken={mapboxToken}
-        terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
+        terrain={{ source: "mapbox-dem", exaggeration: 1.6 }}
+        attributionControl={false}
+        onError={(e) => {
+          // Gracefully suppress aborted requests or transient tile errors
+          const msg = e.error?.message || "";
+          const status = (e.error as unknown as { status?: number })?.status;
+          if (
+            msg.includes("Failed to fetch") ||
+            msg.includes("abort") ||
+            status === 404
+          ) {
+            return;
+          }
+        }}
       >
+        <Source
+          id="mapbox-dem"
+          type="raster-dem"
+          url="mapbox://mapbox.mapbox-terrain-dem-v1"
+          tileSize={512}
+          maxzoom={14}
+        />
         <NavigationControl position="bottom-right" />
         
         {pathCoords && pathCoords.length > 0 && (

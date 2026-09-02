@@ -68,8 +68,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "patnitop",
             name: "Patnitop Meadow",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "day-hike",
             emoji: "🌲",
+            coords: [33.0850, 75.3280],
             elevation: "2,024 m",
             bestSeason: "April to November, Dec to Feb for snow",
             difficulty: "Easy",
@@ -90,8 +93,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sanasar",
             name: "Sanasar Lake & Meadow",
+            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
             type: "lake",
             emoji: "🛶",
+            coords: [33.1230, 75.2810],
             elevation: "2,050 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -106,8 +112,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "nathatop",
             name: "Nathatop Ridge",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "⛰️",
+            coords: [33.1020, 75.3120],
             elevation: "2,710 m",
             bestSeason: "May to November",
             difficulty: "Easy",
@@ -122,8 +131,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "vaishno-devi",
             name: "Vaishno Devi Trail",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [33.0305, 74.9500],
             elevation: "1,585 m",
             bestSeason: "Year-round (Best: March to October)",
             difficulty: "Moderate",
@@ -145,8 +157,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kashmir-great-lakes",
             name: "Kashmir Great Lakes Trek",
+            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌊",
+            coords: [34.2500, 75.0500],
             elevation: "4,190 m",
             bestSeason: "July to September",
             difficulty: "Moderate to Difficult",
@@ -180,8 +195,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "tarsar-marsar",
             name: "Tarsar Marsar Trek",
+            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🏔️",
+            coords: [34.1500, 75.1500],
             elevation: "4,020 m",
             bestSeason: "July to September",
             difficulty: "Moderate",
@@ -193,8 +211,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sonmarg",
             name: "Sonmarg & Thajiwas Glacier",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "❄️",
+            coords: [34.3000, 75.2900],
             elevation: "2,740 m",
             bestSeason: "April to October",
             difficulty: "Easy",
@@ -205,8 +226,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "gulmarg",
             name: "Gulmarg & Apharwat Peak",
+            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
             type: "adventure",
             emoji: "🚠",
+            coords: [34.0500, 74.3800],
             elevation: "3,950 m",
             bestSeason: "Year-round (Winter for Skiing, Summer for Trekking)",
             difficulty: "Moderate",
@@ -275,8 +299,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "solang-valley",
             name: "Solang Valley",
+            heroImage: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=1600&q=80",
             type: "adventure",
             emoji: "🎿",
+            coords: [32.3150, 77.1580],
             elevation: "2,560 m",
             bestSeason: "Year-round",
             difficulty: "Easy",
@@ -286,8 +313,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sethan",
             name: "Sethan Village & Valley",
+            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🛖",
+            coords: [32.2240, 77.2510],
             elevation: "2,700 m",
             bestSeason: "Year-round (Igloo season: Jan–March)",
             difficulty: "Easy",
@@ -297,8 +327,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "tirthan-valley",
             name: "Tirthan Valley & GHNP",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🐟",
+            coords: [31.6300, 77.4000],
             elevation: "1,600–3,800 m",
             bestSeason: "March to June, Sep to Nov",
             difficulty: "Moderate",
@@ -315,8 +348,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chandratal-lake",
             name: "Chandratal Lake (Moon Lake)",
+            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
             type: "lake",
             emoji: "🌙",
+            coords: [32.4820, 77.6180],
             elevation: "4,300 m",
             bestSeason: "Mid-June to Mid-October",
             difficulty: "Moderate",
@@ -327,8 +363,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "key-monastery",
             name: "Key Gompa & Kibber",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [32.2980, 78.0120],
             elevation: "4,166 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -339,8 +378,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "pin-bhaba-pass",
             name: "Pin Bhaba Pass Trek",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🥾",
+            coords: [31.8400, 77.9800],
             elevation: "4,915 m",
             bestSeason: "July to September",
             difficulty: "Difficult",
@@ -352,8 +394,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sissu",
             name: "Sissu & Lahaul Valley",
+            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🌊",
+            coords: [32.4700, 77.1200],
             elevation: "3,120 m",
             bestSeason: "Year-round via Atal Tunnel",
             difficulty: "Easy",
@@ -370,8 +415,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kinner-kailash",
             name: "Kinner Kailash Parikrama",
+            heroImage: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "⛰️",
+            coords: [31.5200, 78.3800],
             elevation: "5,200 m",
             bestSeason: "July to August",
             difficulty: "Difficult",
@@ -382,8 +430,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chitkul",
             name: "Chitkul & Baspa Valley",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🏡",
+            coords: [31.3500, 78.4300],
             elevation: "3,450 m",
             bestSeason: "April to October",
             difficulty: "Easy",
@@ -393,8 +444,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kalpa",
             name: "Kalpa & Roghi Cliff",
+            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🍎",
+            coords: [31.5300, 78.2500],
             elevation: "2,960 m",
             bestSeason: "April to November",
             difficulty: "Easy",
@@ -411,8 +465,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "triund",
             name: "Triund Trek",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🥾",
+            coords: [32.2580, 76.3530],
             elevation: "2,850 m",
             bestSeason: "March to December",
             difficulty: "Easy to Moderate",
@@ -423,8 +480,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kareri-lake",
             name: "Kareri Lake Trek",
+            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌊",
+            coords: [32.3100, 76.2800],
             elevation: "2,934 m",
             bestSeason: "April to November",
             difficulty: "Moderate",
@@ -435,8 +495,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "bir-billing",
             name: "Bir Billing Adventure Hub",
+            heroImage: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=1600&q=80",
             type: "adventure",
             emoji: "🪂",
+            coords: [32.0500, 76.7100],
             elevation: "2,400 m (Billing takeoff)",
             bestSeason: "October to June",
             difficulty: "Easy",
@@ -461,8 +524,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kedarnath",
             name: "Kedarnath Temple & Trail",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [30.7350, 79.0660],
             elevation: "3,583 m",
             bestSeason: "May to June, September to October",
             difficulty: "Moderate to Difficult",
@@ -486,8 +552,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "har-ki-dun",
             name: "Har Ki Dun (Valley of Gods)",
+            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌲",
+            coords: [31.1400, 78.4300],
             elevation: "3,566 m",
             bestSeason: "April to June, September to December",
             difficulty: "Moderate",
@@ -517,8 +586,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chopta-tungnath",
             name: "Chopta, Tungnath & Chandrashila",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🥾",
+            coords: [30.4880, 79.2170],
             elevation: "4,000 m",
             bestSeason: "March to December",
             difficulty: "Easy to Moderate",
@@ -550,8 +622,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "valley-of-flowers",
             name: "Valley of Flowers National Park",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌸",
+            coords: [30.7200, 79.6000],
             elevation: "3,658 m",
             bestSeason: "July to September (Peak bloom: late July/August)",
             difficulty: "Moderate",
@@ -562,8 +637,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "hemkund-sahib",
             name: "Hemkund Sahib & Lokpal Lake",
+            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "☬",
+            coords: [30.7000, 79.6200],
             elevation: "4,632 m",
             bestSeason: "June to October",
             difficulty: "Moderate to Difficult",
@@ -574,8 +652,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kuari-pass",
             name: "Kuari Pass (Curzon Trail)",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🏔️",
+            coords: [30.5000, 79.5500],
             elevation: "3,876 m",
             bestSeason: "March to June, September to December",
             difficulty: "Moderate",
@@ -593,8 +674,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "lansdowne",
             name: "Lansdowne Hill Station",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🌲",
+            coords: [29.8370, 78.6800],
             elevation: "1,706 m",
             bestSeason: "Year-round",
             difficulty: "Easy",
@@ -604,8 +688,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khirsu",
             name: "Khirsu Mountain Village",
+            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🍂",
+            coords: [30.1700, 78.8500],
             elevation: "1,700 m",
             bestSeason: "March to June, September to November",
             difficulty: "Easy",
@@ -622,8 +709,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "gangotri-gaumukh",
             name: "Gaumukh Tapovan Trek",
+            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🧊",
+            coords: [30.9200, 79.0800],
             elevation: "4,463 m",
             bestSeason: "May to June, September to October",
             difficulty: "Difficult",
@@ -634,8 +724,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "dayara-bugyal",
             name: "Dayara Bugyal Trek",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌾",
+            coords: [30.8500, 78.5500],
             elevation: "3,750 m",
             bestSeason: "Year-round (Summer greens or winter snow)",
             difficulty: "Easy to Moderate",
@@ -646,8 +739,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kedarkantha",
             name: "Kedarkantha Summit Trek",
+            heroImage: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "❄️",
+            coords: [31.0200, 78.1700],
             elevation: "3,800 m",
             bestSeason: "December to April for Snow, May to October for Green",
             difficulty: "Easy to Moderate",
@@ -665,8 +761,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "munsiyari-panchachuli",
             name: "Munsiyari & Panchachuli Base Camp",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "⛰️",
+            coords: [30.0600, 80.2300],
             elevation: "4,260 m",
             bestSeason: "April to June, September to November",
             difficulty: "Moderate",
@@ -677,8 +776,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khaliya-top",
             name: "Khaliya Top Ridge Hike",
+            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
             type: "day-hike",
             emoji: "🥾",
+            coords: [30.0800, 80.2100],
             elevation: "3,500 m",
             bestSeason: "March to December",
             difficulty: "Moderate",
@@ -688,8 +790,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "milam-glacier",
             name: "Milam Glacier Expedition",
+            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🧊",
+            coords: [30.4500, 80.1500],
             elevation: "4,267 m",
             bestSeason: "May to June, September to October",
             difficulty: "Difficult",
@@ -715,8 +820,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "markha-valley",
             name: "Markha Valley Trek",
+            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🏜️",
+            coords: [33.8800, 77.4000],
             elevation: "5,200 m (Kongmaru La)",
             bestSeason: "June to September",
             difficulty: "Moderate to Difficult",
@@ -746,8 +854,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "pangong-tso",
             name: "Pangong Tso Lake",
+            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
             type: "lake",
             emoji: "🌊",
+            coords: [33.7500, 78.6500],
             elevation: "4,225 m",
             bestSeason: "May to September (Jan-Feb for frozen lake)",
             difficulty: "Easy",
@@ -757,8 +868,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khardung-la",
             name: "Khardung La Pass",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "road",
             emoji: "🏍️",
+            coords: [34.2800, 77.6000],
             elevation: "5,359 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -768,8 +882,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "thiksey-monastery",
             name: "Thiksey Monastery",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [34.0500, 77.6600],
             elevation: "3,600 m",
             bestSeason: "Year-round",
             difficulty: "Easy",
@@ -786,8 +903,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "suru-valley",
             name: "Suru Valley & Nun Kun Massif",
+            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "⛰️",
+            coords: [34.1500, 76.0000],
             elevation: "3,100 m",
             bestSeason: "May to October",
             difficulty: "Moderate",
@@ -797,8 +917,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "mulbekh-monastery",
             name: "Mulbekh Rock-Carved Maitreya",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🗿",
+            coords: [34.3800, 76.3500],
             elevation: "3,230 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -815,8 +938,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "hunder-sand-dunes",
             name: "Hunder Sand Dunes & Bactrian Camels",
+            heroImage: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🐪",
+            coords: [34.5800, 77.4700],
             elevation: "3,050 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -826,8 +952,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "diskit-monastery",
             name: "Diskit Monastery & 32m Buddha",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [34.5400, 77.5600],
             elevation: "3,144 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -837,8 +966,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "turtuk",
             name: "Turtuk Balti Village",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🍑",
+            coords: [34.8400, 76.8300],
             elevation: "2,900 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -855,8 +987,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "mushkoh-valley",
             name: "Mushkoh Valley Wildflower Trail",
+            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🌸",
+            coords: [34.4200, 75.7200],
             elevation: "3,300 m",
             bestSeason: "June to September",
             difficulty: "Easy to Moderate",
@@ -866,8 +1001,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kargil-war-memorial",
             name: "Drass & Kargil War Memorial",
+            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🎖️",
+            coords: [34.4300, 75.7500],
             elevation: "3,280 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -884,8 +1022,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chadar-trek",
             name: "Chadar Trek (Frozen River Expedition)",
+            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
             type: "trek",
             emoji: "🧊",
+            coords: [33.8000, 76.9000],
             elevation: "3,390 m",
             bestSeason: "January to February",
             difficulty: "Difficult",
@@ -896,8 +1037,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "phuktal-monastery",
             name: "Phuktal Gompa (Cave Monastery)",
+            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
             type: "spiritual",
             emoji: "🛕",
+            coords: [33.2700, 77.1800],
             elevation: "3,850 m",
             bestSeason: "June to October",
             difficulty: "Moderate",
@@ -908,8 +1052,11 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "padum",
             name: "Padum & Karsha Gompa",
+            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
             type: "scenic",
             emoji: "🏔️",
+            coords: [33.4600, 76.8700],
             elevation: "3,669 m",
             bestSeason: "June to October",
             difficulty: "Easy",
@@ -922,16 +1069,72 @@ export const himalayaAtlas: HimalayaRegion[] = [
   }
 ];
 
-export function getRegion(id: string) {
-  return himalayaAtlas.find(r => r.id === id);
+// ── O(1) index structures (built once at module load) ──────────────────────
+
+/** region.id → HimalayaRegion */
+export const regionIndex = new Map<string, HimalayaRegion>(
+  himalayaAtlas.map((r) => [r.id, r])
+);
+
+/** `${regionId}/${subRegionId}` → HimalayaSubRegion */
+export const subRegionIndex = new Map<string, HimalayaSubRegion>(
+  himalayaAtlas.flatMap((r) => r.subregions.map((s) => [`${r.id}/${s.id}`, s]))
+);
+
+/** `${regionId}/${subRegionId}/${placeId}` → HimalayaPlace */
+export const placeIndex = new Map<string, HimalayaPlace>(
+  himalayaAtlas.flatMap((r) =>
+    r.subregions.flatMap((s) =>
+      s.places.map((p) => [`${r.id}/${s.id}/${p.id}`, p])
+    )
+  )
+);
+
+/**
+ * placeId → { regionId, regionName, subRegionId, subRegionName }
+ * Used by the global map to resolve a place's full location path in O(1).
+ */
+export interface PlaceLocation {
+  regionId: string;
+  regionName: string;
+  subRegionId: string;
+  subRegionName: string;
+  href: string; // `/explore/${regionId}/${subRegionId}/${placeId}`
 }
 
-export function getSubRegion(regionId: string, subRegionId: string) {
-  const region = getRegion(regionId);
-  return region?.subregions.find(s => s.id === subRegionId);
+export const placeLocationIndex = new Map<string, PlaceLocation>(
+  himalayaAtlas.flatMap((r) =>
+    r.subregions.flatMap((s) =>
+      s.places.map((p) => [
+        p.id,
+        {
+          regionId: r.id,
+          regionName: r.name,
+          subRegionId: s.id,
+          subRegionName: s.name,
+          href: `/explore/${r.id}/${s.id}/${p.id}`,
+        },
+      ])
+    )
+  )
+);
+
+// ── Lookup helpers (O(1) via index) ─────────────────────────────────────────
+
+export function getRegion(id: string): HimalayaRegion | undefined {
+  return regionIndex.get(id);
 }
 
-export function getPlace(regionId: string, subRegionId: string, placeId: string) {
-  const subRegion = getSubRegion(regionId, subRegionId);
-  return subRegion?.places.find(p => p.id === placeId);
+export function getSubRegion(regionId: string, subRegionId: string): HimalayaSubRegion | undefined {
+  return subRegionIndex.get(`${regionId}/${subRegionId}`);
 }
+
+export function getPlace(regionId: string, subRegionId: string, placeId: string): HimalayaPlace | undefined {
+  return placeIndex.get(`${regionId}/${subRegionId}/${placeId}`);
+}
+
+/** Resolve a placeId → full location without nested scans. */
+export function getPlaceLocation(placeId: string): PlaceLocation | undefined {
+  return placeLocationIndex.get(placeId);
+}
+

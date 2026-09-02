@@ -1,30 +1,26 @@
-# Session Memory
+# Project Memory: The Himalayan Trails
 
-**Date:** September 2026  
-**Project:** The Himalayan Trails  
-**Phase:** 3 Complete (Newsletter Integration skipped)
+**Last Session End**: 2026-09-02  
+**Phase**: UI/UX Redesign, Map Experience Optimization & 100% Atlas Synchronization
+
+## What Was Built & Populated
+- **Himalayan Design System**:
+  - Implemented the midnight-indigo (`#040812`) cinematic dark mode base.
+  - Rolled out territory-specific dynamic accent colors and glows: Kashmir (Glacier Blue), Himachal (Alpenglow Gold), Ladakh (Twilight Violet), Uttarakhand (Alpine Teal).
+  - Designed glowing frosted glass cards with semantic pill badges across `page.tsx`, `StateHub`, and `DivisionClient`.
+- **Map UX Refinement (`GlobalMapClient.tsx`)**:
+  - Rebuilt with a "one-at-a-time" progressive disclosure hierarchy: Territories → Valleys → Focus Place.
+  - Eliminated UI clutter: Clicking a place hides the sidebar and brings up a single central Expedition Briefing card.
+  - Disabled manual map controls (zoom/pan/rotate) to force a curated, guided discovery experience.
+  - Integrated `router.push()` for seamless navigation to specific place routes.
+  - Populated 100% verified coordinates for all 50+ places across all 4 territories with fast O(1) indexed lookups via `placeLocationIndex`.
+- **Performance & Stability**:
+  - Optimized `next.config.ts` for AVIF/WebP image formats with `compress: true`.
+  - Removed cascading `useEffect` updates in `Navigation.tsx` and fixed React Server Component serialization issues in `Footer.tsx` (by shifting to CSS-only focus states).
 
 ## Current State
-- **Architecture**: Next.js 15 App Router, React 19, Tailwind CSS, Framer Motion. 100% type-safe static data in `src/data/`.
-- **Planning Hub (`/plan`)**: Built 5 deterministic tools: Trek Finder, Trek Comparison, Budget Calculator, Packing Generator, and Season Finder.
-- **Geospatial (`/map`)**: Integrated Mapbox GL via `react-map-gl`. Upgraded to include dynamic GeoJSON path mapping for interactive itinerary tracing.
-- **SEO & Data Scaffolding**: Deployed programmatic JSON-LD injection (`TouristTrip`, `Mountain`, `FAQPage`) into `PlacePage` and `RelatedContent` carousels.
-- **UI Architecture**: Hardened cinematic dark-glassmorphism aesthetic. Stripped arbitrary hex colors for `bg-surface`, unified focus rings, and guaranteed 44px tap targets globally. 
-- **Data Integrations**: 
-  - Connected `Open-Meteo API` to `<MountainWeatherWidget />` for real-time mountain conditions.
-  - Built interactive SVG `<ElevationProfile />` charts parsed directly from `src/data/treks.ts` day-by-day itineraries.
-  - Expanded and fleshed out `atlas.ts` schemas, backfilling deep content (itineraries, FAQS, packing lists) for Ladakh and Uttarakhand.
-- **Build Quality**: 
-  - 110/110 static pages compiled successfully.
-  - 0 TypeScript errors.
-  - 0 ESLint errors.
-
-## Key Decisions
-1. **Interactive Itinerary Mapping**: Added synthetic `pathCoords` to enable line drawing until real GPX data is available.
-2. **Interactive Planning Tools**: Kept all tools client-side and deterministic without requiring a database, relying solely on typed static data.
-3. **Client Boundaries**: Mapbox strictly sequestered in `src/components/maps` to handle window/document objects safely.
-4. **Programmatic SEO**: Leveraged automated Schema.org tagging instead of manual injection to ensure all future treks index automatically.
-
-## Next Steps (Phase 4 / Deferred Tasks)
-1. **Newsletter Integration**: Finish the API route hooking the footer newsletter signup into Resend/ConvertKit (Deferred from Phase 3).
-2. **Phase 4 Capabilities**: Move towards dynamic data or user interactions.
+- Next.js 15.5 App Router + React 19: **100% Green (108/108 static pages generated)**.
+- TypeScript (`npx tsc --noEmit`): **0 errors**.
+- ESLint (`npm run lint`): **0 errors, 0 warnings**.
+- Design: **Fully unified, responsive, and cinematic**.
+- Documentation: **100% synchronized across `info/` and root documentation files**.

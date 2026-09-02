@@ -8,10 +8,9 @@ import { QuickFacts } from "@/components/content/QuickFacts";
 import { FAQAccordion } from "@/components/content/FAQAccordion";
 import { ImageGallery } from "@/components/content/ImageGallery";
 import { PageTransition } from "@/components/animation/PageTransition";
-import { ChevronLeft, CheckCircle2, Lightbulb } from "lucide-react";
+import { ChevronLeft, CheckCircle2, Lightbulb, Map, Compass, ArrowRight } from "lucide-react";
 import { DataConfidenceBadge } from "@/components/ui/DataConfidenceBadge";
 import { LastChecked } from "@/components/ui/LastChecked";
-import { LocationMap } from "@/components/maps";
 import { RelatedContent } from "@/components/shared/RelatedContent";
 import { ElevationProfile } from "@/components/shared/ElevationProfile";
 import { MountainWeatherWidget } from "@/components/shared/MountainWeatherWidget";
@@ -178,7 +177,7 @@ export default async function PlacePage({
             <ChevronLeft className="w-4 h-4" /> Back to {subRegion.name}
           </Link>
           
-          {placeId === "beas-kund" && (
+          {place.trekData && (
             <div className="flex items-center gap-3">
               <LastChecked date="2026-08-15" />
               <DataConfidenceBadge level="Official" />
@@ -368,20 +367,48 @@ export default async function PlacePage({
           <aside className="lg:col-span-1">
             <div className="sticky top-28 space-y-6">
               <QuickFacts facts={quickFacts} />
+                {(() => {
+                  const mapCoords = place.trekData?.coords ?? place.peakData?.coords ?? place.coords;
+                  if (!mapCoords || mapCoords[0] === 0) return null;
+                  return (
+                    <div className="mt-6 mb-6 space-y-6">
+                      <MountainWeatherWidget
+                        coords={mapCoords}
+                        locationName={title}
+                      />
+                      <div 
+                        className="rounded-3xl p-6 relative overflow-hidden transition-all duration-300"
+                        style={{
+                          background: "radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.12) 0%, #080e1a 75%)",
+                          border: "1px solid rgba(59,130,246,0.25)",
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-primary flex items-center gap-1.5">
+                            <Compass className="w-3.5 h-3.5" /> 3D Geospatial Atlas
+                          </span>
+                          <span className="text-[10px] font-mono text-white/40">
+                            {mapCoords[0].toFixed(4)}°N, {mapCoords[1].toFixed(4)}°E
+                          </span>
+                        </div>
 
-              {(place.trekData?.coords || place.peakData?.coords) && (
-                <div className="mt-6 mb-6 space-y-6">
-                  <MountainWeatherWidget 
-                    coords={place.trekData?.coords || place.peakData?.coords || [0,0]} 
-                    locationName={title} 
-                  />
-                  <LocationMap 
-                    coords={place.trekData?.coords || place.peakData?.coords || [0,0]} 
-                    pathCoords={place.trekData?.pathCoords}
-                    title={title} 
-                  />
-                </div>
-              )}
+                        <h4 className="font-display font-bold text-lg text-white mb-2">
+                          View {title} on 3D Terrain
+                        </h4>
+                        <p className="text-white/50 text-xs font-light leading-relaxed mb-5">
+                          Inspect high-altitude passes, trailheads, and surrounding Himalayan massifs in full 3D terrain exploration.
+                        </p>
+
+                        <Link
+                          href="/map"
+                          className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-mono text-xs uppercase tracking-wider font-semibold transition-all shadow-[0_0_20px_rgba(59,130,246,0.25)]"
+                        >
+                          <Map className="w-4 h-4" /> Open 3D Satellite Map <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })()}
 
               <div className="rounded-2xl p-6 bg-surface border border-white/10 space-y-4">
                 <span className="font-mono text-xs text-primary uppercase tracking-[0.2em] block">
@@ -399,6 +426,16 @@ export default async function PlacePage({
                 >
                   Explore All {subRegion.name} Trails
                 </Link>
+              </div>
+
+              {/* Development Preview Legal Notice */}
+              <div className="rounded-2xl p-4 bg-[#0a0f1d] border border-amber-500/20 text-center">
+                <span className="text-[11px] text-amber-200/80 font-mono block mb-1 font-medium">
+                  ⚠️ Development Preview Disclaimer
+                </span>
+                <p className="text-[11px] text-white/40 font-light leading-snug">
+                  Photography, coordinates, and route metadata are illustrative previews during platform development. <Link href="/terms" className="text-amber-400 hover:underline">Read Terms &amp; Disclaimer</Link>
+                </p>
               </div>
             </div>
           </aside>

@@ -1,7 +1,6 @@
 import { Trek, Peak, Guide, DayHike } from "@/data/types";
 import { BreadcrumbItem } from "@/lib/breadcrumbs";
-import { absoluteUrl } from "@/lib/site";
-import { SITE } from "@/lib/site";
+import { SITE, absoluteUrl } from "@/lib/site";
 
 /**
  * Serializes a JSON-LD object to a safe string.

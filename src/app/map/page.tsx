@@ -1,13 +1,11 @@
 import { Metadata } from "next";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
-import { GlobalMap } from "@/components/maps";
+import { MapLauncher } from "@/components/maps/MapLauncher";
 import { treks } from "@/data/treks";
-// Combine treks and peaks for the global map. Currently peaks data might be in a different format,
-// but treks has full coords. Let's just pass treks for now.
 
 export const metadata: Metadata = {
-  title: "Interactive Map | Explore The Himalayan Trails",
+  title: "Interactive 3D Map | Explore The Himalayan Trails",
   description: "Explore trailheads, peaks, and routes in the Indian Himalayas through our interactive 3D map.",
 };
 
@@ -15,14 +13,12 @@ export default function MapPage() {
   return (
     <PageTransition>
       <HeroSection 
-        title="Interactive Himalaya Map" 
-        subtitle="Explore trailheads, peaks, and route start points in 3D terrain."
+        title="Interactive Himalayan 3D Atlas" 
+        subtitle="Explore high-altitude trailheads, mountain valleys, and expedition routes across the Indian Himalayas in 3D terrain."
       />
       
-      <div className="container mx-auto px-6 pb-20">
-        <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-surface">
-          <GlobalMap treks={treks} />
-        </div>
+      <div className="container mx-auto px-4 lg:px-6 pb-20">
+        <MapLauncher treks={treks} />
       </div>
     </PageTransition>
   );

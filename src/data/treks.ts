@@ -62,8 +62,10 @@ export const treks: Trek[] = [
         answer: "Absolutely. Beas Kund is one of the best beginner treks near Manali. The short duration (3 days), moderate altitude, and well-marked trail make it perfect for first-timers."
       }
     ],
-    images: [],
-    heroImage: "",
+    images: [
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=80",
+    ],
+    heroImage: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=80",
     description: "A short and rewarding trek to the glacial source of River Beas, offering dramatic views of Friendship Peak and surrounding glaciers — perfect for beginners."
   },
   {
@@ -96,8 +98,10 @@ export const treks: Trek[] = [
         answer: "The trail to Lamadugh is reasonably well-marked. However, hiring a local guide from Old Manali is recommended to navigate the forest sections confidently."
       }
     ],
-    images: [],
-    heroImage: "",
+    images: [
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+    ],
+    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
     description: "A peaceful forest walk leading to a stunning alpine meadow with panoramic Himalayan views, perfect for a half-day escape from Manali."
   },
   {
@@ -144,8 +148,10 @@ export const treks: Trek[] = [
         answer: "The ropeway operates during peak season (May–October) but can close in poor weather or high winds. Always have a contingency plan to walk up from the base."
       }
     ],
-    images: [],
-    heroImage: "",
+    images: [
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+    ],
+    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
     description: "A rewarding high-altitude day hike from Solang Valley to a 4,220m summit with panoramic views of the Pir Panjal and Greater Himalayan ranges."
   },
   {
@@ -240,7 +246,7 @@ export const treks: Trek[] = [
       "https://images.pexels.com/photos/9354091/pexels-photo-9354091.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
     heroImage:
-      "https://images.pexels.com/photos/32109154/pexels-photo-32109154.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
     description: "A stunning 5-day crossover trek from the green Kullu Valley to the arid moonscape of Lahaul, crossing Hampta Pass at 4,270m — one of Himachal's most dramatic contrasts."
   },
   {
@@ -300,8 +306,10 @@ export const treks: Trek[] = [
         answer: "Yes. Spend at least one full day in Manali (2,050m) before beginning this trek. Ascending to 4,300m without prior acclimatization increases risk of altitude sickness."
       }
     ],
-    images: [],
-    heroImage: "",
+    images: [
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+    ],
+    heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
     description: "Trek to one of the most beautiful alpine lakes near Manali, perched at 4,300m on the edge of the Rohtang plateau amid vast wildflower-carpeted meadows."
   },
   {
@@ -370,8 +378,10 @@ export const treks: Trek[] = [
         answer: "The pass is rated difficult mainly due to steep sections and some loose trail near the top. The altitude is moderate at 3,660m, making it safer for acclimatized trekkers compared to higher passes."
       }
     ],
-    images: [],
-    heroImage: "",
+    images: [
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+    ],
+    heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
     description: "Cross the dramatic Chandrakhani Pass into the ancient, enigmatic Malana village — one of the most culturally fascinating treks in the Kullu Valley."
   }
 ];

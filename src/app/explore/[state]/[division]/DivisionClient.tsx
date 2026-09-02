@@ -16,9 +16,16 @@ import {
 } from "lucide-react";
 import { HimalayaPlace, HimalayaRegion, HimalayaSubRegion } from "@/data/atlas";
 
-const TRANSITION_EASE = [0.23, 1, 0.32, 1] as const;
+const EASE = [0.23, 1, 0.32, 1] as const;
 
 type FilterTab = "all" | "trek" | "day-hike" | "peak" | "scenic";
+
+const TERRITORY_STYLE: Record<string, { accent: string; glow: string }> = {
+  "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.20)" },
+  "himachal-pradesh": { accent: "#F59E0B", glow: "rgba(245,158,11,0.20)" },
+  ladakh:             { accent: "#7C3AED", glow: "rgba(124,58,237,0.20)" },
+  uttarakhand:        { accent: "#0D9488", glow: "rgba(13,148,136,0.20)" },
+};
 
 interface DivisionClientProps {
   state: string;
@@ -36,103 +43,77 @@ export function DivisionClient({
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const treks = useMemo(
-    () => subRegion.places.filter((p) => p.type === "trek"),
-    [subRegion.places]
-  );
-  const dayHikes = useMemo(
-    () => subRegion.places.filter((p) => p.type === "day-hike"),
-    [subRegion.places]
-  );
-  const peaks = useMemo(
-    () => subRegion.places.filter((p) => p.type === "peak"),
-    [subRegion.places]
-  );
-  const scenic = useMemo(
-    () =>
-      subRegion.places.filter(
-        (p) =>
-          p.type === "scenic" ||
-          p.type === "lake" ||
-          p.type === "spiritual" ||
-          p.type === "adventure" ||
-          p.type === "road"
-      ),
-    [subRegion.places]
-  );
+  const treks = useMemo(() => subRegion.places.filter((p) => p.type === "trek"), [subRegion.places]);
+  const dayHikes = useMemo(() => subRegion.places.filter((p) => p.type === "day-hike"), [subRegion.places]);
+  const peaks = useMemo(() => subRegion.places.filter((p) => p.type === "peak"), [subRegion.places]);
+  const scenic = useMemo(() => subRegion.places.filter((p) => ["scenic", "lake", "spiritual", "adventure", "road"].includes(p.type)), [subRegion.places]);
 
   const tabs = useMemo(() => {
     const list: { id: FilterTab; label: string; count: number; icon: React.ElementType }[] = [
       { id: "all", label: "All Places", count: subRegion.places.length, icon: MapPin },
     ];
-    if (treks.length > 0) {
-      list.push({ id: "trek", label: "Treks", count: treks.length, icon: Compass });
-    }
-    if (dayHikes.length > 0) {
-      list.push({ id: "day-hike", label: "Day Hikes", count: dayHikes.length, icon: Footprints });
-    }
-    if (peaks.length > 0) {
-      list.push({ id: "peak", label: "Peaks & Expeditions", count: peaks.length, icon: Mountain });
-    }
-    if (scenic.length > 0) {
-      list.push({ id: "scenic", label: "Scenic & Sanctuaries", count: scenic.length, icon: Sparkles });
-    }
+    if (treks.length > 0) list.push({ id: "trek", label: "Treks", count: treks.length, icon: Compass });
+    if (dayHikes.length > 0) list.push({ id: "day-hike", label: "Day Hikes", count: dayHikes.length, icon: Footprints });
+    if (peaks.length > 0) list.push({ id: "peak", label: "Peaks", count: peaks.length, icon: Mountain });
+    if (scenic.length > 0) list.push({ id: "scenic", label: "Scenic", count: scenic.length, icon: Sparkles });
     return list;
   }, [subRegion.places.length, treks.length, dayHikes.length, peaks.length, scenic.length]);
 
   const filteredPlaces = useMemo(() => {
     let list: HimalayaPlace[] = subRegion.places;
-
-    if (activeFilter === "trek") {
-      list = treks;
-    } else if (activeFilter === "day-hike") {
-      list = dayHikes;
-    } else if (activeFilter === "peak") {
-      list = peaks;
-    } else if (activeFilter === "scenic") {
-      list = scenic;
-    }
+    if (activeFilter === "trek") list = treks;
+    else if (activeFilter === "day-hike") list = dayHikes;
+    else if (activeFilter === "peak") list = peaks;
+    else if (activeFilter === "scenic") list = scenic;
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.overview && p.overview.toLowerCase().includes(q)) ||
-          (p.difficulty && p.difficulty.toLowerCase().includes(q))
-      );
+      list = list.filter((p) => p.name.toLowerCase().includes(q) || (p.overview && p.overview.toLowerCase().includes(q)));
     }
-
     return list;
   }, [subRegion.places, activeFilter, searchQuery, treks, dayHikes, peaks, scenic]);
 
+  const style = TERRITORY_STYLE[region.id] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.15)" };
+
   return (
-    <main className="min-h-screen bg-background pt-28 pb-24 relative overflow-hidden">
+    <main className="min-h-screen pt-28 pb-24 relative overflow-hidden" style={{ background: "#040812" }}>
       {/* Background Ambient Glow */}
-      <div className="absolute top-20 right-1/4 w-[600px] h-[400px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+      <div
+        className="absolute top-20 right-1/4 w-[600px] h-[400px] rounded-full blur-[140px] pointer-events-none opacity-40"
+        style={{ background: style.glow }}
+      />
       <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none opacity-40" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        {/* Breadcrumb back to State */}
+        {/* Breadcrumb */}
         <Link
           href={`/explore/${state}`}
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-8 text-xs font-mono uppercase tracking-wider group"
+          className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-bold uppercase tracking-[0.15em] group"
         >
-          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           Back to {region.name}
         </Link>
 
         {/* Division Header Hero */}
-        <div className="mb-10 p-8 md:p-12 rounded-3xl bg-surface border border-white/10 relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-          <span className="font-mono text-xs text-primary uppercase tracking-[0.2em] block mb-2">
-            {region.name} • Valley / Division
+        <div 
+          className="mb-10 p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-2xl"
+          style={{ background: "#080e1a", border: "1px solid rgba(255,255,255,0.06)" }}
+        >
+          <div
+            className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-60"
+            style={{ background: style.glow }}
+          />
+          <span 
+            className="font-mono text-xs uppercase tracking-[0.2em] block mb-3 font-bold"
+            style={{ color: style.accent }}
+          >
+            {region.name} • Valley
           </span>
-          <h1 className="font-display tracking-tight font-semibold text-3xl sm:text-5xl md:text-6xl text-white mb-4">
+          <h1 className="font-display tracking-tight font-bold text-4xl sm:text-5xl md:text-6xl text-white mb-5 leading-tight">
             {subRegion.name}
           </h1>
           {subRegion.tagline && (
-            <p className="text-white/70 text-base sm:text-lg max-w-3xl font-light leading-relaxed">
+            <p className="text-white/60 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
               {subRegion.tagline}
             </p>
           )}
@@ -140,9 +121,12 @@ export function DivisionClient({
 
         {/* Top Category Filter & Search Section */}
         <div className="space-y-6 mb-12">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-white/10 w-fit">
+            <div 
+              className="flex flex-wrap gap-2 p-1.5 rounded-2xl w-fit"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+            >
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeFilter === tab.id;
@@ -150,19 +134,16 @@ export function DivisionClient({
                   <button
                     key={tab.id}
                     onClick={() => setActiveFilter(tab.id)}
-                    className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
-                      isActive
-                        ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                        : "text-white/60 hover:text-white hover:bg-white/5"
+                    className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
+                      isActive ? "text-white font-bold" : "text-white/50 hover:text-white hover:bg-white/5 font-medium"
                     }`}
+                    style={isActive ? { background: style.accent, boxShadow: `0 0 20px ${style.glow}` } : {}}
                   >
                     <Icon className="w-3.5 h-3.5" />
                     <span>{tab.label}</span>
                     <span
                       className={`text-[10px] px-2 py-0.5 rounded-full ${
-                        isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-white/5 text-white/40"
+                        isActive ? "bg-white/20 text-white" : "bg-white/10 text-white/40"
                       }`}
                     >
                       {tab.count}
@@ -173,35 +154,43 @@ export function DivisionClient({
             </div>
 
             {/* Quick Search */}
-            <div className="relative w-full lg:w-72">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+            <div className="relative w-full lg:w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search in ${subRegion.name}...`}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface border border-white/10 text-white text-xs placeholder:text-white/40 focus:outline-none focus:border-primary font-light"
+                placeholder={`Search ${subRegion.name}...`}
+                className="w-full pl-11 pr-4 py-3 rounded-2xl text-[13px] placeholder:text-white/30 focus:outline-none transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "#fff",
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = style.accent;
+                  e.target.style.boxShadow = `0 0 0 3px ${style.glow}`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.target.style.boxShadow = "none";
+                }}
               />
             </div>
           </div>
         </div>
 
         {/* Content Section Title */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+        <div className="flex items-center justify-between mb-8 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-semibold text-white">
-              {activeFilter === "all"
-                ? "All Places & Expeditions"
-                : activeFilter === "trek"
-                ? "Multi-Day Treks & Trails"
-                : activeFilter === "day-hike"
-                ? "Scenic Day Hikes"
-                : activeFilter === "peak"
-                ? "Mountaineering Peaks & Summits"
-                : "Scenic Sanctuaries & Lakes"}
+            <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-bold text-white">
+              {activeFilter === "all" ? "All Places" : 
+               activeFilter === "trek" ? "Multi-Day Treks" : 
+               activeFilter === "day-hike" ? "Day Hikes" : 
+               activeFilter === "peak" ? "Peaks & Expeditions" : "Scenic & Sanctuaries"}
             </h2>
           </div>
-          <span className="text-white/40 text-xs font-mono">
+          <span className="text-white/40 text-[11px] font-mono font-bold uppercase tracking-widest">
             {filteredPlaces.length} {filteredPlaces.length === 1 ? "result" : "results"}
           </span>
         </div>
@@ -213,72 +202,93 @@ export function DivisionClient({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: TRANSITION_EASE }}
+            transition={{ duration: 0.35, ease: EASE }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filteredPlaces.map((item) => {
-              const placeHero =
-                item.heroImage ||
-                item.peakData?.heroImage ||
-                item.trekData?.heroImage;
-
+              const placeHero = item.heroImage || item.peakData?.heroImage || item.trekData?.heroImage;
               return (
                 <Link
                   key={item.id}
                   href={`/explore/${state}/${division}/${item.id}`}
-                  className="group block relative p-7 rounded-3xl bg-surface hover:bg-[#121216] border border-white/10 hover:border-primary/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+                  className="group block relative p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between"
+                  style={{
+                    background: "#080e1a",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = `${style.accent}50`;
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 10px 40px ${style.glow}, 0 4px 20px rgba(0,0,0,0.6)`;
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "";
+                  }}
                 >
                   <div>
                     {/* Photo preview if available */}
                     {placeHero && (
-                      <div className="relative w-full h-44 rounded-2xl overflow-hidden mb-5 border border-white/10">
+                      <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
                         <Image
                           src={placeHero}
                           alt={item.name}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.23,1,0.32,1]"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent" />
                       </div>
                     )}
 
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-2xl">{item.emoji}</span>
+                      <span className="text-3xl drop-shadow-md">{item.emoji}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/5 text-white/60 border border-white/10">
+                        <span 
+                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
+                          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}
+                        >
                           {item.type}
                         </span>
                         {item.difficulty && (
-                          <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                          <span 
+                            className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
+                            style={{ background: `${style.accent}15`, border: `1px solid ${style.accent}30`, color: style.accent }}
+                          >
                             {item.difficulty}
                           </span>
                         )}
                       </div>
                     </div>
 
-                    <h3 className="font-display tracking-tight font-semibold text-xl sm:text-2xl text-white mb-3 group-hover:text-primary transition-colors">
+                    <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-white mb-3 group-hover:text-white/90 transition-colors">
                       {item.name}
                     </h3>
 
                     {item.overview && (
-                      <p className="text-white/60 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
+                      <p className="text-white/50 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
                         {item.overview}
                       </p>
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-auto text-xs text-white/50 font-mono">
+                  <div 
+                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-white/40 font-mono font-bold uppercase tracking-widest"
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                  >
                     <div className="flex items-center gap-2">
                       {item.elevation && <span>{item.elevation}</span>}
                       {item.duration && (
                         <>
-                          <span>•</span>
+                          <span className="text-white/20">•</span>
                           <span>{item.duration}</span>
                         </>
                       )}
                     </div>
-                    <span className="text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                      Explore <ArrowRight className="w-3.5 h-3.5" />
+                    <span 
+                      className="flex items-center gap-1.5 group-hover:translate-x-1 transition-transform"
+                      style={{ color: style.accent }}
+                    >
+                      Open <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </Link>
@@ -288,7 +298,10 @@ export function DivisionClient({
         </AnimatePresence>
 
         {filteredPlaces.length === 0 && (
-          <div className="p-16 text-center text-white/40 font-light rounded-3xl bg-surface border border-white/10">
+          <div 
+            className="p-16 text-center text-white/40 font-light rounded-3xl"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.1)" }}
+          >
             No places found matching &ldquo;{searchQuery}&rdquo; in this category.
           </div>
         )}

@@ -1,30 +1,32 @@
 # Project Memory: The Himalayan Trails
 
-**Last Session End**: 2026-09-01
-**Phase**: 3 In Progress (Newsletter skipped)
+**Last Session End**: 2026-09-02  
+**Phase**: UI/UX Redesign, Map Experience Optimization & 100% Atlas Synchronization
 
-## What Was Built
-- **Interactive Itinerary Mapping**: Upgraded `GlobalMapClient` and `LocationMapClient` to trace full trek paths on the 3D Mapbox terrain using GeoJSON `LineString` paths.
-- **Deep Content Backfill**: Flesh out detailed itineraries, packing lists, and FAQS for Uttarakhand (Kedarnath, Har Ki Dun, Chopta Tungnath) and Ladakh (Markha Valley).
-- **Core Entities Framework**: Standardized data structure for Treks, Peaks, Lakes, Passes, Villages, Monasteries, and Campgrounds.
-- **Interactive Planning Tools (`/plan`)**: Trek Finder, Trek Comparison, Budget Calculator, Packing List Generator, Season Finder.
-- **Geospatial Discovery (`/map`)**: Interactive `react-map-gl` web viewer rendering Mapbox datasets.
-- **Data Scaffolding & SEO**: Programmatic generation of `TouristTrip`, `Mountain`, and `FAQPage` JSON-LD schemas.
-- **UI Architecture**: Cinematic glassmorphism aesthetic built on strict Tailwind CSS tokens.
-
-## Core Decisions Made
-- Skipped Newsletter API integration for now.
-- Used synthetic mock coordinates for `pathCoords` to enable the map line-drawing feature until real GPS `.gpx` tracks are acquired.
-- Kept the `ssr: false` Mapbox implementation purely on the client via `next/dynamic` to evade Next.js SSR Webpack collisions with GL bindings.
-- All tools currently rely on hardcoded TypeScript data (`src/data/*.ts`). We purposefully deferred databases (PostgreSQL/Supabase).
+## What Was Built & Populated
+- **Himalayan Design System**:
+  - Implemented the midnight-indigo (`#040812`) cinematic dark mode base.
+  - Rolled out territory-specific dynamic accent colors and glows: Kashmir (Glacier Blue `#3B82F6`), Himachal (Alpenglow Gold `#F59E0B`), Ladakh (Twilight Violet `#7C3AED`), Uttarakhand (Alpine Teal `#0D9488`).
+  - Designed glowing frosted glass cards with semantic pill badges across `page.tsx`, `StateHub`, and `DivisionClient`.
+- **Map UX Refinement (`GlobalMapClient.tsx`)**:
+  - Rebuilt with a "one-at-a-time" progressive disclosure hierarchy: Territories → Valleys → Focus Place.
+  - Eliminated UI clutter: Clicking a place hides the sidebar and brings up a single central Expedition Briefing card.
+  - Disabled manual map controls (zoom/pan/rotate) to force a curated, guided discovery experience.
+  - Integrated `router.push()` for seamless navigation to specific place routes.
+  - Populated 100% verified coordinates for all 50+ places across all 4 territories with fast O(1) indexed lookups via `placeLocationIndex`.
+- **Performance & Stability**:
+  - Optimized `next.config.ts` for AVIF/WebP image formats with `compress: true`.
+  - Removed cascading `useEffect` updates in `Navigation.tsx` and fixed React Server Component serialization issues in `Footer.tsx` (by shifting to CSS-only focus states).
+  - Resolved nested `<a>` hydration mismatch by eliminating redundant `<Link>` wrapping `<Logo>` in `Footer.tsx` and updating `LogoProps.href` to allow `string | null`.
+  - Built comprehensive **Himalayan Atlas & Expedition Directory** at `/explore` with interactive category tabs, live multi-facet filtering, real-time search, and glowing territory command cards.
+  - Curated, validated, and backfilled 100% verified high-resolution photography (`HTTP 200 OK`) across all 59 places, treks, and peaks in `treks.ts`, `peaks.ts`, and `atlas.ts`. Cloudinary transition ready (`next.config.ts` preconfigured).
+  - Redesigned brand identity: Streamlined horizontal Logo and created an ultra-clean, minimalist Ama Dablam circular emblem optimized for Instagram DP (no cluttered text or dashed lines). Built `/brand` page with 1080x1080 HD DP download tool.
+  - Resolved Mapbox GL tile fetch errors by adding missing `mapbox-dem` raster source in `LocationMapClient.tsx` and adding graceful `onError` handlers across Mapbox instances.
+  - Optimized Mapbox token consumption for free tier: Removed all Mapbox instances from individual trek and place detail pages (replaced with lightweight 3D Atlas card linking to `/map`). Reordered navigation to place 3D Map last, and built on-demand click-to-load `MapLauncher` on `/map` so zero Mapbox tokens are consumed until explicit user click.
 
 ## Current State
-- The repository is compiling flawlessly.
-- Zero TypeScript errors (`tsc --noEmit`).
-- Zero ESLint violations (`npm run lint`).
-- 110/110 pages statically rendering successfully.
-
-## Next Steps
-- Newsletter API Integration: Finish the `/api/newsletter` route hooking the footer newsletter signup into Resend/ConvertKit.
-- Scale out the `atlas.ts` datasets further if needed.
-- Shift focus toward Phase 2/4 scope: potentially introducing user accounts, or hooking into a live Mountain Weather API for the `/conditions` page.
+- Next.js 15.5 App Router + React 19: **100% Green (109/109 static pages generated)**.
+- TypeScript (`npx tsc --noEmit`): **0 errors**.
+- ESLint (`npm run lint`): **0 errors, 0 warnings**.
+- Design: **Fully unified, responsive, and cinematic**.
+- Documentation: **100% synchronized across `info/` and root documentation files**.

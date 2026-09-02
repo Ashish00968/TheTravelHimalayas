@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Cloud, Wind, Snowflake, Sun, CloudRain, Droplets, ArrowUpRight } from "lucide-react";
+import { Cloud, Wind, Snowflake, Sun, CloudRain, Droplets } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface WeatherWidgetProps {
@@ -25,29 +25,48 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const lat = coords?.[0];
+  const lng = coords?.[1];
+
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchWeather() {
+      if (typeof lat !== "number" || typeof lng !== "number" || isNaN(lat) || isNaN(lng)) {
+        setError(true);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
+        setError(false);
         // Open-Meteo API (Free, no key required)
         const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&current=temperature_2m,apparent_temperature,wind_speed_10m,precipitation,weather_code,snowfall&timezone=auto`
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,apparent_temperature,wind_speed_10m,precipitation,weather_code,snowfall&timezone=auto`,
+          { signal: controller.signal }
         );
         if (!response.ok) throw new Error("Failed to fetch weather");
         const json = await response.json();
         setData(json);
-      } catch (err) {
-        console.error(err);
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === "AbortError") {
+          return; // Silently ignore component unmount cancellation
+        }
         setError(true);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
-    
-    if (coords && coords.length === 2) {
-      fetchWeather();
-    }
-  }, [coords]);
+
+    fetchWeather();
+
+    return () => {
+      controller.abort();
+    };
+  }, [lat, lng]);
 
   if (loading) {
     return (
