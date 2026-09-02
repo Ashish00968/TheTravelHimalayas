@@ -3,6 +3,8 @@ import { himalayaAtlas } from "@/data/atlas";
 import { guides } from "@/data/guides";
 import { SITE } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 const BASE_URL = SITE.url;
 
 export default function sitemap(): MetadataRoute.Sitemap {

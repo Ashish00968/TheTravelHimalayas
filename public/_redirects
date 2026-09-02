@@ -1,0 +1,5 @@
+/treks /#regions 302
+/peaks /#regions 302
+/regions /#regions 302
+/treks/* /explore/himachal-pradesh/kullu/:splat 302
+/peaks/* /explore/himachal-pradesh/kullu/:splat 302

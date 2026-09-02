@@ -235,7 +235,7 @@ export function DivisionClient({
                           src={placeHero}
                           alt={item.name}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.23,1,0.32,1]"
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-highland"
                         />
                       </div>
                     )}

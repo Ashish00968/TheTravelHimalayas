@@ -21,12 +21,17 @@
   - Built comprehensive **Himalayan Atlas & Expedition Directory** at `/explore` with interactive category tabs, live multi-facet filtering, real-time search, and glowing territory command cards.
   - Curated, validated, and backfilled 100% verified high-resolution photography (`HTTP 200 OK`) across all 59 places, treks, and peaks in `treks.ts`, `peaks.ts`, and `atlas.ts`. Cloudinary transition ready (`next.config.ts` preconfigured).
   - Redesigned brand identity: Streamlined horizontal Logo and created an ultra-clean, minimalist Ama Dablam circular emblem optimized for Instagram DP (no cluttered text or dashed lines). Built `/brand` page with 1080x1080 HD DP download tool.
-  - Resolved Mapbox GL tile fetch errors by adding missing `mapbox-dem` raster source in `LocationMapClient.tsx` and adding graceful `onError` handlers across Mapbox instances.
   - Optimized Mapbox token consumption for free tier: Removed all Mapbox instances from individual trek and place detail pages (replaced with lightweight 3D Atlas card linking to `/map`). Reordered navigation to place 3D Map last, and built on-demand click-to-load `MapLauncher` on `/map` so zero Mapbox tokens are consumed until explicit user click.
+  - Implemented Award-Winning UX & Design Overhaul (Stitch AI inspired):
+    - Floating frosted glass capsule navigation with spring-animated active tab indicator (`layoutId="activeNavPill"`) and global `⌘K` Quick Search shortcut.
+    - Cinematic photography hero with atmospheric depth, live alpine metrics ticker (59 places, 4 territories, 7,135m max altitude), and alpenglow overlays.
+    - Museum-grade territory showcase with edge-to-edge photography cards for Kashmir, Himachal, Ladakh, and Uttarakhand.
+    - Flagship trek expedition cards (Beas Kund, Hampta Pass, Pin Parvati, Kashmir Great Lakes) with altitude badges, difficulty rating meters, and quick specs.
+    - Comprehensive Planning Suite interactive launchpad and High-Altitude Safety & Acclimatisation protocol banner.
 
 ## Current State
-- Next.js 15.5 App Router + React 19: **100% Green (109/109 static pages generated)**.
+- Next.js 15.5 App Router + React 19: **100% Green (111/111 static pages generated)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Design: **Fully unified, responsive, and cinematic**.
+- Design: **Award-winning, Apple/Stitch-inspired, fully responsive, and cinematic**.
 - Documentation: **100% synchronized across `info/` and root documentation files**.

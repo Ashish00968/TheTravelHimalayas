@@ -156,6 +156,30 @@
     transform: translateY(-2px);
   }
 
+  /* Floating Glass Capsule (Apple / Stitch Inspired) */
+  .glass-capsule {
+    background: rgba(8, 14, 26, 0.75);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Museum Gallery Photography Card */
+  .glass-museum-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background: #080e1a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 450ms var(--ease-highland);
+  }
+  .glass-museum-card:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(59, 130, 246, 0.12);
+    transform: translateY(-3px);
+  }
+
   /* Territory signature cards */
   .territory-card-kashmir   { --t-color: #3B82F6; --t-glow: rgba(59,130,246,0.20); }
   .territory-card-himachal  { --t-color: #F59E0B; --t-glow: rgba(245,158,11,0.20); }
