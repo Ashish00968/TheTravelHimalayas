@@ -28,10 +28,17 @@
     - Museum-grade territory showcase with edge-to-edge photography cards for Kashmir, Himachal, Ladakh, and Uttarakhand.
     - Flagship trek expedition cards (Beas Kund, Hampta Pass, Pin Parvati, Kashmir Great Lakes) with altitude badges, difficulty rating meters, and quick specs.
     - Comprehensive Planning Suite interactive launchpad and High-Altitude Safety & Acclimatisation protocol banner.
+  - Implemented Dual-Theme System & Visual Color Psychology:
+    - Added floating ThemeToggle on the left side (`fixed left-5 bottom-6`) and in the navigation bar beside the logo.
+    - Built with React 19 `useSyncExternalStore` for instantaneous, zero-flicker synchronization.
+    - Updated master headline to "Explore the Himalayas" with dual-theme `text-gradient-hero`.
+    - Revitalized hero mountain photography with vibrant sunrise alpenglow lighting (peaks and glaciers clearly visible).
+    - Added territory micro-pill dock under hero CTAs for rapid regional discovery.
+    - Re-engineered design tokens for pristine Light Mode (alpine snow & sunlit slate) and atmospheric Dark Mode (alpenglow & obsidian).
 
 ## Current State
-- Next.js 15.5 App Router + React 19: **100% Green (111/111 static pages generated)**.
+- Next.js 15.5 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Design: **Award-winning, Apple/Stitch-inspired, fully responsive, and cinematic**.
+- Design: **Dual-theme (Light & Dark), Apple/Stitch-inspired, fully responsive, and cinematic**.
 - Documentation: **100% synchronized across `info/` and root documentation files**.

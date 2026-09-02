@@ -7,6 +7,7 @@ import { Search, Menu, X, Map, BookOpen, Compass, Info, Calendar, CloudLightning
 import { usePathname } from "next/navigation";
 import { SearchModal } from "@/components/search/SearchModal";
 import { Logo } from "@/components/brand/Logo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 interface NavLink {
   label: string;
@@ -80,13 +81,18 @@ export function Navigation() {
                 : "bg-transparent border border-transparent"
             }`}
           >
-            {/* Brand Logo */}
-            <div onClick={() => setIsMobileOpen(false)} className="shrink-0">
-              <Logo variant="horizontal" size="md" glow={true} />
+            {/* Brand Logo & Left-Side Theme Controller */}
+            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+              <div onClick={() => setIsMobileOpen(false)}>
+                <Logo variant="horizontal" size="md" glow={true} />
+              </div>
+              <div className="border-l border-foreground/15 pl-1.5 sm:pl-2.5">
+                <ThemeToggle variant="nav" />
+              </div>
             </div>
 
             {/* Desktop Navigation Links (Pill Style) */}
-            <ul className="hidden xl:flex items-center gap-1 bg-white/[0.03] p-1 rounded-full border border-white/[0.06]">
+            <ul className="hidden xl:flex items-center gap-1 bg-foreground/[0.04] p-1 rounded-full border border-foreground/[0.08]">
               {NAV_LINKS.map((link) => {
                 const active = isActive(link.href);
                 return (
@@ -95,8 +101,8 @@ export function Navigation() {
                       href={link.href}
                       className={`relative z-10 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors duration-200 block ${
                         active
-                          ? "text-white font-semibold"
-                          : "text-white/60 hover:text-white"
+                          ? "text-foreground font-semibold"
+                          : "text-foreground/65 hover:text-foreground"
                       }`}
                     >
                       {link.label}
@@ -104,7 +110,7 @@ export function Navigation() {
                     {active && (
                       <motion.div
                         layoutId="activeNavPill"
-                        className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/15 shadow-[0_0_15px_rgba(59,130,246,0.15)] pointer-events-none"
+                        className="absolute inset-0 rounded-full bg-foreground/[0.08] border border-foreground/15 shadow-[0_0_15px_rgba(59,130,246,0.15)] pointer-events-none"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
@@ -118,12 +124,12 @@ export function Navigation() {
               {/* Quick Search Pill (Desktop) */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-white/50 hover:text-white text-xs transition-all duration-200 group"
+                className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/60 hover:text-foreground text-xs transition-all duration-200 group"
                 aria-label="Search Himalayas"
               >
                 <Search className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
                 <span className="font-light">Search...</span>
-                <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[9px] font-mono rounded bg-white/10 text-white/40 border border-white/10">
+                <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[9px] font-mono rounded bg-foreground/10 text-foreground/50 border border-foreground/10">
                   ⌘K
                 </kbd>
               </button>
@@ -132,7 +138,7 @@ export function Navigation() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search"
-                className="sm:hidden p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                className="sm:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors"
               >
                 <Search className="w-4.5 h-4.5" />
               </button>
@@ -140,7 +146,7 @@ export function Navigation() {
               {/* Mobile Drawer Hamburger Button */}
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="xl:hidden p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                className="xl:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors"
                 aria-label={isMobileOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileOpen}
               >
@@ -181,8 +187,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-6 flex flex-col justify-between overflow-y-auto"
-            style={{ background: "rgba(4,8,18,0.98)", backdropFilter: "blur(24px)" }}
+            className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-6 flex flex-col justify-between overflow-y-auto bg-background/95 backdrop-blur-2xl"
           >
             <div className="max-w-md mx-auto w-full space-y-6">
               {/* Territory Quick Links */}

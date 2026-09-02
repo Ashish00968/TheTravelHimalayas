@@ -6,6 +6,8 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/site";
 import { buildOrganizationJsonLd, buildWebSiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { ThemeScript } from "@/components/theme/ThemeScript";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -74,8 +76,9 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={cn("dark", sora.variable, hanken.variable, "font-sans selection:bg-primary/30 selection:text-white")}>
+    <html lang="en" suppressHydrationWarning className={cn(sora.variable, hanken.variable, "font-sans selection:bg-primary/30 selection:text-white")}>
       <head>
+        <ThemeScript />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
@@ -94,6 +97,8 @@ export default function RootLayout({
         <main id="main-content" className="min-h-screen">
           {children}
         </main>
+        {/* Floating Theme Controller on Left Side */}
+        <ThemeToggle variant="floating" />
         <Footer />
       </body>
     </html>
