@@ -57,7 +57,7 @@ export const peaks: Peak[] = [
       "https://images.pexels.com/photos/8303567/pexels-photo-8303567.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
     heroImage:
-      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
     description:
       "A 5289m peak in the Pir Panjal range near Manali, ideal for climbers seeking their first high-altitude summit experience.",
   },
@@ -109,9 +109,9 @@ export const peaks: Peak[] = [
       },
     ],
     images: [
-      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     description:
       "The highest peak of the Dhauladhar range at 5982m, a technically demanding climb requiring advanced mountaineering skills.",
   },
@@ -168,9 +168,9 @@ export const peaks: Peak[] = [
       },
     ],
     images: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
     description:
       "An elegant 6001m pyramidal peak near Manali, offering a comprehensive mountaineering challenge at the gateway to high-altitude climbing.",
   },
@@ -227,9 +227,9 @@ export const peaks: Peak[] = [
       },
     ],
     images: [
-      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
     description:
       "A formidable 6221m peak with steep ice walls and technical ridges, one of the most challenging mountaineering objectives near Manali.",
   },

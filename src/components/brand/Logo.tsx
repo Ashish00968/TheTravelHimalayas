@@ -65,7 +65,7 @@ export function LogoMark({
           }}
         >
           <Image
-            src="/mountain-transparent.png"
+            src="/mountain-logo.png"
             alt="The Himalayan Trails Iconic Peak"
             width={mountainPixelSize}
             height={mountainPixelSize}
@@ -97,7 +97,7 @@ export function LogoMark({
         }}
       >
         <Image
-          src="/mountain-transparent.png"
+          src="/mountain-logo.png"
           alt="The Himalayan Trails Mountain Peak"
           width={pixelSize}
           height={pixelSize}

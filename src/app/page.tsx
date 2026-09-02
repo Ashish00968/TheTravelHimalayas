@@ -38,7 +38,7 @@ const TERRITORY_PROFILES: Record<string, {
     accent: "#3B82F6",
     glow: "rgba(59,130,246,0.25)",
     label: "Jammu & Kashmir",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=72",
     ranges: "Pir Panjal & Great Lakes Massif",
     altitude: "1,585m – 4,300m"
   },
@@ -46,7 +46,7 @@ const TERRITORY_PROFILES: Record<string, {
     accent: "#F59E0B",
     glow: "rgba(245,158,11,0.25)",
     label: "Himachal Pradesh",
-    image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=72",
     ranges: "Dhauladhar & Spiti Trans-Himalaya",
     altitude: "1,200m – 6,050m"
   },
@@ -54,7 +54,7 @@ const TERRITORY_PROFILES: Record<string, {
     accent: "#7C3AED",
     glow: "rgba(124,58,237,0.25)",
     label: "Ladakh",
-    image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=72",
     ranges: "Zanskar, Ladakh & Karakoram Ranges",
     altitude: "3,000m – 7,135m"
   },
@@ -62,7 +62,7 @@ const TERRITORY_PROFILES: Record<string, {
     accent: "#0D9488",
     glow: "rgba(13,148,136,0.25)",
     label: "Uttarakhand",
-    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=72",
     ranges: "Garhwal & Kumaon Sanctuary",
     altitude: "1,800m – 7,816m"
   }
@@ -84,10 +84,11 @@ function Hero() {
       {/* Background Cinematic Photo with Atmospheric Depth */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=85"
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1280&q=70"
           alt="Himalayan Mountain Range at Dawn"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center opacity-35 scale-105 transition-transform duration-1000 ease-out"
         />
         {/* Layered Vignette & Depth Gradients */}

@@ -80,7 +80,7 @@ export function LogoSeal({
         }}
       >
         <Image
-          src="/mountain-transparent.png"
+          src="/mountain-logo.png"
           alt="The Himalayan Trails Ama Dablam Peak"
           width={mountainSize}
           height={mountainSize}

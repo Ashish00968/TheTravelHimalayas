@@ -63,9 +63,9 @@ export const treks: Trek[] = [
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=72",
     description: "A short and rewarding trek to the glacial source of River Beas, offering dramatic views of Friendship Peak and surrounding glaciers — perfect for beginners."
   },
   {
@@ -99,9 +99,9 @@ export const treks: Trek[] = [
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
     description: "A peaceful forest walk leading to a stunning alpine meadow with panoramic Himalayan views, perfect for a half-day escape from Manali."
   },
   {
@@ -149,9 +149,9 @@ export const treks: Trek[] = [
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
     description: "A rewarding high-altitude day hike from Solang Valley to a 4,220m summit with panoramic views of the Pir Panjal and Greater Himalayan ranges."
   },
   {
@@ -246,7 +246,7 @@ export const treks: Trek[] = [
       "https://images.pexels.com/photos/9354091/pexels-photo-9354091.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
     heroImage:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     description: "A stunning 5-day crossover trek from the green Kullu Valley to the arid moonscape of Lahaul, crossing Hampta Pass at 4,270m — one of Himachal's most dramatic contrasts."
   },
   {
@@ -307,9 +307,9 @@ export const treks: Trek[] = [
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
     description: "Trek to one of the most beautiful alpine lakes near Manali, perched at 4,300m on the edge of the Rohtang plateau amid vast wildflower-carpeted meadows."
   },
   {
@@ -379,9 +379,9 @@ export const treks: Trek[] = [
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
     ],
-    heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
     description: "Cross the dramatic Chandrakhani Pass into the ancient, enigmatic Malana village — one of the most culturally fascinating treks in the Kullu Valley."
   }
 ];

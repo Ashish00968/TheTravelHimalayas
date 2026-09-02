@@ -76,6 +76,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("dark", sora.variable, hanken.variable, "font-sans selection:bg-primary/30 selection:text-white")}>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
