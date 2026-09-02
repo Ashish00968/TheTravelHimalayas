@@ -93,14 +93,14 @@ function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-65 dark:opacity-45 scale-105 transition-transform duration-1000 ease-out"
+          className="object-cover object-center opacity-45 dark:opacity-50 scale-105 transition-transform duration-1000 ease-out"
         />
-        {/* Layered Vignette & Alpenglow Lighting */}
+        {/* Luminous Alpine Mist & Alpenglow Lighting */}
         <div 
-          className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"
+          className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/35 to-background"
         />
         <div 
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(245,158,11,0.14)_0%,rgba(59,130,246,0.12)_50%,transparent_75%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(255,255,255,0.85)_0%,rgba(255,255,255,0.4)_55%,transparent_80%)] dark:bg-[radial-gradient(ellipse_at_50%_30%,rgba(245,158,11,0.16)_0%,rgba(59,130,246,0.12)_50%,transparent_75%)]"
         />
       </div>
 
@@ -114,7 +114,7 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-          className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full glass-capsule"
+          className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full glass-capsule border border-slate-300/80 dark:border-white/15"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
           <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-foreground/90">
@@ -142,12 +142,12 @@ function Hero() {
           </motion.span>
         </h1>
 
-        {/* Subtitle */}
+        {/* Subtitle with enhanced contrast in both themes */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5, ease: EASE }}
-          className="text-base sm:text-lg md:text-xl text-foreground/75 font-light leading-relaxed max-w-2xl mb-8"
+          className="text-base sm:text-lg md:text-xl text-foreground/80 dark:text-foreground/75 font-normal dark:font-light leading-relaxed max-w-2xl mb-8"
         >
           Verified trail breakdowns, topographical coordinates, seasonal windows, and pass crossing permits across Kashmir, Himachal, Ladakh, and Uttarakhand.
         </motion.p>
@@ -200,23 +200,23 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.85, ease: EASE }}
-          className="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 rounded-2xl glass-capsule shadow-lg"
+          className="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 sm:p-4 rounded-3xl glass-capsule shadow-xl border border-slate-200/90 dark:border-white/15 bg-white/85 dark:bg-[#0A1122]/85 backdrop-blur-2xl"
         >
-          <div className="p-3 text-center">
+          <div className="p-2.5 text-center">
             <span className="block font-display font-bold text-xl sm:text-2xl text-blue-600 dark:text-blue-400">59</span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 font-medium">Mapped Places</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60 font-semibold">Mapped Places</span>
           </div>
-          <div className="p-3 text-center border-l border-foreground/[0.08]">
+          <div className="p-2.5 text-center border-l border-foreground/[0.1]">
             <span className="block font-display font-bold text-xl sm:text-2xl text-amber-500 dark:text-amber-400">4</span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 font-medium">Territories</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60 font-semibold">Territories</span>
           </div>
-          <div className="p-3 text-center border-l border-foreground/[0.08]">
+          <div className="p-2.5 text-center border-l border-foreground/[0.1]">
             <span className="block font-display font-bold text-xl sm:text-2xl text-purple-600 dark:text-purple-400">7,135m</span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 font-medium">Peak Altitude</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60 font-semibold">Peak Altitude</span>
           </div>
-          <div className="p-3 text-center border-l border-foreground/[0.08]">
+          <div className="p-2.5 text-center border-l border-foreground/[0.1]">
             <span className="block font-display font-bold text-xl sm:text-2xl text-teal-600 dark:text-teal-400">100%</span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 font-medium">Open Access</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/60 font-semibold">Open Access</span>
           </div>
         </motion.div>
       </motion.div>

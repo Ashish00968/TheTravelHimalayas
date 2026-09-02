@@ -136,11 +136,11 @@ export function Logo({
       
       {variant === "horizontal" && (
         <div className="flex flex-col text-left justify-center">
-          <span className="font-display font-bold text-slate-100 tracking-[0.12em] text-base sm:text-[17px] leading-none group-hover:text-amber-100 transition-colors drop-shadow-sm">
+          <span className="font-display font-bold text-foreground tracking-[0.12em] text-base sm:text-[17px] leading-none group-hover:text-primary transition-colors drop-shadow-sm">
             THE HIMALAYAN TRAILS
           </span>
           {showTagline && (
-            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-400/70 font-semibold mt-1">
+            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-500 dark:text-amber-400 font-semibold mt-1">
               {tagline}
             </span>
           )}
