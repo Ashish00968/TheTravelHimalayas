@@ -81,8 +81,8 @@ export function NewsletterSignup({ variant = "compact", className = "" }: Newsle
           placeholder={isHero ? "Your email address" : "your@email.com"}
           className={
             isHero
-              ? "flex-1 rounded-full bg-white/5 border border-white/10 px-6 py-4 text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm backdrop-blur-sm"
-              : "flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary text-sm min-h-[44px]"
+              ? "flex-1 rounded-full bg-background border border-foreground/[0.12] px-6 py-4 text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm shadow-sm"
+              : "flex-1 px-4 py-2 rounded-lg bg-background border border-foreground/[0.12] text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary text-sm min-h-[44px]"
           }
         />
         <button
@@ -104,7 +104,7 @@ export function NewsletterSignup({ variant = "compact", className = "" }: Newsle
         </p>
       )}
       {isHero && status !== "error" && (
-        <p className="mt-4 text-[10px] uppercase tracking-widest text-foreground/30 font-mono">
+        <p className="mt-4 text-[10px] uppercase tracking-widest text-foreground/40 font-mono font-medium">
           Unsubscribe at any time.
         </p>
       )}

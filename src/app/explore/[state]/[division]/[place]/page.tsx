@@ -172,7 +172,7 @@ export default async function PlacePage({
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <Link
             href={`/explore/${state}/${division}`}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider"
+            className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors text-xs font-mono uppercase tracking-wider"
           >
             <ChevronLeft className="w-4 h-4" /> Back to {subRegion.name}
           </Link>
@@ -200,20 +200,20 @@ export default async function PlacePage({
               priority
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
-            <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 right-6 flex items-end justify-between pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none z-[2]" />
+            <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 right-6 flex items-end justify-between pointer-events-none z-10">
               <div>
-                <span className="text-[11px] font-mono uppercase tracking-widest text-primary px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 inline-block mb-2">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-sky-300 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 inline-block mb-2 font-bold">
                   Featured Expedition View
                 </span>
-                <p className="text-white font-display text-xl sm:text-3xl font-semibold">
+                <p className="text-white font-display text-2xl sm:text-4xl font-bold drop-shadow-lg">
                   {title}
                 </p>
               </div>
               {(place.elevation ||
                 place.trekData?.maxAltitude ||
                 place.peakData?.height) && (
-                <span className="font-mono text-xs text-white/90 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/10 hidden sm:inline-block">
+                <span className="font-mono text-xs text-white bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/20 hidden sm:inline-block font-semibold shadow-md">
                   {place.elevation ||
                     place.trekData?.maxAltitude ||
                     `${place.peakData?.height}m`}
@@ -229,11 +229,11 @@ export default async function PlacePage({
             {/* Overview */}
             {overview && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Overview
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
-                <div className="text-white/80 whitespace-pre-line leading-relaxed text-base md:text-lg font-light">
+                <div className="text-foreground/80 whitespace-pre-line leading-relaxed text-base md:text-lg font-light">
                   {overview}
                 </div>
               </section>
@@ -241,11 +241,11 @@ export default async function PlacePage({
 
             {/* Experience Narration */}
             {place.experience && (
-              <section className="rounded-2xl p-6 sm:p-8 border-l-4 border-primary bg-[#0d0d10] border-t border-r border-b border-white/5">
-                <span className="text-xs font-mono text-primary uppercase tracking-[0.2em] block mb-2">
+              <section className="rounded-2xl p-6 sm:p-8 border-l-4 border-primary glass-museum-card border border-foreground/[0.08]">
+                <span className="text-xs font-mono text-primary uppercase tracking-[0.2em] block mb-2 font-bold">
                   Field Notes &amp; Experience
                 </span>
-                <p className="text-white/90 text-lg md:text-xl font-serif italic leading-relaxed">
+                <p className="text-foreground/90 text-lg md:text-xl font-serif italic leading-relaxed">
                   &ldquo;{place.experience}&rdquo;
                 </p>
               </section>
@@ -254,11 +254,11 @@ export default async function PlacePage({
             {/* Route / Climbing Description */}
             {routeDescription && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   {place.type === "peak" ? "Climbing Route" : "Trail & Route Description"}
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
-                <div className="text-white/80 whitespace-pre-line leading-relaxed text-base md:text-lg font-light">
+                <div className="text-foreground/80 whitespace-pre-line leading-relaxed text-base md:text-lg font-light">
                   {routeDescription}
                 </div>
               </section>
@@ -267,7 +267,7 @@ export default async function PlacePage({
             {/* Itinerary */}
             {itinerary.length > 0 && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Day-by-Day Itinerary
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-6" />
@@ -281,15 +281,15 @@ export default async function PlacePage({
                   {itinerary.map((day) => (
                     <div
                       key={day.day}
-                      className="bg-surface border border-white/5 rounded-2xl p-5 pl-16 relative"
+                      className="glass-museum-card border border-foreground/[0.08] rounded-2xl p-5 pl-16 relative shadow-sm"
                     >
                       <div className="absolute left-0 top-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm z-10 shadow-lg shadow-primary/25">
                         {day.day}
                       </div>
-                      <h3 className="text-base font-semibold text-white mb-1.5">
+                      <h3 className="text-base font-semibold text-foreground mb-1.5">
                         {day.title}
                       </h3>
-                      <p className="text-white/70 text-sm leading-relaxed font-light">
+                      <p className="text-foreground/70 text-sm leading-relaxed font-light">
                         {day.description}
                       </p>
                     </div>
@@ -301,7 +301,7 @@ export default async function PlacePage({
             {/* Local Insider Tips */}
             {place.tips && place.tips.length > 0 && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2 flex items-center gap-2.5">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2 flex items-center gap-2.5">
                   <Lightbulb className="w-6 h-6 text-primary" /> Local Insider Tips
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
@@ -309,7 +309,7 @@ export default async function PlacePage({
                   {place.tips.map((tip, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3.5 bg-surface border border-white/5 rounded-xl p-4 text-white/80 text-sm font-light"
+                      className="flex items-start gap-3.5 glass-museum-card border border-foreground/[0.08] rounded-xl p-4 text-foreground/80 text-sm font-light"
                     >
                       <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                       <span>{tip}</span>
@@ -322,7 +322,7 @@ export default async function PlacePage({
             {/* Packing Essentials */}
             {packingList.length > 0 && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Packing Essentials
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
@@ -330,7 +330,7 @@ export default async function PlacePage({
                   {packingList.map((item, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-2.5 bg-surface border border-white/5 rounded-xl p-3.5 text-white/80 text-sm font-light"
+                      className="flex items-start gap-2.5 glass-museum-card border border-foreground/[0.08] rounded-xl p-3.5 text-foreground/80 text-sm font-light"
                     >
                       <span className="text-primary font-bold">✓</span>
                       <span>{item}</span>
@@ -343,7 +343,7 @@ export default async function PlacePage({
             {/* FAQs */}
             {faqs.length > 0 && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Frequently Asked Questions
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
@@ -354,7 +354,7 @@ export default async function PlacePage({
             {/* Image Gallery (Only renders if images are available) */}
             {images.length > 0 && (
               <section>
-                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+                <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Photo Gallery
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-5" />
@@ -377,25 +377,21 @@ export default async function PlacePage({
                         locationName={title}
                       />
                       <div 
-                        className="rounded-3xl p-6 relative overflow-hidden transition-all duration-300"
-                        style={{
-                          background: "radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.12) 0%, #080e1a 75%)",
-                          border: "1px solid rgba(59,130,246,0.25)",
-                        }}
+                        className="rounded-3xl p-6 relative overflow-hidden transition-all duration-300 glass-museum-card border border-primary/25 shadow-lg"
                       >
                         <div className="flex items-center justify-between mb-4">
                           <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-primary flex items-center gap-1.5">
                             <Compass className="w-3.5 h-3.5" /> 3D Geospatial Atlas
                           </span>
-                          <span className="text-[10px] font-mono text-white/40">
+                          <span className="text-[10px] font-mono text-foreground/50">
                             {mapCoords[0].toFixed(4)}°N, {mapCoords[1].toFixed(4)}°E
                           </span>
                         </div>
 
-                        <h4 className="font-display font-bold text-lg text-white mb-2">
+                        <h4 className="font-display font-bold text-lg text-foreground mb-2">
                           View {title} on 3D Terrain
                         </h4>
-                        <p className="text-white/50 text-xs font-light leading-relaxed mb-5">
+                        <p className="text-foreground/65 text-xs font-light leading-relaxed mb-5">
                           Inspect high-altitude passes, trailheads, and surrounding Himalayan massifs in full 3D terrain exploration.
                         </p>
 
@@ -410,31 +406,31 @@ export default async function PlacePage({
                   );
                 })()}
 
-              <div className="rounded-2xl p-6 bg-surface border border-white/10 space-y-4">
-                <span className="font-mono text-xs text-primary uppercase tracking-[0.2em] block">
+              <div className="rounded-3xl p-6 glass-museum-card border border-foreground/[0.08] space-y-4 shadow-lg">
+                <span className="font-mono text-xs text-primary uppercase tracking-[0.2em] block font-bold">
                   Regional Context
                 </span>
-                <h3 className="font-display tracking-tight font-semibold text-xl text-white">
+                <h3 className="font-display tracking-tight font-semibold text-xl text-foreground">
                   {subRegion.name}, {region.name}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed font-light">
+                <p className="text-foreground/70 text-sm leading-relaxed font-light">
                   {subRegion.tagline || region.cardDesc}
                 </p>
                 <Link
                   href={`/explore/${state}/${division}`}
-                  className="block text-center w-full py-3 bg-white/5 hover:bg-primary hover:text-white rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 border border-white/10"
+                  className="block text-center w-full py-3 bg-foreground/[0.05] hover:bg-primary hover:text-white rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 border border-foreground/[0.1] text-foreground font-semibold"
                 >
                   Explore All {subRegion.name} Trails
                 </Link>
               </div>
 
               {/* Development Preview Legal Notice */}
-              <div className="rounded-2xl p-4 bg-[#0a0f1d] border border-amber-500/20 text-center">
-                <span className="text-[11px] text-amber-200/80 font-mono block mb-1 font-medium">
+              <div className="rounded-2xl p-4 bg-amber-500/[0.06] border border-amber-500/25 text-center">
+                <span className="text-[11px] text-amber-600 dark:text-amber-300 font-mono block mb-1 font-semibold">
                   ⚠️ Development Preview Disclaimer
                 </span>
-                <p className="text-[11px] text-white/40 font-light leading-snug">
-                  Photography, coordinates, and route metadata are illustrative previews during platform development. <Link href="/terms" className="text-amber-400 hover:underline">Read Terms &amp; Disclaimer</Link>
+                <p className="text-[11px] text-foreground/50 font-light leading-snug">
+                  Photography, coordinates, and route metadata are illustrative previews during platform development. <Link href="/disclaimer" className="text-amber-600 dark:text-amber-400 hover:underline font-semibold">Read Terms &amp; Disclaimer</Link>
                 </p>
               </div>
             </div>

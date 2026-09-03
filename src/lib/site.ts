@@ -11,7 +11,7 @@ export const SITE = {
   url: "https://thehimalayantrails.com",
   /** Default meta description */
   description:
-    "The definitive guide to trekking the Indian Himalayas. Expert route guides, peak climbs, regional travel info, and planning resources for Kullu, Manali, and beyond.",
+    "The authoritative guide and geospatial atlas for trekking, peak expeditions, and alpine exploration across the Indian Himalayas: Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand. Verified trails, interactive 3D terrain maps, and high-altitude safety protocols.",
   /** Author/byline used on guide articles */
   author: "The Himalayan Trails Team",
   /** Contact addresses */

@@ -30,12 +30,19 @@ export const metadata: Metadata = {
   description: SITE.description,
   keywords: [
     "Himalayan treks",
-    "Manali trekking",
-    "Kullu valley treks",
+    "Indian Himalayas trekking",
     "Himachal Pradesh trekking",
-    "Beas Kund trek",
-    "Himalayan expeditions",
-    "trekking guides India",
+    "Uttarakhand treks",
+    "Ladakh trekking guides",
+    "Jammu and Kashmir treks",
+    "Kashmir Great Lakes",
+    "Manali trekking",
+    "Spiti Valley expeditions",
+    "Zanskar trails",
+    "Garhwal Himalayas",
+    "Himalayan mountaineering",
+    "high altitude pass crossings",
+    "mountain safety AMS protocols",
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -79,7 +86,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={cn(sora.variable, hanken.variable, "font-sans selection:bg-primary/30 selection:text-white")}>
       <head>
         <ThemeScript />
-        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
           type="application/ld+json"

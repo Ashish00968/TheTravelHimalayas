@@ -86,11 +86,11 @@ export default function BrandAssetPage() {
   };
 
   return (
-    <main className="min-h-screen pt-28 pb-20" style={{ background: "#040812" }}>
+    <main className="min-h-screen pt-28 pb-20 bg-background text-foreground transition-colors duration-300">
       <div className="container mx-auto px-6 max-w-5xl">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-xs font-mono font-bold uppercase tracking-[0.15em]"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors mb-8 text-xs font-mono font-bold uppercase tracking-[0.15em]"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Basecamp
         </Link>
@@ -98,14 +98,14 @@ export default function BrandAssetPage() {
         <div className="mb-12">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-[#F59E0B]" />
-            <span className="font-mono text-xs text-[#F59E0B] uppercase tracking-[0.25em]">
+            <span className="font-mono text-xs text-[#F59E0B] uppercase tracking-[0.25em] font-semibold">
               Brand Identity &amp; Profile Assets
             </span>
           </div>
-          <h1 className="font-display text-3xl sm:text-5xl font-bold text-white mb-4">
+          <h1 className="font-display text-3xl sm:text-5xl font-bold text-foreground mb-4">
             The Himalayan Trails Logo &amp; DP
           </h1>
-          <p className="text-white/60 text-base sm:text-lg max-w-2xl font-light">
+          <p className="text-foreground/70 text-base sm:text-lg max-w-2xl font-light">
             Streamlined, modern, and professional brand identity featuring the iconic Ama Dablam summit framed in brushed gold with atmospheric sunrise alpenglow.
           </p>
         </div>
@@ -113,10 +113,9 @@ export default function BrandAssetPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
           {/* Instagram DP Card */}
           <div 
-            className="lg:col-span-7 p-8 rounded-3xl flex flex-col items-center justify-between text-center"
-            style={{ background: "#080e1a", border: "1px solid rgba(245, 158, 11, 0.3)" }}
+            className="lg:col-span-7 p-8 rounded-3xl flex flex-col items-center justify-between text-center glass-museum-card border border-amber-500/30 shadow-xl"
           >
-            <div className="w-full flex items-center justify-between mb-8 pb-4 border-b border-white/6 text-xs text-white/50 font-mono">
+            <div className="w-full flex items-center justify-between mb-8 pb-4 border-b border-foreground/[0.08] text-xs text-foreground/50 font-mono">
               <span className="flex items-center gap-2 text-[#F59E0B] font-bold">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -130,16 +129,16 @@ export default function BrandAssetPage() {
 
             {/* Simulated Instagram Story Ring */}
             <div className="relative p-1 rounded-full bg-gradient-to-tr from-[#F59E0B] via-[#EC4899] to-[#8B5CF6] mb-8 shadow-2xl">
-              <div className="p-1 bg-[#080e1a] rounded-full">
+              <div className="p-1 bg-surface dark:bg-[#080e1a] rounded-full">
                 <LogoSeal size={220} glow={true} />
               </div>
             </div>
 
             <div className="mb-8">
-              <h3 className="text-xl font-display font-bold text-white mb-2">
+              <h3 className="text-xl font-display font-bold text-foreground mb-2">
                 Ama Dablam Minimalist Emblem
               </h3>
-              <p className="text-white/50 text-xs sm:text-sm max-w-md font-light leading-relaxed">
+              <p className="text-foreground/60 text-xs sm:text-sm max-w-md font-light leading-relaxed">
                 Free of cluttered arched text, designed to remain razor-sharp and instantly recognizable at small 110px mobile app icon sizes.
               </p>
             </div>
@@ -159,13 +158,12 @@ export default function BrandAssetPage() {
           {/* Guidelines & Specs */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div 
-              className="p-6 rounded-3xl"
-              style={{ background: "#0d1422", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="p-6 rounded-3xl glass-museum-card border border-foreground/[0.08] shadow-md"
             >
-              <h4 className="font-display font-bold text-white text-base mb-4">
+              <h4 className="font-display font-bold text-foreground text-base mb-4">
                 What Changed
               </h4>
-              <ul className="space-y-3 text-xs text-white/65 font-light leading-relaxed">
+              <ul className="space-y-3 text-xs text-foreground/70 font-light leading-relaxed">
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5" />
                   <span><strong>Removed busy curved text:</strong> Deleted &quot;EST. 2026 • PREMIUM EXPEDITIONS&quot; which cluttered the mark.</span>
@@ -187,23 +185,21 @@ export default function BrandAssetPage() {
 
             {/* Navbar Format Preview */}
             <div 
-              className="p-6 rounded-3xl"
-              style={{ background: "#0d1422", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="p-6 rounded-3xl glass-museum-card border border-foreground/[0.08] shadow-md"
             >
-              <h4 className="font-display font-bold text-white text-base mb-4">
+              <h4 className="font-display font-bold text-foreground text-base mb-4">
                 Header &amp; Navbar Format
               </h4>
-              <div className="p-4 rounded-2xl bg-[#040812] border border-white/8 flex items-center justify-center">
+              <div className="p-4 rounded-2xl bg-card border border-foreground/[0.08] flex items-center justify-center">
                 <Logo variant="horizontal" size="md" glow={true} />
               </div>
             </div>
 
             {/* Standalone Mark */}
             <div 
-              className="p-6 rounded-3xl"
-              style={{ background: "#0d1422", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="p-6 rounded-3xl glass-museum-card border border-foreground/[0.08] shadow-md"
             >
-              <h4 className="font-display font-bold text-white text-base mb-4">
+              <h4 className="font-display font-bold text-foreground text-base mb-4">
                 App Icon Mark
               </h4>
               <div className="flex items-center justify-center gap-6 py-2">

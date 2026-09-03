@@ -1,12 +1,12 @@
 # Project Memory: The Himalayan Trails
 
-**Last Session End**: 2026-09-02  
-**Phase**: UI/UX Redesign, Map Experience Optimization & 100% Atlas Synchronization
+**Last Session End**: 2026-09-03  
+**Phase**: Full-Stack Polish, Dual-Theme Architecture, Cloudinary Photography & Museum-Grade Alpine UX
 
 ## What Was Built & Populated
 - **Himalayan Design System**:
   - Implemented the midnight-indigo (`#040812`) cinematic dark mode base.
-  - Rolled out territory-specific dynamic accent colors and glows: Kashmir (Glacier Blue), Himachal (Alpenglow Gold), Ladakh (Twilight Violet), Uttarakhand (Alpine Teal).
+  - Rolled out territory-specific dynamic accent colors and glows: Kashmir (Glacier Blue `#3B82F6`), Himachal (Alpenglow Gold `#F59E0B`), Ladakh (Twilight Violet `#7C3AED`), Uttarakhand (Alpine Teal `#0D9488`).
   - Designed glowing frosted glass cards with semantic pill badges across `page.tsx`, `StateHub`, and `DivisionClient`.
 - **Map UX Refinement (`GlobalMapClient.tsx`)**:
   - Rebuilt with a "one-at-a-time" progressive disclosure hierarchy: Territories → Valleys → Focus Place.
@@ -17,10 +17,61 @@
 - **Performance & Stability**:
   - Optimized `next.config.ts` for AVIF/WebP image formats with `compress: true`.
   - Removed cascading `useEffect` updates in `Navigation.tsx` and fixed React Server Component serialization issues in `Footer.tsx` (by shifting to CSS-only focus states).
+  - Resolved nested `<a>` hydration mismatch by eliminating redundant `<Link>` wrapping `<Logo>` in `Footer.tsx` and updating `LogoProps.href` to allow `string | null`.
+  - Built comprehensive **Himalayan Atlas & Expedition Directory** at `/explore` with interactive category tabs, live multi-facet filtering, real-time search, and glowing territory command cards.
+  - Curated, validated, and backfilled 100% verified high-resolution photography (`HTTP 200 OK`) across all 59 places, treks, and peaks in `treks.ts`, `peaks.ts`, and `atlas.ts`. Cloudinary transition ready (`next.config.ts` preconfigured).
+  - Redesigned brand identity: Streamlined horizontal Logo and created an ultra-clean, minimalist Ama Dablam circular emblem optimized for Instagram DP (no cluttered text or dashed lines). Built `/brand` page with 1080x1080 HD DP download tool.
+  - Optimized Mapbox token consumption for free tier: Removed all Mapbox instances from individual trek and place detail pages (replaced with lightweight 3D Atlas card linking to `/map`). Reordered navigation to place 3D Map last, and built on-demand click-to-load `MapLauncher` on `/map` so zero Mapbox tokens are consumed until explicit user click.
+  - Implemented Award-Winning UX & Design Overhaul (Stitch AI inspired):
+    - Floating frosted glass capsule navigation with spring-animated active tab indicator (`layoutId="activeNavPill"`) and global `⌘K` Quick Search shortcut.
+    - Cinematic photography hero with atmospheric depth, live alpine metrics ticker (59 places, 4 territories, 7,135m max altitude), and alpenglow overlays.
+    - Museum-grade territory showcase with edge-to-edge photography cards for Kashmir, Himachal, Ladakh, and Uttarakhand.
+    - Flagship trek expedition cards (Beas Kund, Hampta Pass, Pin Parvati, Kashmir Great Lakes) with altitude badges, difficulty rating meters, and quick specs.
+    - Comprehensive Planning Suite interactive launchpad and High-Altitude Safety & Acclimatisation protocol banner.
+  - Implemented Dual-Theme System & Visual Color Psychology:
+    - Added floating ThemeToggle on the left side (`fixed left-5 bottom-6`) and in the navigation bar beside the logo.
+    - Built with React 19 `useSyncExternalStore` for instantaneous, zero-flicker synchronization.
+    - Updated master headline to "Explore the Himalayas" with dual-theme `text-gradient-hero`.
+    - Revitalized hero mountain photography with vibrant sunrise alpenglow lighting (peaks and glaciers clearly visible).
+    - Added territory micro-pill dock under hero CTAs for rapid regional discovery.
+  - Implemented Complete Site-Wide Dual-Theme (Light & Dark) Support:
+    - Fixed sub-pages that previously had hardcoded dark styles (`#040812`, `#080e1a`, `text-white`) bypassing the theme engine.
+    - Converted `/explore/[state]/[division]/DivisionClient.tsx` to semantic theme tokens (`bg-background`, `glass-museum-card`, `text-foreground`, `bg-foreground/[0.04]`), verified with browser screenshots in Light Mode.
+    - Converted `/explore/[state]/[division]/[place]/page.tsx` (overview, itinerary day cards, insider tips, packing lists, weather widget, and sidebar).
+    - Converted `/disclaimer` and `/terms` via `LegalDisclaimerView.tsx` into museum-grade dual-theme legal notices.
+    - Converted `/brand` brand identity showcase and Mapbox fallback skeleton in `GlobalMapClient.tsx`.
+    - **Homepage 4 Territory Images & State Headers**:
+      - Integrated authentic user Cloudinary photography across all 4 territories:
+        - **Jammu & Kashmir**: `https://res.cloudinary.com/dehriwm1o/image/upload/v1780383856/jkMain.jpg`
+        - **Himachal Pradesh**: `https://res.cloudinary.com/dehriwm1o/image/upload/v1777221149/himachalMain.jpg`
+        - **Ladakh**: `https://res.cloudinary.com/dehriwm1o/image/upload/v1777213083/ladakhMain.png`
+        - **Uttarakhand**: `https://res.cloudinary.com/dehriwm1o/image/upload/v1777220041/UttrakhandMain.jpg`
+      - Applied across:
+        - Homepage `TERRITORY_PROFILES` (`src/app/page.tsx`) in both left and right columns with high-contrast text rendering in light and dark modes.
+        - Centralized data layer in `himalayaAtlas` (`src/data/atlas.ts`) on all 4 `HimalayaRegion` entities.
+    - **"Discover the trails" Museum-Grade Himalayan Ridge Trail Redesign**:
+      - **Clean Trek-Named Alpine Waypoint Pins**: Waypoint markers on the wave crests and troughs display clean trek names and altitudes without numeric prefixes:
+        - `BEAS KUND • 3,700 m` (Blue jewel dot `#3B82F6`)
+        - `LAMADUGH • 3,300 m` (Orange jewel dot `#F59E0B`)
+        - `PATALSU PEAK • 4,220 m` (Blue jewel dot `#3B82F6`)
+        - `HAMPTA PASS • 4,270 m` (Green jewel dot `#10B981`)
+      - Illuminated guide stems connect each milestone badge to its card below.
+      - **Mathematically Pure Sinusoidal Spline**: Horizontal tangents (`dy/dx = 0`) at all 4 summits and valleys, so the trail wave glides seamlessly along the waypoint line without slicing into photos.
+      - **Himalayan Terrain Silhouette Fill**: Added a soft alpine elevation area fill (`opacity="0.08"`) and ambient blur glow behind the core dashed trail path.
+      - **Refined Alpine Glass Dossiers**:
+        - Scaled card image banners to `h-24 sm:h-26` with smooth bottom vignette gradient.
+        - Adjusted peak-to-trough vertical offset to an optimal 44px (`lg:mt-[44px]`).
+        - Crisp typography hierarchy with `text-foreground` titles, territory pill on image, difficulty pill, and dual-stat footer (`Duration` and `Max Altitude`).
+        - Entire section (header, full ridge wave, all 4 cards and footers) fits comfortably inside short desktop viewports (e.g. 575px height) with margin to spare.
+    - Verified in browser subagent at `1470x575` in both Dark and Light modes.
+  - Verified with `npx tsc --noEmit` (0 errors) and `npm run lint` (0 warnings).
 
 ## Current State
-- Next.js 15.5 App Router + React 19: **100% Green (108/108 static pages generated)**.
+- All 4 territory images active and verified in light and dark mode.
+- Zero TypeScript or lint errors.
+- Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Design: **Fully unified, responsive, and cinematic**.
+- Dual-Theme System: **100% complete across homepage, all territory hubs, all division lists, all place guides, legal pages, and brand assets**.
+- Design: **Dual-theme (Alpine Glacial Light & Midnight-Indigo Dark), Apple/Stitch-inspired, fully responsive, and cinematic**.
 - Documentation: **100% synchronized across `info/` and root documentation files**.

@@ -360,10 +360,10 @@ export default function GlobalMapClient({ treks }: GlobalMapClientProps) {
 
   if (!mapboxToken) {
     return (
-      <div className="w-full h-[500px] rounded-3xl bg-[#080e1a] border border-white/8 flex items-center justify-center text-center p-10">
+      <div className="w-full h-[500px] rounded-3xl bg-card border border-foreground/[0.08] flex items-center justify-center text-center p-10">
         <div>
           <Mountain className="w-12 h-12 text-primary mx-auto mb-4 opacity-40" />
-          <p className="text-white/50 text-sm font-mono">Add <code className="text-primary">NEXT_PUBLIC_MAPBOX_TOKEN</code> to .env.local</p>
+          <p className="text-foreground/50 text-sm font-mono">Add <code className="text-primary">NEXT_PUBLIC_MAPBOX_TOKEN</code> to .env.local</p>
         </div>
       </div>
     );

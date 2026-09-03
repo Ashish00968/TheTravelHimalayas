@@ -72,8 +72,10 @@ const config: Config = {
       },
 
       fontFamily: {
-        sans:    ["var(--font-hanken)", "sans-serif"],
+        sans:    ["var(--font-jakarta)", "var(--font-hanken)", "sans-serif"],
         display: ["var(--font-sora)", "sans-serif"],
+        cinzel:  ["var(--font-cinzel)", "serif"],
+        serif:   ["var(--font-serif)", "serif"],
         mono:    ["var(--font-mono)", "monospace"],
       },
 

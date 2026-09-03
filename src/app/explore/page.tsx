@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { himalayaAtlas } from "@/data/atlas";
 import { ExploreDirectory, ExplorePlaceItem } from "@/components/explore/ExploreDirectory";
 import { ArrowRight, Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
@@ -78,65 +79,52 @@ export default function ExplorePage() {
   };
 
   return (
-    <main className="min-h-screen pt-28 pb-24" style={{ background: "#040812" }}>
+    <main className="min-h-screen pt-28 pb-24 bg-background text-foreground transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <section className="relative py-16 md:py-24 overflow-hidden border-b border-foreground/[0.08]">
         {/* Ambient Top Glow */}
         <div 
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] rounded-full blur-[140px] pointer-events-none opacity-25"
-          style={{ background: "radial-gradient(ellipse, rgba(59,130,246,0.3) 0%, transparent 70%)" }}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] rounded-full blur-[140px] pointer-events-none opacity-20 bg-primary/20"
         />
 
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-xs text-primary uppercase tracking-[0.25em]">
+            <span className="font-mono text-xs text-primary uppercase tracking-[0.25em] font-bold">
               Himalayan Atlas &amp; Expedition Directory
             </span>
           </div>
 
-          <h1 className="font-display tracking-tight font-bold text-4xl sm:text-6xl md:text-7xl text-white mb-6 leading-[1.08] max-w-4xl">
+          <h1 className="font-display tracking-tight font-bold text-4xl sm:text-6xl md:text-7xl text-foreground mb-6 leading-[1.08] max-w-4xl">
             Explore the North Indian Himalayas
           </h1>
 
-          <p className="text-white/65 text-lg sm:text-xl font-light leading-relaxed max-w-2xl mb-10">
+          <p className="text-foreground/75 text-lg sm:text-xl font-light leading-relaxed max-w-2xl mb-10">
             Authoritative trail intelligence, high-altitude passes, technical summits, and verified logistics across Himachal, Uttarakhand, Ladakh, and Kashmir.
           </p>
 
           {/* Stat Pills */}
           <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
-            <div 
-              className="flex items-center gap-2.5 px-4 py-2 rounded-xl"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">
               <Compass className="w-4 h-4 text-primary" />
-              <span className="text-white/80 font-semibold">4 Alpine Territories</span>
+              <span className="text-foreground/90 font-semibold">4 Alpine Territories</span>
             </div>
-            <div 
-              className="flex items-center gap-2.5 px-4 py-2 rounded-xl"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">
               <Mountain className="w-4 h-4 text-[#F59E0B]" />
-              <span className="text-white/80 font-semibold">{totalValleys} Sub-Regions &amp; Valleys</span>
+              <span className="text-foreground/90 font-semibold">{totalValleys} Sub-Regions &amp; Valleys</span>
             </div>
-            <div 
-              className="flex items-center gap-2.5 px-4 py-2 rounded-xl"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">
               <Sparkles className="w-4 h-4 text-[#0D9488]" />
-              <span className="text-white/80 font-semibold">{allPlaces.length} Verified Routes</span>
+              <span className="text-foreground/90 font-semibold">{allPlaces.length} Verified Routes</span>
             </div>
-            <div 
-              className="flex items-center gap-2.5 px-4 py-2 rounded-xl"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">
               <ShieldCheck className="w-4 h-4 text-[#7C3AED]" />
-              <span className="text-white/80 font-semibold">100% Geospatially Mapped</span>
+              <span className="text-foreground/90 font-semibold">100% Geospatially Mapped</span>
             </div>
           </div>
         </div>
@@ -146,14 +134,14 @@ export default function ExplorePage() {
       <section className="container mx-auto px-6 max-w-7xl py-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-white/40 block mb-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-primary font-bold block mb-2">
               Step 1: Choose a Territory
             </span>
-            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-white">
+            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground">
               The Four Great Himalayan Regions
             </h2>
           </div>
-          <p className="text-white/50 text-sm font-light max-w-md">
+          <p className="text-foreground/70 text-sm font-light max-w-md">
             Each territory hosts distinctive geological terrain, permit jurisdictions, seasonal weather windows, and cultural traditions.
           </p>
         </div>
@@ -174,16 +162,27 @@ export default function ExplorePage() {
               <Link
                 key={region.id}
                 href={`/explore/${region.id}`}
-                className="group relative rounded-3xl p-7 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                className="group relative rounded-3xl p-7 transition-all duration-300 flex flex-col justify-between overflow-hidden glass-museum-card shadow-lg"
                 style={{
-                  background: "#080e1a",
-                  border: `1px solid ${style.border}`,
-                  borderTop: `2px solid ${style.accent}`,
+                  borderTop: `3px solid ${style.accent}`,
                 }}
               >
+                {/* Territory Landscape Backdrop */}
+                {region.image && (
+                  <div className="absolute inset-0 pointer-events-none z-0">
+                    <Image
+                      src={region.image}
+                      alt={region.name}
+                      fill
+                      className="object-cover object-center opacity-10 dark:opacity-15 group-hover:opacity-25 group-hover:scale-105 transition-all duration-700 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/85 to-transparent" />
+                  </div>
+                )}
+
                 {/* Ambient Top Glow */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-28 pointer-events-none opacity-40 transition-opacity duration-300 group-hover:opacity-100"
+                  className="absolute top-0 left-0 right-0 h-28 pointer-events-none opacity-30 transition-opacity duration-300 group-hover:opacity-80 z-[1]"
                   style={{ background: `radial-gradient(ellipse at 50% 0%, ${style.glow}, transparent 70%)` }}
                 />
 
@@ -191,7 +190,7 @@ export default function ExplorePage() {
                   <div className="flex items-start justify-between mb-5">
                     <span 
                       className="text-4xl p-2.5 rounded-2xl drop-shadow-md"
-                      style={{ background: `${style.accent}14`, border: `1px solid ${style.accent}25` }}
+                      style={{ background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
                     >
                       {region.emoji}
                     </span>
@@ -205,20 +204,19 @@ export default function ExplorePage() {
                     </div>
                   </div>
 
-                  <h3 className="font-display text-2xl font-bold text-white mb-2.5 group-hover:text-white/90 transition-colors">
+                  <h3 className="font-display text-2xl font-bold text-foreground mb-2.5 group-hover:text-primary transition-colors">
                     {region.name}
                   </h3>
 
-                  <p className="text-white/55 text-xs sm:text-sm font-light leading-relaxed mb-6 line-clamp-3">
+                  <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed mb-6 line-clamp-3">
                     {region.cardDesc}
                   </p>
                 </div>
 
                 <div 
-                  className="relative z-10 pt-4 flex items-center justify-between mt-auto"
-                  style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                  className="relative z-10 pt-4 flex items-center justify-between mt-auto border-t border-foreground/[0.08]"
                 >
-                  <span className="text-[11px] font-mono text-white/40">
+                  <span className="text-[11px] font-mono text-foreground/50">
                     {regionPlacesCount} destinations
                   </span>
                   <span 
@@ -234,76 +232,47 @@ export default function ExplorePage() {
         </div>
 
         {/* Directory Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pt-10 border-t border-white/6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pt-10 border-t border-foreground/[0.08]">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-primary block mb-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-primary font-bold block mb-2">
               Step 2: Filter by Expedition Profile
             </span>
-            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-white">
-              All Trails, Peaks &amp; Alpine Passes
+            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground">
+              Master Trailhead &amp; Summit Directory
             </h2>
           </div>
-          <p className="text-white/50 text-sm font-light max-w-md">
-            Filter all 50+ Himalayan destinations in real time by category, region, terrain difficulty, or elevation.
+          <p className="text-foreground/70 text-sm font-light max-w-md">
+            Query 59 verified expeditions across the northern ranges. Filter by category, territory, and technical difficulty.
           </p>
         </div>
 
-        {/* Live Interactive Directory Component */}
+        {/* Interactive Master Directory with Filter Controls */}
         <ExploreDirectory places={allPlaces} />
       </section>
 
-      {/* Geospatial & Planning Quick Launchpad */}
-      <section className="container mx-auto px-6 max-w-7xl pt-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* 3D Map Card */}
-          <Link
-            href="/map"
-            className="group relative rounded-3xl p-8 overflow-hidden transition-all duration-300 flex flex-col justify-between"
-            style={{
-              background: "radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.15) 0%, #080e1a 70%)",
-              border: "1px solid rgba(59,130,246,0.25)",
-            }}
-          >
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-6">
-                <Map className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-2 group-hover:text-blue-200 transition-colors">
-                Interactive 3D Geospatial Atlas
+      {/* 3D Map Banner Launchpad */}
+      <section className="container mx-auto px-6 max-w-7xl pt-8">
+        <div className="p-8 sm:p-12 rounded-3xl border border-primary/30 relative overflow-hidden glass-museum-card shadow-xl">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary block mb-2">
+                Geospatial Cartography
+              </span>
+              <h3 className="font-display font-bold text-2xl sm:text-3xl text-foreground mb-3">
+                Visualize Topography in 3D WebGL
               </h3>
-              <p className="text-white/60 text-sm font-light leading-relaxed max-w-md mb-6">
-                Explore summits, waypoints, passes, and trailheads on high-resolution 3D satellite terrain powered by Mapbox GL.
+              <p className="text-foreground/70 text-sm font-light leading-relaxed">
+                Launch our interactive satellite terrain engine to inspect ridgeline gradients, high pass corridors, and glacial watersheds across all four territories.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400 group-hover:translate-x-1 transition-transform">
-              Launch 3D Map <ArrowRight className="w-4 h-4" />
-            </div>
-          </Link>
-
-          {/* Planning Suite Card */}
-          <Link
-            href="/plan"
-            className="group relative rounded-3xl p-8 overflow-hidden transition-all duration-300 flex flex-col justify-between"
-            style={{
-              background: "radial-gradient(ellipse at 80% 20%, rgba(245,158,11,0.15) 0%, #080e1a 70%)",
-              border: "1px solid rgba(245,158,11,0.25)",
-            }}
-          >
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6">
-                <Compass className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-2 group-hover:text-amber-200 transition-colors">
-                Deterministic Expedition Planner
-              </h3>
-              <p className="text-white/60 text-sm font-light leading-relaxed max-w-md mb-6">
-                Match routes to your exact fitness level, budget, group size, and seasonal conditions with deterministic calculations.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-400 group-hover:translate-x-1 transition-transform">
-              Open Planning Suite <ArrowRight className="w-4 h-4" />
-            </div>
-          </Link>
+            <Link
+              href="/map"
+              className="px-8 py-4 rounded-2xl bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg shrink-0"
+            >
+              <Map className="w-4 h-4" />
+              Launch 3D Explorer
+            </Link>
+          </div>
         </div>
       </section>
     </main>

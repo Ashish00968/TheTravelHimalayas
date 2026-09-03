@@ -53,7 +53,7 @@ export default function ConditionsPage() {
         
         {/* Live Weather Integration */}
         <div className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-white mb-2">
+          <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
             Live Mountain Weather
           </h2>
           <div className="w-8 h-1 bg-primary rounded-full mb-8" />
@@ -68,26 +68,26 @@ export default function ConditionsPage() {
             <Link 
               key={pillar.title} 
               href={pillar.href}
-              className="group bg-surface border border-white/10 hover:border-primary/50 p-8 rounded-3xl transition-all duration-300 relative overflow-hidden"
+              className="group glass-museum-card p-8 transition-all duration-300 relative overflow-hidden"
             >
               <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
               
               <div className="flex items-start justify-between mb-6 relative">
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   <pillar.icon className="w-7 h-7 text-primary" />
                 </div>
-                <ChevronRight className="w-6 h-6 text-white/20 group-hover:text-primary transition-colors group-hover:translate-x-1 duration-300" />
+                <ChevronRight className="w-6 h-6 text-foreground/30 group-hover:text-primary transition-colors group-hover:translate-x-1 duration-300" />
               </div>
               
-              <h3 className="text-2xl font-display font-semibold text-white mb-3">
+              <h3 className="text-2xl font-display font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
                 {pillar.title}
               </h3>
-              <p className="text-white/60 font-light leading-relaxed mb-6">
+              <p className="text-foreground/70 font-light leading-relaxed mb-6">
                 {pillar.description}
               </p>
               
-              <span className="text-xs font-mono tracking-widest uppercase text-primary font-medium">
-                {pillar.linkText}
+              <span className="text-xs font-mono tracking-widest uppercase text-primary font-bold inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                {pillar.linkText} →
               </span>
             </Link>
           ))}

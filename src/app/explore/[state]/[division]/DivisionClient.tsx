@@ -76,19 +76,19 @@ export function DivisionClient({
   const style = TERRITORY_STYLE[region.id] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.15)" };
 
   return (
-    <main className="min-h-screen pt-28 pb-24 relative overflow-hidden" style={{ background: "#040812" }}>
+    <main className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-background text-foreground transition-colors duration-300">
       {/* Background Ambient Glow */}
       <div
-        className="absolute top-20 right-1/4 w-[600px] h-[400px] rounded-full blur-[140px] pointer-events-none opacity-40"
+        className="absolute top-20 right-1/4 w-[600px] h-[400px] rounded-full blur-[140px] pointer-events-none opacity-30 dark:opacity-40"
         style={{ background: style.glow }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         {/* Breadcrumb */}
         <Link
           href={`/explore/${state}`}
-          className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-bold uppercase tracking-[0.15em] group"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors mb-8 text-[10px] font-bold uppercase tracking-[0.15em] group"
         >
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           Back to {region.name}
@@ -96,11 +96,10 @@ export function DivisionClient({
 
         {/* Division Header Hero */}
         <div 
-          className="mb-10 p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-2xl"
-          style={{ background: "#080e1a", border: "1px solid rgba(255,255,255,0.06)" }}
+          className="mb-10 p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-2xl glass-museum-card border border-foreground/[0.08]"
         >
           <div
-            className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-60"
+            className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-40 dark:opacity-60"
             style={{ background: style.glow }}
           />
           <span 
@@ -109,11 +108,11 @@ export function DivisionClient({
           >
             {region.name} • Valley
           </span>
-          <h1 className="font-display tracking-tight font-bold text-4xl sm:text-5xl md:text-6xl text-white mb-5 leading-tight">
+          <h1 className="font-display tracking-tight font-bold text-4xl sm:text-5xl md:text-6xl text-foreground mb-5 leading-tight">
             {subRegion.name}
           </h1>
           {subRegion.tagline && (
-            <p className="text-white/60 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+            <p className="text-foreground/70 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
               {subRegion.tagline}
             </p>
           )}
@@ -124,8 +123,7 @@ export function DivisionClient({
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             {/* Filter Tabs */}
             <div 
-              className="flex flex-wrap gap-2 p-1.5 rounded-2xl w-fit"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="flex flex-wrap gap-2 p-1.5 rounded-2xl w-fit bg-foreground/[0.04] border border-foreground/[0.08]"
             >
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -135,7 +133,9 @@ export function DivisionClient({
                     key={tab.id}
                     onClick={() => setActiveFilter(tab.id)}
                     className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
-                      isActive ? "text-white font-bold" : "text-white/50 hover:text-white hover:bg-white/5 font-medium"
+                      isActive 
+                        ? "text-white font-bold" 
+                        : "text-foreground/60 hover:text-foreground hover:bg-foreground/[0.06] font-medium"
                     }`}
                     style={isActive ? { background: style.accent, boxShadow: `0 0 20px ${style.glow}` } : {}}
                   >
@@ -143,7 +143,7 @@ export function DivisionClient({
                     <span>{tab.label}</span>
                     <span
                       className={`text-[10px] px-2 py-0.5 rounded-full ${
-                        isActive ? "bg-white/20 text-white" : "bg-white/10 text-white/40"
+                        isActive ? "bg-white/25 text-white" : "bg-foreground/10 text-foreground/50"
                       }`}
                     >
                       {tab.count}
@@ -155,24 +155,19 @@ export function DivisionClient({
 
             {/* Quick Search */}
             <div className="relative w-full lg:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${subRegion.name}...`}
-                className="w-full pl-11 pr-4 py-3 rounded-2xl text-[13px] placeholder:text-white/30 focus:outline-none transition-all"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "#fff",
-                }}
+                className="w-full pl-11 pr-4 py-3 rounded-2xl text-[13px] text-foreground placeholder:text-foreground/40 bg-foreground/[0.04] border border-foreground/[0.1] focus:outline-none transition-all"
                 onFocus={(e) => {
                   e.target.style.borderColor = style.accent;
                   e.target.style.boxShadow = `0 0 0 3px ${style.glow}`;
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.target.style.borderColor = "";
                   e.target.style.boxShadow = "none";
                 }}
               />
@@ -181,16 +176,16 @@ export function DivisionClient({
         </div>
 
         {/* Content Section Title */}
-        <div className="flex items-center justify-between mb-8 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-foreground/[0.08]">
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-bold text-white">
+            <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-bold text-foreground">
               {activeFilter === "all" ? "All Places" : 
                activeFilter === "trek" ? "Multi-Day Treks" : 
                activeFilter === "day-hike" ? "Day Hikes" : 
                activeFilter === "peak" ? "Peaks & Expeditions" : "Scenic & Sanctuaries"}
             </h2>
           </div>
-          <span className="text-white/40 text-[11px] font-mono font-bold uppercase tracking-widest">
+          <span className="text-foreground/50 text-[11px] font-mono font-bold uppercase tracking-widest">
             {filteredPlaces.length} {filteredPlaces.length === 1 ? "result" : "results"}
           </span>
         </div>
@@ -211,18 +206,14 @@ export function DivisionClient({
                 <Link
                   key={item.id}
                   href={`/explore/${state}/${division}/${item.id}`}
-                  className="group block relative p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between"
-                  style={{
-                    background: "#080e1a",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                  }}
+                  className="group block relative p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-lg hover:shadow-xl"
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLAnchorElement).style.borderColor = `${style.accent}50`;
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 10px 40px ${style.glow}, 0 4px 20px rgba(0,0,0,0.6)`;
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 10px 30px ${style.glow}`;
                     (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "";
                     (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
                     (e.currentTarget as HTMLAnchorElement).style.transform = "";
                   }}
@@ -230,7 +221,7 @@ export function DivisionClient({
                   <div>
                     {/* Photo preview if available */}
                     {placeHero && (
-                      <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+                      <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 border border-foreground/[0.08]">
                         <Image
                           src={placeHero}
                           alt={item.name}
@@ -244,8 +235,7 @@ export function DivisionClient({
                       <span className="text-3xl drop-shadow-md">{item.emoji}</span>
                       <div className="flex items-center gap-2">
                         <span 
-                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-                          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}
+                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-foreground/[0.04] border border-foreground/[0.1] text-foreground/60"
                         >
                           {item.type}
                         </span>
@@ -260,32 +250,31 @@ export function DivisionClient({
                       </div>
                     </div>
 
-                    <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-white mb-3 group-hover:text-white/90 transition-colors">
+                    <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-3 group-hover:text-primary transition-colors">
                       {item.name}
                     </h3>
 
                     {item.overview && (
-                      <p className="text-white/50 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
+                      <p className="text-foreground/65 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
                         {item.overview}
                       </p>
                     )}
                   </div>
 
                   <div 
-                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-white/40 font-mono font-bold uppercase tracking-widest"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-foreground/50 font-mono font-bold uppercase tracking-widest border-t border-foreground/[0.08]"
                   >
                     <div className="flex items-center gap-2">
                       {item.elevation && <span>{item.elevation}</span>}
                       {item.duration && (
                         <>
-                          <span className="text-white/20">•</span>
+                          <span className="text-foreground/30">•</span>
                           <span>{item.duration}</span>
                         </>
                       )}
                     </div>
                     <span 
-                      className="flex items-center gap-1.5 group-hover:translate-x-1 transition-transform"
+                      className="flex items-center gap-1.5 group-hover:translate-x-1 transition-transform font-bold"
                       style={{ color: style.accent }}
                     >
                       Open <ArrowRight className="w-3.5 h-3.5" />
@@ -299,8 +288,7 @@ export function DivisionClient({
 
         {filteredPlaces.length === 0 && (
           <div 
-            className="p-16 text-center text-white/40 font-light rounded-3xl"
-            style={{ background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.1)" }}
+            className="p-16 text-center text-foreground/50 font-light rounded-3xl bg-foreground/[0.02] border border-dashed border-foreground/15"
           >
             No places found matching &ldquo;{searchQuery}&rdquo; in this category.
           </div>

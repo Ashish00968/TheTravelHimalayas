@@ -59,6 +59,7 @@ export const himalayaAtlas: HimalayaRegion[] = [
     name: "Jammu & Kashmir",
     emoji: "🏔️",
     cardDesc: "Paradise on earth — from the pine-clad meadows of Jammu to the turquoise alpine lakes of the Kashmir Great Lakes.",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1780383856/jkMain.jpg",
     subregions: [
       {
         id: "jammu",
@@ -247,6 +248,7 @@ export const himalayaAtlas: HimalayaRegion[] = [
     name: "Himachal Pradesh",
     emoji: "🌲",
     cardDesc: "The Abode of Snow — pine-clad Kullu trails, raw Trans-Himalayan Spiti deserts, mystical Kinnaur valleys, and high Dhauladhar Kangra ridges.",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777221149/himachalMain.jpg",
     subregions: [
       {
         id: "kullu",
@@ -515,6 +517,7 @@ export const himalayaAtlas: HimalayaRegion[] = [
     name: "Uttarakhand",
     emoji: "🌿",
     cardDesc: "Devbhoomi (Land of the Gods) — sacred river origins, UNESCO wildflower valleys, and grand Garhwal and Kumaon peak circuits.",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777220041/UttrakhandMain.jpg",
     subregions: [
       {
         id: "garhwal",
@@ -811,6 +814,7 @@ export const himalayaAtlas: HimalayaRegion[] = [
     name: "Ladakh",
     emoji: "🏜️",
     cardDesc: "The High Pass Kingdom — moonscape valleys, frozen winter river expeditions, ancient cliff monasteries, and deep blue saline lakes.",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777213083/ladakhMain.png",
     subregions: [
       {
         id: "leh",

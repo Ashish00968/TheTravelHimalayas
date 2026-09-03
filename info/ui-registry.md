@@ -81,3 +81,30 @@ This registry documents the active design tokens, visual patterns, and component
    - Level 2 (Place focus): All other floating UI elements fade away, bringing up the single central **Expedition Briefing Card**.
 2. **Safe Markers:** Marker DOM trees are created via explicit `document.createElement()` nodes with isolated hover tooltips and dynamic glowing accent rings.
 3. **Curated Camera:** User manual zoom/pan is disabled to maintain cinematic vantage angles and avoid disorientation.
+
+---
+
+## 4. Interactive 3D Card Primitives (`Card3D.tsx`)
+
+1. **Gyro/Mouse Parallax Depth:**
+   - Wraps any child component with a dynamic 3D perspective (`rotateX`, `rotateY`, and `translateZ` multi-plane depth).
+   - Radial dynamic glare overlay reflecting simulated alpenglow light angles on hover.
+2. **Reduced Motion Respect:**
+   - Detects `prefers-reduced-motion` and disables tilt effects automatically for accessibility.
+
+---
+
+## 5. Himalayan Ridge Trail Elevation Flow (`IconicTreksSection`)
+
+1. **Sinusoidal Elevation Ridge:**
+   - A mathematical cubic bezier spline with horizontal tangents (`dy/dx = 0`) at all peaks and valleys, preventing line intersections with card content.
+   - Dual-layer trail: Glowing backdrop aura, crisp dashed route line, and soft alpine terrain elevation silhouette fill (`fill="url(#terrainAreaGrad)"`).
+2. **Alpine Waypoint Milestone Pins:**
+   - Clean, luminous milestone capsules positioned at wave crests and troughs displaying trek name and altitude:
+     - Peak: Glacier Blue jewel dot (`#3B82F6`)
+     - Valley: Sunrise Amber jewel dot (`#F59E0B`)
+     - Peak: Glacier Blue jewel dot (`#3B82F6`)
+     - Valley: Meadow Emerald jewel dot (`#10B981`)
+   - Vertical illuminated guide stems linking each waypoint node directly to its respective card.
+3. **Viewport-Optimized Vertical Staggering:**
+   - Optimal 44px offset between peak and valley cards (`lg:mt-[44px]`), ensuring full visibility down to 480px-575px height screens.

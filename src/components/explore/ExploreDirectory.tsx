@@ -58,10 +58,10 @@ const TERRITORY_FILTERS = [
 ] as const;
 
 const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string; border: string }> = {
-  "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.20)", border: "rgba(59,130,246,0.30)" },
-  "himachal-pradesh": { accent: "#F59E0B", glow: "rgba(245,158,11,0.20)", border: "rgba(245,158,11,0.30)" },
-  ladakh:             { accent: "#7C3AED", glow: "rgba(124,58,237,0.20)", border: "rgba(124,58,237,0.30)" },
-  uttarakhand:        { accent: "#0D9488", glow: "rgba(13,148,136,0.20)", border: "rgba(13,148,136,0.30)" },
+  "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.18)", border: "rgba(59,130,246,0.30)" },
+  "himachal-pradesh": { accent: "#F59E0B", glow: "rgba(245,158,11,0.18)", border: "rgba(245,158,11,0.30)" },
+  ladakh:             { accent: "#7C3AED", glow: "rgba(124,58,237,0.18)", border: "rgba(124,58,237,0.30)" },
+  uttarakhand:        { accent: "#0D9488", glow: "rgba(13,148,136,0.18)", border: "rgba(13,148,136,0.30)" },
 };
 
 export function ExploreDirectory({ places }: ExploreDirectoryProps) {
@@ -71,92 +71,76 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<"featured" | "elevation" | "alpha">("featured");
 
-  // Filter logic
+  // Filter & Search Logic
   const filteredPlaces = useMemo(() => {
-    return places.filter((place) => {
-      // Category filter
-      if (selectedCategory !== "all") {
-        if (selectedCategory === "trek" && place.type !== "trek") return false;
-        if (selectedCategory === "peak" && place.type !== "peak") return false;
-        if (selectedCategory === "lake-pass") {
-          const isLakeOrPass =
-            place.type === "lake" ||
-            place.type === "scenic" ||
-            place.type === "road" ||
-            place.name.toLowerCase().includes("pass") ||
-            place.name.toLowerCase().includes("la") ||
-            place.name.toLowerCase().includes("lake") ||
-            place.name.toLowerCase().includes("tso");
-          if (!isLakeOrPass) return false;
+    return places
+      .filter((place) => {
+        // Category Filter
+        if (selectedCategory !== "all") {
+          if (selectedCategory === "trek" && place.type !== "trek") return false;
+          if (selectedCategory === "peak" && place.type !== "peak") return false;
+          if (selectedCategory === "lake-pass" && place.type !== "lake" && place.type !== "scenic") return false;
+          if (selectedCategory === "day-hike" && place.type !== "day-hike") return false;
         }
-        if (selectedCategory === "day-hike") {
-          const isHike = place.type === "day-hike" || place.type === "spiritual" || place.type === "adventure";
-          if (!isHike) return false;
-        }
-      }
 
-      // Territory filter
-      if (selectedTerritory !== "all" && place.regionId !== selectedTerritory) {
-        return false;
-      }
-
-      // Difficulty filter
-      if (selectedDifficulty !== "all") {
-        if (!place.difficulty) return false;
-        const diffLower = place.difficulty.toLowerCase();
-        if (selectedDifficulty === "Difficult" && !(diffLower.includes("diff") || diffLower.includes("chal"))) {
+        // Territory Filter
+        if (selectedTerritory !== "all" && place.regionId !== selectedTerritory) {
           return false;
         }
-        if (selectedDifficulty === "Moderate" && !diffLower.includes("mod")) {
-          return false;
-        }
-        if (selectedDifficulty === "Easy" && !diffLower.includes("easy")) {
-          return false;
-        }
-      }
 
-      // Text search
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        const matchName = place.name.toLowerCase().includes(q);
-        const matchSub = place.subRegionName.toLowerCase().includes(q);
-        const matchReg = place.regionName.toLowerCase().includes(q);
-        const matchOverview = place.overview?.toLowerCase().includes(q);
-        if (!matchName && !matchSub && !matchReg && !matchOverview) {
-          return false;
+        // Difficulty Filter
+        if (selectedDifficulty !== "all") {
+          const placeDiff = (place.difficulty || "").toLowerCase();
+          if (selectedDifficulty === "Easy" && !placeDiff.includes("easy")) return false;
+          if (selectedDifficulty === "Moderate" && !placeDiff.includes("mod")) return false;
+          if (selectedDifficulty === "Difficult" && !placeDiff.includes("diff") && !placeDiff.includes("tech") && !placeDiff.includes("stren")) return false;
         }
-      }
 
-      return true;
-    }).sort((a, b) => {
-      if (sortBy === "alpha") {
-        return a.name.localeCompare(b.name);
-      }
-      if (sortBy === "elevation") {
-        const getMeters = (elev?: string) => {
-          if (!elev) return 0;
-          const match = elev.match(/([\d,]+)\s*m/);
-          if (match) return parseInt(match[1].replace(/,/g, ""), 10);
-          return 0;
-        };
-        return getMeters(b.elevation) - getMeters(a.elevation);
-      }
-      return 0;
-    });
+        // Free-text Search
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase().trim();
+          const matchName = place.name.toLowerCase().includes(q);
+          const matchOverview = (place.overview || "").toLowerCase().includes(q);
+          const matchRegion = place.regionName.toLowerCase().includes(q);
+          const matchSubregion = place.subRegionName.toLowerCase().includes(q);
+          const matchAlt = (place.elevation || "").toLowerCase().includes(q);
+          if (!matchName && !matchOverview && !matchRegion && !matchSubregion && !matchAlt) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (sortBy === "alpha") {
+          return a.name.localeCompare(b.name);
+        }
+        if (sortBy === "elevation") {
+          const getMeters = (elevationStr?: string) => {
+            if (!elevationStr) return 0;
+            const match = elevationStr.replace(/,/g, "").match(/\d+/);
+            return match ? parseInt(match[0], 10) : 0;
+          };
+          return getMeters(b.elevation) - getMeters(a.elevation);
+        }
+        return 0; // Default order
+      });
   }, [places, selectedCategory, selectedTerritory, selectedDifficulty, searchQuery, sortBy]);
-
-  const hasActiveFilters =
-    selectedCategory !== "all" ||
-    selectedTerritory !== "all" ||
-    selectedDifficulty !== "all" ||
-    searchQuery.trim() !== "";
 
   const clearFilters = () => {
     setSelectedCategory("all");
     setSelectedTerritory("all");
     setSelectedDifficulty("all");
     setSearchQuery("");
+    setSortBy("featured");
   };
+
+  const hasActiveFilters = 
+    selectedCategory !== "all" || 
+    selectedTerritory !== "all" || 
+    selectedDifficulty !== "all" || 
+    searchQuery.trim() !== "" || 
+    sortBy !== "featured";
 
   return (
     <div className="w-full">
@@ -171,11 +155,11 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               onClick={() => setSelectedCategory(tab.id)}
               className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-medium tracking-wide whitespace-nowrap transition-all duration-300 border ${
                 isActive
-                  ? "bg-white/10 text-white border-white/25 shadow-[0_0_25px_rgba(255,255,255,0.12)]"
-                  : "bg-[#080e1a] text-white/55 border-white/6 hover:text-white hover:border-white/15 hover:bg-white/4"
+                  ? "bg-primary text-white border-primary shadow-[0_4px_16px_rgba(37,99,235,0.3)] font-bold"
+                  : "glass-capsule text-foreground/75 hover:text-foreground hover:bg-foreground/[0.06] border-foreground/[0.08]"
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-primary" : "text-white/40"}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-primary"}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -184,31 +168,23 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
 
       {/* Control Bar: Search & Sub-filters */}
       <div 
-        className="p-5 md:p-6 rounded-3xl mb-10"
-        style={{
-          background: "#080e1a",
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}
+        className="p-5 md:p-6 rounded-3xl mb-10 glass-museum-card border border-foreground/[0.08]"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
           {/* Search Input */}
           <div className="lg:col-span-5 relative">
-            <Search className="w-4 h-4 text-white/40 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-foreground/40 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search trails, peaks, valleys, or passes..."
-              className="w-full pl-11 pr-10 py-3 rounded-2xl text-sm text-white placeholder:text-white/35 focus:outline-none transition-all focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/15"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
+              className="w-full pl-11 pr-10 py-3 rounded-2xl text-sm text-foreground placeholder:text-foreground/40 bg-background border border-foreground/[0.1] focus:outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/15"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -220,14 +196,10 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={selectedTerritory}
               onChange={(e) => setSelectedTerritory(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-white/85 focus:outline-none transition-all cursor-pointer"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
+              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
               {TERRITORY_FILTERS.map((t) => (
-                <option key={t.id} value={t.id} className="bg-[#080e1a] text-white">
+                <option key={t.id} value={t.id} className="bg-background text-foreground">
                   {t.label}
                 </option>
               ))}
@@ -239,16 +211,12 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-white/85 focus:outline-none transition-all cursor-pointer"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
+              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
-              <option value="all" className="bg-[#080e1a] text-white">All Difficulties</option>
-              <option value="Easy" className="bg-[#080e1a] text-white">Easy / Beginner</option>
-              <option value="Moderate" className="bg-[#080e1a] text-white">Moderate</option>
-              <option value="Difficult" className="bg-[#080e1a] text-white">Difficult / Technical</option>
+              <option value="all" className="bg-background text-foreground">All Difficulties</option>
+              <option value="Easy" className="bg-background text-foreground">Easy / Beginner</option>
+              <option value="Moderate" className="bg-background text-foreground">Moderate</option>
+              <option value="Difficult" className="bg-background text-foreground">Difficult / Technical</option>
             </select>
           </div>
 
@@ -257,30 +225,26 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "featured" | "elevation" | "alpha")}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-white/85 focus:outline-none transition-all cursor-pointer"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
+              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
-              <option value="featured" className="bg-[#080e1a] text-white">Sort: Featured</option>
-              <option value="elevation" className="bg-[#080e1a] text-white">Highest Altitude</option>
-              <option value="alpha" className="bg-[#080e1a] text-white">Alphabetical (A-Z)</option>
+              <option value="featured" className="bg-background text-foreground">Sort: Featured</option>
+              <option value="elevation" className="bg-background text-foreground">Highest Altitude</option>
+              <option value="alpha" className="bg-background text-foreground">Alphabetical (A-Z)</option>
             </select>
           </div>
         </div>
 
         {/* Filter Summary & Reset */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/6 text-xs text-white/40">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-foreground/[0.08] text-xs text-foreground/60">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-white/70 font-semibold">{filteredPlaces.length}</span>
+            <span className="font-mono text-foreground font-semibold">{filteredPlaces.length}</span>
             <span>of {places.length} expeditions matching criteria</span>
           </div>
 
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium transition-colors"
             >
               <X className="w-3.5 h-3.5" />
               Reset Filters
@@ -292,17 +256,16 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
       {/* Expeditions Grid */}
       {filteredPlaces.length === 0 ? (
         <div 
-          className="p-16 rounded-3xl text-center flex flex-col items-center justify-center my-12"
-          style={{ background: "#080e1a", border: "1px solid rgba(255,255,255,0.06)" }}
+          className="p-16 rounded-3xl text-center flex flex-col items-center justify-center my-12 glass-museum-card border border-foreground/[0.08]"
         >
-          <Compass className="w-12 h-12 text-white/20 mb-4 animate-spin-slow" />
-          <h3 className="text-xl font-display font-semibold text-white mb-2">No expeditions found</h3>
-          <p className="text-white/50 text-sm max-w-md mb-6 font-light">
+          <Compass className="w-12 h-12 text-foreground/20 mb-4 animate-spin-slow" />
+          <h3 className="text-xl font-display font-semibold text-foreground mb-2">No expeditions found</h3>
+          <p className="text-foreground/70 text-sm max-w-md mb-6 font-light">
             We couldn&apos;t find any routes matching your current filter parameters. Try clearing your filters or searching for another valley.
           </p>
           <button
             onClick={clearFilters}
-            className="px-6 py-2.5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors"
+            className="px-6 py-2.5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors shadow-md"
           >
             Clear All Filters
           </button>
@@ -321,28 +284,16 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               <Link
                 key={place.id}
                 href={place.href}
-                className="group relative rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                className="group relative rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden glass-museum-card shadow-lg border-t-2"
                 style={{
-                  background: "#0d1422",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = `${style.accent}50`;
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 12px 40px ${style.glow}, 0 4px 20px rgba(0,0,0,0.6)`;
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "";
+                  borderTopColor: style.accent,
                 }}
               >
                 <div>
                   {/* Image preview banner */}
                   {imageSrc ? (
                     <div 
-                      className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 bg-[#080e1a]" 
-                      style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+                      className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 bg-muted/40 border border-foreground/[0.08]"
                     >
                       <Image
                         src={imageSrc}
@@ -351,14 +302,13 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d1422] via-transparent to-transparent opacity-80" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
                     </div>
                   ) : (
                     <div 
-                      className="relative w-full h-24 rounded-2xl overflow-hidden mb-5 flex items-center justify-between px-5"
+                      className="relative w-full h-24 rounded-2xl overflow-hidden mb-5 flex items-center justify-between px-5 border border-foreground/[0.08]"
                       style={{ 
-                        background: `linear-gradient(135deg, ${style.accent}15 0%, rgba(13,20,34,0.8) 100%)`,
-                        border: "1px solid rgba(255,255,255,0.06)" 
+                        background: `linear-gradient(135deg, ${style.accent}15 0%, var(--bg-surface) 100%)`,
                       }}
                     >
                       <span className="text-3xl drop-shadow-md">{place.emoji}</span>
@@ -385,22 +335,21 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                     </span>
 
                     <span 
-                      className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-white/50"
-                      style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                      className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-foreground/60 bg-muted/60 border border-foreground/[0.08]"
                     >
                       {place.subRegionName}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-white mb-2 group-hover:text-white/90 transition-colors flex items-center gap-2">
+                  <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
                     <span>{place.emoji}</span>
                     <span>{place.name}</span>
                   </h3>
 
                   {/* Overview */}
                   {place.overview && (
-                    <p className="text-white/50 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
+                    <p className="text-foreground/70 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
                       {place.overview}
                     </p>
                   )}
@@ -408,19 +357,19 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
 
                 {/* Footer Metrics */}
                 <div 
-                  className="pt-4 mt-auto border-t border-white/6 flex items-center justify-between text-xs"
+                  className="pt-4 mt-auto border-t border-foreground/[0.08] flex items-center justify-between text-xs"
                 >
                   <div className="flex items-center gap-3">
                     {place.elevation && (
-                      <span className="inline-flex items-center gap-1 font-mono text-white/70">
-                        <TrendingUp className="w-3 h-3 text-white/40" />
+                      <span className="inline-flex items-center gap-1 font-mono text-foreground/75 font-medium">
+                        <TrendingUp className="w-3 h-3 text-foreground/40" />
                         {place.elevation}
                       </span>
                     )}
 
                     {place.duration && (
-                      <span className="inline-flex items-center gap-1 font-mono text-white/50">
-                        <Clock className="w-3 h-3 text-white/30" />
+                      <span className="inline-flex items-center gap-1 font-mono text-foreground/60">
+                        <Clock className="w-3 h-3 text-foreground/30" />
                         {place.duration}
                       </span>
                     )}
@@ -433,8 +382,8 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                             ? "rgba(239,68,68,0.15)"
                             : "rgba(245,158,11,0.15)",
                           color: place.difficulty.toLowerCase().includes("diff")
-                            ? "#F87171"
-                            : "#FBBF24",
+                            ? "#DC2626"
+                            : "#D97706",
                         }}
                       >
                         {place.difficulty}
@@ -443,8 +392,8 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                   </div>
 
                   <div 
-                    className="w-8 h-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:translate-x-0.5"
-                    style={{ background: `${style.accent}20`, color: style.accent }}
+                    className="w-8 h-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:translate-x-0.5 border"
+                    style={{ background: `${style.accent}15`, color: style.accent, borderColor: `${style.accent}30` }}
                   >
                     <ArrowUpRight className="w-4 h-4" />
                   </div>
