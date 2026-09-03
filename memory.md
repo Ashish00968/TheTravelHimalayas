@@ -79,19 +79,18 @@
       - **Flagship Routes Mobile Snap Carousel**: Converted the 4 stacked cards into an effortless horizontal swipeable snap carousel (`snap-x snap-mandatory`) with subtle swipe dots, while preserving the sinusoidal ridge wave on desktop.
       - **Compact Spacing & Ergonomics**: Reduced vertical voids in `TerritoriesSection` (`space-y-4`, `gap-y-4`), scaled card heights (`h-[185px] sm:h-[230px]`), and tightened padding across Planning Suite and Safety banners.
       - **Disabled Coarse Pointer Auto-Scroll**: Guarded idle auto-scroll so it only runs on desktop fine-pointer devices.
-    - **Comprehensive Expedition Planning Visual & Aesthetic Overhaul (2026-09-04)**:
-      - Addressed user feedback regarding the planning suite section not matching the website's rich aesthetic.
-      - Transformed the flat, generic navy feature cards into an authoritative **Himalayan Expedition Command Deck**.
-      - Built dedicated visual telemetry micro-displays for all 6 tools:
-        - **Trek Finder**: Altitude threshold gauge (`4,500m`), filter tags (`4–7 Days`, `Moderate ✓`, `Kullu / Spiti`), and 59 trails indexed.
-        - **Comparison Matrix**: Vector dual-profile elevation crossing chart (`Pin Parvati 5,319m` vs `Hampta Pass 4,270m`) with delta altitude tag (`Δ +1,049m`).
-        - **Budget Estimator**: Segmented expedition outlay bar (`Guide & Mules 45%`, `Permits 30%`, `Gear 25%`) with daily estimate (`₹2,850 / day`).
-        - **Packing Checklist**: Tactical high-altitude checklist badges (`-15°C Down Shell`, `C1 Crampons`, `Diamox AMS Kit`, `50L Pack`).
-        - **Seasonal Matrix**: 3-period Himalayan window strip (`May–Jun Snow Pass`, `Jul–Aug Flora`, `Sep–Oct Golden Peak 🍁`) with clarity meter.
-        - **3D Geospatial Atlas**: Glowing 3D topographic contour wireframe, satellite crosshair reticle, coordinate tags (`32°14'N • 77°11'E`), and pulsing waypoint.
-      - Added subtle background topographic elevation grid lines watermark and ambient alpenglow matching each tool's territory accent.
-      - Upgraded the header with an alpine survey datum ticker: `Datum: WGS84 • Altitude Scale: 1,500m – 7,135m • Logic: 100% Deterministic`.
-      - Converted action links to tactile frosted pill buttons with animated hover arrows.
+    - **Photographic Editorial Bento Redesign (2026-09-04)**:
+      - Addressed user feedback regarding artificial "AI-made" aesthetics (blueprint grid lines and toy micro-widgets).
+      - Purged the artificial SVG blueprint pattern and fake micro-widgets entirely.
+      - Rebuilt the section as a high-end, human-crafted **Photographic Editorial Bento Deck** mirroring the award-winning Territories section.
+      - Assigned curated, high-resolution full-bleed Himalayan photography (`Image fill`) with cinematic bottom-to-top vignette gradients (`from-black/95 via-black/65 to-black/25`) to each tool:
+        - `3D Geospatial Atlas`: Orbital high-altitude relief (spans 2 columns).
+        - `Trek Finder`: High-altitude ridge trekker.
+        - `Comparison Matrix`: Dual alpine massifs rising above clouds.
+        - `Budget Estimator`: Mountain basecamp under twilight skies.
+        - `Packing Checklist`: Snow mountain col & expedition gear.
+        - `Seasonal Matrix`: Golden autumn Himalayan foliage & snow peaks (spans 3 columns).
+      - Added editorial index numbering (`01`–`06`), authentic mountaineering copy, refined technical capability chips, and glowing frosted glass action links.
     - Verified with `npx tsc --noEmit` (0 errors), `npm run lint` (0 warnings), and `npm run build` (110/110 static pages exported).
 
 ## Current State
@@ -101,7 +100,7 @@
 - Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Comprehensive Expedition Planning: **Museum-grade alpine command deck with rich visual telemetry, topographic atmosphere, and glowing glassmorphic cards**.
+- Comprehensive Expedition Planning: **Human-crafted photographic Editorial Bento Deck with authentic mountain visuals, organic asymmetric layout, and museum-grade typography**.
 - Mobile Experience: **Fully optimized, touch-friendly, dual-theme, with snap carousel and zero scroll trap**.
 - Desktop Experience: **100% preserved with cinematic 220vh scroll storytelling, sinusoidal ridge wave, and 3D card tilts**.
 - Documentation: **100% synchronized across `memory.md`, `info/`, and walkthrough**.
