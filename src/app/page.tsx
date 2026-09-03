@@ -79,8 +79,155 @@ const TERRITORY_PROFILES: Record<string, {
   }
 };
 
-/* ── 1. Hero Section with Cinematic Fast-Animated Scroll Architecture ─────── */
-function Hero() {
+/* ── 1A. Mobile-Optimized Alpine Hero (Immediate load, zero scroll-trapping) ─ */
+function MobileHero() {
+  return (
+    <section
+      id="home-mobile"
+      className="-mt-20 relative w-full min-h-[100dvh] flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden md:hidden"
+    >
+      {/* Mountain Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image
+          src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+          alt="Himalayan Mountain Range Wallpaper"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+          style={{ filter: "contrast(1.08) saturate(1.08)" }}
+        />
+        {/* Cinematic Atmospheric Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/85 dark:from-[#040812]/85 dark:via-[#040812]/40 dark:to-[#040812]" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+      </div>
+
+      {/* Main Content with Staggered Entrance */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto my-auto w-full">
+        {/* Title Stack */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: EASE }}
+          className="mb-2 select-none"
+        >
+          <span
+            className="block font-serif italic text-blue-300 drop-shadow-[0_2px_12px_rgba(59,130,246,0.5)]"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "1.4rem",
+              lineHeight: 1,
+            }}
+          >
+            The
+          </span>
+          <span
+            className="block font-serif font-bold text-white tracking-tight drop-shadow-[0_3px_20px_rgba(0,0,0,0.9)] my-0.5"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "2.6rem",
+              lineHeight: 1,
+            }}
+          >
+            Himalayan
+          </span>
+          <span
+            className="block font-serif italic font-extrabold text-gradient-hero drop-shadow-[0_4px_24px_rgba(59,130,246,0.45)]"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "3.1rem",
+              lineHeight: 1.05,
+            }}
+          >
+            Trails
+          </span>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.12, ease: EASE }}
+          className="font-serif italic text-sm text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] mb-5"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Explore the Himalayas
+        </motion.p>
+
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.22, ease: EASE }}
+          className="w-full space-y-2.5 mb-5"
+        >
+          <Link
+            href="/explore"
+            className="w-full py-3.5 px-6 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider transition-all shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 active:scale-[0.98]"
+          >
+            <span>Explore All Expeditions</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/map"
+            className="w-full py-3.5 px-6 rounded-full glass-capsule hover:bg-white/10 text-white font-display font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-white/20 active:scale-[0.98]"
+          >
+            <Map className="w-4 h-4 text-primary" />
+            <span>Launch 3D Atlas</span>
+          </Link>
+        </motion.div>
+
+        {/* Territory Micro-Pill Quick Dock */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.32, ease: EASE }}
+          className="grid grid-cols-2 gap-2 w-full mb-5"
+        >
+          {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
+            <Link
+              key={id}
+              href={`/explore/${id}`}
+              className="px-3 py-2 rounded-xl text-xs font-mono font-semibold tracking-wide glass-capsule transition-all flex items-center justify-center gap-1.5 shadow-sm border border-white/15 text-white/95 active:scale-[0.97]"
+              style={{ borderLeft: `3px solid ${t.accent}` }}
+            >
+              <span>{t.emoji}</span>
+              <span className="truncate">{t.label}</span>
+            </Link>
+          ))}
+        </motion.div>
+
+        {/* Sleek Minimal Stats Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.42, ease: EASE }}
+          className="w-full py-2 px-2.5 rounded-2xl glass-capsule border border-white/15 bg-white/[0.05] dark:bg-[#0A1122]/70 backdrop-blur-xl shadow-lg grid grid-cols-4 gap-1 text-center"
+        >
+          <div>
+            <span className="font-display font-bold text-xs text-blue-400 block">59</span>
+            <span className="text-[8px] font-mono uppercase tracking-wider text-white/70 block">Trails</span>
+          </div>
+          <div className="border-l border-white/10">
+            <span className="font-display font-bold text-xs text-amber-400 block">4</span>
+            <span className="text-[8px] font-mono uppercase tracking-wider text-white/70 block">Regions</span>
+          </div>
+          <div className="border-l border-white/10">
+            <span className="font-display font-bold text-xs text-purple-400 block">7,816m</span>
+            <span className="text-[8px] font-mono uppercase tracking-wider text-white/70 block">Peak</span>
+          </div>
+          <div className="border-l border-white/10">
+            <span className="font-display font-bold text-xs text-teal-400 block">100%</span>
+            <span className="text-[8px] font-mono uppercase tracking-wider text-white/70 block">Free</span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ── 1B. Desktop Hero with Cinematic Fast-Animated Scroll Architecture ─────── */
+function DesktopHero() {
   const containerRef = useRef<HTMLElement>(null);
 
   // Track scroll within the 220vh container for fast, snappy, clean storytelling
@@ -153,7 +300,7 @@ function Hero() {
       id="home"
       ref={containerRef}
       suppressHydrationWarning
-      className="-mt-20 relative w-full"
+      className="-mt-20 relative w-full hidden md:block"
       style={{
         height: "clamp(200vh, 220vh, 240vh)",
       }}
@@ -457,6 +604,15 @@ function Hero() {
   );
 }
 
+function Hero() {
+  return (
+    <>
+      <MobileHero />
+      <DesktopHero />
+    </>
+  );
+}
+
 /* ── 2. Territories Showcase (Cinematic Mountain Expedition Tree) ──────────── */
 function TerritoriesSection() {
   const [activeBranch, setActiveBranch] = React.useState<string | null>(null);
@@ -468,7 +624,7 @@ function TerritoriesSection() {
   const rightTerritories = [himalayaAtlas[1], himalayaAtlas[2]]; // Himachal, Ladakh
 
   return (
-    <section id="territories" className="pt-20 pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300">
+    <section id="territories" className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* Section Heading with Botanical / Topological Badge */}
         <motion.div 
@@ -476,13 +632,13 @@ function TerritoriesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="text-center mb-8 max-w-2xl mx-auto"
+          className="text-center mb-6 sm:mb-8 max-w-2xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-3 border border-slate-200/80 dark:border-white/10">
             <Compass className="w-3.5 h-3.5" />
             Himalayan Expedition Tree
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-foreground mb-3 tracking-tight leading-[1.08]">
+          <h2 className="font-display font-extrabold text-2xl sm:text-5xl text-foreground mb-2.5 sm:mb-3 tracking-tight leading-[1.08]">
             Four Himalayan Territories
           </h2>
           <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed max-w-lg mx-auto">
@@ -575,9 +731,9 @@ function TerritoriesSection() {
           </div>
 
           {/* 2-Column Asymmetric Staggered Canopy Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-28 gap-y-10 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-28 gap-y-4 md:gap-y-10 items-start">
             {/* Left Column (Jammu & Kashmir, Uttarakhand) */}
-            <div className="space-y-12 sm:space-y-16">
+            <div className="space-y-4 md:space-y-16">
               {leftTerritories.map((region, idx) => {
                 if (!region) return null;
                 const profile = TERRITORY_PROFILES[region.id] ?? {
@@ -607,7 +763,7 @@ function TerritoriesSection() {
                     <Card3D depth={8} glareColor={profile.glow} className="rounded-2xl">
                       <Link
                         href={`/explore/${region.id}`}
-                        className="group relative rounded-2xl overflow-hidden h-[210px] sm:h-[230px] flex flex-col justify-between p-5 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl block w-full bg-slate-950/40"
+                        className="group relative rounded-2xl overflow-hidden h-[185px] sm:h-[230px] flex flex-col justify-between p-4 sm:p-5 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl block w-full bg-slate-950/40 active:scale-[0.98]"
                         style={{
                           boxShadow: isHovered
                             ? `0 12px 35px ${profile.glow}`
@@ -680,7 +836,7 @@ function TerritoriesSection() {
             </div>
 
             {/* Right Column (Himachal Pradesh, Ladakh) — Asymmetrically Staggered Down */}
-            <div className="space-y-12 sm:space-y-16 md:pt-14">
+            <div className="space-y-4 md:space-y-16 md:pt-14">
               {rightTerritories.map((region, idx) => {
                 if (!region) return null;
                 const profile = TERRITORY_PROFILES[region.id] ?? {
@@ -710,7 +866,7 @@ function TerritoriesSection() {
                     <Card3D depth={8} glareColor={profile.glow} className="rounded-2xl">
                       <Link
                         href={`/explore/${region.id}`}
-                        className="group relative rounded-2xl overflow-hidden h-[210px] sm:h-[230px] flex flex-col justify-between p-5 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl block w-full bg-slate-950/40"
+                        className="group relative rounded-2xl overflow-hidden h-[185px] sm:h-[230px] flex flex-col justify-between p-4 sm:p-5 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl block w-full bg-slate-950/40 active:scale-[0.98]"
                         style={{
                           boxShadow: isHovered
                             ? `0 12px 35px ${profile.glow}`
@@ -851,14 +1007,14 @@ function IconicTreksSection() {
   ];
 
   return (
-    <section id="discover-trails" className="pt-2 pb-4 sm:py-5 md:py-6 relative z-10 bg-muted/20 transition-colors duration-300 overflow-hidden scroll-mt-20">
+    <section id="discover-trails" className="py-6 sm:py-8 md:py-10 relative z-10 bg-muted/20 transition-colors duration-300 overflow-hidden scroll-mt-20">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative">
         <motion.div 
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-2 sm:mb-3 gap-2 relative z-10"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-3 sm:mb-4 gap-2 relative z-10"
         >
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-1 border border-slate-200/80 dark:border-white/10">
@@ -937,8 +1093,8 @@ function IconicTreksSection() {
             </svg>
           </div>
 
-          {/* Grid of 4 Precision-Anchored Alpine Trek Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 relative z-10 pt-1 items-start">
+          {/* Mobile Snap Carousel / Desktop Sinusoidal Grid */}
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 sm:gap-5 relative z-10 pt-1 items-start">
             {featured.map((trek, index) => {
               const isLower = index % 2 === 1; // Cards 2 & 4 placed at wave troughs (offset by 44px)
               const wp = WAYPOINTS[index];
@@ -949,7 +1105,7 @@ function IconicTreksSection() {
                   ref={(el) => {
                     cardRefs.current[index] = el;
                   }}
-                  className={`relative transition-all duration-500 ${
+                  className={`relative shrink-0 w-[84vw] max-w-[310px] snap-center md:w-auto md:max-w-none md:shrink transition-all duration-500 ${
                     isLower ? "lg:mt-[44px]" : "lg:mt-0"
                   }`}
                 >
@@ -1048,6 +1204,16 @@ function IconicTreksSection() {
               );
             })}
           </div>
+
+          {/* Mobile Carousel Swipe Indicator Dots */}
+          <div className="flex items-center justify-center gap-1.5 pt-2 pb-1 md:hidden">
+            {featured.map((t) => (
+              <span
+                key={t.slug}
+                className="w-1.5 h-1.5 rounded-full bg-primary/40"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1095,28 +1261,28 @@ const PLANNING_TOOLS = [
 
 function PlanningSuiteSection() {
   return (
-    <section className="py-24 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div 
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="text-center mb-16 max-w-2xl mx-auto"
+          className="text-center mb-8 sm:mb-16 max-w-2xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-capsule text-amber-600 dark:text-amber-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3 border border-slate-200/80 dark:border-white/10">
             <Layers className="w-3.5 h-3.5" />
             Deterministic Alpine Suite
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-foreground mb-4 tracking-tight leading-[1.08]">
+          <h2 className="font-display font-extrabold text-2xl sm:text-5xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.08]">
             Comprehensive Expedition Planning
           </h2>
-          <p className="text-foreground/70 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed">
             Eliminate guesswork. Use precision tools built by high-altitude mountaineers to prepare for your Himalayan campaign.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
@@ -1128,14 +1294,14 @@ function PlanningSuiteSection() {
                 transition={{ duration: 0.55, delay: index * 0.08, ease: EASE }}
                 className="h-full"
               >
-                <Card3D depth={12} glareColor={`${tool.accent}35`} className="rounded-3xl">
+                <Card3D depth={12} glareColor={`${tool.accent}35`} className="rounded-2xl sm:rounded-3xl">
                   <Link
                     href={tool.href}
-                    className="group p-7 rounded-3xl glass-museum-card flex flex-col justify-between h-full block"
+                    className="group p-5 sm:p-7 rounded-2xl sm:rounded-3xl glass-museum-card flex flex-col justify-between h-full block active:scale-[0.98] transition-transform"
                   >
                     <div style={{ transform: "translateZ(25px)" }}>
                       <div 
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 shadow-sm"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 transition-transform group-hover:scale-110 shadow-sm"
                         style={{
                           background: `${tool.accent}18`,
                           border: `1px solid ${tool.accent}35`,
@@ -1144,7 +1310,7 @@ function PlanningSuiteSection() {
                       >
                         <Icon className="w-5 h-5" style={{ color: tool.accent }} />
                       </div>
-                      <h3 className="font-display font-bold text-xl text-foreground mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-display font-bold text-lg sm:text-xl text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors">
                         {tool.title}
                       </h3>
                       <p className="text-foreground/65 text-xs sm:text-sm font-light leading-relaxed">
@@ -1153,7 +1319,7 @@ function PlanningSuiteSection() {
                     </div>
 
                     <span 
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider mt-8 group-hover:translate-x-1.5 transition-transform"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider mt-6 sm:mt-8 group-hover:translate-x-1.5 transition-transform"
                       style={{ color: tool.accent, transform: "translateZ(30px)" }}
                     >
                       Open Tool <ArrowRight className="w-3.5 h-3.5" />
@@ -1172,16 +1338,16 @@ function PlanningSuiteSection() {
             transition={{ duration: 0.55, delay: 5 * 0.08, ease: EASE }}
             className="h-full"
           >
-            <Card3D depth={14} glareColor="rgba(59, 130, 246, 0.4)" className="rounded-3xl">
+            <Card3D depth={14} glareColor="rgba(59, 130, 246, 0.4)" className="rounded-2xl sm:rounded-3xl">
               <Link
                 href="/map"
-                className="group p-7 rounded-3xl relative overflow-hidden flex flex-col justify-between border border-blue-500/30 glass-museum-card h-full block"
+                className="group p-5 sm:p-7 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col justify-between border border-blue-500/30 glass-museum-card h-full block active:scale-[0.98] transition-transform"
               >
                 <div style={{ transform: "translateZ(25px)" }}>
-                  <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-6" style={{ transform: "translateZ(20px)" }}>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-4 sm:mb-6" style={{ transform: "translateZ(20px)" }}>
                     <Map className="w-5 h-5 text-primary" />
                   </div>
-                  <h3 className="font-display font-bold text-xl text-foreground mb-2">
+                  <h3 className="font-display font-bold text-lg sm:text-xl text-foreground mb-1.5 sm:mb-2">
                     3D Geospatial Atlas
                   </h3>
                   <p className="text-foreground/65 text-xs sm:text-sm font-light leading-relaxed">
@@ -1189,7 +1355,7 @@ function PlanningSuiteSection() {
                   </p>
                 </div>
                 <span 
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-primary mt-8 group-hover:translate-x-1.5 transition-transform"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-primary mt-6 sm:mt-8 group-hover:translate-x-1.5 transition-transform"
                   style={{ transform: "translateZ(30px)" }}
                 >
                   Launch Atlas <ArrowRight className="w-3.5 h-3.5" />
@@ -1206,39 +1372,39 @@ function PlanningSuiteSection() {
 /* ── 5. Mountain Safety & Medical Acclimatisation Banner ──────────────────── */
 function SafetyFeatureSection() {
   return (
-    <section className="py-20 relative z-10 bg-muted/20 transition-colors duration-300">
+    <section className="py-12 sm:py-20 relative z-10 bg-muted/20 transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div 
           initial={{ opacity: 0, y: 32, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="rounded-3xl p-8 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 border border-amber-500/35 shadow-xl glass-museum-card"
+          className="rounded-2xl sm:rounded-3xl p-6 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 border border-amber-500/35 shadow-xl glass-museum-card"
         >
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3 sm:mb-4">
               <HeartPulse className="w-3.5 h-3.5" />
               Mountain Safety Protocol
             </div>
-            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-4 tracking-tight leading-[1.1]">
+            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.1]">
               High-Altitude Acclimatisation &amp; Medicine
             </h2>
-            <p className="text-foreground/75 text-sm sm:text-base font-light leading-relaxed">
+            <p className="text-foreground/75 text-xs sm:text-base font-light leading-relaxed">
               Altitude sickness does not care about fitness. Study comprehensive field protocols on Acute Mountain Sickness (AMS), HAPE, HACE, cold-injury triage, and certified mountaineering training institutes.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3.5 shrink-0 w-full lg:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full lg:w-auto">
             <Link
               href="/safety"
-              className="px-8 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md"
+              className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98]"
             >
               <Shield className="w-4 h-4" />
               View Mountain Safety Protocols
             </Link>
             <Link
               href="/conditions"
-              className="px-8 py-4 rounded-2xl glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-slate-200/80 dark:border-white/10"
+              className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-slate-200/80 dark:border-white/10 active:scale-[0.98]"
             >
               Live Weather Radar
             </Link>
@@ -1252,14 +1418,14 @@ function SafetyFeatureSection() {
 /* ── 6. Himalayan Dispatch Newsletter ─────────────────────────────────────── */
 function DispatchNewsletterSection() {
   return (
-    <section className="py-24 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
         <motion.div 
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="p-8 sm:p-14 rounded-3xl glass-capsule border border-foreground/[0.1] relative overflow-hidden shadow-xl"
+          className="p-6 sm:p-14 rounded-2xl sm:rounded-3xl glass-capsule border border-foreground/[0.1] relative overflow-hidden shadow-xl"
         >
           {/* Subtle Background Glow */}
           <div 
@@ -1267,13 +1433,13 @@ function DispatchNewsletterSection() {
           />
 
           <div className="relative z-10 max-w-xl mx-auto">
-            <span className="font-mono text-xs text-primary uppercase font-bold tracking-[0.25em] block mb-3">
+            <span className="font-mono text-xs text-primary uppercase font-bold tracking-[0.25em] block mb-2 sm:mb-3">
               Alpine Dispatches
             </span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-foreground mb-4 tracking-tight leading-[1.1]">
+            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.1]">
               Get High-Altitude Trail Intelligence
             </h2>
-            <p className="text-foreground/70 text-sm sm:text-base font-light leading-relaxed mb-8">
+            <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed mb-6 sm:mb-8">
               Seasonal pass openings, permit policy updates, snowfall forecasts, and newly surveyed routes delivered directly to your inbox.
             </p>
 
@@ -1287,8 +1453,17 @@ function DispatchNewsletterSection() {
 
 /* ── Master Home Page Component ───────────────────────────────────────────── */
 export default function Home() {
-  // Auto-scroll slowly to 4 Himalayan Territories if idle for 1 second on landing
+  // Auto-scroll slowly to 4 Himalayan Territories if idle for 1 second on landing (desktop pointer only)
   useEffect(() => {
+    // Only enable auto-scroll on desktop screens with fine pointer (mouse), NEVER on touch devices!
+    if (
+      typeof window === "undefined" ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.innerWidth < 768
+    ) {
+      return;
+    }
+
     let hasUserInteracted = false;
     let timer: ReturnType<typeof setTimeout> | null = null;
     let animId: number | null = null;

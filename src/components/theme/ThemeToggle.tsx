@@ -60,7 +60,7 @@ export function ThemeToggle({ variant = "nav", className = "" }: ThemeToggleProp
         whileTap={{ scale: 0.94 }}
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === "dark" ? "Light" : "Dark"} mode`}
-        className={`fixed left-5 bottom-6 z-50 p-3 rounded-full glass-capsule shadow-[0_10px_30px_rgba(0,0,0,0.25)] flex items-center justify-center text-foreground hover:text-primary transition-all duration-300 group border ${
+        className={`hidden sm:flex fixed left-5 bottom-6 z-50 p-3 rounded-full glass-capsule shadow-[0_10px_30px_rgba(0,0,0,0.25)] items-center justify-center text-foreground hover:text-primary transition-all duration-300 group border ${
           theme === "dark" ? "border-white/15 bg-[#0a1122]/85" : "border-slate-300 bg-white/90"
         } ${className}`}
         title={`Toggle ${theme === "dark" ? "Light" : "Dark"} Mode`}

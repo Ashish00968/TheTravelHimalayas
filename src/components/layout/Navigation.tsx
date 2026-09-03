@@ -82,7 +82,7 @@ export function Navigation() {
             }`}
           >
             {/* Brand Logo & Left-Side Theme Controller */}
-            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
               <div onClick={() => setIsMobileOpen(false)}>
                 <Logo variant="horizontal" size="md" glow={true} />
               </div>
@@ -120,7 +120,7 @@ export function Navigation() {
             </ul>
 
             {/* Actions: Quick Search Pill & Mobile Toggle */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
+            <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
               {/* Quick Search Pill (Desktop) */}
               <button
                 onClick={() => setIsSearchOpen(true)}
@@ -183,16 +183,33 @@ export function Navigation() {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-6 flex flex-col justify-between overflow-y-auto bg-background/95 backdrop-blur-2xl"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+            className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-4 sm:px-6 flex flex-col justify-between overflow-y-auto bg-background/98 backdrop-blur-3xl"
           >
             <div className="max-w-md mx-auto w-full space-y-6">
+              {/* Quick Search Tap Button inside Drawer */}
+              <button
+                onClick={() => {
+                  setIsMobileOpen(false);
+                  setIsSearchOpen(true);
+                }}
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/[0.1] text-foreground/60 transition-all text-sm group"
+              >
+                <span className="flex items-center gap-3">
+                  <Search className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                  <span className="font-light">Search expeditions, peaks, passes...</span>
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-foreground/10 text-foreground/60">
+                  Search
+                </span>
+              </button>
+
               {/* Territory Quick Links */}
               <div>
-                <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-white/40 block mb-3">
+                <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-foreground/50 block mb-2.5">
                   Territories
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -201,43 +218,52 @@ export function Navigation() {
                       key={t.id}
                       href={`/explore/${t.id}`}
                       onClick={() => setIsMobileOpen(false)}
-                      className="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] flex items-center gap-2.5 text-xs font-semibold transition-all"
+                      className="p-3.5 rounded-2xl bg-foreground/[0.03] hover:bg-foreground/[0.07] border border-foreground/[0.08] flex items-center gap-2.5 text-xs font-semibold transition-all active:scale-[0.98]"
                       style={{ color: t.accent }}
                     >
-                      <span>{t.emoji}</span>
-                      <span>{t.label}</span>
+                      <span className="text-base">{t.emoji}</span>
+                      <span className="font-display font-bold">{t.label}</span>
                     </Link>
                   ))}
                 </div>
               </div>
 
               {/* Main Navigation Links */}
-              <div className="divide-y divide-white/[0.06] pt-2">
-                {NAV_LINKS.map(({ label, href, icon: Icon }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setIsMobileOpen(false)}
-                    className={`flex items-center justify-between py-4 text-base font-display font-medium transition-colors ${
-                      isActive(href) ? "text-primary" : "text-white/70 hover:text-white"
-                    }`}
-                  >
-                    <span className="flex items-center gap-3">
-                      <Icon className="w-4 h-4 opacity-50" />
-                      {label}
-                    </span>
-                    <span className="text-white/30 text-xs font-mono font-light">→</span>
-                  </Link>
-                ))}
+              <div className="divide-y divide-foreground/[0.08] pt-1">
+                {NAV_LINKS.map(({ label, href, icon: Icon }) => {
+                  const active = isActive(href);
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className={`flex items-center justify-between py-3.5 text-base font-display font-medium transition-colors ${
+                        active
+                          ? "text-primary font-bold"
+                          : "text-foreground/75 hover:text-foreground active:text-primary"
+                      }`}
+                    >
+                      <span className="flex items-center gap-3.5">
+                        <span className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                          active ? "bg-primary/15 text-primary" : "bg-foreground/[0.04] text-foreground/60"
+                        }`}>
+                          <Icon className="w-4 h-4" />
+                        </span>
+                        <span>{label}</span>
+                      </span>
+                      <span className="text-foreground/30 text-xs font-mono">→</span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Bottom Button */}
-            <div className="max-w-md mx-auto w-full pt-4">
+            {/* Bottom Launch Button */}
+            <div className="max-w-md mx-auto w-full pt-6">
               <Link
                 href="/map"
                 onClick={() => setIsMobileOpen(false)}
-                className="w-full py-3.5 rounded-2xl bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_0_25px_rgba(59,130,246,0.3)]"
+                className="w-full py-4 rounded-2xl bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_8px_30px_rgba(59,130,246,0.35)] active:scale-[0.98]"
               >
                 <Map className="w-4 h-4" />
                 Launch 3D Himalayan Atlas

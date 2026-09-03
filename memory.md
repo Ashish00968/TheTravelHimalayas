@@ -71,15 +71,25 @@
       - Verified in browser subagent at `1470x575` in both Dark and Light modes.
     - Verified with `npx tsc --noEmit` (0 errors) and `npm run lint` (0 warnings).
 
+    - **Mobile UI/UX Overhaul & Responsiveness Optimization (2026-09-04)**:
+      - Addressed user feedback regarding mobile experience attractiveness and ergonomics.
+      - **Dedicated Mobile Hero (`MobileHero`)**: Zero scroll-jacking, touch-native `100dvh` layout with immediate title, CTA buttons, territory micro-dock, and minimal metrics ticker visible without scrolling.
+      - **Dual-Theme Mobile Navigation Drawer**: Rebuilt with semantic theme tokens (`text-foreground`, `divide-border`, `bg-background/98`) for high contrast in light mode; added top search bar and 44px minimum tap targets.
+      - **Responsive Logo & Clean Viewports**: Scaled brand typography to `text-[13px] sm:text-[17px] whitespace-nowrap` on mobile to prevent header crowding; hid the floating bottom-left ThemeToggle button (`hidden sm:flex`) on mobile to keep thumb reach clear.
+      - **Flagship Routes Mobile Snap Carousel**: Converted the 4 stacked cards into an effortless horizontal swipeable snap carousel (`snap-x snap-mandatory`) with subtle swipe dots, while preserving the sinusoidal ridge wave on desktop.
+      - **Compact Spacing & Ergonomics**: Reduced vertical voids in `TerritoriesSection` (`space-y-4`, `gap-y-4`), scaled card heights (`h-[185px] sm:h-[230px]`), and tightened padding across Planning Suite and Safety banners.
+      - **Disabled Coarse Pointer Auto-Scroll**: Guarded idle auto-scroll so it only runs on desktop fine-pointer devices.
+    - Verified with `npx tsc --noEmit` (0 errors), `npm run lint` (0 warnings), and `npm run build` (110/110 static pages exported).
+
 ## Current State
-- Next.js development server is cleanly running on `http://localhost:3000` (task `task-2037`).
+- Next.js development server is cleanly running on `http://localhost:3000`.
 - All 4 territory images active and verified in light and dark mode.
-- Zero TypeScript or lint errors. Ready for testing.
+- Zero TypeScript or lint errors.
 - Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Dual-Theme System: **100% complete across homepage, all territory hubs, all division lists, all place guides, legal pages, and brand assets**.
-- Design: **Dual-theme (Alpine Glacial Light & Midnight-Indigo Dark), Apple/Stitch-inspired, fully responsive, and cinematic**.
-- Documentation: **100% synchronized across `info/` and root documentation files**.
-- Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts` and clearing stale `.next` cache. Next.js 15 natively bundles ESM packages without server vendor-chunk splitting mismatches. Verified with clean 110/110 static page export.
+- Mobile Experience: **Fully optimized, touch-friendly, dual-theme, with snap carousel and zero scroll trap**.
+- Desktop Experience: **100% preserved with cinematic 220vh scroll storytelling, sinusoidal ridge wave, and 3D card tilts**.
+- Documentation: **100% synchronized across `memory.md`, `info/`, and walkthrough**.
+- Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts`. Verified with clean 110/110 static page export.
 

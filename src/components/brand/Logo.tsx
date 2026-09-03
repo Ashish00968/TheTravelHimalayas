@@ -131,16 +131,16 @@ export function Logo({
       : 72;
 
   const content = (
-    <div className={cn("inline-flex items-center gap-3 group select-none", className)}>
+    <div className={cn("inline-flex items-center gap-2 sm:gap-3 group select-none", className)}>
       <LogoMark size={iconPixelSize} glow={glow} framed={framed} />
       
       {variant === "horizontal" && (
         <div className="flex flex-col text-left justify-center">
-          <span className="font-display font-bold text-foreground tracking-[0.12em] text-base sm:text-[17px] leading-none group-hover:text-primary transition-colors drop-shadow-sm">
+          <span className="font-display font-bold text-foreground tracking-[0.06em] sm:tracking-[0.12em] text-[13px] sm:text-[17px] leading-none group-hover:text-primary transition-colors drop-shadow-sm whitespace-nowrap">
             THE HIMALAYAN TRAILS
           </span>
           {showTagline && (
-            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-500 dark:text-amber-400 font-semibold mt-1">
+            <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.24em] text-amber-500 dark:text-amber-400 font-semibold mt-1 whitespace-nowrap">
               {tagline}
             </span>
           )}
