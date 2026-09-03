@@ -1221,148 +1221,405 @@ function IconicTreksSection() {
 }
 
 /* ── 4. Planning Suite Hub (3D Interactive Tools Grid) ────────────────────── */
+
+function TrekFinderTelemetry({ accent }: { accent: string }) {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
+        <span className="text-foreground/70 uppercase tracking-wider font-medium">Pass Threshold</span>
+        <span className="font-bold font-mono px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-500 dark:text-blue-400 border border-blue-500/30">
+          4,500 m
+        </span>
+      </div>
+      <div className="w-full h-1.5 bg-foreground/10 rounded-full overflow-hidden mb-2.5">
+        <div 
+          className="h-full rounded-full transition-all duration-700" 
+          style={{ width: "68%", background: `linear-gradient(90deg, ${accent}, #60A5FA)` }} 
+        />
+      </div>
+      <div className="flex items-center justify-between gap-1 text-[9px] font-mono">
+        <span className="px-2 py-0.5 rounded bg-foreground/[0.05] text-foreground/80 border border-foreground/10">
+          4–7 Days
+        </span>
+        <span className="px-2 py-0.5 rounded bg-blue-500/15 text-blue-500 dark:text-blue-400 font-semibold border border-blue-500/30">
+          Moderate ✓
+        </span>
+        <span className="px-2 py-0.5 rounded bg-foreground/[0.05] text-foreground/80 border border-foreground/10">
+          Kullu / Spiti
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function ComparisonMatrixTelemetry() {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1">
+        <span className="flex items-center gap-1 font-bold text-amber-500 dark:text-amber-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
+          Pin Parvati (5,319m)
+        </span>
+        <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-300 font-bold border border-amber-500/30">
+          Δ +1,049m
+        </span>
+      </div>
+      <div className="h-8 w-full relative my-1">
+        <svg viewBox="0 0 200 36" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="compGradA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="compGradB" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+          <path d="M 0 32 Q 50 26, 90 16 T 160 20 T 200 34 L 200 36 L 0 36 Z" fill="url(#compGradB)" />
+          <path d="M 0 32 Q 50 26, 90 16 T 160 20 T 200 34" fill="none" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 2" />
+          <path d="M 0 34 Q 45 24, 110 4 T 175 12 T 200 32 L 200 36 L 0 36 Z" fill="url(#compGradA)" />
+          <path d="M 0 34 Q 45 24, 110 4 T 175 12 T 200 32" fill="none" stroke="#F59E0B" strokeWidth="2" />
+          <circle cx="110" cy="4" r="2.5" fill="#F59E0B" />
+        </svg>
+      </div>
+      <div className="flex items-center justify-between text-[9px] font-mono text-foreground/60 pt-0.5">
+        <span className="text-sky-500 dark:text-sky-400 font-medium">Hampta Pass (4,270m)</span>
+        <span>Grade IV vs II</span>
+      </div>
+    </div>
+  );
+}
+
+function BudgetEstimatorTelemetry() {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
+        <span className="text-foreground/70 uppercase tracking-wider font-medium">Daily Outlay</span>
+        <span className="font-bold font-mono px-1.5 py-0.5 rounded bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30">
+          ₹2,850 / day
+        </span>
+      </div>
+      <div className="w-full h-2 rounded-full overflow-hidden flex gap-0.5 mb-2 bg-foreground/10 p-0.5">
+        <div className="h-full rounded-l-full bg-teal-500" style={{ width: "45%" }} />
+        <div className="h-full bg-emerald-500" style={{ width: "30%" }} />
+        <div className="h-full rounded-r-full bg-amber-500" style={{ width: "25%" }} />
+      </div>
+      <div className="flex items-center justify-between text-[9px] font-mono text-foreground/70">
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+          Guide &amp; Mules 45%
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          Permits 30%
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+          Gear 25%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function PackingChecklistTelemetry() {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
+        <span className="text-foreground/70 uppercase tracking-wider font-medium">Loadout Audit</span>
+        <span className="font-bold font-mono px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30">
+          8.2 kg Base
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-1.5">
+        <div className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 truncate">
+          <span className="text-purple-500 font-bold">✓</span> -15°C Down Shell
+        </div>
+        <div className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 truncate">
+          <span className="text-purple-500 font-bold">✓</span> C1 Crampons
+        </div>
+        <div className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded bg-foreground/[0.05] text-foreground/80 border border-foreground/10 truncate">
+          <span className="text-emerald-500 font-bold">✓</span> Diamox AMS Kit
+        </div>
+        <div className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded bg-foreground/[0.05] text-foreground/80 border border-foreground/10 truncate">
+          <span className="text-purple-500 font-bold">✓</span> 50L Alpine Pack
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SeasonalMatrixTelemetry() {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
+        <span className="text-foreground/70 uppercase tracking-wider font-medium">Himalayan Windows</span>
+        <span className="font-bold font-mono px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
+          98% Visibility
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-1">
+        <div className="p-1 rounded bg-blue-500/10 border border-blue-500/20 text-center">
+          <span className="block text-[8px] font-mono uppercase text-blue-600 dark:text-blue-300 font-semibold">May–Jun</span>
+          <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400">Snow Pass ❄️</span>
+        </div>
+        <div className="p-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-center">
+          <span className="block text-[8px] font-mono uppercase text-emerald-600 dark:text-emerald-300 font-semibold">Jul–Aug</span>
+          <span className="block text-[9px] font-bold text-emerald-600 dark:text-emerald-400">Valley Flora 🌸</span>
+        </div>
+        <div className="p-1 rounded bg-amber-500/15 border border-amber-500/30 text-center ring-1 ring-amber-400/40">
+          <span className="block text-[8px] font-mono uppercase text-amber-600 dark:text-amber-300 font-bold">Sep–Oct</span>
+          <span className="block text-[9px] font-bold text-amber-600 dark:text-amber-300">Golden Peak 🍁</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Atlas3DTelemetry() {
+  return (
+    <div className="relative rounded-xl bg-slate-900/50 dark:bg-black/40 border border-slate-200/60 dark:border-white/[0.08] p-3 overflow-hidden">
+      <div className="flex items-center justify-between text-[10px] font-mono mb-1">
+        <span className="text-foreground/70 uppercase tracking-wider font-medium">WebGL 3D DEM</span>
+        <span className="font-bold font-mono px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-400 animate-ping" />
+          Live Reticle
+        </span>
+      </div>
+      <div className="h-8 w-full relative my-1 overflow-hidden flex items-center justify-center">
+        <svg viewBox="0 0 200 36" className="w-full h-full" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="meshGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+          <ellipse cx="100" cy="20" rx="75" ry="12" fill="none" stroke="url(#meshGrad)" strokeWidth="0.75" strokeDasharray="3 3" opacity="0.4" />
+          <ellipse cx="100" cy="18" rx="50" ry="9" fill="none" stroke="url(#meshGrad)" strokeWidth="1" opacity="0.7" />
+          <ellipse cx="100" cy="16" rx="25" ry="5" fill="none" stroke="url(#meshGrad)" strokeWidth="1.5" />
+          <line x1="100" y1="4" x2="100" y2="28" stroke="#60A5FA" strokeWidth="1" strokeDasharray="2 2" />
+          <line x1="70" y1="16" x2="130" y2="16" stroke="#60A5FA" strokeWidth="1" strokeDasharray="2 2" />
+          <circle cx="100" cy="16" r="2.5" fill="#3B82F6" />
+        </svg>
+      </div>
+      <div className="flex items-center justify-between text-[9px] font-mono text-foreground/65 pt-0.5">
+        <span className="text-primary font-semibold">{"32°14'N • 77°11'E"}</span>
+        <span>Elevation Mesh • 60 FPS</span>
+      </div>
+    </div>
+  );
+}
+
 const PLANNING_TOOLS = [
   {
     title: "Trek Finder",
-    desc: "Deterministic trail matching based on altitude threshold, difficulty, days, and season.",
+    category: "Algorithm • Match",
+    metric: "59 Trails Indexed",
+    desc: "Deterministic trail matching based on altitude threshold, difficulty, duration, and seasonality.",
     href: "/plan/trek-finder",
     icon: Compass,
     accent: "#3B82F6",
+    glow: "rgba(59, 130, 246, 0.35)",
+    renderTelemetry: (accent: string) => <TrekFinderTelemetry accent={accent} />,
   },
   {
     title: "Comparison Matrix",
-    desc: "Side-by-side technical evaluation of elevation gain, permits, and gradient profiles.",
+    category: "Telemetry • Dual Profile",
+    metric: "Head-to-Head Stats",
+    desc: "Side-by-side technical evaluation of elevation gain, permits, passes, and gradient profiles.",
     href: "/plan/compare",
     icon: Layers,
     accent: "#F59E0B",
+    glow: "rgba(245, 158, 11, 0.35)",
+    renderTelemetry: () => <ComparisonMatrixTelemetry />,
   },
   {
     title: "Budget Estimator",
-    desc: "Calculate guide tariffs, mule logistics, porter fees, and wilderness permits.",
+    category: "Logistics • Tariffs",
+    metric: "Guide & Mule Rates",
+    desc: "Calculate certified guide tariffs, mule teams, porter wages, forest permits, and camp fees.",
     href: "/plan/budget",
     icon: Gauge,
     accent: "#0D9488",
+    glow: "rgba(13, 148, 136, 0.35)",
+    renderTelemetry: () => <BudgetEstimatorTelemetry />,
   },
   {
     title: "Packing Checklist",
-    desc: "Curated 3-season and winter gear generator tailored for Himalayan pass crossings.",
+    category: "Gear Audit • Loadout",
+    metric: "3-Season / Winter",
+    desc: "Tailored gear generator for 3-season traverses and winter alpine pass crossings.",
     href: "/plan/packing",
     icon: Award,
     accent: "#7C3AED",
+    glow: "rgba(124, 58, 237, 0.35)",
+    renderTelemetry: () => <PackingChecklistTelemetry />,
   },
   {
     title: "Seasonal Matrix",
-    desc: "Month-by-month weather windows, snowmelt timing, and post-monsoon clarity charts.",
+    category: "Meteorology • Windows",
+    metric: "12-Month Clarity",
+    desc: "Month-by-month weather windows, snowmelt timing, and post-monsoon atmospheric clarity charts.",
     href: "/plan/season",
     icon: Calendar,
+    accent: "#06B6D4",
+    glow: "rgba(6, 182, 212, 0.35)",
+    renderTelemetry: () => <SeasonalMatrixTelemetry />,
+  },
+  {
+    title: "3D Geospatial Atlas",
+    category: "Terrain • WebGL",
+    metric: "Interactive 3D DEM",
+    desc: "Explore high-altitude terrain, valley contours, ridgelines, and summit elevation profiles in WebGL 3D.",
+    href: "/map",
+    icon: Map,
     accent: "#3B82F6",
+    glow: "rgba(59, 130, 246, 0.45)",
+    renderTelemetry: () => <Atlas3DTelemetry />,
   },
 ];
 
 function PlanningSuiteSection() {
   return (
-    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+    <section className="py-16 sm:py-24 relative z-10 bg-background transition-colors duration-300 overflow-hidden">
+      {/* Background Topographic Contour & Ambient Alpenglow Layer */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/5 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-20 right-10 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px]" />
+        
+        {/* Subtle Topographical Elevation Grid Lines SVG */}
+        <svg 
+          className="absolute inset-0 w-full h-full opacity-[0.035] dark:opacity-[0.06] text-foreground" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern id="planGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.75" />
+              <circle cx="60" cy="0" r="1.5" fill="currentColor" opacity="0.6" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#planGrid)" />
+        </svg>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="text-center mb-8 sm:mb-16 max-w-2xl mx-auto"
+          className="text-center mb-10 sm:mb-16 max-w-3xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-capsule text-amber-600 dark:text-amber-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3 border border-slate-200/80 dark:border-white/10">
-            <Layers className="w-3.5 h-3.5" />
-            Deterministic Alpine Suite
+            <Compass className="w-3.5 h-3.5" />
+            Deterministic Alpine Suite • 6 Field Instruments
           </div>
-          <h2 className="font-display font-extrabold text-2xl sm:text-5xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.08]">
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.08]">
             Comprehensive Expedition Planning
           </h2>
-          <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed">
-            Eliminate guesswork. Use precision tools built by high-altitude mountaineers to prepare for your Himalayan campaign.
+          <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed max-w-2xl mx-auto">
+            Eliminate guesswork. Use precision tools calibrated by high-altitude mountaineers to engineer your Himalayan campaign.
           </p>
+
+          {/* Technical Datum Ticker */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] font-mono text-foreground/50 uppercase tracking-widest mt-4">
+            <span>Datum: WGS84</span>
+            <span className="text-primary">•</span>
+            <span>Altitude Scale: 1,500m – 7,135m</span>
+            <span className="text-primary">•</span>
+            <span>Logic: 100% Deterministic</span>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* 6-Card Alpine Instruments Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <motion.div
                 key={tool.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, delay: index * 0.08, ease: EASE }}
                 className="h-full"
               >
-                <Card3D depth={12} glareColor={`${tool.accent}35`} className="rounded-2xl sm:rounded-3xl">
+                <Card3D depth={10} glareColor={tool.glow} className="rounded-2xl sm:rounded-3xl h-full">
                   <Link
                     href={tool.href}
-                    className="group p-5 sm:p-7 rounded-2xl sm:rounded-3xl glass-museum-card flex flex-col justify-between h-full block active:scale-[0.98] transition-transform"
+                    className="group relative rounded-2xl sm:rounded-3xl p-5 sm:p-6 glass-museum-card flex flex-col justify-between h-full block border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl overflow-hidden active:scale-[0.98]"
+                    style={{
+                      background: "radial-gradient(circle at 90% 0%, rgba(255,255,255,0.03) 0%, transparent 60%), var(--bg-surface)",
+                    }}
                   >
-                    <div style={{ transform: "translateZ(25px)" }}>
-                      <div 
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 transition-transform group-hover:scale-110 shadow-sm"
-                        style={{
-                          background: `${tool.accent}18`,
-                          border: `1px solid ${tool.accent}35`,
-                          transform: "translateZ(20px)"
-                        }}
-                      >
-                        <Icon className="w-5 h-5" style={{ color: tool.accent }} />
+                    {/* Ambient Corner Alpenglow matching tool accent */}
+                    <div 
+                      className="absolute top-0 right-0 w-36 h-36 rounded-full blur-[45px] pointer-events-none opacity-30 group-hover:opacity-75 transition-opacity duration-500"
+                      style={{ background: tool.glow }}
+                    />
+
+                    <div className="relative z-10">
+                      {/* Top Header: Icon & Category Badge */}
+                      <div className="flex items-center justify-between mb-3.5">
+                        <div 
+                          className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm shrink-0"
+                          style={{
+                            background: `${tool.accent}18`,
+                            border: `1px solid ${tool.accent}35`,
+                          }}
+                        >
+                          <Icon className="w-5 h-5" style={{ color: tool.accent }} />
+                        </div>
+                        <span 
+                          className="font-mono text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full backdrop-blur-md"
+                          style={{
+                            color: tool.accent,
+                            backgroundColor: `${tool.accent}12`,
+                            border: `1px solid ${tool.accent}30`,
+                          }}
+                        >
+                          {tool.category}
+                        </span>
                       </div>
-                      <h3 className="font-display font-bold text-lg sm:text-xl text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors">
+
+                      {/* Visual Telemetry Micro-Display */}
+                      <div className="mb-4">
+                        {tool.renderTelemetry(tool.accent)}
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="font-display font-bold text-lg sm:text-xl text-foreground mb-1.5 group-hover:text-primary transition-colors">
                         {tool.title}
                       </h3>
-                      <p className="text-foreground/65 text-xs sm:text-sm font-light leading-relaxed">
+                      <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed">
                         {tool.desc}
                       </p>
                     </div>
 
-                    <span 
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider mt-6 sm:mt-8 group-hover:translate-x-1.5 transition-transform"
-                      style={{ color: tool.accent, transform: "translateZ(30px)" }}
-                    >
-                      Open Tool <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    {/* Tactile Footer Action Bar */}
+                    <div className="relative z-10 pt-4 mt-5 border-t border-foreground/[0.08] flex items-center justify-between">
+                      <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-wider font-semibold">
+                        {tool.metric}
+                      </span>
+                      <span 
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 group-hover:translate-x-1"
+                        style={{
+                          color: tool.accent,
+                          backgroundColor: `${tool.accent}15`,
+                          border: `1px solid ${tool.accent}35`,
+                        }}
+                      >
+                        <span>Open</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      </span>
+                    </div>
                   </Link>
                 </Card3D>
               </motion.div>
             );
           })}
-
-          {/* 3D Map Banner Card as 6th Item with Specular Glow */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, delay: 5 * 0.08, ease: EASE }}
-            className="h-full"
-          >
-            <Card3D depth={14} glareColor="rgba(59, 130, 246, 0.4)" className="rounded-2xl sm:rounded-3xl">
-              <Link
-                href="/map"
-                className="group p-5 sm:p-7 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col justify-between border border-blue-500/30 glass-museum-card h-full block active:scale-[0.98] transition-transform"
-              >
-                <div style={{ transform: "translateZ(25px)" }}>
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-4 sm:mb-6" style={{ transform: "translateZ(20px)" }}>
-                    <Map className="w-5 h-5 text-primary" />
-                  </div>
-                  <h3 className="font-display font-bold text-lg sm:text-xl text-foreground mb-1.5 sm:mb-2">
-                    3D Geospatial Atlas
-                  </h3>
-                  <p className="text-foreground/65 text-xs sm:text-sm font-light leading-relaxed">
-                    Interact with high-altitude terrain, valley contours, and summit elevation profiles in WebGL 3D.
-                  </p>
-                </div>
-                <span 
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-primary mt-6 sm:mt-8 group-hover:translate-x-1.5 transition-transform"
-                  style={{ transform: "translateZ(30px)" }}
-                >
-                  Launch Atlas <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </Link>
-            </Card3D>
-          </motion.div>
         </div>
       </div>
     </section>
