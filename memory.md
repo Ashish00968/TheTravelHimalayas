@@ -81,3 +81,5 @@
 - Dual-Theme System: **100% complete across homepage, all territory hubs, all division lists, all place guides, legal pages, and brand assets**.
 - Design: **Dual-theme (Alpine Glacial Light & Midnight-Indigo Dark), Apple/Stitch-inspired, fully responsive, and cinematic**.
 - Documentation: **100% synchronized across `info/` and root documentation files**.
+- Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts` and clearing stale `.next` cache. Next.js 15 natively bundles ESM packages without server vendor-chunk splitting mismatches. Verified with clean 110/110 static page export.
+
