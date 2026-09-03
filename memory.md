@@ -106,4 +106,5 @@
 - Desktop Experience: **100% preserved with cinematic 220vh scroll storytelling, sinusoidal ridge wave, and 3D card tilts**.
 - Documentation: **100% synchronized across `memory.md`, `info/`, and walkthrough**.
 - Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts`. Verified with clean 110/110 static page export.
+- Bug Fix (2026-09-04): Resolved `Cannot find module './611.js'` error caused by `next dev` serving stale in-memory chunk manifests after `next build` had rewritten `.next`. Terminated stale PID 68996, wiped `.next`, and launched fresh dev server daemon. Verified HTTP 200 across `/`, `/explore`, `/explore/jammu-kashmir`, `/explore/himachal-pradesh`, `/plan/trek-finder`, `/plan/compare`, `/plan/budget`, and `/map`.
 
