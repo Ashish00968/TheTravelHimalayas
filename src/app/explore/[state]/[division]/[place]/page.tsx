@@ -46,7 +46,7 @@ export async function generateMetadata({
   if (!place) return {};
 
   return {
-    title: `${place.name} | ${subRegion?.name}, ${region?.name} | The Himalayan Trails`,
+    title: `${place.name} | ${subRegion?.name}, ${region?.name} | Discover Himalayan Trails`,
     description:
       place.overview ||
       place.experience ||

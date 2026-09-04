@@ -60,9 +60,9 @@ export function LogoSeal({
             className="absolute inset-0 w-full h-full pointer-events-none z-20"
           >
             <path id="sealCleanArc" d="M 32,100 A 68,68 0 1,1 168,100" />
-            <text fill="#FEF08A" fontFamily="'Cinzel', 'Playfair Display', Georgia, serif" fontSize="8" fontWeight="700" letterSpacing="3" opacity="0.9">
+            <text fill="#FEF08A" fontFamily="'Cinzel', 'Playfair Display', Georgia, serif" fontSize="7.5" fontWeight="700" letterSpacing="2.5" opacity="0.95">
               <textPath href="#sealCleanArc" startOffset="50%" textAnchor="middle">
-                THE HIMALAYAN TRAILS
+                DISCOVER HIMALAYAN TRAILS
               </textPath>
             </text>
           </svg>
@@ -81,7 +81,7 @@ export function LogoSeal({
       >
         <Image
           src="/mountain-logo.png"
-          alt="The Himalayan Trails Ama Dablam Peak"
+          alt="Discover Himalayan Trails Ama Dablam Peak"
           width={mountainSize}
           height={mountainSize}
           className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.95)]"

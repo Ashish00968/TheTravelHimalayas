@@ -119,7 +119,7 @@ function MobileHero() {
               lineHeight: 1,
             }}
           >
-            The
+            Discover
           </span>
           <span
             className="block font-serif font-bold text-white tracking-tight drop-shadow-[0_3px_20px_rgba(0,0,0,0.9)] my-0.5"
@@ -413,7 +413,7 @@ function DesktopHero() {
                   textShadow: "0 4px 24px rgba(59, 130, 246, 0.45)",
                 }}
               >
-                The
+                Discover
               </span>
             </motion.div>
 
@@ -1567,7 +1567,7 @@ export default function Home() {
 
         // Total scrollable distance within the pinned hero track
         const scrollableDistance = heroElement.offsetHeight - window.innerHeight;
-        // Stop precisely when the entire Hero is fully assembled (The Himalayan Trails + CTAs + Stats)
+        // Stop precisely when the entire Hero is fully assembled (Discover Himalayan Trails + CTAs + Stats)
         const targetY = Math.round(scrollableDistance * 0.62);
         const startY = window.scrollY;
         const distance = targetY - startY;

@@ -5,7 +5,7 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
 
 export const metadata: Metadata = {
-  title: "Trek Finder | Plan Your Trip | The Himalayan Trails",
+  title: "Trek Finder | Plan Your Trip | Discover Himalayan Trails",
   description: "Find the perfect Himalayan trek based on your experience, fitness, season, and budget.",
 };
 

@@ -1,7 +1,7 @@
-# Project Memory: The Himalayan Trails
+# Project Memory: Discover Himalayan Trails
 
-**Last Session End**: 2026-09-03  
-**Phase**: Full-Stack Polish, Dual-Theme Architecture, Cloudinary Photography & Museum-Grade Alpine UX
+**Last Session End**: 2026-09-04  
+**Phase**: Platform Rebrand to "Discover Himalayan Trails", Professional Logo Redesign, and Full Site-Wide Synchronization
 
 ## What Was Built & Populated
 - **Himalayan Design System**:
@@ -50,28 +50,65 @@
         - Homepage `TERRITORY_PROFILES` (`src/app/page.tsx`) in both left and right columns with high-contrast text rendering in light and dark modes.
         - Centralized data layer in `himalayaAtlas` (`src/data/atlas.ts`) on all 4 `HimalayaRegion` entities.
     - **"Discover the trails" Museum-Grade Himalayan Ridge Trail Redesign**:
-      - **Clean Trek-Named Alpine Waypoint Pins**: Waypoint markers on the wave crests and troughs display clean trek names and altitudes without numeric prefixes:
-        - `BEAS KUND • 3,700 m` (Blue jewel dot `#3B82F6`)
-        - `LAMADUGH • 3,300 m` (Orange jewel dot `#F59E0B`)
-        - `PATALSU PEAK • 4,220 m` (Blue jewel dot `#3B82F6`)
-        - `HAMPTA PASS • 4,270 m` (Green jewel dot `#10B981`)
-      - Illuminated guide stems connect each milestone badge to its card below.
-      - **Mathematically Pure Sinusoidal Spline**: Horizontal tangents (`dy/dx = 0`) at all 4 summits and valleys, so the trail wave glides seamlessly along the waypoint line without slicing into photos.
-      - **Himalayan Terrain Silhouette Fill**: Added a soft alpine elevation area fill (`opacity="0.08"`) and ambient blur glow behind the core dashed trail path.
-      - **Refined Alpine Glass Dossiers**:
-        - Scaled card image banners to `h-24 sm:h-26` with smooth bottom vignette gradient.
-        - Adjusted peak-to-trough vertical offset to an optimal 44px (`lg:mt-[44px]`).
-        - Crisp typography hierarchy with `text-foreground` titles, territory pill on image, difficulty pill, and dual-stat footer (`Duration` and `Max Altitude`).
-        - Entire section (header, full ridge wave, all 4 cards and footers) fits comfortably inside short desktop viewports (e.g. 575px height) with margin to spare.
-    - Verified in browser subagent at `1470x575` in both Dark and Light modes.
-  - Verified with `npx tsc --noEmit` (0 errors) and `npm run lint` (0 warnings).
+      - Problem in previous version:
+        - SVG line was rendered on top of cards (`z-20`), causing the dashed curve to slice horizontally through card photos and text headers.
+        - Extreme 135px vertical offset created cavernous black voids beneath cards 1 & 3 and pushed the specs footer off the screen in short viewports (575px height).
+        - Floating unanchored dots looked like arbitrary stickers.
+      - Solution implemented in `src/app/page.tsx`:
+        - **Clean Trek-Named Alpine Waypoint Pins**: Waypoint markers on the wave crests and troughs display clean trek names and altitudes without numeric prefixes:
+          - `BEAS KUND • 3,700 m` (Blue jewel dot `#3B82F6`)
+          - `LAMADUGH • 3,300 m` (Orange jewel dot `#F59E0B`)
+          - `PATALSU PEAK • 4,220 m` (Blue jewel dot `#3B82F6`)
+          - `HAMPTA PASS • 4,270 m` (Green jewel dot `#10B981`)
+        - Illuminated guide stems connect each milestone badge to its card below.
+        - **Mathematically Pure Sinusoidal Spline**: Horizontal tangents (`dy/dx = 0`) at all 4 summits and valleys, so the trail wave glides seamlessly along the waypoint line without slicing into photos.
+        - **Himalayan Terrain Silhouette Fill**: Added a soft alpine elevation area fill (`opacity="0.08"`) and ambient blur glow behind the core dashed trail path.
+        - **Refined Alpine Glass Dossiers**:
+          - Scaled card image banners to `h-24 sm:h-26` with smooth bottom vignette gradient.
+          - Adjusted peak-to-trough vertical offset to an optimal 44px (`lg:mt-[44px]`).
+          - Crisp typography hierarchy with `text-foreground` titles, territory pill on image, difficulty pill, and dual-stat footer (`Duration` and `Max Altitude`).
+          - Entire section (header, full ridge wave, all 4 cards and footers) fits comfortably inside short desktop viewports (e.g. 575px height) with margin to spare.
+      - Verified in browser subagent at `1470x575` in both Dark and Light modes.
+    - Verified with `npx tsc --noEmit` (0 errors) and `npm run lint` (0 warnings).
+
+    - **Mobile UI/UX Overhaul & Responsiveness Optimization (2026-09-04)**:
+      - Addressed user feedback regarding mobile experience attractiveness and ergonomics.
+      - **Dedicated Mobile Hero (`MobileHero`)**: Zero scroll-jacking, touch-native `100dvh` layout with immediate title, CTA buttons, territory micro-dock, and minimal metrics ticker visible without scrolling.
+      - **Dual-Theme Mobile Navigation Drawer**: Rebuilt with semantic theme tokens (`text-foreground`, `divide-border`, `bg-background/98`) for high contrast in light mode; added top search bar and 44px minimum tap targets.
+      - **Responsive Logo & Clean Viewports**: Scaled brand typography to `text-[13px] sm:text-[17px] whitespace-nowrap` on mobile to prevent header crowding; hid the floating bottom-left ThemeToggle button (`hidden sm:flex`) on mobile to keep thumb reach clear.
+      - **Flagship Routes Mobile Snap Carousel**: Converted the 4 stacked cards into an effortless horizontal swipeable snap carousel (`snap-x snap-mandatory`) with subtle swipe dots, while preserving the sinusoidal ridge wave on desktop.
+      - **Compact Spacing & Ergonomics**: Reduced vertical voids in `TerritoriesSection` (`space-y-4`, `gap-y-4`), scaled card heights (`h-[185px] sm:h-[230px]`), and tightened padding across Planning Suite and Safety banners.
+      - **Disabled Coarse Pointer Auto-Scroll**: Guarded idle auto-scroll so it only runs on desktop fine-pointer devices.
+    - **Photographic Editorial Bento Redesign (2026-09-04)**:
+      - Addressed user feedback regarding artificial "AI-made" aesthetics (blueprint grid lines and toy micro-widgets).
+      - Purged the artificial SVG blueprint pattern and fake micro-widgets entirely.
+      - Rebuilt the section as a high-end, human-crafted **Photographic Editorial Bento Deck** mirroring the award-winning Territories section.
+      - Assigned curated, high-resolution full-bleed Himalayan photography (`Image fill`) with cinematic bottom-to-top vignette gradients (`from-black/95 via-black/65 to-black/25`) to each tool:
+        - `3D Geospatial Atlas`: Orbital high-altitude relief (spans 2 columns).
+        - `Trek Finder`: High-altitude ridge trekker.
+        - `Comparison Matrix`: Dual alpine massifs rising above clouds.
+        - `Budget Estimator`: Mountain basecamp under twilight skies.
+        - `Packing Checklist`: Snow mountain col & expedition gear.
+        - `Seasonal Matrix`: Golden autumn Himalayan foliage & snow peaks (spans 3 columns).
+      - Added editorial index numbering (`01`–`06`), authentic mountaineering copy, refined technical capability chips, and glowing frosted glass action links.
+    - Verified with `npx tsc --noEmit` (0 errors), `npm run lint` (0 warnings), and `npm run build` (110/110 static pages exported).
+  - **Platform Rebrand to "Discover Himalayan Trails" & Professional Logo Redesign (2026-09-04)**:
+    - Renamed brand across the entire platform: `Discover Himalayan Trails` (display), `Discover Himalayas` (short), `https://discoverhimalayantrails.com` (canonical), `hello@discoverhimalayantrails.com` (contact).
+    - Crafted precision vector alpine mark in `src/components/brand/Logo.tsx` and `src/components/brand/LogoSeal.tsx` featuring multi-faceted pyramid summits, 8-point gold navigational compass star, and sculpted two-tier lockup (`DISCOVER` uppercase eyebrow + `HIMALAYAN TRAILS` bold title).
+    - Updated all page metadata, OpenGraph tags, dynamic Twitter cards, canonical links, and Schema.org JSON-LD structured data across all 110 routes.
+    - Updated legal disclaimers, footer copyright, guide author fields, package name, and engineering architecture docs.
 
 ## Current State
+- Next.js development server is cleanly running on `http://localhost:3000`.
 - All 4 territory images active and verified in light and dark mode.
 - Zero TypeScript or lint errors.
 - Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Dual-Theme System: **100% complete across homepage, all territory hubs, all division lists, all place guides, legal pages, and brand assets**.
-- Design: **Dual-theme (Alpine Glacial Light & Midnight-Indigo Dark), Apple/Stitch-inspired, fully responsive, and cinematic**.
-- Documentation: **100% synchronized across `info/` and root documentation files**.
+- Comprehensive Expedition Planning: **Human-crafted photographic Editorial Bento Deck with authentic mountain visuals, organic asymmetric layout, and museum-grade typography**.
+- Mobile Experience: **Fully optimized, touch-friendly, dual-theme, with snap carousel and zero scroll trap**.
+- Desktop Experience: **100% preserved with cinematic 220vh scroll storytelling, sinusoidal ridge wave, and 3D card tilts**.
+- Documentation: **100% synchronized across `memory.md`, `info/`, and walkthrough**.
+- Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts`. Verified with clean 110/110 static page export.
+- Bug Fix (2026-09-04): Resolved `Cannot find module './611.js'` error caused by `next dev` serving stale in-memory chunk manifests after `next build` had rewritten `.next`. Terminated stale PID 68996, wiped `.next`, and launched fresh dev server daemon. Verified HTTP 200 across `/`, `/explore`, `/explore/jammu-kashmir`, `/explore/himachal-pradesh`, `/plan/trek-finder`, `/plan/compare`, `/plan/budget`, and `/map`.
+

@@ -5,7 +5,7 @@ import { MapLauncher } from "@/components/maps/MapLauncher";
 import { treks } from "@/data/treks";
 
 export const metadata: Metadata = {
-  title: "Interactive 3D Map | Explore The Himalayan Trails",
+  title: "Interactive 3D Map | Explore Discover Himalayan Trails",
   description: "Explore trailheads, peaks, and routes in the Indian Himalayas through our interactive 3D map.",
 };
 

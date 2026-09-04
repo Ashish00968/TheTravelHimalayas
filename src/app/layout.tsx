@@ -24,8 +24,8 @@ const hanken = Hanken_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "The Himalayan Trails | Himalayan Trekking & Expedition Guides",
-    template: "%s | The Himalayan Trails",
+    default: "Discover Himalayan Trails | Himalayan Trekking & Expedition Guides",
+    template: "%s | Discover Himalayan Trails",
   },
   description: SITE.description,
   keywords: [
@@ -50,13 +50,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: SITE.name,
     url: SITE.url,
-    title: "The Himalayan Trails | Himalayan Trekking & Expedition Guides",
+    title: "Discover Himalayan Trails | Himalayan Trekking & Expedition Guides",
     description: SITE.description,
     images: [{ url: SITE.ogImage, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Himalayan Trails",
+    title: "Discover Himalayan Trails",
     description: SITE.description,
     images: [SITE.ogImage],
   },

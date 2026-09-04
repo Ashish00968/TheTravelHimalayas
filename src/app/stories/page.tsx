@@ -7,14 +7,14 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { Compass, BookOpen, Clock, ArrowRight, Mountain, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Himalayan Stories & Field Dispatches | The Himalayan Trails",
+  title: "Himalayan Stories & Field Dispatches | Discover Himalayan Trails",
   description:
     "First-hand alpine narratives, route scouting chronicles, and photographic dispatches from high passes across Himachal Pradesh, Kashmir, Ladakh, and Uttarakhand.",
-  alternates: { canonical: "https://thehimalayantrails.com/stories" },
+  alternates: { canonical: "https://discoverhimalayantrails.com/stories" },
   openGraph: {
-    title: "Himalayan Stories & Field Dispatches | The Himalayan Trails",
+    title: "Himalayan Stories & Field Dispatches | Discover Himalayan Trails",
     description: "First-hand alpine narratives, route scouting chronicles, and photographic dispatches across the Indian Himalayas.",
-    url: "https://thehimalayantrails.com/stories",
+    url: "https://discoverhimalayantrails.com/stories",
     type: "website",
   },
 };

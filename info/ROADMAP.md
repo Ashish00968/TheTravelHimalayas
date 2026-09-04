@@ -1,8 +1,8 @@
-# The Himalayan Trails — Technical Roadmap
+# Discover Himalayan Trails — Technical Roadmap
 
 _Last updated: September 2026_
 
-This document is the strategic engineering reference for **The Himalayan Trails** (`thehimalayantrails.com`).
+This document is the strategic engineering reference for **Discover Himalayan Trails** (`discoverhimalayantrails.com`).
 
 ---
 

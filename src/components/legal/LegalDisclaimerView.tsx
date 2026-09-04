@@ -43,7 +43,7 @@ export function LegalDisclaimerView() {
                 Development Phase &amp; Illustrative Media Notice
               </h3>
               <p className="text-foreground/80 text-sm font-light leading-relaxed">
-                <strong className="text-amber-700 dark:text-amber-300 font-semibold">The Himalayan Trails is currently in an active beta and development preview phase.</strong> All photography, place images, elevation profiles, trail coordinates, and location descriptions are provided strictly for technical demonstration and illustrative layout purposes. Imagery may not represent exact real-world locations or current terrain conditions.
+                <strong className="text-amber-700 dark:text-amber-300 font-semibold">Discover Himalayan Trails is currently in an active beta and development preview phase.</strong> All photography, place images, elevation profiles, trail coordinates, and location descriptions are provided strictly for technical demonstration and illustrative layout purposes. Imagery may not represent exact real-world locations or current terrain conditions.
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ export function LegalDisclaimerView() {
               </h2>
             </div>
             <p>
-              The information, visual assets, maps, and route data presented on <strong>thehimalayantrails.com</strong> are undergoing continuous field verification and refinement. During this development phase, all photos, region previews, peak graphics, and destination details serve as structural placeholders and conceptual demonstrations.
+              The information, visual assets, maps, and route data presented on <strong>discoverhimalayantrails.com</strong> are undergoing continuous field verification and refinement. During this development phase, all photos, region previews, peak graphics, and destination details serve as structural placeholders and conceptual demonstrations.
             </p>
             <p className="text-foreground/50 text-xs font-mono pt-2">
               Last Revised: September 2026 • Platform Version: Beta 3.0
@@ -93,7 +93,7 @@ export function LegalDisclaimerView() {
               Trekking, alpine climbing, and high-altitude exploration in the Indian Himalayas (Jammu &amp; Kashmir, Himachal Pradesh, Ladakh, Uttarakhand) involve extreme hazards including Acute Mountain Sickness (AMS), HAPE/HACE, sudden atmospheric changes, avalanches, and remote wilderness risks.
             </p>
             <p className="text-amber-700 dark:text-amber-200/90 font-medium">
-              By accessing this platform, you acknowledge and agree that <strong>The Himalayan Trails, its creators, developers, and affiliates shall not be held legally liable or responsible for any injury, loss, property damage, search and rescue costs, or legal claims</strong> arising directly or indirectly from the use of, or reliance upon, any content, maps, routes, or recommendations provided on this site.
+              By accessing this platform, you acknowledge and agree that <strong>Discover Himalayan Trails, its creators, developers, and affiliates shall not be held legally liable or responsible for any injury, loss, property damage, search and rescue costs, or legal claims</strong> arising directly or indirectly from the use of, or reliance upon, any content, maps, routes, or recommendations provided on this site.
             </p>
           </section>
 

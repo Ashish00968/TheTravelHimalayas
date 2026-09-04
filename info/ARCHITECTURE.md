@@ -1,8 +1,8 @@
-# Architecture Blueprint — The Himalayan Trails
+# Architecture Blueprint — Discover Himalayan Trails
 
 ## 1. System Vision & Scope
 
-**The Himalayan Trails** (`thehimalayantrails.com`) is a high-performance, deterministic authority platform and geospatial atlas for high-altitude trekking, peak expeditions, and alpine safety across the North Indian Himalayas.
+**Discover Himalayan Trails** (`discoverhimalayantrails.com`) is a high-performance, deterministic authority platform and geospatial atlas for high-altitude trekking, peak expeditions, and alpine safety across the North Indian Himalayas.
 
 The platform follows a zero-database, statically pre-rendered architecture (SSG) powering 108 static routes with instant sub-millisecond page loads, rich Schema.org JSON-LD structured data, and high-fidelity 3D Mapbox geospatial exploration.
 

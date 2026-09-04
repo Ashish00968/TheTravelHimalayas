@@ -5,7 +5,7 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
 
 export const metadata: Metadata = {
-  title: "Packing List Generator | Plan Your Trip | The Himalayan Trails",
+  title: "Packing List Generator | Plan Your Trip | Discover Himalayan Trails",
   description: "Get a customized trekking gear and packing list based on altitude, duration, and season.",
 };
 

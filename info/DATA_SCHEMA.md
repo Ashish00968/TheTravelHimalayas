@@ -1,4 +1,4 @@
-# Data Schema Guide — The Himalayan Trails
+# Data Schema Guide — Discover Himalayan Trails
 
 All platform data is strictly typed, statically validated at build time, and defined across `src/data/types.ts`, `src/data/atlas.ts`, `src/data/treks.ts`, `src/data/peaks.ts`, `src/data/mountain-safety.ts`, and `src/data/guides.ts`.
 

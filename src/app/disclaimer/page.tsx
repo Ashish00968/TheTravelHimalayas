@@ -4,7 +4,7 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { LegalDisclaimerView } from "@/components/legal/LegalDisclaimerView";
 
 export const metadata: Metadata = {
-  title: "Legal Disclaimer | The Himalayan Trails",
+  title: "Legal Disclaimer | Discover Himalayan Trails",
   description: "Development preview notice, imagery mismatch disclaimer, and high-altitude non-liability terms.",
 };
 

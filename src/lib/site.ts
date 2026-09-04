@@ -4,20 +4,20 @@
 
 export const SITE = {
   /** Display name used across UI and metadata */
-  name: "The Himalayan Trails",
+  name: "Discover Himalayan Trails",
   /** Short name for compact placements */
-  shortName: "Travel Himalayas",
+  shortName: "Discover Himalayas",
   /** Production origin, no trailing slash */
-  url: "https://thehimalayantrails.com",
+  url: "https://discoverhimalayantrails.com",
   /** Default meta description */
   description:
     "The authoritative guide and geospatial atlas for trekking, peak expeditions, and alpine exploration across the Indian Himalayas: Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand. Verified trails, interactive 3D terrain maps, and high-altitude safety protocols.",
   /** Author/byline used on guide articles */
-  author: "The Himalayan Trails Team",
+  author: "Discover Himalayan Trails Team",
   /** Contact addresses */
   email: {
-    hello: "hello@thehimalayantrails.com",
-    photos: "photos@thehimalayantrails.com",
+    hello: "hello@discoverhimalayantrails.com",
+    photos: "photos@discoverhimalayantrails.com",
   },
   /** Social profiles. Replace # with real URLs once accounts are created. */
   social: {

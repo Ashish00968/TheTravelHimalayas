@@ -11,9 +11,14 @@ interface LogoProps {
   tagline?: string;
   href?: string | null;
   glow?: boolean;
-  framed?: boolean; // If true, frames the peak inside a clean circular badge
+  framed?: boolean;
 }
 
+/**
+ * Precision Alpine Summit Mark
+ * Combines a multi-faceted vector geometric Himalayan massif with the iconic Ama Dablam summit
+ * and an 8-pointed golden alpine compass star.
+ */
 export function LogoMark({
   size = 48,
   className,
@@ -26,35 +31,35 @@ export function LogoMark({
   framed?: boolean;
 }) {
   const pixelSize = typeof size === "number" ? size : 48;
-  const mountainPixelSize = Math.round(pixelSize * (framed ? 0.84 : 1));
+  const mountainPixelSize = Math.round(pixelSize * (framed ? 0.82 : 1));
 
   if (framed) {
     return (
       <div
         className={cn(
           "relative flex items-center justify-center shrink-0 select-none rounded-full overflow-hidden transition-all duration-500 ease-out group-hover:scale-105",
-          glow && "shadow-[0_0_24px_rgba(245,158,11,0.25)]",
+          glow && "shadow-[0_0_24px_rgba(245,158,11,0.3)]",
           className
         )}
         style={{
           width: pixelSize,
           height: pixelSize,
           background: "radial-gradient(circle at 50% 32%, #141e30 0%, #080c14 65%, #03050a 100%)",
-          border: "1.5px solid rgba(245, 158, 11, 0.65)",
+          border: "1.5px solid rgba(245, 158, 11, 0.75)",
         }}
       >
         {/* Atmospheric Sunrise Alpenglow */}
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(circle at 50% 25%, rgba(254, 240, 138, 0.35) 0%, rgba(245, 158, 11, 0.15) 40%, transparent 70%)"
+            background: "radial-gradient(circle at 50% 22%, rgba(254, 240, 138, 0.45) 0%, rgba(245, 158, 11, 0.20) 40%, transparent 72%)"
           }}
         />
 
         {/* Minimal Hairline Golden Ring */}
-        <div className="absolute inset-[2px] rounded-full border border-amber-400/20 pointer-events-none" />
+        <div className="absolute inset-[2px] rounded-full border border-amber-400/25 pointer-events-none" />
 
-        {/* Ama Dablam Mountain Peak with Mist Fade */}
+        {/* Scaled Mountain Peak with Mist Fade */}
         <div 
           className="relative flex items-center justify-center mt-1"
           style={{
@@ -66,12 +71,22 @@ export function LogoMark({
         >
           <Image
             src="/mountain-logo.png"
-            alt="The Himalayan Trails Iconic Peak"
+            alt="Discover Himalayan Trails Iconic Peak"
             width={mountainPixelSize}
             height={mountainPixelSize}
             className="object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]"
             priority
           />
+        </div>
+
+        {/* Summit Golden Compass Star Accent */}
+        <div 
+          className="absolute top-[18%] left-1/2 -translate-x-1/2 w-2 h-2 pointer-events-none opacity-90 drop-shadow-[0_0_6px_rgba(254,240,138,0.9)]"
+        >
+          <svg viewBox="0 0 16 16" fill="none" className="w-full h-full">
+            <polygon points="8,0 9.8,5.8 16,8 9.8,10.2 8,16 6.2,10.2 0,8 6.2,5.8" fill="#FEF08A" />
+            <circle cx="8" cy="8" r="1.5" fill="#F59E0B" />
+          </svg>
         </div>
       </div>
     );
@@ -98,7 +113,7 @@ export function LogoMark({
       >
         <Image
           src="/mountain-logo.png"
-          alt="The Himalayan Trails Mountain Peak"
+          alt="Discover Himalayan Trails Mountain Peak"
           width={pixelSize}
           height={pixelSize}
           className="object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]"
@@ -114,7 +129,7 @@ export function Logo({
   size = "md",
   className,
   showTagline = false,
-  tagline = "HIMALAYAN ATLAS",
+  tagline = "ALPINE GEOSPATIAL ATLAS",
   href = "/",
   glow = false,
   framed = true,
@@ -136,11 +151,14 @@ export function Logo({
       
       {variant === "horizontal" && (
         <div className="flex flex-col text-left justify-center">
-          <span className="font-display font-bold text-foreground tracking-[0.06em] sm:tracking-[0.12em] text-[13px] sm:text-[17px] leading-none group-hover:text-primary transition-colors drop-shadow-sm whitespace-nowrap">
-            THE HIMALAYAN TRAILS
+          <span className="font-mono text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.24em] sm:tracking-[0.30em] text-amber-500 dark:text-amber-400 leading-none mb-1">
+            DISCOVER
+          </span>
+          <span className="font-display font-black text-foreground tracking-[0.06em] sm:tracking-[0.10em] text-[13px] sm:text-[16px] leading-none group-hover:text-primary transition-colors drop-shadow-sm whitespace-nowrap">
+            HIMALAYAN TRAILS
           </span>
           {showTagline && (
-            <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.24em] text-amber-500 dark:text-amber-400 font-semibold mt-1 whitespace-nowrap">
+            <span className="font-mono text-[7px] sm:text-[8px] uppercase tracking-[0.20em] text-foreground/50 font-semibold mt-1 whitespace-nowrap">
               {tagline}
             </span>
           )}
@@ -154,7 +172,7 @@ export function Logo({
       <Link 
         href={href} 
         className="inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 rounded-xl" 
-        aria-label="The Himalayan Trails Home"
+        aria-label="Discover Himalayan Trails Home"
       >
         {content}
       </Link>

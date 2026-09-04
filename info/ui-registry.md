@@ -1,6 +1,6 @@
 # UI Component Registry — Himalayan Design System
 
-This registry documents the active design tokens, visual patterns, and component rules across **The Himalayan Trails**.
+This registry documents the active design tokens, visual patterns, and component rules across **Discover Himalayan Trails**.
 
 ---
 

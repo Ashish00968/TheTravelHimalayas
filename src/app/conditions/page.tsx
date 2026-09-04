@@ -6,7 +6,7 @@ import { CloudSnow, ShieldAlert, PhoneCall, CalendarRange, ChevronRight } from "
 import { MountainWeatherWidget } from "@/components/shared/MountainWeatherWidget";
 
 export const metadata: Metadata = {
-  title: "Conditions & Safety | The Himalayan Trails",
+  title: "Conditions & Safety | Discover Himalayan Trails",
   description: "Real-time season conditions, mountain safety protocols, and emergency contacts for the Himalayas.",
 };
 

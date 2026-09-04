@@ -28,14 +28,14 @@
   <circle cx="100" cy="100" r="90" fill="none" stroke="#F59E0B" stroke-width="0.75" stroke-dasharray="2.5 2.5" opacity="0.5" />
 
   <!-- Circular Typography -->
-  <text fill="#FEF08A" font-family="'Cinzel', 'Playfair Display', Georgia, serif" font-size="8.5" font-weight="700" letter-spacing="3.2" opacity="0.95">
+  <text fill="#FEF08A" font-family="'Cinzel', 'Playfair Display', Georgia, serif" font-size="7.5" font-weight="700" letter-spacing="2.6" opacity="0.95">
     <textPath href="#sealHarcTop" startOffset="50%" text-anchor="middle">
-      THE HIMALAYAN TRAILS
+      DISCOVER HIMALAYAN TRAILS
     </textPath>
   </text>
-  <text fill="#E2E8F0" font-family="'Inter', sans-serif" font-size="6.5" font-weight="600" letter-spacing="2.8" opacity="0.85">
+  <text fill="#E2E8F0" font-family="'Inter', sans-serif" font-size="6" font-weight="600" letter-spacing="2.5" opacity="0.85">
     <textPath href="#sealHarcBottom" startOffset="50%" text-anchor="middle">
-      ★ EST. 2026 • PREMIUM EXPEDITIONS ★
+      ★ EST. 2026 • PREMIUM ALPINE ATLAS ★
     </textPath>
   </text>
 

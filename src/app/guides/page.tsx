@@ -3,10 +3,10 @@ import { guides } from "@/data/guides";
 import { GuidesHub } from "@/components/content/GuidesHub";
 
 export const metadata: Metadata = {
-  title: "Field Guides & Planning | The Himalayan Trails",
+  title: "Field Guides & Planning | Discover Himalayan Trails",
   description:
     "Comprehensive field guides covering transportation, permits, gear packing, and route planning for Himalayan expeditions.",
-  alternates: { canonical: "https://thehimalayantrails.com/guides" },
+  alternates: { canonical: "https://discoverhimalayantrails.com/guides" },
 };
 
 export default function GuidesListingPage() {

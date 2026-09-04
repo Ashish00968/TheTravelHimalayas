@@ -5,14 +5,14 @@ import Link from "next/link";
 import { Compass, Map, Calculator, Package, CloudLightning } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Expedition Planning Suite | The Himalayan Trails",
+  title: "Expedition Planning Suite | Discover Himalayan Trails",
   description:
     "Professional deterministic tools for Himalayan trekking: Trek Finder, Comparison Matrix, Budget Calculator, Packing List Generator, and Seasonal Matrix.",
-  alternates: { canonical: "https://thehimalayantrails.com/plan" },
+  alternates: { canonical: "https://discoverhimalayantrails.com/plan" },
   openGraph: {
-    title: "Expedition Planning Suite | The Himalayan Trails",
+    title: "Expedition Planning Suite | Discover Himalayan Trails",
     description: "Match, compare, budget, and prepare for your next Himalayan expedition with precision planning tools.",
-    url: "https://thehimalayantrails.com/plan",
+    url: "https://discoverhimalayantrails.com/plan",
     type: "website",
   },
 };

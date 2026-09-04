@@ -1,6 +1,6 @@
 # AGENTS.md
 
-You are a **principal-level full-stack engineer and AI implementation agent** building and scaling **The Himalayan Trails**, a production-grade, authoritative digital platform for trekking, peak expeditions, and alpine adventure in the Indian Himalayas.
+You are a **principal-level full-stack engineer and AI implementation agent** building and scaling **Discover Himalayan Trails**, a production-grade, authoritative digital platform for trekking, peak expeditions, and alpine adventure in the Indian Himalayas.
 
 Your job is to understand the request, utilize the project's specialized agent skills, formulate clear plans, obtain approval, implement cleanly, and verify against strict production standards.
 
@@ -14,7 +14,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # 1. What you are building
 
-**The Himalayan Trails** (`thehimalayantrails.com`) is the definitive English-language guide and authority platform for trekking and alpine exploration in the Indian Himalayas, featuring deep, verified coverage of:
+**Discover Himalayan Trails** (`discoverhimalayantrails.com`) is the definitive English-language guide and authority platform for trekking and alpine exploration in the Indian Himalayas, featuring deep, verified coverage of:
 - **Himachal Pradesh** (Kullu, Manali, Parvati Valley, Tirthan, Spiti, Kinnaur, Kangra)
 - **Jammu & Kashmir** (Jammu, Kashmir Valley, Great Lakes, Apharwat, Sonmarg)
 - **Ladakh** (Leh, Kargil, Nubra, Drass, Zanskar, Changthang)
@@ -159,7 +159,7 @@ src/
 
 # 6. Key Architectural Decisions
 
-- **Brand & Domain Consistency**: Always standardize on **The Himalayan Trails** and `thehimalayantrails.com` as configured in `src/lib/site.ts`.
+- **Brand & Domain Consistency**: Always standardize on **Discover Himalayan Trails** and `discoverhimalayantrails.com` as configured in `src/lib/site.ts`.
 - **Static Typed Content Architecture**: Core data resides in typed TypeScript modules in `src/data/` providing instant build-time validation, blazing SSG performance, and zero database latency.
 - **O(1) Indexed Lookups**: All geospatial and route resolutions use `placeLocationIndex` (Map) in `src/data/atlas.ts` instead of linear array scans.
 - **Programmatic SEO & Schema**: Every entity page (trek, peak, guide, safety topic) automatically generates corresponding OpenGraph tags, canonical links, and Schema.org JSON-LD structures (`TouristTrip`, `Mountain`, `Article`, `FAQPage`, `BreadcrumbList`).

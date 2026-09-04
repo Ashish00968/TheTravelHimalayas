@@ -1,4 +1,4 @@
-# The Himalayan Trails
+# Discover Himalayan Trails
 
 The definitive English-language guide, geospatial atlas, and expedition planning platform for high-altitude trekking, peak climbs, and alpine exploration across the North Indian Himalayas (Jammu & Kashmir, Himachal Pradesh, Ladakh, and Uttarakhand).
 
@@ -6,7 +6,7 @@ The definitive English-language guide, geospatial atlas, and expedition planning
 
 ## Overview
 
-**The Himalayan Trails** (`thehimalayantrails.com`) is a high-performance, authoritative digital platform built with Next.js 15 App Router and React 19. It combines 100% static site generation (SSG), rich Schema.org JSON-LD structured data, interactive 3D satellite mapping (Mapbox GL), and a cinematic Himalayan Midnight-Indigo aesthetic.
+**Discover Himalayan Trails** (`discoverhimalayantrails.com`) is a high-performance, authoritative digital platform built with Next.js 15 App Router and React 19. It combines 100% static site generation (SSG), rich Schema.org JSON-LD structured data, interactive 3D satellite mapping (Mapbox GL), and a cinematic Himalayan Midnight-Indigo aesthetic.
 
 ### Core Capabilities
 - **Geospatial 3D Atlas**: Interactive Mapbox satellite mapping with terrain elevation (1.7x DEM relief), territory-to-valley navigation, and single-focus expedition briefing cards.

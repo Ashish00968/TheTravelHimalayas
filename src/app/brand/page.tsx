@@ -79,7 +79,7 @@ export default function BrandAssetPage() {
 
       // Trigger download
       const link = document.createElement("a");
-      link.download = "the-himalayan-trails-instagram-dp.png";
+      link.download = "discover-himalayan-trails-instagram-dp.png";
       link.href = canvas.toDataURL("image/png");
       link.click();
     };
@@ -103,7 +103,7 @@ export default function BrandAssetPage() {
             </span>
           </div>
           <h1 className="font-display text-3xl sm:text-5xl font-bold text-foreground mb-4">
-            The Himalayan Trails Logo &amp; DP
+            Discover Himalayan Trails Logo &amp; DP
           </h1>
           <p className="text-foreground/70 text-base sm:text-lg max-w-2xl font-light">
             Streamlined, modern, and professional brand identity featuring the iconic Ama Dablam summit framed in brushed gold with atmospheric sunrise alpenglow.
@@ -178,7 +178,7 @@ export default function BrandAssetPage() {
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5" />
-                  <span><strong>Clean Horizontal Typography:</strong> Streamlined navbar brand to pure &quot;THE HIMALAYAN TRAILS&quot;.</span>
+                  <span><strong>Sculpted Luxury Typography:</strong> Sculpted navbar brand to authoritative &quot;DISCOVER HIMALAYAN TRAILS&quot;.</span>
                 </li>
               </ul>
             </div>

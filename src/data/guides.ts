@@ -5,7 +5,7 @@ export const guides: Guide[] = [
     slug: "best-time-to-visit-manali",
     title: "Best Time To Visit Manali",
     category: "Travel Info",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description:
       "A seasonal breakdown of Manali's weather, crowds, and activities to help you pick the perfect month for your trip.",
     content: `## Overview
@@ -50,7 +50,7 @@ For trekking and adventure sports, visit between **May and June** or **September
     slug: "how-to-reach-manali",
     title: "How To Reach Manali",
     category: "Transportation",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description:
       "Complete transport guide covering flights, buses, trains, and road trips to reach Manali from major Indian cities.",
     content: `## Getting There
@@ -99,7 +99,7 @@ The nearest major railway station is **Joginder Nagar** (narrow gauge) or **Chan
     slug: "trekking-permits-himachal",
     title: "Trekking Permits In Himachal",
     category: "Permits",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description:
       "Everything you need to know about permits, fees, and regulations for trekking in Himachal Pradesh.",
     content: `## Do You Need a Permit?
@@ -150,7 +150,7 @@ Most treks around Manali in the Kullu district do not require a formal permit bu
     slug: "packing-list-himalayan-treks",
     title: "Packing List For Himalayan Treks",
     category: "Gear",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description:
       "The essential packing checklist covering clothing, gear, and supplies for multi-day Himalayan treks.",
     content: `## Packing Philosophy
@@ -209,7 +209,7 @@ Never leave base without these items in your daypack:
     slug: "best-day-hikes-near-manali",
     title: "Best Day Hikes Near Manali",
     category: "Hiking",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description:
       "Five accessible day hikes around Manali ranging from easy waterfall walks to challenging ridge climbs.",
     content: `## Why Day Hike from Manali?
@@ -277,7 +277,7 @@ While the full Bhrigu Lake trek is a 2-day affair, you can hike to the scenic Gu
     slug: "how-to-hire-a-local-guide-manali",
     title: "How to Hire a Local Guide in Manali",
     category: "Planning",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description: "Everything you need to know about finding, vetting, and hiring a certified local trekking guide in Manali — rates, certifications, red flags to avoid.",
     content: `## Why You Need a Local Guide
 
@@ -348,7 +348,7 @@ Local guides in Himachal Pradesh are proud professionals. Show respect by:
     slug: "spiti-valley-road-trip-guide",
     title: "Spiti Valley Road Trip: Complete Self-Drive Guide",
     category: "Regional Guide",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description: "The definitive self-drive guide to the Spiti Valley circuit — covering route planning, best time to go, permits, fuel stops, and must-visit villages in this remote Himalayan cold desert.",
     content: `## What is Spiti Valley?
 
@@ -416,7 +416,7 @@ Kaza, Langza, and Mud village offer homestays run by local families (₹500–1,
     slug: "monsoon-trekking-himachal",
     title: "Monsoon Trekking in Himachal Pradesh",
     category: "Seasonal Guide",
-    author: "The Himalayan Trails Team",
+    author: "Discover Himalayan Trails Team",
     description: "Is it safe to trek in Himachal Pradesh during monsoon? A practical guide covering which trails stay safe, which to avoid, what gear you need, and what to expect from July-August treks.",
     content: `## The Monsoon in Himachal Pradesh
 

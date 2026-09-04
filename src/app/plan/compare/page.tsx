@@ -5,7 +5,7 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
 
 export const metadata: Metadata = {
-  title: "Trek Comparison | Plan Your Trip | The Himalayan Trails",
+  title: "Trek Comparison | Plan Your Trip | Discover Himalayan Trails",
   description: "Compare side-by-side stats, itineraries, and difficulties of multiple Himalayan treks.",
 };
 

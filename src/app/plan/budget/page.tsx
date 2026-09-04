@@ -5,7 +5,7 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
 
 export const metadata: Metadata = {
-  title: "Trek Budget Calculator | Plan Your Trip | The Himalayan Trails",
+  title: "Trek Budget Calculator | Plan Your Trip | Discover Himalayan Trails",
   description: "Estimate the total cost of your Himalayan trek including permits, guides, gear rentals, and transport.",
 };
 

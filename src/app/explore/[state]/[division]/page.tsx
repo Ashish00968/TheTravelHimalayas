@@ -25,12 +25,12 @@ export async function generateMetadata({
   if (!region || !subRegion) return {};
 
   return {
-    title: `${subRegion.name} Trails, Peaks & Places | ${region.name} | The Himalayan Trails`,
+    title: `${subRegion.name} Trails, Peaks & Places | ${region.name} | Discover Himalayan Trails`,
     description:
       subRegion.tagline ||
       `Explore all treks, day hikes, peaks, and scenic places in ${subRegion.name}, ${region.name}.`,
     alternates: {
-      canonical: `https://thehimalayantrails.com/explore/${state}/${division}`,
+      canonical: `https://discoverhimalayantrails.com/explore/${state}/${division}`,
     },
   };
 }

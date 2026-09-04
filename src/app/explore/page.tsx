@@ -6,17 +6,17 @@ import { ExploreDirectory, ExplorePlaceItem } from "@/components/explore/Explore
 import { ArrowRight, Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Himalayan Atlas & Expedition Directory | The Himalayan Trails",
+  title: "Himalayan Atlas & Expedition Directory | Discover Himalayan Trails",
   description:
     "Comprehensive guide to 50+ high-altitude treks, technical peaks, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir.",
   alternates: {
-    canonical: "https://thehimalayantrails.com/explore",
+    canonical: "https://discoverhimalayantrails.com/explore",
   },
   openGraph: {
-    title: "Himalayan Atlas & Expedition Directory | The Himalayan Trails",
+    title: "Himalayan Atlas & Expedition Directory | Discover Himalayan Trails",
     description:
       "Explore 50+ verified treks, technical summits, and high passes across 4 North Indian Himalayan territories.",
-    url: "https://thehimalayantrails.com/explore",
+    url: "https://discoverhimalayantrails.com/explore",
     type: "website",
   },
 };
@@ -67,13 +67,13 @@ export default function ExplorePage() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://thehimalayantrails.com",
+        item: "https://discoverhimalayantrails.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Explore Atlas",
-        item: "https://thehimalayantrails.com/explore",
+        item: "https://discoverhimalayantrails.com/explore",
       },
     ],
   };

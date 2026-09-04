@@ -37,7 +37,7 @@ export function ContactClient() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: TRANSITION_EASE }}
             >
-              The Himalayan Trails
+              Discover Himalayan Trails
             </motion.h1>
             <motion.p
               className="text-lg md:text-xl text-white/70 font-light leading-relaxed"
@@ -80,10 +80,10 @@ export function ContactClient() {
               </p>
             </div>
             <a
-              href="mailto:hello@thehimalayantrails.com"
+              href="mailto:hello@discoverhimalayantrails.com"
               className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-white/5"
             >
-              hello@thehimalayantrails.com
+              hello@discoverhimalayantrails.com
             </a>
           </motion.div>
 

@@ -21,13 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!guide) return {};
 
   return {
-    title: `${guide.title} | The Himalayan Trails`,
+    title: `${guide.title} | Discover Himalayan Trails`,
     description: guide.description,
-    alternates: { canonical: `https://thehimalayantrails.com/guides/${guide.slug}` },
+    alternates: { canonical: `https://discoverhimalayantrails.com/guides/${guide.slug}` },
     openGraph: {
       title: guide.title,
       description: guide.description,
-      url: `https://thehimalayantrails.com/guides/${guide.slug}`,
+      url: `https://discoverhimalayantrails.com/guides/${guide.slug}`,
       type: "article",
     },
     twitter: {

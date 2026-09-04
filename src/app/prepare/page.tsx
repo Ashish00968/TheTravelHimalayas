@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Backpack, FileText, HeartPulse, Map as MapIcon, ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Prepare for the Himalayas | The Himalayan Trails",
+  title: "Prepare for the Himalayas | Discover Himalayan Trails",
   description: "Comprehensive guides on fitness, gear, altitude safety, and permits for your Himalayan expedition.",
 };
 

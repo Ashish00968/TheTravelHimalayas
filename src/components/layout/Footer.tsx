@@ -140,7 +140,7 @@ export function Footer() {
           <div className="flex items-start gap-3">
             <Shield className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
             <div className="text-xs text-foreground/70 font-light leading-relaxed">
-              <strong className="text-amber-600 dark:text-amber-300 font-semibold">Development Phase &amp; Legal Disclaimer:</strong> The Himalayan Trails is currently in an active development preview. All photography, location imagery, coordinates, and route metadata are illustrative placeholders for technical demonstration and may not reflect real-world locations or current terrain conditions. High-altitude trekking involves inherent dangers. Users must independently verify all route logistics with local authorities. The platform accepts no legal liability for expedition decisions or outcomes.{" "}
+              <strong className="text-amber-600 dark:text-amber-300 font-semibold">Development Phase &amp; Legal Disclaimer:</strong> Discover Himalayan Trails is currently in an active development preview. All photography, location imagery, coordinates, and route metadata are illustrative placeholders for technical demonstration and may not reflect real-world locations or current terrain conditions. High-altitude trekking involves inherent dangers. Users must independently verify all route logistics with local authorities. The platform accepts no legal liability for expedition decisions or outcomes.{" "}
               <Link href="/disclaimer" className="text-amber-600 dark:text-amber-400 hover:underline font-mono font-medium">
                 Read Full Terms &amp; Disclaimer →
               </Link>
@@ -153,7 +153,7 @@ export function Footer() {
           className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-foreground/[0.08]"
         >
           <div className="text-foreground/50 text-xs font-light">
-            &copy; {new Date().getFullYear()} The Himalayan Trails. Designed for high-altitude explorers.
+            &copy; {new Date().getFullYear()} Discover Himalayan Trails. Designed for high-altitude explorers.
           </div>
           <div className="flex items-center gap-6 text-foreground/50 text-xs font-light">
             <Link href="/disclaimer" className="hover:text-foreground transition-colors">Legal Disclaimer</Link>

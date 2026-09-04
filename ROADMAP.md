@@ -1,8 +1,8 @@
-# The Himalayan Trails — Launch Plan, SEO & Engineering Roadmap
+# Discover Himalayan Trails — Launch Plan, SEO & Engineering Roadmap
 
 _Last updated: September 2026_
 
-This document is the single strategic reference for taking **The Himalayan Trails** (`thehimalayantrails.com`) from development to a published, high-authority alpine guide platform.
+This document is the single strategic reference for taking **Discover Himalayan Trails** (`discoverhimalayantrails.com`) from development to a published, high-authority alpine guide platform.
 
 ---
 
@@ -52,7 +52,7 @@ The platform prioritizes deterministic speed, sub-millisecond static page genera
 
 ## 3. Pre-Launch Checklist
 
-1. **Domain & Hosting** — Configure `thehimalayantrails.com` on Vercel with apex to `www` redirect.
+1. **Domain & Hosting** — Configure `discoverhimalayantrails.com` on Vercel with apex to `www` redirect.
 2. **OG Image Asset** — Add high-res `public/og-default.jpg` (1200×630) social share card.
 3. **Favicon Package** — Branded favicon package (`favicon.ico`, `apple-icon.png`).
 4. **Search Console** — Verify property in Google Search Console and submit `/sitemap.xml`.
