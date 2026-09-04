@@ -5,9 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Search, Menu, X, Map, BookOpen, Compass, Info, Calendar, CloudLightning, Shield } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { SearchModal } from "@/components/search/SearchModal";
+import dynamic from "next/dynamic";
 import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+
+const SearchModal = dynamic(
+  () => import("@/components/search/SearchModal").then((mod) => mod.SearchModal),
+  { ssr: false }
+);
 
 interface NavLink {
   label: string;

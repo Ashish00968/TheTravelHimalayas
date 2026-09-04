@@ -11,11 +11,3 @@ export const GlobalMap = dynamic(() => import("./GlobalMapClient"), {
   )
 });
 
-export const LocationMap = dynamic(() => import("./LocationMapClient"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[400px] rounded-3xl bg-surface border border-white/10 flex items-center justify-center animate-pulse">
-      <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-    </div>
-  )
-});

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora, Hanken_Grotesk } from "next/font/google";
+import { Sora, Hanken_Grotesk, Plus_Jakarta_Sans, Playfair_Display, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navigation } from "@/components/layout/Navigation";
@@ -18,6 +18,25 @@ const sora = Sora({
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-hanken",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -83,7 +102,18 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={cn(sora.variable, hanken.variable, "font-sans selection:bg-primary/30 selection:text-white")}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(
+        sora.variable,
+        hanken.variable,
+        jakarta.variable,
+        playfair.variable,
+        spaceMono.variable,
+        "font-sans selection:bg-primary/30 selection:text-white"
+      )}
+    >
       <head>
         <ThemeScript />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />

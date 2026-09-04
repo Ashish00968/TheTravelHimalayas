@@ -97,6 +97,13 @@
     - Crafted precision vector alpine mark in `src/components/brand/Logo.tsx` and `src/components/brand/LogoSeal.tsx` featuring multi-faceted pyramid summits, 8-point gold navigational compass star, and sculpted two-tier lockup (`DISCOVER` uppercase eyebrow + `HIMALAYAN TRAILS` bold title).
     - Updated all page metadata, OpenGraph tags, dynamic Twitter cards, canonical links, and Schema.org JSON-LD structured data across all 110 routes.
     - Updated legal disclaimers, footer copyright, guide author fields, package name, and engineering architecture docs.
+  - **Precision Alpine Planning Redesign & Comprehensive Site Optimization (2026-09-04)**:
+    - Redesigned "Precision Alpine Planning" section to look like professional alpine software instruments with dedicated glowing icon stages (`Orbit`, `Compass`, `GitCompare`, `Calculator`, `CheckSquare`, `CalendarDays`) rather than scenic photo backgrounds.
+    - Eliminated 6 heavy external background photo requests on the homepage, significantly improving initial LCP and responsiveness.
+    - Code-split `SearchModal` on-demand via `next/dynamic` with `ssr: false` in `Navigation.tsx`, taking the entire search dataset out of the initial page load bundle across all 110 pages.
+    - Self-hosted all Google Fonts (`Plus_Jakarta_Sans`, `Playfair_Display`, `Space_Mono`, `Sora`, `Hanken_Grotesk`) via `next/font/google` and removed the render-blocking CSS `@import` from `globals.css`.
+    - Enabled Next.js 15 compiler optimizations in `next.config.ts`: `optimizePackageImports: ["lucide-react", "framer-motion"]`, production console stripping, and `reactStrictMode: true`.
+    - Cleaned out 12 unused components, dead data files, obsolete utility functions, boilerplate SVGs, dummy scaffolding images (`public/images/`), and `.DS_Store` cache files.
 
 ## Current State
 - Next.js development server is cleanly running on `http://localhost:3000`.

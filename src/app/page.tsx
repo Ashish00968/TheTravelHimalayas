@@ -21,12 +21,13 @@ import {
   Compass,
   Mountain,
   Shield,
-  Calendar,
-  Layers,
-  Gauge,
   Clock,
   HeartPulse,
-  Award
+  Orbit,
+  GitCompare,
+  Calculator,
+  CheckSquare,
+  CalendarDays
 } from "lucide-react";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
@@ -1221,6 +1222,7 @@ function IconicTreksSection() {
 }
 
 /* ── 4. Planning Suite Hub (Human-Crafted Photographic Editorial Bento) ──── */
+/* ── 4. Planning Suite Hub (Deterministic Alpine Instruments) ─────────────── */
 const PLANNING_TOOLS = [
   {
     id: "atlas",
@@ -1229,13 +1231,11 @@ const PLANNING_TOOLS = [
     category: "3D WebGL Terrain",
     desc: "Inspect digital elevation models, trace high mountain passes, and examine the verticality of Himalayan valleys in high-resolution 3D WebGL.",
     href: "/map",
-    icon: Map,
+    icon: Orbit,
     accent: "#3B82F6",
-    glow: "rgba(59, 130, 246, 0.45)",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=78",
+    glow: "rgba(59, 130, 246, 0.25)",
     action: "Launch 3D Atlas",
-    tags: ["Digital Elevation Model", "360° Ridge Vantage", "4 Territories"],
-    span: "md:col-span-2 lg:col-span-2",
+    tags: ["1.7x DEM Relief", "360° Ridge Vantage", "4 Territories"],
   },
   {
     id: "trek-finder",
@@ -1246,26 +1246,22 @@ const PLANNING_TOOLS = [
     href: "/plan/trek-finder",
     icon: Compass,
     accent: "#F59E0B",
-    glow: "rgba(245, 158, 11, 0.4)",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=75",
+    glow: "rgba(245, 158, 11, 0.25)",
     action: "Find Your Trail",
     tags: ["59 Trails Indexed", "Altitude Ceiling", "Difficulty Tiers"],
-    span: "col-span-1",
   },
   {
     id: "compare",
     num: "03",
     title: "Head-to-Head Comparison",
-    category: "Dual Trail Telemetry",
+    category: "Dual Route Telemetry",
     desc: "Weigh two routes side-by-side. Compare vertical ascent meters, gradient steepness, pass altitudes, and permit rules.",
     href: "/plan/compare",
-    icon: Layers,
+    icon: GitCompare,
     accent: "#3B82F6",
-    glow: "rgba(59, 130, 246, 0.4)",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=75",
+    glow: "rgba(59, 130, 246, 0.25)",
     action: "Compare Routes",
-    tags: ["Pass Elevation Delta", "Gradient Severity", "Permit Complexity"],
-    span: "col-span-1",
+    tags: ["Elevation Delta", "Gradient Severity", "Permit Rules"],
   },
   {
     id: "budget",
@@ -1274,13 +1270,11 @@ const PLANNING_TOOLS = [
     category: "Logistics & Tariffs",
     desc: "Calculate realistic expedition outlays including certified mountain guides, mule teams, porter wages, and wildlife fees.",
     href: "/plan/budget",
-    icon: Gauge,
+    icon: Calculator,
     accent: "#0D9488",
-    glow: "rgba(13, 148, 136, 0.4)",
-    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=75",
+    glow: "rgba(13, 148, 136, 0.25)",
     action: "Calculate Budget",
     tags: ["Verified Tariffs", "Mule Logistics", "State Forest Fees"],
-    span: "col-span-1",
   },
   {
     id: "packing",
@@ -1289,13 +1283,11 @@ const PLANNING_TOOLS = [
     category: "Gear Loadout Audit",
     desc: "Generate weight-calibrated gear manifests tailored for 3-season traverses, sub-zero pass crossings, and AMS medicine.",
     href: "/plan/packing",
-    icon: Award,
+    icon: CheckSquare,
     accent: "#7C3AED",
-    glow: "rgba(124, 58, 237, 0.4)",
-    image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=75",
+    glow: "rgba(124, 58, 237, 0.25)",
     action: "Generate Checklist",
-    tags: ["Sub-Zero Shells", "C1 Crampons", "AMS Medical Manifest"],
-    span: "col-span-1",
+    tags: ["Layering Systems", "C1 Crampons", "AMS Medical Kit"],
   },
   {
     id: "season",
@@ -1304,13 +1296,11 @@ const PLANNING_TOOLS = [
     category: "Meteorological Windows",
     desc: "Understand month-by-month snowmelt timelines, monsoon rain shadows, post-monsoon crystal clarity, and winter freeze.",
     href: "/plan/season",
-    icon: Calendar,
+    icon: CalendarDays,
     accent: "#06B6D4",
-    glow: "rgba(6, 182, 212, 0.4)",
-    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=75",
+    glow: "rgba(6, 182, 212, 0.25)",
     action: "Explore Seasons",
-    tags: ["Snowmelt Windows", "Rain Shadow Valleys", "Autumn Clarity"],
-    span: "col-span-1 md:col-span-2 lg:col-span-3",
+    tags: ["Snowmelt Windows", "Rain Shadows", "Autumn Clarity"],
   },
 ];
 
@@ -1337,7 +1327,7 @@ function PlanningSuiteSection() {
           </p>
         </motion.div>
 
-        {/* Asymmetric Editorial Bento Grid */}
+        {/* 6-Instrument Balanced Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
@@ -1348,87 +1338,86 @@ function PlanningSuiteSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, delay: index * 0.08, ease: EASE }}
-                className={tool.span}
+                className="h-full"
               >
-                <Card3D depth={8} glareColor={tool.glow} className="rounded-2xl sm:rounded-3xl h-full">
+                <Card3D depth={6} glareColor={tool.glow} className="rounded-2xl sm:rounded-3xl h-full">
                   <Link
                     href={tool.href}
-                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden p-5 sm:p-7 flex flex-col justify-between border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl block w-full bg-slate-950/60 active:scale-[0.98] min-h-[280px] sm:min-h-[300px] h-full"
-                    style={{
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
-                    }}
+                    className="group relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 bg-surface/90 dark:bg-[#0A1122]/90 backdrop-blur-xl transition-all duration-300 shadow-md hover:shadow-xl active:scale-[0.99] h-full min-h-[320px] overflow-hidden block"
                   >
-                    {/* Full-Bleed Authentic Himalayan Photography */}
-                    <Image
-                      src={tool.image}
-                      alt={tool.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                    {/* Ambient Corner Accent Light */}
+                    <div 
+                      className="absolute -top-20 -right-20 w-44 h-44 rounded-full pointer-events-none opacity-0 group-hover:opacity-25 transition-opacity duration-500 blur-3xl"
+                      style={{ background: tool.accent }}
                     />
 
-                    {/* Cinematic Vignette Gradient Overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/65 to-black/25 z-[1]" />
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-[1]"
-                      style={{ background: `radial-gradient(circle at 50% 100%, ${tool.accent}70, transparent 70%)` }}
-                    />
-
-                    {/* Top Header Row */}
-                    <div className="relative z-10 flex items-center justify-between">
-                      <span
-                        className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase backdrop-blur-md bg-black/75 flex items-center gap-1.5 shadow-md"
-                        style={{ border: `1px solid ${tool.accent}80`, color: tool.accent }}
+                    {/* Top Row: Category Badge + Status */}
+                    <div className="relative z-10 flex items-center justify-between gap-2 mb-6">
+                      <div 
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border transition-colors"
+                        style={{ 
+                          color: tool.accent, 
+                          borderColor: `${tool.accent}33`,
+                          backgroundColor: `${tool.accent}0D`
+                        }}
                       >
                         <span>{tool.num}</span>
-                        <span className="text-white/60">•</span>
+                        <span className="opacity-40">•</span>
                         <span>{tool.category}</span>
-                      </span>
+                      </div>
 
-                      <div 
-                        className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform"
-                      >
-                        <Icon className="w-4 h-4" style={{ color: tool.accent }} />
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-wider uppercase text-foreground/45">
+                        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: tool.accent }} />
+                        <span>Tool</span>
                       </div>
                     </div>
 
-                    {/* Bottom Content Area */}
-                    <div className="relative z-10 pt-8">
-                      <h3 
-                        className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-amber-200 transition-colors leading-tight mb-2"
-                        style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}
-                      >
+                    {/* Middle: Prominent Instrument Icon + Title + Description */}
+                    <div className="relative z-10 flex-1 flex flex-col">
+                      {/* Dedicated Tool Icon Stage */}
+                      <div className="mb-5">
+                        <div 
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110 shadow-sm"
+                          style={{ 
+                            backgroundColor: `${tool.accent}14`,
+                            borderColor: `${tool.accent}35`,
+                            color: tool.accent,
+                            boxShadow: `0 8px 24px -6px ${tool.accent}30`
+                          }}
+                        >
+                          <Icon className="w-7 h-7" />
+                        </div>
+                      </div>
+
+                      <h3 className="font-display font-bold text-xl sm:text-2xl text-foreground group-hover:text-primary transition-colors leading-tight mb-2.5 tracking-tight">
                         {tool.title}
                       </h3>
 
-                      <p 
-                        className="text-white/80 text-xs sm:text-sm font-light leading-relaxed mb-4 max-w-xl line-clamp-2"
-                        style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}
-                      >
+                      <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed mb-6">
                         {tool.desc}
                       </p>
+                    </div>
 
-                      {/* Feature Tags & Action Link */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
-                        <div className="flex flex-wrap gap-1.5">
-                          {tool.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white/85 border border-white/15"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        <span
-                          className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1.5 transition-transform"
-                          style={{ color: tool.accent, textShadow: "0 2px 8px rgba(0,0,0,0.8)" }}
-                        >
-                          <span>{tool.action}</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
+                    {/* Bottom Row: Feature Tags + Action Link */}
+                    <div className="relative z-10 pt-4 border-t border-slate-100 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3 mt-auto">
+                      <div className="flex flex-wrap gap-1.5">
+                        {tool.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/75 border border-foreground/[0.08]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
+
+                      <span
+                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1 transition-transform"
+                        style={{ color: tool.accent }}
+                      >
+                        <span>{tool.action}</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
                     </div>
                   </Link>
                 </Card3D>
