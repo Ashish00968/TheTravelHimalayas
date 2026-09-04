@@ -111,13 +111,30 @@
     - **Footer Polish**: Removed the redundant duplicate newsletter input from `Footer.tsx` and replaced it with an authoritative field atlas verification badge, while softening the top border to eliminate the harsh white dividing line.
     - **Clean Production Verification**: 100% Green on `npx tsc --noEmit` (0 errors), `npm run lint` (0 warnings), and `npm run build` (110/110 static routes exported). Pushed cleanly to GitHub `origin/main`.
 
+  - **Launch Readiness, Hero Natural Scroll & Indiahikes-Grade SEO Overhaul (2026-09-04)**:
+    - **Hero Premature Fade Fix & Natural Scroll**:
+      - Eliminated the artificial sticky scroll-jacking container that was causing the hero text and buttons to prematurely fade out into an empty black void.
+      - Replaced with a majestic, fluid `min-h-[100vh]` viewport with smooth mouse perspective and subtle background scroll parallax (`translateY: [0, 160]`).
+      - All headline elements, action buttons, territory micro-dock, and live telemetry stats appear immediately on load with silky-smooth staggered entrance animation and stay 100% visible and crisp as the user scrolls.
+      - Enhanced atmospheric vignette contrast and text shadows (`0 4px 34px rgba(0,0,0,0.95)`) so titles pop crisply against snow peaks in both Light and Dark modes.
+      - 220px multi-stop gradient feather melt seamlessly flows directly into the "Four Himalayan Territories" section with zero black voids.
+    - **Indiahikes & Trek The Himalayas Competitive SEO Engine**:
+      - Researched competitor SEO architectures and content hierarchies on Indiahikes and Trek The Himalayas.
+      - Built comprehensive 10-item FAQ dataset in `src/data/homepage-faqs.ts` answering high-volume search intents (seasons by territory, beginner trails, AMS/HAPE/HACE medical triage, ILP/PAP permits, 3-layer cold gear, DIY vs guided rules, 5km fitness benchmarks, offline GPS, Leave No Trace, and realistic budgets).
+      - Built museum-grade interactive `FaqSection.tsx` with category filter tabs and smooth Framer Motion `AnimatePresence` accordions.
+      - Refactored `src/app/page.tsx` into a Server Component (RSC), exporting comprehensive metadata and embedding Schema.org `FAQPage` + `TouristTrip` JSON-LD graphs directly in pre-rendered SSR HTML for Google Rich Snippets and AI Overviews.
+    - **Verification**:
+      - `npx tsc --noEmit`: 0 errors.
+      - `npm run lint`: 0 errors, 0 warnings.
+      - `npm run build`: 110/110 static pages cleanly exported.
+      - Browser visual audit: Confirmed natural scroll, zero empty black void, sharp hero typography, and interactive FAQ filtering.
+
 ## Current State
 - Next.js development server daemon is cleanly running on `http://localhost:3000`.
-- All 4 territory images active and verified in light and dark mode.
 - Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Git origin/main: **Up to date (`46979ae`)**.
-- Hero Scroll Outro: **Smooth, seamless atmospheric dissolve in both Light and Dark modes**.
+- Hero Scroll: **Natural, fluid `min-h-[100vh]` with zero premature fade and zero black voids**.
+- SEO & FAQs: **Indiahikes-grade interactive FAQ accordion with Schema.org `FAQPage` structured data pre-rendered in SSR HTML**.
 - Mountain Safety: **High-Altitude Acclimatisation & Medicine Command Console**.
-- Newsletter & Footer: **Alpine Field Intelligence Dispatch Hub with verified trust indicators and clean footer integration**.
+- Newsletter & Footer: **Alpine Field Intelligence Dispatch Hub with verified trust indicators**.
