@@ -104,18 +104,20 @@
     - Self-hosted all Google Fonts (`Plus_Jakarta_Sans`, `Playfair_Display`, `Space_Mono`, `Sora`, `Hanken_Grotesk`) via `next/font/google` and removed the render-blocking CSS `@import` from `globals.css`.
     - Enabled Next.js 15 compiler optimizations in `next.config.ts`: `optimizePackageImports: ["lucide-react", "framer-motion"]`, production console stripping, and `reactStrictMode: true`.
     - Cleaned out 12 unused components, dead data files, obsolete utility functions, boilerplate SVGs, dummy scaffolding images (`public/images/`), and `.DS_Store` cache files.
+  - **Light Mode Atmospheric Dissolve, Mountain Safety Command Console & Alpine Dispatches Overhaul (2026-09-04)**:
+    - **Light Mode Scroll Outro Dissolve**: Fixed the abrupt, razor-sharp horizontal cut where the dark mountain hero slammed into the white "Four Himalayan Territories" section. Introduced a synchronized `heroOutroDissolve` motion layer (`[0.80, 0.98]`) that smoothly dissolves the mountain scene into the light/dark page canvas, paired with a generous 208px (`h-52`) multi-stop gradient bottom melt.
+    - **Alpine Safety & Acclimatisation Command Console**: Completely replaced the awkward banner and garish solid amber button with an authoritative, museum-grade command center. Features an emerald pulse directive badge, 3 clinical telemetry cards (Ascent Ceiling `500m / Day Limit`, Emergency Triage `Immediate Descent`, Accredited Syllabi `HMI · NIM · ABVIMAS`), refined Glacier Blue action controls, and an emergency SAR radio frequency strip.
+    - **Alpine Field Intelligence Dispatches**: Redesigned the isolated newsletter box into a cohesive dispatch station with a luxury capsule (`Mail` icon, inline subscribe action, 3 trust chips) and 3 mountain telemetry focus cards (`Pass Radar`, `Permit Alerts`, `Expedition Logs`).
+    - **Footer Polish**: Removed the redundant duplicate newsletter input from `Footer.tsx` and replaced it with an authoritative field atlas verification badge, while softening the top border to eliminate the harsh white dividing line.
+    - **Clean Production Verification**: 100% Green on `npx tsc --noEmit` (0 errors), `npm run lint` (0 warnings), and `npm run build` (110/110 static routes exported). Pushed cleanly to GitHub `origin/main`.
 
 ## Current State
-- Next.js development server is cleanly running on `http://localhost:3000`.
+- Next.js development server daemon is cleanly running on `http://localhost:3000`.
 - All 4 territory images active and verified in light and dark mode.
-- Zero TypeScript or lint errors.
 - Next.js 15 App Router + React 19: **100% Green (110/110 static pages exported)**.
 - TypeScript (`npx tsc --noEmit`): **0 errors**.
 - ESLint (`npm run lint`): **0 errors, 0 warnings**.
-- Comprehensive Expedition Planning: **Human-crafted photographic Editorial Bento Deck with authentic mountain visuals, organic asymmetric layout, and museum-grade typography**.
-- Mobile Experience: **Fully optimized, touch-friendly, dual-theme, with snap carousel and zero scroll trap**.
-- Desktop Experience: **100% preserved with cinematic 220vh scroll storytelling, sinusoidal ridge wave, and 3D card tilts**.
-- Documentation: **100% synchronized across `memory.md`, `info/`, and walkthrough**.
-- Bug Fix (2026-09-03): Resolved `Cannot find module './vendor-chunks/motion-dom.js'` error by removing obsolete `transpilePackages: ["framer-motion", "lucide-react"]` from `next.config.ts`. Verified with clean 110/110 static page export.
-- Bug Fix (2026-09-04): Resolved `Cannot find module './611.js'` error caused by `next dev` serving stale in-memory chunk manifests after `next build` had rewritten `.next`. Terminated stale PID 68996, wiped `.next`, and launched fresh dev server daemon. Verified HTTP 200 across `/`, `/explore`, `/explore/jammu-kashmir`, `/explore/himachal-pradesh`, `/plan/trek-finder`, `/plan/compare`, `/plan/budget`, and `/map`.
-
+- Git origin/main: **Up to date (`46979ae`)**.
+- Hero Scroll Outro: **Smooth, seamless atmospheric dissolve in both Light and Dark modes**.
+- Mountain Safety: **High-Altitude Acclimatisation & Medicine Command Console**.
+- Newsletter & Footer: **Alpine Field Intelligence Dispatch Hub with verified trust indicators and clean footer integration**.
