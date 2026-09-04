@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ArrowUpRight, Globe, Send, Map, Mountain, Mail, Compass, Shield } from "lucide-react";
+import { ArrowUpRight, Globe, Send, Map, Mountain, Mail, Compass, Shield, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 
 export function Footer() {
   return (
-    <footer className="relative pt-24 pb-12 overflow-hidden bg-background border-t border-foreground/[0.08] transition-colors duration-300">
+    <footer className="relative pt-16 pb-12 overflow-hidden bg-background border-t border-slate-200/60 dark:border-white/[0.06] transition-colors duration-300">
       {/* Ambient background glow */}
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[140px] pointer-events-none opacity-20 bg-primary/20"
@@ -13,7 +13,7 @@ export function Footer() {
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           
-          {/* Brand & Newsletter (Col 1-5) */}
+          {/* Brand & Mission (Col 1-5) */}
           <div className="lg:col-span-5 pr-0 lg:pr-12">
             <div className="inline-block mb-6">
               <Logo variant="horizontal" size="md" glow={true} />
@@ -22,26 +22,15 @@ export function Footer() {
               The definitive English-language guide and geospatial atlas for high-altitude trekking, peak expeditions, and alpine exploration across the North Indian Himalayas.
             </p>
 
-            {/* Newsletter Mini Dispatch */}
-            <div 
-              className="p-5 rounded-2xl glass-museum-card border border-foreground/[0.08]"
-            >
-              <h4 className="text-foreground text-sm font-bold font-display mb-2">Join the Basecamp Dispatch</h4>
-              <p className="text-foreground/60 text-xs font-light mb-4">Get seasonal route updates and permit changes.</p>
-              <form className="flex items-center gap-2 group/form">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
-                  className="w-full px-4 py-2.5 rounded-xl text-xs text-foreground placeholder:text-foreground/40 bg-background border border-foreground/[0.1] focus:outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/15"
-                />
-                <button 
-                  type="button" 
-                  className="p-2.5 rounded-xl text-white bg-primary hover:bg-primary/90 transition-all flex-shrink-0 shadow-md"
-                  aria-label="Subscribe to dispatch"
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </form>
+            {/* Authority Verification Badge */}
+            <div className="p-4 rounded-2xl border border-slate-200/80 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02]">
+              <div className="flex items-center gap-2 mb-1.5">
+                <ShieldCheck className="w-4 h-4 text-primary" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">Authoritative Field Atlas</span>
+              </div>
+              <p className="text-foreground/60 text-xs font-light leading-relaxed">
+                Independent, verified trail telemetry covering Himachal Pradesh, Uttarakhand, Ladakh, and Jammu &amp; Kashmir.
+              </p>
             </div>
           </div>
 

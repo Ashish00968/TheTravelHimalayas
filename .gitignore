@@ -7,3 +7,4 @@ out
 .env*.local
 *.tsbuildinfo
 Report.html
+.playwright-mcp

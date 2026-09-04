@@ -27,7 +27,12 @@ import {
   GitCompare,
   Calculator,
   CheckSquare,
-  CalendarDays
+  CalendarDays,
+  Activity,
+  TrendingUp,
+  GraduationCap,
+  Radio,
+  ShieldCheck
 } from "lucide-react";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
@@ -99,8 +104,8 @@ function MobileHero() {
           style={{ filter: "contrast(1.08) saturate(1.08)" }}
         />
         {/* Cinematic Atmospheric Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/85 dark:from-[#040812]/85 dark:via-[#040812]/40 dark:to-[#040812]" />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/75 dark:from-[#040812]/85 dark:via-[#040812]/40 dark:to-[#040812]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/80 to-transparent transition-colors duration-500" />
       </div>
 
       {/* Main Content with Staggered Entrance */}
@@ -289,12 +294,13 @@ function DesktopHero() {
   // Scroll Indicator — visible at 0, fades at 0.05
   const scrollHintOpacity = useTransform(smoothProgress, [0, 0.04, 0.07], [1, 0.6, 0]);
 
-  // OUTRO: Fade text out, zoom background in
+  // OUTRO: Fade text out, zoom background in, and dissolve mountain panorama into page canvas
   const contentOpacityOutro = useTransform(smoothProgress, [0.85, 1.0], [1, 0]);
   const contentYOutro       = useTransform(smoothProgress, [0.85, 1.0], [0, -45]);
   const bgScale             = useTransform(smoothProgress, [0.82, 1.0], [1.05, 1.15]);
   const fogOpacitySlow      = useTransform(smoothProgress, [0.8, 1.0], [0.12, 0.38]);
   const fogOpacityFast      = useTransform(smoothProgress, [0.8, 1.0], [0.35, 0.85]);
+  const heroOutroDissolve   = useTransform(smoothProgress, [0.80, 0.98], [0, 1]);
 
   return (
     <section
@@ -348,18 +354,24 @@ function DesktopHero() {
           />
         </motion.div>
 
-        {/* Cinematic Atmospheric Vignette - Crisp & High-Contrast in Light Mode, Midnight-Indigo in Dark Mode */}
+        {/* Cinematic Atmospheric Vignette */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none transition-colors duration-500 bg-gradient-to-b from-black/40 via-transparent to-black/30 dark:from-[#040812]/75 dark:via-[#040812]/20 dark:to-[#040812]/60"
         />
 
-        {/* Crisp Edge Melt — Subtle bottom boundary soften, keeping the mountains and stats pill crystal-clear */}
+        {/* Generous Edge Melt — Feathers bottom boundary organically into the page canvas in both light & dark mode */}
         <div
-          className="absolute inset-x-0 bottom-0 h-14 sm:h-20 pointer-events-none z-[4] bg-gradient-to-b from-transparent to-background/90 dark:to-[#040812] transition-colors duration-500"
+          className="absolute inset-x-0 bottom-0 h-32 sm:h-52 pointer-events-none z-[4] bg-gradient-to-t from-background via-background/70 to-transparent transition-colors duration-500"
         />
 
-        {/* Fog & Grain Layers — Active in Dark Mode only so Light Mode stays crystal sharp and haze-free */}
-        <motion.div className="hidden dark:block fog-layer" style={{ opacity: fogOpacitySlow, zIndex: 2 }} />
+        {/* Scroll Outro Dissolve Layer: Seamlessly dissolves mountain panorama into light/dark page canvas */}
+        <motion.div
+          className="absolute inset-0 z-[5] pointer-events-none bg-background transition-colors duration-300"
+          style={{ opacity: heroOutroDissolve }}
+        />
+
+        {/* Fog & Grain Layers — Active in Dark Mode */}
+        <motion.div className="hidden dark:block fog-layer" style={{ opacity: fogOpacitySlow, zIndex: 6 }} />
         <motion.div
           className="hidden dark:block fog-layer"
           style={{
@@ -367,10 +379,10 @@ function DesktopHero() {
             animationDirection: "reverse",
             filter: "blur(10px)",
             opacity: fogOpacityFast,
-            zIndex: 2,
+            zIndex: 6,
           }}
         />
-        <div className="hidden dark:block grain-overlay" style={{ zIndex: 3 }} />
+        <div className="hidden dark:block grain-overlay" style={{ zIndex: 7 }} />
 
         {/* ── Dynamic Storytelling Content ── */}
         <motion.div
@@ -1430,44 +1442,130 @@ function PlanningSuiteSection() {
   );
 }
 
-/* ── 5. Mountain Safety & Medical Acclimatisation Banner ──────────────────── */
+/* ── 5. Mountain Safety & Medical Acclimatisation Command Console ─────────── */
 function SafetyFeatureSection() {
+  const safetyPillars = [
+    {
+      title: "Ascent Ceiling",
+      badge: "500m / Day Limit",
+      desc: "Net sleeping altitude gain cap above 3,000m. Mandatory acclimatisation rest day every 1,000m net gain.",
+      icon: TrendingUp,
+      accent: "text-blue-500 dark:text-blue-400",
+      bg: "bg-blue-500/10 border-blue-500/25",
+    },
+    {
+      title: "Emergency Triage",
+      badge: "Immediate Descent",
+      desc: "Persistent headache, ataxia, or rales mandate immediate descent of 500–1,000m before medications.",
+      icon: HeartPulse,
+      accent: "text-amber-500 dark:text-amber-400",
+      bg: "bg-amber-500/10 border-amber-500/25",
+    },
+    {
+      title: "Accredited Syllabi",
+      badge: "HMI · NIM · ABVIMAS",
+      desc: "Standardized mountaineering curriculum from premier national institutes for BMC, AMC, and Alpine SAR.",
+      icon: GraduationCap,
+      accent: "text-teal-600 dark:text-teal-400",
+      bg: "bg-teal-500/10 border-teal-500/25",
+    },
+  ];
+
   return (
-    <section className="py-12 sm:py-20 relative z-10 bg-muted/20 transition-colors duration-300">
+    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 32, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="rounded-2xl sm:rounded-3xl p-6 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 border border-amber-500/35 shadow-xl glass-museum-card"
+          className="rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-2xl bg-white/75 dark:bg-[#070D1A]/95 backdrop-blur-2xl"
         >
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3 sm:mb-4">
-              <HeartPulse className="w-3.5 h-3.5" />
-              Mountain Safety Protocol
+          {/* Subtle Ambient Radial Glows */}
+          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-blue-500/15 blur-[120px] pointer-events-none" />
+          <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-amber-500/10 blur-[120px] pointer-events-none" />
+
+          {/* Top Command Bar */}
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-slate-200/70 dark:border-white/10">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                High-Altitude Safety Command
+              </div>
+              <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground tracking-tight leading-[1.15]">
+                High-Altitude Acclimatisation &amp; Medicine
+              </h2>
+              <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed max-w-2xl mt-2">
+                Altitude sickness is physiological and indifferent to physical fitness. Study comprehensive field protocols on Acute Mountain Sickness (AMS), HAPE, HACE, cold-injury triage, and certified mountaineering syllabus standards.
+              </p>
             </div>
-            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.1]">
-              High-Altitude Acclimatisation &amp; Medicine
-            </h2>
-            <p className="text-foreground/75 text-xs sm:text-base font-light leading-relaxed">
-              Altitude sickness does not care about fitness. Study comprehensive field protocols on Acute Mountain Sickness (AMS), HAPE, HACE, cold-injury triage, and certified mountaineering training institutes.
-            </p>
+
+            {/* Action Buttons with Himalayan Design Tokens */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto">
+              <Link
+                href="/safety"
+                className="px-6 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_4px_20px_rgba(59,130,246,0.35)] hover:shadow-[0_6px_25px_rgba(59,130,246,0.45)] active:scale-[0.98] group"
+              >
+                <Shield className="w-4 h-4" />
+                <span>Explore Safety Protocols</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/conditions"
+                className="px-6 py-3.5 rounded-full glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-slate-200/90 dark:border-white/15 active:scale-[0.98]"
+              >
+                <Activity className="w-3.5 h-3.5 text-primary" />
+                <span>Live Weather Radar</span>
+              </Link>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full lg:w-auto">
+          {/* 3 Clinical Telemetry Pillars */}
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-8">
+            {safetyPillars.map((pillar, idx) => {
+              const Icon = pillar.icon;
+              return (
+                <div
+                  key={idx}
+                  className="p-5 sm:p-6 rounded-2xl border border-slate-200/70 dark:border-white/[0.08] bg-slate-50/70 dark:bg-white/[0.03] transition-all hover:border-slate-300 dark:hover:border-white/20 group"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${pillar.bg} ${pillar.accent}`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase font-bold tracking-wider px-2.5 py-1 rounded-md bg-foreground/[0.05] text-foreground/75 border border-foreground/[0.08]">
+                      {pillar.badge}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-sm sm:text-base text-foreground mb-1.5">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-foreground/65 text-xs leading-relaxed font-light">
+                    {pillar.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom Directive Monospace Telemetry Strip */}
+          <div className="relative z-10 mt-8 pt-5 border-t border-slate-200/60 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-foreground/50">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                UIAA &amp; Wilderness Medical Society Standards
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                Emergency SAR Frequencies (121.5 / 243.0 MHz)
+              </span>
+            </div>
             <Link
-              href="/safety"
-              className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98]"
+              href="/safety#emergency-contacts"
+              className="hover:text-primary transition-colors flex items-center gap-1"
             >
-              <Shield className="w-4 h-4" />
-              View Mountain Safety Protocols
-            </Link>
-            <Link
-              href="/conditions"
-              className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-slate-200/80 dark:border-white/10 active:scale-[0.98]"
-            >
-              Live Weather Radar
+              <span>Emergency Dispatch Directory</span>
+              <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </motion.div>
@@ -1478,33 +1576,71 @@ function SafetyFeatureSection() {
 
 /* ── 6. Himalayan Dispatch Newsletter ─────────────────────────────────────── */
 function DispatchNewsletterSection() {
+  const dispatchHighlights = [
+    {
+      label: "Pass Radar",
+      detail: "Rohtang, Kunzum, Sach, Zoji La & high-pass status telemetry",
+      icon: Radio,
+    },
+    {
+      label: "Permit Alerts",
+      detail: "ILP & Forest Dept clearance regulation notices",
+      icon: ShieldCheck,
+    },
+    {
+      label: "Expedition Logs",
+      detail: "Newly surveyed GPS routes and field gear evaluations",
+      icon: Compass,
+    },
+  ];
+
   return (
-    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
-      <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
-        <motion.div 
+    <section className="pt-6 sm:pt-10 pb-16 sm:pb-24 relative z-10 bg-background transition-colors duration-300">
+      <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
+        <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="p-6 sm:p-14 rounded-2xl sm:rounded-3xl glass-capsule border border-foreground/[0.1] relative overflow-hidden shadow-xl"
+          className="p-8 sm:p-14 rounded-3xl border border-slate-200/80 dark:border-white/10 relative overflow-hidden shadow-2xl bg-gradient-to-b from-slate-50/90 via-white to-slate-50/80 dark:from-[#09101F]/90 dark:via-[#070D1A] dark:to-[#050A14] backdrop-blur-xl"
         >
-          {/* Subtle Background Glow */}
-          <div 
-            className="absolute -top-32 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full blur-[100px] pointer-events-none bg-primary/10"
-          />
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[350px] rounded-full blur-[120px] pointer-events-none bg-primary/15" />
 
-          <div className="relative z-10 max-w-xl mx-auto">
-            <span className="font-mono text-xs text-primary uppercase font-bold tracking-[0.25em] block mb-2 sm:mb-3">
-              Alpine Dispatches
-            </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 sm:mb-4 tracking-tight leading-[1.1]">
-              Get High-Altitude Trail Intelligence
+          <div className="relative z-10 max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-4 border border-slate-200/80 dark:border-white/10">
+              <Radio className="w-3.5 h-3.5 animate-pulse" />
+              Alpine Field Intelligence
+            </div>
+            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 tracking-tight leading-[1.1]">
+              High-Altitude Trail Intelligence
             </h2>
-            <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed mb-6 sm:mb-8">
-              Seasonal pass openings, permit policy updates, snowfall forecasts, and newly surveyed routes delivered directly to your inbox.
+            <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed mb-8 max-w-xl mx-auto">
+              Seasonal pass openings, permit policy changes, snowpack depth telemetry, and newly surveyed alpine routes delivered directly to your inbox.
             </p>
 
-            <NewsletterSignup variant="hero" className="max-w-md mx-auto" />
+            <NewsletterSignup variant="hero" className="max-w-lg mx-auto mb-10" />
+
+            {/* 3 Dispatch Focus Pillars */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-200/60 dark:border-white/[0.08] text-left">
+              {dispatchHighlights.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded-xl bg-slate-100/60 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/[0.05]"
+                  >
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-foreground mb-1">
+                      <Icon className="w-3.5 h-3.5 text-primary" />
+                      <span>{item.label}</span>
+                    </div>
+                    <p className="text-[11px] text-foreground/60 leading-snug font-light">
+                      {item.detail}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </motion.div>
       </div>
