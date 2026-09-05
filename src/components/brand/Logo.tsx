@@ -138,7 +138,7 @@ export function Logo({
     typeof size === "number"
       ? size
       : size === "sm"
-      ? 36
+      ? 34
       : size === "md"
       ? 44
       : size === "lg"
@@ -146,15 +146,20 @@ export function Logo({
       : 72;
 
   const content = (
-    <div className={cn("inline-flex items-center gap-2 sm:gap-3 group select-none", className)}>
-      <LogoMark size={iconPixelSize} glow={glow} framed={framed} />
+    <div className={cn("inline-flex items-center gap-1.5 sm:gap-3 group select-none shrink-0", className)}>
+      <div className="sm:hidden">
+        <LogoMark size={34} glow={glow} framed={framed} />
+      </div>
+      <div className="hidden sm:block">
+        <LogoMark size={iconPixelSize} glow={glow} framed={framed} />
+      </div>
       
       {variant === "horizontal" && (
-        <div className="flex flex-col text-left justify-center">
-          <span className="font-mono text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.24em] sm:tracking-[0.30em] text-amber-500 dark:text-amber-400 leading-none mb-1">
+        <div className="hidden min-[420px]:flex flex-col text-left justify-center">
+          <span className="font-mono text-[7.5px] sm:text-[9px] font-bold uppercase tracking-[0.22em] sm:tracking-[0.30em] text-amber-500 dark:text-amber-400 leading-none mb-0.5 sm:mb-1">
             DISCOVER
           </span>
-          <span className="font-display font-black text-foreground tracking-[0.06em] sm:tracking-[0.10em] text-[13px] sm:text-[16px] leading-none group-hover:text-primary transition-colors drop-shadow-sm whitespace-nowrap">
+          <span className="font-display font-black text-foreground tracking-[0.06em] sm:tracking-[0.10em] text-[12px] sm:text-[16px] leading-none group-hover:text-primary transition-colors drop-shadow-sm whitespace-nowrap">
             HIMALAYAN TRAILS
           </span>
           {showTagline && (

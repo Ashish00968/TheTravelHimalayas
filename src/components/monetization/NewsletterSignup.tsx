@@ -83,19 +83,20 @@ export function NewsletterSignup({ variant = "compact", className = "" }: Newsle
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email for trail intel..."
-            className="flex-1 bg-transparent px-2.5 py-2.5 text-foreground placeholder:text-foreground/40 text-xs sm:text-sm outline-none min-w-0"
+            placeholder="Enter your email..."
+            className="flex-1 bg-transparent px-2 sm:px-2.5 py-2 sm:py-2.5 text-foreground placeholder:text-foreground/40 text-xs sm:text-sm outline-none min-w-0"
           />
           <button
             type="submit"
             disabled={status === "loading"}
-            className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 disabled:opacity-60 shrink-0"
+            className="px-3.5 sm:px-6 py-2 sm:py-3 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 disabled:opacity-60 shrink-0"
           >
             {status === "loading" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <>
-                <span>Subscribe</span>
+                <span className="hidden min-[360px]:inline">Subscribe</span>
+                <span className="min-[360px]:hidden">Join</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}

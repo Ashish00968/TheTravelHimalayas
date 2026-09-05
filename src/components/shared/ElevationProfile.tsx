@@ -54,10 +54,10 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
   const fillPathD = `${pathD} L ${getX(points.length - 1)} ${height - 50} L ${getX(0)} ${height - 50} Z`;
 
   return (
-    <div className="w-full relative overflow-hidden bg-surface border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl">
+    <div className="w-full relative overflow-hidden bg-card border border-border rounded-3xl p-6 md:p-10 shadow-sm">
       <div className="mb-8">
-        <h3 className="text-xl font-display font-semibold text-white mb-2">Elevation Profile</h3>
-        <p className="text-white/60 text-sm font-light">Interactive altitude map across the itinerary.</p>
+        <h3 className="text-xl font-display font-semibold text-foreground mb-2">Elevation Profile</h3>
+        <p className="text-muted-foreground text-sm font-light">Interactive altitude map across the itinerary.</p>
       </div>
 
       <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
@@ -75,7 +75,7 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
               const y = height - 50 - ratio * (height - 100);
               const elevValue = Math.round(chartMinY + ratio * (chartMaxY - chartMinY));
               return (
-                <g key={ratio} className="text-white/20">
+                <g key={ratio} className="text-foreground/20">
                   <line x1="50" y1={y} x2={width - 50} y2={y} stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
                   <text x="40" y={y + 4} fill="currentColor" fontSize="12" textAnchor="end" className="font-light">
                     {elevValue}m
@@ -134,13 +134,27 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                   />
                   
                   {/* Day Label on X axis */}
-                  <text x={x} y={height - 20} fill={isHovered ? "var(--primary)" : "rgba(255,255,255,0.6)"} fontSize="14" textAnchor="middle" className="font-medium transition-colors">
+                  <text 
+                    x={x} 
+                    y={height - 20} 
+                    fill="currentColor"
+                    fontSize="14" 
+                    textAnchor="middle" 
+                    className={`font-medium transition-colors ${isHovered ? "text-primary" : "text-muted-foreground"}`}
+                  >
                     Day {p.day}
                   </text>
 
                   {/* Distance (if available) */}
                   {p.distanceKm && (
-                    <text x={x} y={height - 5} fill="rgba(255,255,255,0.4)" fontSize="11" textAnchor="middle" className="font-light">
+                    <text 
+                      x={x} 
+                      y={height - 5} 
+                      fill="currentColor"
+                      fontSize="11" 
+                      textAnchor="middle" 
+                      className="text-muted-foreground/60 font-light"
+                    >
                       {p.distanceKm} km
                     </text>
                   )}
@@ -154,14 +168,28 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                         width="200" 
                         height="60" 
                         rx="8" 
-                        fill="#121216" 
-                        stroke="rgba(255,255,255,0.1)" 
+                        className="fill-card stroke-border" 
                         strokeWidth="1"
                       />
-                      <text x={x} y={y - 55} fill="white" fontSize="14" fontWeight="600" textAnchor="middle">
+                      <text 
+                        x={x} 
+                        y={y - 55} 
+                        fill="currentColor"
+                        fontSize="14" 
+                        fontWeight="600" 
+                        textAnchor="middle"
+                        className="text-foreground"
+                      >
                         {p.elevationMeters} m
                       </text>
-                      <text x={x} y={y - 35} fill="rgba(255,255,255,0.6)" fontSize="12" textAnchor="middle" className="font-light truncate">
+                      <text 
+                        x={x} 
+                        y={y - 35} 
+                        fill="currentColor"
+                        fontSize="12" 
+                        textAnchor="middle" 
+                        className="text-muted-foreground font-light truncate"
+                      >
                         {p.title.length > 25 ? p.title.substring(0, 25) + '...' : p.title}
                       </text>
                     </g>

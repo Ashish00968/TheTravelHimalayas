@@ -1,28 +1,35 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { GlobalMap } from "@/components/maps";
 import { Trek } from "@/data/types";
-import { Mountain, MapPin, Play, Sparkles, Shield } from "lucide-react";
+import { placeLocationIndex } from "@/data/atlas";
+import { Mountain, MapPin, Play, Sparkles, Shield, Compass } from "lucide-react";
 
 interface MapLauncherProps {
   treks: Trek[];
 }
 
 export function MapLauncher({ treks }: MapLauncherProps) {
-  const [isMapActive, setIsMapActive] = useState(false);
+  const searchParams = useSearchParams();
+  const focusParam = searchParams.get("focus");
+  const focusedPlace = focusParam ? placeLocationIndex.get(focusParam) : null;
+
+  const [isMapActive, setIsMapActive] = useState(Boolean(focusParam));
 
   if (isMapActive) {
     return (
       <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-surface">
-        <GlobalMap treks={treks} />
+        <GlobalMap treks={treks} initialFocusId={focusParam} />
       </div>
     );
   }
 
+
   return (
     <div 
-      className="w-full min-h-[550px] lg:min-h-[680px] rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-8 sm:p-12 transition-all duration-500"
+      className="w-full min-h-[500px] sm:min-h-[550px] lg:min-h-[680px] rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-5 sm:p-8 md:p-12 transition-all duration-500"
       style={{
         background: "radial-gradient(ellipse at 50% 30%, #151f32 0%, #080d18 60%, #03050a 100%)",
         border: "1px solid rgba(59,130,246,0.3)",
@@ -46,13 +53,24 @@ export function MapLauncher({ treks }: MapLauncherProps) {
 
       <div className="relative z-10 max-w-2xl flex flex-col items-center">
         {/* Eyebrow Badge */}
-        <div 
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-[11px] font-mono font-bold uppercase tracking-[0.2em]"
-          style={{ background: "rgba(59,130,246,0.15)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}
-        >
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
-          <span>Interactive 3D Geospatial Engine</span>
-        </div>
+        {focusedPlace ? (
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-[11px] font-mono font-bold uppercase tracking-[0.2em]"
+            style={{ background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.4)", color: "#FCD34D" }}
+          >
+            <Compass className="w-3.5 h-3.5 text-[#F59E0B]" />
+            <span>Targeting {focusedPlace.name} in 3D</span>
+          </div>
+        ) : (
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-[11px] font-mono font-bold uppercase tracking-[0.2em]"
+            style={{ background: "rgba(59,130,246,0.15)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <span>Interactive 3D Geospatial Engine</span>
+          </div>
+        )}
+
 
         {/* Title */}
         <h2 className="font-display font-bold text-3xl sm:text-5xl text-white mb-4 tracking-tight leading-tight">
@@ -67,7 +85,7 @@ export function MapLauncher({ treks }: MapLauncherProps) {
         {/* Launch Button */}
         <button
           onClick={() => setIsMapActive(true)}
-          className="group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl text-white font-display font-bold text-sm sm:text-base tracking-wide transition-all duration-300 shadow-[0_0_40px_rgba(59,130,246,0.35)] hover:shadow-[0_0_60px_rgba(59,130,246,0.55)] hover:scale-[1.02] active:scale-[0.98] mb-8"
+          className="group relative inline-flex items-center justify-center gap-2.5 sm:gap-3 px-5 sm:px-10 py-3.5 sm:py-5 rounded-2xl text-white font-display font-bold text-xs sm:text-base tracking-wide transition-all duration-300 shadow-[0_0_40px_rgba(59,130,246,0.35)] hover:shadow-[0_0_60px_rgba(59,130,246,0.55)] hover:scale-[1.02] active:scale-[0.98] mb-8 max-w-full"
           style={{
             background: "linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)",
             border: "1px solid rgba(255,255,255,0.2)"

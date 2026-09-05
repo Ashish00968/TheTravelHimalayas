@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Sora, Hanken_Grotesk, Plus_Jakarta_Sans, Playfair_Display, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,16 @@ import { SITE } from "@/lib/site";
 import { buildOrganizationJsonLd, buildWebSiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#040812" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+  ],
+};
 
 const sora = Sora({
   subsets: ["latin"],
@@ -63,7 +73,6 @@ export const metadata: Metadata = {
     "high altitude pass crossings",
     "mountain safety AMS protocols",
   ],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",

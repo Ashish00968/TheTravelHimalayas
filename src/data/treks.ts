@@ -78,6 +78,12 @@ export const treks: Trek[] = [
     maxAltitude: "3,300 m",
     bestSeason: "March to November",
     coords: [32.2620, 77.1680],
+    pathCoords: [
+      [32.2472, 77.1812], // Hadimba Temple Trailhead (2,050m)
+      [32.2530, 77.1750], // Manali Sanctuary Forest Ridge (2,600m)
+      [32.2580, 77.1710], // Nasogi Meadow approach (2,950m)
+      [32.2620, 77.1680], // Lamadugh High Meadow (3,300m)
+    ],
     startPoint: "Hadimba Temple, Old Manali",
     guideRatePerDay: 1500,
     overview: "Lamadugh is a serene meadow nestled in the dense deodar and oak forests above Manali. The trail offers a gentle ascent through shaded woodland paths, opening up to a vast alpine clearing at around 3,300 meters.",
@@ -114,6 +120,12 @@ export const treks: Trek[] = [
     maxAltitude: "4,220 m",
     bestSeason: "May to October",
     coords: [32.3220, 77.1490],
+    pathCoords: [
+      [32.3167, 77.1583], // Solang Trailhead (2,480m)
+      [32.3220, 77.1520], // Shagadugh Ridge Base (3,200m)
+      [32.3350, 77.1480], // High Alpine Moraine (3,800m)
+      [32.3480, 77.1450], // Patalsu Summit Ridge (4,220m)
+    ],
     startPoint: "Solang Village / Buruwa",
     guideRatePerDay: 2500,
     overview: "Patalsu Peak stands at approximately 4,220 meters and offers one of the most accessible high-altitude day hike experiences near Manali. The summit delivers a 360-degree panorama spanning the Pir Panjal range, Rohtang Pass, and the Kullu Valley below.",
@@ -259,6 +271,13 @@ export const treks: Trek[] = [
     maxAltitude: "4,300 m",
     bestSeason: "May to June, September to October",
     coords: [32.2240, 77.2510],
+    pathCoords: [
+      [32.3150, 77.1950], // Gulaba Roadhead (3,100m)
+      [32.2850, 77.2180], // Jonker Thatch (3,350m)
+      [32.2580, 77.2340], // Rola Kholi Campsite (3,500m)
+      [32.2410, 77.2420], // Pandu Ropa Ridge (3,900m)
+      [32.2240, 77.2510], // Bhrigu Sacred Glacial Tarn (4,300m)
+    ],
     startPoint: "Gulaba, Rohtang Road",
     guideRatePerDay: 2000,
     overview: "Bhrigu Lake is a stunning high-altitude lake at 4,300 meters on the edge of the Rohtang plateau. Named after the sage Bhrigu, the lake remains frozen for much of the year and is surrounded by vast rolling meadows that explode with wildflowers in early summer. It is considered one of the most accessible high-altitude alpine lakes near Manali.",
@@ -322,7 +341,15 @@ export const treks: Trek[] = [
     maxAltitude: "3,660 m",
     bestSeason: "May to October",
     coords: [32.1030, 77.1510],
+    pathCoords: [
+      [32.1480, 77.1660], // Naggar Castle Trailhead (1,760m)
+      [32.1520, 77.1780], // Rumsu Village (2,400m)
+      [32.1380, 77.1890], // Stelling Alpine Clearing (3,100m)
+      [32.1220, 77.2150], // Chandrakhani High Pass (3,660m)
+      [32.1030, 77.2510], // Malana Gorge Descent & Village (2,650m)
+    ],
     startPoint: "Naggar Castle, Naggar",
+
     guideRatePerDay: 2500,
     overview: "Chandrakhani Pass is a high-altitude crossing connecting the Kullu Valley to the secluded Malana village — home to one of the most unique and ancient tribal communities in the world. The route traverses stunning oak and rhododendron forests, high alpine meadows, and the dramatic pass itself at 3,660m, before descending to the legendary Malana village perched above the Malana gorge.",
     routeDescription: "The trek starts from Naggar, the ancient capital of Kullu Kingdom. The trail climbs through dense forest to Rumsu village and then to the base of the pass. After crossing Chandrakhani Pass, the route descends steeply into the Malana valley. Return is by jeep from Malana to Manali via Jari.",

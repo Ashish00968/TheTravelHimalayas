@@ -1,4 +1,18 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "404 — Trail Not Found",
+  description: "The requested Himalayan trail, summit profile, or field guide could not be located.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
 
 export default function NotFound() {
   return (

@@ -14,13 +14,19 @@ import { LastChecked } from "@/components/ui/LastChecked";
 import { RelatedContent } from "@/components/shared/RelatedContent";
 import { ElevationProfile } from "@/components/shared/ElevationProfile";
 import { MountainWeatherWidget } from "@/components/shared/MountainWeatherWidget";
+import { TrailQuickNav } from "@/components/content/TrailQuickNav";
+import { GoldenRulesCallout } from "@/components/shared/GoldenRulesCallout";
+import { generatePageMetadata } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { 
   serializeJsonLd, 
   buildTouristTripJsonLd, 
   buildMountainJsonLd, 
+  buildPlaceAttractionJsonLd,
   buildFAQJsonLd, 
   buildBreadcrumbJsonLd 
 } from "@/lib/json-ld";
+
 export function generateStaticParams() {
   const params: { state: string; division: string; place: string }[] = [];
   himalayaAtlas.forEach((region) => {
@@ -45,13 +51,52 @@ export async function generateMetadata({
 
   if (!place) return {};
 
-  return {
-    title: `${place.name} | ${subRegion?.name}, ${region?.name} | Discover Himalayan Trails`,
-    description:
-      place.overview ||
-      place.experience ||
-      `Explore ${place.name} in ${subRegion?.name}, ${region?.name}. Detailed trails, route guides, and local insights.`,
-  };
+  const isTrek = Boolean(place.trekData || place.type === "trek");
+  const isPeak = Boolean(place.peakData || place.type === "peak");
+
+  const baseName = place.name.replace(/\s+Trek$/i, "").replace(/\s+Peak$/i, "").trim();
+  let pageTitle = `${place.name} Guide — Altitude, Route, Best Season & Map`;
+  if (isTrek) {
+    pageTitle = `${baseName} Trek Guide — Itinerary, Difficulty, Best Time & 3D Map`;
+  } else if (isPeak) {
+    pageTitle = `${baseName} Peak Expedition Profile — Altitude, Climbing Route, Permits & Map`;
+  }
+
+  const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);
+  const durationStr = place.duration || place.trekData?.duration;
+  const diffStr = place.difficulty || place.trekData?.difficulty || place.peakData?.difficulty;
+
+  const descSnippets = [
+    altitudeStr ? `Altitude: ${altitudeStr}` : null,
+    durationStr ? `Duration: ${durationStr}` : null,
+    diffStr ? `Difficulty: ${diffStr}` : null,
+  ].filter(Boolean).join(" | ");
+
+  const rawDesc = place.overview || place.experience || place.trekData?.description || place.peakData?.description;
+  const description = descSnippets
+    ? `${place.name} in ${subRegion?.name}, ${region?.name} (${descSnippets}). ${rawDesc || "Comprehensive trail breakdown, verified GPS coordinates, and packing advice."}`
+    : rawDesc || `Explore ${place.name} in ${subRegion?.name}, ${region?.name}. Detailed trails, route guides, and local insights.`;
+
+  const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
+
+  return generatePageMetadata({
+    title: pageTitle,
+    description,
+    path: `/explore/${state}/${division}/${place.id}`,
+    image: heroImg,
+    keywords: [
+      `${place.name} trek`,
+      `${place.name} itinerary`,
+      `${place.name} difficulty`,
+      `${place.name} best time`,
+      `${place.name} altitude`,
+      `${place.name} height`,
+      `${subRegion?.name} trekking`,
+      `${region?.name} trails`,
+      "Himalayan trekking guide",
+      "mountain expedition",
+    ],
+  });
 }
 
 export default async function PlacePage({
@@ -142,18 +187,72 @@ export default async function PlacePage({
       : []),
   ];
 
+  const placePath = `/explore/${state}/${division}/${placeId}`;
+  const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
+  const placeCoords = place.coords || place.trekData?.coords || place.peakData?.coords;
+
   const schemas = [];
-  if (place.trekData) schemas.push(buildTouristTripJsonLd(place.trekData));
-  if (place.peakData) schemas.push(buildMountainJsonLd(place.peakData));
+  if (place.trekData) {
+    schemas.push(
+      buildTouristTripJsonLd(place.trekData, {
+        url: placePath,
+        image: heroImg,
+        coords: placeCoords,
+        subRegionName: subRegion.name,
+        regionName: region.name,
+      })
+    );
+  } else if (place.peakData) {
+    schemas.push(
+      buildMountainJsonLd(place.peakData, {
+        url: placePath,
+        image: heroImg,
+        coords: placeCoords,
+        subRegionName: subRegion.name,
+        regionName: region.name,
+      })
+    );
+  } else {
+    schemas.push(
+      buildPlaceAttractionJsonLd(place, {
+        url: placePath,
+        image: heroImg,
+        coords: placeCoords,
+        elevation: place.elevation,
+        subRegionName: subRegion.name,
+        regionName: region.name,
+      })
+    );
+  }
   if (faqs.length > 0) schemas.push(buildFAQJsonLd(faqs));
-  schemas.push(
-    buildBreadcrumbJsonLd([
-      { label: "Home", href: "/" },
-      { label: region.name, href: `/explore/${state}` },
-      { label: subRegion.name, href: `/explore/${state}/${division}` },
-      { label: title, href: `/explore/${state}/${division}/${placeId}` },
-    ])
-  );
+
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: region.name, href: `/explore/${state}` },
+    { label: subRegion.name, href: `/explore/${state}/${division}` },
+    { label: title, href: placePath },
+  ];
+  schemas.push(buildBreadcrumbJsonLd(breadcrumbItems));
+
+  const maxAltitudeVal =
+    place.elevation ||
+    place.trekData?.maxAltitude ||
+    (place.peakData?.height ? `${place.peakData.height}m` : undefined);
+
+  const quickNavPlace = {
+    id: place.id,
+    name: title,
+    type: place.type,
+    regionId: state,
+    regionName: region.name,
+    divisionId: division,
+    divisionName: subRegion.name,
+    elevation: maxAltitudeVal,
+    duration: place.duration || place.trekData?.duration,
+    difficulty: place.difficulty || place.trekData?.difficulty || place.peakData?.difficulty,
+    image: heroImg,
+    url: placePath,
+  };
 
   return (
     <PageTransition>
@@ -169,6 +268,10 @@ export default async function PlacePage({
       />
 
       <div className="container mx-auto px-6 py-12 max-w-7xl">
+        <div className="mb-4">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <Link
             href={`/explore/${state}/${division}`}
@@ -187,7 +290,7 @@ export default async function PlacePage({
 
         {/* Featured Showcase Landscape Photo */}
         {(place.heroImage || place.peakData?.heroImage || place.trekData?.heroImage) && (
-          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] max-h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl group">
+          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] max-h-[500px] rounded-3xl overflow-hidden mb-8 border border-white/10 shadow-2xl group">
             <Image
               src={
                 place.heroImage ||
@@ -198,8 +301,10 @@ export default async function PlacePage({
               alt={title}
               fill
               priority
+              sizes="(max-width: 1280px) 100vw, 1280px"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none z-[2]" />
             <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 right-6 flex items-end justify-between pointer-events-none z-10">
               <div>
@@ -223,12 +328,23 @@ export default async function PlacePage({
           </div>
         )}
 
+        {/* Sticky Trail Navigation & Action Dock */}
+        <TrailQuickNav
+          place={quickNavPlace}
+          hasWeather={Boolean(placeCoords && placeCoords[0] !== 0)}
+          hasElevation={itinerary.length > 0}
+          hasItinerary={itinerary.length > 0}
+          hasPacking={packingList.length > 0}
+          hasFaqs={faqs.length > 0}
+        />
+
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-2">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-14">
             {/* Overview */}
             {overview && (
-              <section>
+              <section id="overview" className="scroll-mt-28">
                 <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Overview
                 </h2>
@@ -264,15 +380,18 @@ export default async function PlacePage({
               </section>
             )}
 
-            {/* Itinerary */}
+            {/* Himalayan Altitude Safety Protocol Banner */}
+            <GoldenRulesCallout maxAltitude={maxAltitudeVal} />
+
+            {/* Itinerary & Elevation Profile */}
             {itinerary.length > 0 && (
-              <section>
+              <section id="itinerary" className="scroll-mt-28">
                 <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Day-by-Day Itinerary
                 </h2>
                 <div className="w-8 h-1 bg-primary rounded-full mb-6" />
                 
-                <div className="mb-10 hidden md:block">
+                <div id="elevation" className="mb-10 hidden md:block scroll-mt-28">
                   <ElevationProfile itinerary={itinerary} />
                 </div>
 
@@ -281,7 +400,7 @@ export default async function PlacePage({
                   {itinerary.map((day) => (
                     <div
                       key={day.day}
-                      className="glass-museum-card border border-foreground/[0.08] rounded-2xl p-5 pl-16 relative shadow-sm"
+                      className="itinerary-day-card glass-museum-card border border-foreground/[0.08] rounded-2xl p-5 pl-16 relative shadow-sm"
                     >
                       <div className="absolute left-0 top-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm z-10 shadow-lg shadow-primary/25">
                         {day.day}
@@ -321,7 +440,7 @@ export default async function PlacePage({
 
             {/* Packing Essentials */}
             {packingList.length > 0 && (
-              <section>
+              <section id="gear" className="scroll-mt-28">
                 <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Packing Essentials
                 </h2>
@@ -342,7 +461,7 @@ export default async function PlacePage({
 
             {/* FAQs */}
             {faqs.length > 0 && (
-              <section>
+              <section id="faqs" className="scroll-mt-28">
                 <h2 className="text-2xl md:text-3xl font-display tracking-tight font-semibold text-foreground mb-2">
                   Frequently Asked Questions
                 </h2>
@@ -350,6 +469,7 @@ export default async function PlacePage({
                 <FAQAccordion faqs={faqs} />
               </section>
             )}
+
 
             {/* Image Gallery (Only renders if images are available) */}
             {images.length > 0 && (
@@ -371,7 +491,7 @@ export default async function PlacePage({
                   const mapCoords = place.trekData?.coords ?? place.peakData?.coords ?? place.coords;
                   if (!mapCoords || mapCoords[0] === 0) return null;
                   return (
-                    <div className="mt-6 mb-6 space-y-6">
+                    <div id="weather" className="scroll-mt-28 mt-6 mb-6 space-y-6">
                       <MountainWeatherWidget
                         coords={mapCoords}
                         locationName={title}
@@ -396,11 +516,12 @@ export default async function PlacePage({
                         </p>
 
                         <Link
-                          href="/map"
-                          className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-mono text-xs uppercase tracking-wider font-semibold transition-all shadow-[0_0_20px_rgba(59,130,246,0.25)]"
+                          href={`/map?focus=${place.id}`}
+                          className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-mono text-xs uppercase tracking-wider font-semibold transition-all shadow-[0_0_20px_rgba(59,130,246,0.25)] min-h-[44px]"
                         >
-                          <Map className="w-4 h-4" /> Open 3D Satellite Map <ArrowRight className="w-3.5 h-3.5" />
+                          <Map className="w-4 h-4" /> Open {title} in 3D Atlas <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
+
                       </div>
                     </div>
                   );

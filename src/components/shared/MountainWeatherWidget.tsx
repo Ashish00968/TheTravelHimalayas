@@ -70,7 +70,7 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
 
   if (loading) {
     return (
-      <div className="w-full h-48 bg-[#0c0c0e] border border-white/10 rounded-3xl animate-pulse flex items-center justify-center">
+      <div className="w-full h-48 bg-card border border-border rounded-3xl animate-pulse flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     );
@@ -88,11 +88,11 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
   
   // Basic WMO Weather Code Mapper
   const getWeatherIcon = (code: number) => {
-    if (code === 0 || code === 1) return <Sun className="w-12 h-12 text-yellow-500" />;
-    if (code === 2 || code === 3) return <Cloud className="w-12 h-12 text-white/70" />;
-    if (code >= 51 && code <= 67) return <CloudRain className="w-12 h-12 text-blue-400" />;
-    if (code >= 71 && code <= 77) return <Snowflake className="w-12 h-12 text-white" />;
-    return <Cloud className="w-12 h-12 text-white/50" />;
+    if (code === 0 || code === 1) return <Sun className="w-12 h-12 text-amber-500" />;
+    if (code === 2 || code === 3) return <Cloud className="w-12 h-12 text-muted-foreground" />;
+    if (code >= 51 && code <= 67) return <CloudRain className="w-12 h-12 text-blue-500" />;
+    if (code >= 71 && code <= 77) return <Snowflake className="w-12 h-12 text-cyan-600 dark:text-cyan-300" />;
+    return <Cloud className="w-12 h-12 text-muted-foreground/70" />;
   };
 
   const getWeatherText = (code: number) => {
@@ -136,26 +136,26 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-muted/60 dark:bg-[#121216] border border-border-dim rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
           <Wind className="w-5 h-5 text-primary mb-2" />
           <span className="text-foreground font-semibold">{current.wind_speed_10m} km/h</span>
-          <span className="text-foreground/60 text-xs font-mono uppercase mt-1">Wind</span>
+          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Wind</span>
         </div>
         
-        <div className="bg-muted/60 dark:bg-[#121216] border border-border-dim rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
           <Droplets className="w-5 h-5 text-blue-500 mb-2" />
           <span className="text-foreground font-semibold">{current.precipitation} mm</span>
-          <span className="text-foreground/60 text-xs font-mono uppercase mt-1">Precip</span>
+          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Precip</span>
         </div>
 
-        <div className="bg-muted/60 dark:bg-[#121216] border border-border-dim rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
           <Snowflake className="w-5 h-5 text-primary mb-2" />
           <span className="text-foreground font-semibold">{current.snowfall} cm</span>
-          <span className="text-foreground/60 text-xs font-mono uppercase mt-1">Snow</span>
+          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Snow</span>
         </div>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-border-dim flex justify-between items-center text-xs text-foreground/50 font-mono">
+      <div className="mt-6 pt-4 border-t border-border flex justify-between items-center text-xs text-muted-foreground font-mono">
         <span>Powered by Open-Meteo</span>
         <span className="flex items-center gap-1">Live <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse ml-1" /></span>
       </div>

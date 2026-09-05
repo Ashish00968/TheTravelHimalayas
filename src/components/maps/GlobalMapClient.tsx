@@ -15,7 +15,9 @@ import {
 
 interface GlobalMapClientProps {
   treks: Trek[];
+  initialFocusId?: string | null;
 }
+
 
 /* ── Camera presets ──────────────────────────────────────────────────────── */
 const INIT = { lat: 31.4, lng: 77.2, zoom: 5.8, pitch: 42, bearing: 0 };
@@ -61,19 +63,22 @@ const ALL_PLACES: HimalayaPlace[] = himalayaAtlas.flatMap((r) =>
 );
 
 /* ══════════════════════════════════════════════════════════════════════════ */
-export default function GlobalMapClient({ treks }: GlobalMapClientProps) {
+export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClientProps) {
   const router = useRouter();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const routeListenersRef = useRef<{ layerId: string; fn: () => void }[]>([]);
 
+  const initialPlaceLoc = initialFocusId ? placeLocationIndex.get(initialFocusId) : null;
+
   // ── State ─────────────────────────────────────────────────────────────
-  const [activeRegionId, setActiveRegionId]     = useState<string | null>(null);
-  const [activeSubRegionId, setActiveSubRegionId] = useState<string | null>(null);
-  const [selectedPlaceId, setSelectedPlaceId]   = useState<string | null>(null);
+  const [activeRegionId, setActiveRegionId]     = useState<string | null>(() => initialPlaceLoc?.regionId ?? null);
+  const [activeSubRegionId, setActiveSubRegionId] = useState<string | null>(() => initialPlaceLoc?.subRegionId ?? null);
+  const [selectedPlaceId, setSelectedPlaceId]   = useState<string | null>(() => initialFocusId ?? null);
   const [mapLoaded, setMapLoaded]               = useState(false);
   const [navigating, setNavigating]             = useState(false);
+
 
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -206,6 +211,21 @@ export default function GlobalMapClient({ treks }: GlobalMapClientProps) {
         "space-color": "#000000",
         "star-intensity": 0.7,
       });
+
+      if (initialFocusId) {
+        const target = ALL_PLACES.find((p) => p.id === initialFocusId);
+        if (target?.coords && target.coords.length === 2) {
+          map.flyTo({
+            center: [target.coords[1], target.coords[0]],
+            zoom: 12.5,
+            pitch: 66,
+            bearing: -8,
+            duration: 1800,
+            essential: true,
+          });
+        }
+      }
+
       setMapLoaded(true);
     });
 
@@ -215,7 +235,8 @@ export default function GlobalMapClient({ treks }: GlobalMapClientProps) {
       map.remove();
       mapRef.current = null;
     };
-  }, [mapboxToken]);
+  }, [mapboxToken, initialFocusId]);
+
 
   // ── Sync markers & routes ─────────────────────────────────────────────
   useEffect(() => {

@@ -4,22 +4,26 @@ import Image from "next/image";
 import { himalayaAtlas } from "@/data/atlas";
 import { ExploreDirectory, ExplorePlaceItem } from "@/components/explore/ExploreDirectory";
 import { ArrowRight, Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
+import { generatePageMetadata } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Himalayan Atlas & Expedition Directory | Discover Himalayan Trails",
+export const metadata: Metadata = generatePageMetadata({
+  title: "Himalayan Atlas & Trail Directory — 50+ High-Altitude Treks & Summits",
   description:
-    "Comprehensive guide to 50+ high-altitude treks, technical peaks, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir.",
-  alternates: {
-    canonical: "https://discoverhimalayantrails.com/explore",
-  },
-  openGraph: {
-    title: "Himalayan Atlas & Expedition Directory | Discover Himalayan Trails",
-    description:
-      "Explore 50+ verified treks, technical summits, and high passes across 4 North Indian Himalayan territories.",
-    url: "https://discoverhimalayantrails.com/explore",
-    type: "website",
-  },
-};
+    "Comprehensive directory of 50+ verified high-altitude treks, technical peaks, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir with 3D terrain maps.",
+  path: "/explore",
+  keywords: [
+    "Himalayan atlas",
+    "Himalayan trekking directory",
+    "best treks Indian Himalayas",
+    "Himachal Pradesh trekking routes",
+    "Ladakh expeditions directory",
+    "Uttarakhand high altitude treks",
+    "Kashmir alpine lakes directory",
+  ],
+});
+
 
 const TERRITORY_STYLES: Record<string, { accent: string; glow: string; border: string }> = {
   "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.25)", border: "rgba(59,130,246,0.35)" },
@@ -59,31 +63,35 @@ export default function ExplorePage() {
 
   const totalValleys = himalayaAtlas.reduce((acc, r) => acc + r.subregions.length, 0);
 
-  const breadcrumbJsonLd = {
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { label: "Home", href: "/" },
+    { label: "Explore Atlas", href: "/explore" },
+  ]);
+
+  const territoriesListJsonLd = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://discoverhimalayantrails.com",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Explore Atlas",
-        item: "https://discoverhimalayantrails.com/explore",
-      },
-    ],
+    "@type": "ItemList",
+    name: "Indian Himalayan Territories",
+    description: "Four sovereign Himalayan adventure territories mapped in the atlas.",
+    itemListElement: himalayaAtlas.map((region, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: region.name,
+      url: `${SITE.url}/explore/${region.id}`,
+    })),
   };
 
   return (
     <main className="min-h-screen pt-28 pb-24 bg-background text-foreground transition-colors duration-300">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(territoriesListJsonLd) }}
+      />
+
 
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden border-b border-foreground/[0.08]">
@@ -174,8 +182,10 @@ export default function ExplorePage() {
                       src={region.image}
                       alt={region.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       className="object-cover object-center opacity-10 dark:opacity-15 group-hover:opacity-25 group-hover:scale-105 transition-all duration-700 ease-out"
                     />
+
                     <div className="absolute inset-0 bg-gradient-to-t from-card via-card/85 to-transparent" />
                   </div>
                 )}

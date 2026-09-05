@@ -1,11 +1,45 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 import { himalayaAtlas, getRegion } from "@/data/atlas";
 import { ChevronRight, ArrowLeft } from "lucide-react";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { generatePageMetadata } from "@/lib/seo";
+import { buildTouristDestinationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
 export function generateStaticParams() {
   return himalayaAtlas.map((r) => ({ state: r.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string }>;
+}): Promise<Metadata> {
+  const { state } = await params;
+  const region = getRegion(state);
+  if (!region) return {};
+
+  const totalPlaces = region.subregions.reduce(
+    (acc, sub) => acc + sub.places.length,
+    0
+  );
+
+  return generatePageMetadata({
+    title: `Treks & Expeditions in ${region.name} — Best Himalayan Trails & Map`,
+    description: `Explore ${totalPlaces} verified high-altitude treks, peak climbs, and alpine valleys across ${region.name}. Itineraries, elevation maps, permits, and season guides.`,
+    path: `/explore/${region.id}`,
+    image: region.image,
+    keywords: [
+      `Treks in ${region.name}`,
+      `${region.name} trekking guide`,
+      `${region.name} hiking trails`,
+      `${region.name} peaks`,
+      "Himalayan expeditions",
+      ...region.subregions.map((s) => `${s.name} treks`),
+    ],
+  });
 }
 
 const TERRITORY_STYLE: Record<string, { accent: string; glow: string }> = {
@@ -32,6 +66,20 @@ export default async function StateHub({
 
   const style = TERRITORY_STYLE[region.id] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.15)" };
 
+  const destinationSchema = buildTouristDestinationJsonLd({
+    name: region.name,
+    description: region.cardDesc,
+    url: `/explore/${region.id}`,
+    image: region.image,
+    containedInPlace: "Indian Himalayas",
+  });
+
+  const breadcrumbSchema = buildBreadcrumbJsonLd([
+    { label: "Home", href: "/" },
+    { label: "Explore", href: "/explore" },
+    { label: region.name, href: `/explore/${region.id}` },
+  ]);
+
   return (
     <main className="min-h-screen pt-28 pb-20 bg-background text-foreground transition-colors duration-300">
       {/* State Header Banner with Cinematic Landscape Background */}
@@ -44,8 +92,10 @@ export default async function StateHub({
               alt={region.name}
               fill
               priority
+              sizes="100vw"
               className="object-cover object-center opacity-30 dark:opacity-20 scale-105"
             />
+
             <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background backdrop-blur-[2px]" />
           </div>
         )}
@@ -57,8 +107,18 @@ export default async function StateHub({
         />
         
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="mb-4">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Explore", href: "/explore" },
+                { label: region.name, href: `/explore/${region.id}` },
+              ]}
+            />
+          </div>
+
           <Link
-            href="/"
+            href="/explore"
             className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors mb-8 text-xs font-bold uppercase tracking-[0.15em]"
           >
             <ArrowLeft className="w-4 h-4" /> All Territories
@@ -172,6 +232,16 @@ export default async function StateHub({
           ))}
         </div>
       </div>
+
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(destinationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
+      />
     </main>
   );
 }

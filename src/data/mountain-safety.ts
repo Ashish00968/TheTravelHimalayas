@@ -556,3 +556,57 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     significance: "Life-saving emergency kit on high-altitude expeditions when weather or night blocks immediate physical descent.",
   },
 ];
+
+export interface SarContact {
+  region: string;
+  agency: string;
+  numbers: string[];
+  description: string;
+  badge: string;
+}
+
+export const EMERGENCY_SAR_CONTACTS: SarContact[] = [
+  {
+    region: "All India / National",
+    agency: "National Emergency Response Support System (ERSS)",
+    numbers: ["112"],
+    description: "Toll-free unified emergency helpline across all Indian states and union territories for police, medical, and fire dispatch.",
+    badge: "National",
+  },
+  {
+    region: "Uttarakhand",
+    agency: "State Disaster Response Force (SDRF) Uttarakhand",
+    numbers: ["1070", "+91-9456596190"],
+    description: "Dedicated high-altitude search and rescue units operating across Garhwal, Chamoli, and Kumaon trail networks.",
+    badge: "SDRF Uttarakhand",
+  },
+  {
+    region: "Himachal Pradesh",
+    agency: "Himachal Pradesh Police & State Disaster Management Authority",
+    numbers: ["112", "1077"],
+    description: "Direct mountain SAR coordination across Kullu, Manali, Spiti, Kinnaur, Kangra, and high pass corridors.",
+    badge: "HP Police / SDMA",
+  },
+  {
+    region: "Ladakh (UT)",
+    agency: "Ladakh Mountain Search and Rescue (SAR) & UT Police",
+    numbers: ["01982-252018", "112"],
+    description: "Leh Control Room for high-altitude emergency evacuations across Zanskar, Nubra, Changthang, and Markha Valley.",
+    badge: "Ladakh Police SAR",
+  },
+  {
+    region: "Jammu & Kashmir",
+    agency: "J&K Tourism Police & State Disaster Management",
+    numbers: ["112", "+91-194-2502274"],
+    description: "Kashmir Valley, Gulmarg, Sonmarg, and Great Lakes alpine rescue and distress assistance dispatch.",
+    badge: "J&K Emergency",
+  },
+  {
+    region: "Mountaineering Authority",
+    agency: "Indian Mountaineering Foundation (IMF) Apex Body",
+    numbers: ["+91-11-24111224", "+91-11-24117736"],
+    description: "National apex body for climbing expeditions, helicopter evacuation clearance, and liaison officer SOS dispatch.",
+    badge: "IMF New Delhi",
+  },
+];
+

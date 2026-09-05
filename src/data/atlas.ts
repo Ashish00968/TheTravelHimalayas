@@ -1099,6 +1099,7 @@ export const placeIndex = new Map<string, HimalayaPlace>(
  * Used by the global map to resolve a place's full location path in O(1).
  */
 export interface PlaceLocation {
+  name: string;
   regionId: string;
   regionName: string;
   subRegionId: string;
@@ -1112,6 +1113,7 @@ export const placeLocationIndex = new Map<string, PlaceLocation>(
       s.places.map((p) => [
         p.id,
         {
+          name: p.name,
           regionId: r.id,
           regionName: r.name,
           subRegionId: s.id,
@@ -1122,6 +1124,7 @@ export const placeLocationIndex = new Map<string, PlaceLocation>(
     )
   )
 );
+
 
 // ── Lookup helpers (O(1) via index) ─────────────────────────────────────────
 

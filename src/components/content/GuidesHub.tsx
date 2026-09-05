@@ -43,7 +43,7 @@ export function GuidesHub({ guides }: GuidesHubProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl overflow-hidden glass-card border border-primary/30 p-8 md:p-12 bg-gradient-to-r from-primary/10 via-[#0d0d0f] to-[#0d0d0f]"
+          className="relative rounded-3xl overflow-hidden glass-museum-card border border-primary/30 p-5 sm:p-8 md:p-12 bg-gradient-to-r from-primary/10 via-card to-card shadow-lg"
         >
           <div className="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-4">
             <span className="flex h-2.5 w-2.5 relative">
@@ -54,14 +54,14 @@ export function GuidesHub({ guides }: GuidesHubProps) {
           </div>
 
           <div className="max-w-3xl space-y-4">
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-white leading-tight">
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground leading-tight">
               {featuredGuide.title}
             </h2>
-            <p className="text-white/70 text-base md:text-lg leading-relaxed font-light line-clamp-3">
+            <p className="text-muted-foreground text-base md:text-lg leading-relaxed font-light line-clamp-3">
               {featuredGuide.description}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-white/50 pt-2 font-mono">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground pt-2 font-mono">
               <span className="bg-primary/20 text-primary px-3 py-1 rounded-full border border-primary/30">
                 {featuredGuide.category}
               </span>
@@ -82,7 +82,7 @@ export function GuidesHub({ guides }: GuidesHubProps) {
       )}
 
       {/* Category Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-white/10">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-border">
         {categories.map((cat) => {
           const count =
             cat === "All"
@@ -97,7 +97,7 @@ export function GuidesHub({ guides }: GuidesHubProps) {
               className={`px-5 py-2.5 rounded-full text-xs font-medium uppercase tracking-wider whitespace-nowrap transition-all duration-300 ${
                 selectedCategory === cat
                   ? "bg-primary text-white shadow-md shadow-primary/20"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                  : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/50"
               }`}
             >
               {cat} ({count})

@@ -3,16 +3,23 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Search, Menu, X, Map, BookOpen, Compass, Info, Calendar, CloudLightning, Shield } from "lucide-react";
+import { Search, Menu, X, Map, BookOpen, Compass, Info, Calendar, CloudLightning, Shield, Bookmark } from "lucide-react";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useSavedExpeditions } from "@/lib/saved-expeditions";
 
 const SearchModal = dynamic(
   () => import("@/components/search/SearchModal").then((mod) => mod.SearchModal),
   { ssr: false }
 );
+
+const SavedExpeditionsDrawer = dynamic(
+  () => import("@/components/shared/SavedExpeditionsDrawer").then((mod) => mod.SavedExpeditionsDrawer),
+  { ssr: false }
+);
+
 
 interface NavLink {
   label: string;
@@ -40,14 +47,17 @@ const TERRITORIES = [
 export function Navigation() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSavedOpen, setIsSavedOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { count: savedCount } = useSavedExpeditions();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   // Global ⌘K keyboard shortcut for instant search
   useEffect(() => {
@@ -78,20 +88,20 @@ export function Navigation() {
             : "py-4 sm:py-5"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <div className="container mx-auto px-2 sm:px-6 max-w-7xl">
           <nav 
-            className={`flex items-center justify-between px-3 sm:px-5 py-2 rounded-full transition-all duration-500 ${
+            className={`flex items-center justify-between px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-full transition-all duration-500 ${
               scrolled
                 ? "glass-capsule shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
                 : "bg-transparent border border-transparent"
             }`}
           >
             {/* Brand Logo & Left-Side Theme Controller */}
-            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
               <div onClick={() => setIsMobileOpen(false)}>
                 <Logo variant="horizontal" size="md" glow={true} />
               </div>
-              <div className="border-l border-foreground/15 pl-1.5 sm:pl-2.5">
+              <div className="border-l border-foreground/15 pl-1 sm:pl-2">
                 <ThemeToggle variant="nav" />
               </div>
             </div>
@@ -125,7 +135,7 @@ export function Navigation() {
             </ul>
 
             {/* Actions: Quick Search Pill & Mobile Toggle */}
-            <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-2 shrink-0">
               {/* Quick Search Pill (Desktop) */}
               <button
                 onClick={() => setIsSearchOpen(true)}
@@ -139,19 +149,34 @@ export function Navigation() {
                 </kbd>
               </button>
 
+              {/* Saved Expeditions Trigger Button */}
+              <button
+                onClick={() => setIsSavedOpen(true)}
+                className="relative p-1.5 sm:p-2 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/70 hover:text-foreground transition-all duration-200 shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
+                aria-label={`Saved expeditions (${savedCount})`}
+                title="View saved expeditions"
+              >
+                <Bookmark className="w-4 h-4 text-primary" />
+                {savedCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[15px] h-3.5 px-1 rounded-full bg-primary text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-sm">
+                    {savedCount > 9 ? "9+" : savedCount}
+                  </span>
+                )}
+              </button>
+
               {/* Mobile Search Icon */}
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search"
-                className="sm:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors"
+                className="sm:hidden p-1.5 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
               >
-                <Search className="w-4.5 h-4.5" />
+                <Search className="w-4 h-4" />
               </button>
 
               {/* Mobile Drawer Hamburger Button */}
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="xl:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors"
+                className="xl:hidden p-1.5 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
                 aria-label={isMobileOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileOpen}
               >
@@ -235,6 +260,25 @@ export function Navigation() {
 
               {/* Main Navigation Links */}
               <div className="divide-y divide-foreground/[0.08] pt-1">
+                {/* Saved Expeditions Mobile Entry */}
+                <button
+                  onClick={() => {
+                    setIsMobileOpen(false);
+                    setIsSavedOpen(true);
+                  }}
+                  className="w-full flex items-center justify-between py-3.5 text-base font-display font-medium text-foreground/75 hover:text-foreground active:text-primary transition-colors text-left"
+                >
+                  <span className="flex items-center gap-3.5">
+                    <span className="w-8 h-8 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
+                      <Bookmark className="w-4 h-4" />
+                    </span>
+                    <span>Saved Expeditions</span>
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-xs font-mono font-bold">
+                    {savedCount}
+                  </span>
+                </button>
+
                 {NAV_LINKS.map(({ label, href, icon: Icon }) => {
                   const active = isActive(href);
                   return (
@@ -280,6 +324,10 @@ export function Navigation() {
 
       {/* Global Search Modal */}
       {isSearchOpen && <SearchModal onClose={() => setIsSearchOpen(false)} />}
+
+      {/* Client-Side Saved Expeditions Drawer */}
+      <SavedExpeditionsDrawer isOpen={isSavedOpen} onClose={() => setIsSavedOpen(false)} />
     </>
   );
 }
+

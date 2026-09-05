@@ -82,17 +82,17 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
       {/* Configuration Form */}
-      <div className="lg:col-span-7 bg-surface border border-white/10 p-6 md:p-8 rounded-3xl">
-        <h2 className="text-xl font-display font-semibold text-white mb-6 flex items-center gap-2">
+      <div className="lg:col-span-7 glass-museum-card border border-border p-4 sm:p-6 md:p-8 rounded-3xl shadow-sm">
+        <h2 className="text-xl font-display font-semibold text-foreground mb-6 flex items-center gap-2">
           <Calculator className="w-5 h-5 text-primary" /> Configuration
         </h2>
 
         <div className="space-y-8">
           {/* Trek Selection */}
           <div>
-            <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-2">Select Trek</label>
+            <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-2">Select Trek</label>
             <select 
-              className="w-full bg-[#121216] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
+              className="w-full bg-card border border-border rounded-xl px-4 py-3 text-foreground focus:border-primary/60 outline-none transition-colors"
               value={selectedTrekId}
               onChange={(e) => setSelectedTrekId(e.target.value)}
             >
@@ -104,14 +104,14 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-2">Group Size</label>
-              <div className="flex items-center gap-4 bg-[#121216] border border-white/10 rounded-xl px-4 py-3">
-                <Users className="w-4 h-4 text-white/50" />
+              <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-2">Group Size</label>
+              <div className="flex items-center gap-4 bg-card border border-border rounded-xl px-4 py-3">
+                <Users className="w-4 h-4 text-foreground/50" />
                 <input 
                   type="number" 
                   min="1" 
                   max="20"
-                  className="bg-transparent w-full text-white outline-none"
+                  className="bg-transparent w-full text-foreground outline-none"
                   value={groupSize}
                   onChange={(e) => setGroupSize(parseInt(e.target.value) || 1)}
                 />
@@ -119,9 +119,9 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-2">Nationality</label>
+              <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-2">Nationality</label>
               <select 
-                className="w-full bg-[#121216] border border-white/10 rounded-xl px-4 py-3.5 text-white focus:border-primary/50 outline-none"
+                className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground focus:border-primary/60 outline-none transition-colors"
                 value={nationality}
                 onChange={(e) => setNationality(e.target.value as Nationality)}
               >
@@ -133,51 +133,51 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
 
           {/* Trekking Style */}
           <div>
-            <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-3">Trekking Style</label>
+            <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-3">Trekking Style</label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <button 
                 onClick={() => setStyle("independent")}
                 className={`p-4 rounded-xl border text-left transition-all ${
-                  style === "independent" ? 'bg-primary/10 border-primary/50 text-white' : 'bg-[#121216] border-white/5 text-white/60 hover:border-white/20'
+                  style === "independent" ? 'bg-primary/10 border-primary/50 text-foreground shadow-sm' : 'bg-card border-border text-foreground/70 hover:border-primary/40'
                 }`}
               >
-                <Tent className="w-5 h-5 mb-2" />
-                <div className="font-medium text-sm">Independent</div>
-                <div className="text-xs mt-1 opacity-70">DIY logistics, no guide</div>
+                <Tent className="w-5 h-5 mb-2 text-primary" />
+                <div className="font-medium text-sm text-foreground">Independent</div>
+                <div className="text-xs mt-1 text-foreground/60">DIY logistics, no guide</div>
               </button>
               <button 
                 onClick={() => setStyle("local_guide")}
                 className={`p-4 rounded-xl border text-left transition-all ${
-                  style === "local_guide" ? 'bg-primary/10 border-primary/50 text-white' : 'bg-[#121216] border-white/5 text-white/60 hover:border-white/20'
+                  style === "local_guide" ? 'bg-primary/10 border-primary/50 text-foreground shadow-sm' : 'bg-card border-border text-foreground/70 hover:border-primary/40'
                 }`}
               >
-                <MapPin className="w-5 h-5 mb-2" />
-                <div className="font-medium text-sm">Local Guide</div>
-                <div className="text-xs mt-1 opacity-70">Guide + Porters</div>
+                <MapPin className="w-5 h-5 mb-2 text-primary" />
+                <div className="font-medium text-sm text-foreground">Local Guide</div>
+                <div className="text-xs mt-1 text-foreground/60">Guide + Porters</div>
               </button>
               <button 
                 onClick={() => setStyle("agency")}
                 className={`p-4 rounded-xl border text-left transition-all ${
-                  style === "agency" ? 'bg-primary/10 border-primary/50 text-white' : 'bg-[#121216] border-white/5 text-white/60 hover:border-white/20'
+                  style === "agency" ? 'bg-primary/10 border-primary/50 text-foreground shadow-sm' : 'bg-card border-border text-foreground/70 hover:border-primary/40'
                 }`}
               >
-                <Package className="w-5 h-5 mb-2" />
-                <div className="font-medium text-sm">Full Agency</div>
-                <div className="text-xs mt-1 opacity-70">All-inclusive package</div>
+                <Package className="w-5 h-5 mb-2 text-primary" />
+                <div className="font-medium text-sm text-foreground">Full Agency</div>
+                <div className="text-xs mt-1 text-foreground/60">All-inclusive package</div>
               </button>
             </div>
           </div>
 
           {/* Gear Rentals */}
           <div>
-            <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-3">Gear Rentals (Per Person)</label>
+            <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-3">Gear Rentals (Per Person)</label>
             <div className="flex flex-wrap gap-3">
               {Object.entries(rentals).map(([key, isSelected]) => (
                 <button
                   key={key}
                   onClick={() => setRentals(prev => ({ ...prev, [key]: !isSelected }))}
                   className={`px-4 py-2 rounded-full border text-sm transition-all ${
-                    isSelected ? 'bg-primary/20 border-primary text-white' : 'bg-[#121216] border-white/10 text-white/50 hover:text-white'
+                    isSelected ? 'bg-primary/20 border-primary text-primary font-medium shadow-sm' : 'bg-card border-border text-foreground/60 hover:text-foreground hover:border-foreground/30'
                   }`}
                 >
                   {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
@@ -190,22 +190,22 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
 
       {/* Results Breakdown */}
       <div className="lg:col-span-5">
-        <div className="bg-[#121216] border border-white/10 p-6 md:p-8 rounded-3xl sticky top-24">
-          <h2 className="text-xl font-display font-semibold text-white mb-6">Estimated Cost</h2>
+        <div className="glass-museum-card border border-border p-4 sm:p-6 md:p-8 rounded-3xl sticky top-24 shadow-md">
+          <h2 className="text-xl font-display font-semibold text-foreground mb-6">Estimated Cost</h2>
           
           <div className="mb-8">
-            <div className="text-sm font-mono text-white/50 uppercase tracking-widest mb-1">Total for {groupSize} {groupSize === 1 ? 'person' : 'people'}</div>
+            <div className="text-sm font-mono text-foreground/50 uppercase tracking-widest mb-1">Total for {groupSize} {groupSize === 1 ? 'person' : 'people'}</div>
             <div className="text-4xl md:text-5xl font-display font-semibold text-primary flex items-center">
               <IndianRupee className="w-8 h-8 md:w-10 md:h-10 mr-1" />
               {Math.round(breakdown.total).toLocaleString('en-IN')}
             </div>
-            <div className="text-white/60 mt-2 font-light">
+            <div className="text-foreground/60 mt-2 font-light">
               ₹{Math.round(breakdown.perPerson).toLocaleString('en-IN')} per person
             </div>
           </div>
 
-          <div className="space-y-4 pt-6 border-t border-white/10">
-            <h3 className="text-xs font-mono text-white/50 uppercase tracking-widest mb-4">Cost Breakdown</h3>
+          <div className="space-y-4 pt-6 border-t border-border">
+            <h3 className="text-xs font-mono text-foreground/50 uppercase tracking-widest mb-4">Cost Breakdown</h3>
             
             {style === "agency" ? (
               <BreakdownRow label="Agency Package" amount={breakdown.agencyCost} />
@@ -229,7 +229,7 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
           </div>
 
           <div className="mt-8 p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-            <p className="text-amber-500/80 text-xs font-light leading-relaxed">
+            <p className="text-amber-600 dark:text-amber-400 text-xs font-light leading-relaxed">
               * This is an algorithmic estimate based on current market rates in Himachal Pradesh. Actual costs may vary depending on the season, exact transport route, and negotiation.
             </p>
           </div>
@@ -242,8 +242,8 @@ export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
 function BreakdownRow({ label, amount }: { label: string, amount: number }) {
   return (
     <div className="flex justify-between items-center text-sm">
-      <span className="text-white/70 font-light">{label}</span>
-      <span className="text-white font-medium flex items-center">
+      <span className="text-foreground/75 font-light">{label}</span>
+      <span className="text-foreground font-medium flex items-center">
         <IndianRupee className="w-3.5 h-3.5 mr-0.5 opacity-60" />
         {Math.round(amount).toLocaleString('en-IN')}
       </span>

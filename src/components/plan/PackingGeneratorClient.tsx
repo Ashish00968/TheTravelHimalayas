@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { Trek } from "@/data/types";
 import { parseAltitude, parseDuration } from "@/lib/scoring";
-import { Package, CloudRain, Snowflake, Sun, Cloud, CheckSquare, Square } from "lucide-react";
+import { Package, CloudRain, Snowflake, Sun, Cloud, CheckSquare, Square, Printer, Copy, Check } from "lucide-react";
 
 type SeasonCategory = "summer" | "monsoon" | "autumn" | "winter";
 
@@ -11,6 +11,8 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
   const [selectedTrekId, setSelectedTrekId] = useState<string>(allTreks[0]?.slug || "");
   const [season, setSeason] = useState<SeasonCategory>("summer");
   const [gender, setGender] = useState<"unisex" | "female">("unisex");
+  const [copied, setCopied] = useState(false);
+
 
   // Local state for checked items across the generated list
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
@@ -110,6 +112,37 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
     return list;
   }, [altitude, duration, season, gender]);
 
+  const handleCopyChecklist = async () => {
+    let text = `🏔️ HIMALAYAN EXPEDITION PACKING LIST: ${selectedTrek?.title || "Trek"}\n`;
+    text += `Max Altitude: ${selectedTrek?.maxAltitude || "—"} | Season: ${season.toUpperCase()} | Profile: ${gender.toUpperCase()}\n`;
+    text += `Source: Discover Himalayan Trails (https://discoverhimalayantrails.com/plan/packing)\n\n`;
+
+    Object.entries(gearList).forEach(([category, items]) => {
+      text += `📦 ${category.toUpperCase()}\n`;
+      items.forEach((item) => {
+        const isDone = checkedItems[item] ? "[x]" : "[ ]";
+        text += `${isDone} ${item}\n`;
+      });
+      text += `\n`;
+    });
+
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      } catch {
+        // Fallback
+      }
+    }
+  };
+
+  const handlePrint = () => {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  };
+
   // Flatten for total progress
   const allItems = Object.values(gearList).flat();
   const totalProgress = getProgress(allItems);
@@ -118,16 +151,16 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
       {/* Configuration Sidebar */}
       <div className="lg:col-span-4 space-y-6">
-        <div className="bg-surface border border-white/10 p-6 md:p-8 rounded-3xl sticky top-24">
-          <h2 className="text-xl font-display font-semibold text-white mb-6 flex items-center gap-2">
+        <div className="glass-museum-card border border-border p-4 sm:p-6 md:p-8 rounded-3xl sticky top-24 shadow-sm">
+          <h2 className="text-xl font-display font-semibold text-foreground mb-6 flex items-center gap-2">
             <Package className="w-5 h-5 text-primary" /> Configuration
           </h2>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-2">Select Trek</label>
+              <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-2">Select Trek</label>
               <select 
-                className="w-full bg-[#121216] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
+                className="w-full bg-card border border-border rounded-xl px-4 py-3 text-foreground focus:border-primary/60 outline-none transition-colors"
                 value={selectedTrekId}
                 onChange={(e) => setSelectedTrekId(e.target.value)}
               >
@@ -138,19 +171,19 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-3">Trekking Season</label>
+              <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-3">Trekking Season</label>
               <div className="grid grid-cols-2 gap-3">
-                <SeasonButton icon={<Sun />} label="Summer" value="summer" current={season} onClick={setSeason} />
-                <SeasonButton icon={<CloudRain />} label="Monsoon" value="monsoon" current={season} onClick={setSeason} />
-                <SeasonButton icon={<Cloud />} label="Autumn" value="autumn" current={season} onClick={setSeason} />
-                <SeasonButton icon={<Snowflake />} label="Winter" value="winter" current={season} onClick={setSeason} />
+                <SeasonButton icon={<Sun className="w-5 h-5" />} label="Summer" value="summer" current={season} onClick={setSeason} />
+                <SeasonButton icon={<CloudRain className="w-5 h-5" />} label="Monsoon" value="monsoon" current={season} onClick={setSeason} />
+                <SeasonButton icon={<Cloud className="w-5 h-5" />} label="Autumn" value="autumn" current={season} onClick={setSeason} />
+                <SeasonButton icon={<Snowflake className="w-5 h-5" />} label="Winter" value="winter" current={season} onClick={setSeason} />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-widest mb-3">Specific Requirements</label>
+              <label className="block text-xs font-mono text-foreground/50 uppercase tracking-widest mb-3">Specific Requirements</label>
               <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer text-sm text-white/70 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/75 hover:text-foreground">
                   <input 
                     type="radio" 
                     name="gender" 
@@ -160,7 +193,7 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
                   />
                   Generic / Unisex
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm text-white/70 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/75 hover:text-foreground">
                   <input 
                     type="radio" 
                     name="gender" 
@@ -173,12 +206,12 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/10">
+            <div className="pt-6 border-t border-border">
               <div className="flex justify-between text-xs font-mono uppercase tracking-widest mb-2">
-                <span className="text-white/50">Overall Progress</span>
-                <span className="text-primary">{totalProgress}%</span>
+                <span className="text-foreground/50">Overall Progress</span>
+                <span className="text-primary font-bold">{totalProgress}%</span>
               </div>
-              <div className="h-2 w-full bg-[#121216] rounded-full overflow-hidden">
+              <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary transition-all duration-500"
                   style={{ width: `${totalProgress}%` }}
@@ -186,9 +219,27 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
               </div>
             </div>
             
+            <div className="grid grid-cols-2 gap-2 pt-2">
+              <button 
+                onClick={handleCopyChecklist}
+                className="py-2.5 px-3 bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-border rounded-xl text-foreground text-xs font-mono font-medium flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-primary" />}
+                <span>{copied ? "Copied" : "Copy"}</span>
+              </button>
+
+              <button 
+                onClick={handlePrint}
+                className="py-2.5 px-3 bg-primary hover:bg-primary/90 text-white rounded-xl text-xs font-mono font-medium flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print</span>
+              </button>
+            </div>
+
             <button 
               onClick={() => setCheckedItems({})}
-              className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-sm font-medium transition-colors"
+              className="w-full py-2.5 bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-border/60 rounded-xl text-foreground/70 text-xs font-mono transition-colors"
             >
               Reset Checklist
             </button>
@@ -198,15 +249,47 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
 
       {/* Generated Checklist */}
       <div className="lg:col-span-8">
-        <div className="bg-surface border border-white/10 rounded-3xl p-6 md:p-10">
-          <div className="mb-8 border-b border-white/10 pb-6">
-            <h2 className="text-2xl font-display font-semibold text-white mb-2">
-              Your Customized Gear List
-            </h2>
-            <p className="text-white/60 font-light">
-              Tailored for {selectedTrek?.title}, reaching {selectedTrek?.maxAltitude} during {season} conditions.
-            </p>
+        <div className="glass-museum-card border border-border rounded-3xl p-6 md:p-10 shadow-md">
+          <div className="mb-8 border-b border-border pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-display font-semibold text-foreground mb-2">
+                Your Customized Gear List
+              </h2>
+              <p className="text-foreground/60 font-light">
+                Tailored for {selectedTrek?.title}, reaching {selectedTrek?.maxAltitude} during {season} conditions.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 no-print shrink-0">
+              <button
+                onClick={handleCopyChecklist}
+                className="px-4 py-2 rounded-xl bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-border text-foreground text-xs font-mono font-medium flex items-center gap-2 transition-all shadow-sm"
+                title="Copy checklist to clipboard"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-emerald-500 font-bold">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-primary" />
+                    <span>Copy List</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handlePrint}
+                className="px-4 py-2 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-mono font-medium flex items-center gap-2 transition-all shadow-sm"
+                title="Print paper checklist"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print / PDF</span>
+              </button>
+            </div>
           </div>
+
 
           <div className="space-y-8">
             {Object.entries(gearList).map(([category, items]) => {
@@ -215,8 +298,8 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
               return (
                 <div key={category} className="space-y-4">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-display font-semibold text-white">{category}</h3>
-                    <span className="text-xs font-mono text-white/40">{catProgress}% packed</span>
+                    <h3 className="text-lg font-display font-semibold text-foreground">{category}</h3>
+                    <span className="text-xs font-mono text-foreground/50">{catProgress}% packed</span>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -226,15 +309,15 @@ export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
                         onClick={() => toggleCheck(item)}
                         className={`flex items-start gap-3 p-4 rounded-xl border text-left transition-all ${
                           checkedItems[item] 
-                            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500/80' 
-                            : 'bg-white/5 border-white/5 text-white/70 hover:border-white/20'
+                            ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-600 dark:text-emerald-400' 
+                            : 'bg-card hover:bg-muted/40 border-border text-foreground/80 hover:border-primary/40'
                         }`}
                       >
                         <div className="mt-0.5">
                           {checkedItems[item] ? (
                             <CheckSquare className="w-5 h-5 text-emerald-500" />
                           ) : (
-                            <Square className="w-5 h-5 text-white/30" />
+                            <Square className="w-5 h-5 text-foreground/30" />
                           )}
                         </div>
                         <span className={`text-sm font-light leading-snug ${checkedItems[item] ? 'line-through opacity-70' : ''}`}>
@@ -271,7 +354,7 @@ function SeasonButton({
     <button 
       onClick={() => onClick(value)}
       className={`p-3 rounded-xl border flex flex-col items-center justify-center transition-all ${
-        isActive ? 'bg-primary/10 border-primary/50 text-primary' : 'bg-[#121216] border-white/5 text-white/50 hover:border-white/20 hover:text-white'
+        isActive ? 'bg-primary/10 border-primary/50 text-primary font-medium shadow-sm' : 'bg-card border-border text-foreground/60 hover:border-foreground/30 hover:text-foreground'
       }`}
     >
       <div className="mb-1.5 opacity-80">{icon}</div>

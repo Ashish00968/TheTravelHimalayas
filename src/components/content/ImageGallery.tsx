@@ -72,6 +72,7 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
               src={image}
               alt={`${alt} ${index + 1}`}
               fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
@@ -95,6 +96,7 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
               src={images[selectedIndex]}
               alt={`${alt} ${selectedIndex + 1}`}
               fill
+              sizes="(max-width: 1280px) 90vw, 1200px"
               className="object-contain"
             />
           </div>

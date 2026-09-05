@@ -4,11 +4,24 @@ import { PageTransition } from "@/components/animation/PageTransition";
 import Link from "next/link";
 import { CloudSnow, ShieldAlert, PhoneCall, CalendarRange, ChevronRight } from "lucide-react";
 import { MountainWeatherWidget } from "@/components/shared/MountainWeatherWidget";
+import { generatePageMetadata } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
-export const metadata: Metadata = {
-  title: "Conditions & Safety | Discover Himalayan Trails",
-  description: "Real-time season conditions, mountain safety protocols, and emergency contacts for the Himalayas.",
-};
+export const metadata: Metadata = generatePageMetadata({
+  title: "Himalayan Trail Conditions & Weather Radar — Pass Status & Snow Reports",
+  description:
+    "Real-time Himalayan trail conditions, live valley weather radar, high mountain pass status, monsoon storm tracking, and mountain safety advisories.",
+  path: "/conditions",
+  keywords: [
+    "Himalayan trail conditions",
+    "mountain weather radar Himalayas",
+    "high mountain pass status India",
+    "Rohtang Pass status",
+    "Baralacha La snow report",
+    "Himalayan weather forecast",
+  ],
+});
+
 
 const conditionsPillars = [
   {
@@ -42,8 +55,17 @@ const conditionsPillars = [
 ];
 
 export default function ConditionsPage() {
+  const breadcrumbsSchema = buildBreadcrumbJsonLd([
+    { label: "Home", href: "/" },
+    { label: "Conditions & Safety", href: "/conditions" },
+  ]);
+
   return (
     <PageTransition>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbsSchema) }}
+      />
       <HeroSection 
         title="Conditions & Safety" 
         subtitle="Weather patterns, mountain safety protocols, and emergency infrastructure."

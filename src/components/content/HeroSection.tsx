@@ -22,6 +22,7 @@ export function HeroSection({ title, subtitle, image }: HeroSectionProps) {
             alt={title}
             fill
             priority
+            sizes="100vw"
             className="object-cover opacity-35 dark:opacity-40 scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40" />

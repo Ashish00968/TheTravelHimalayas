@@ -37,24 +37,24 @@ export function SearchModal({ onClose }: SearchModalProps) {
   const isFilterActive = region !== "Any" || difficulty !== "Any" || duration !== "Any" || altitude !== "Any";
 
   return (
-    <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col">
+    <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col text-foreground transition-colors duration-300">
       <div className="container mx-auto px-6 py-6 flex flex-col max-w-4xl gap-4">
         
         {/* Main Search Bar */}
         <div className="flex items-center gap-4">
           <div className="flex-1 relative flex items-center">
-            <Search className="absolute left-4 w-5 h-5 text-white/50" />
+            <Search className="absolute left-4 w-5 h-5 text-foreground/50" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search treks, peaks, valleys, guides..."
-              className="w-full pl-12 pr-12 py-4 rounded-2xl bg-white/5 border border-white/10 text-white text-lg placeholder:text-white/40 focus:outline-none focus:border-primary/50 font-light transition-all"
+              className="w-full pl-12 pr-12 py-4 rounded-2xl bg-foreground/[0.04] border border-foreground/[0.12] text-foreground text-lg placeholder:text-foreground/40 focus:outline-none focus:border-primary/60 font-light transition-all shadow-sm"
               autoFocus
             />
             <button 
               onClick={() => setShowFilters(!showFilters)}
-              className={`absolute right-4 p-2 rounded-xl transition-colors ${showFilters || isFilterActive ? 'bg-primary/20 text-primary' : 'bg-transparent text-white/50 hover:text-white'}`}
+              className={`absolute right-4 p-2 rounded-xl transition-colors ${showFilters || isFilterActive ? 'bg-primary/20 text-primary' : 'bg-transparent text-foreground/50 hover:text-foreground'}`}
               title="Toggle Filters"
             >
               <Filter className="w-5 h-5" />
@@ -62,7 +62,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="p-4 rounded-2xl bg-white/5 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-4 rounded-2xl bg-foreground/[0.04] text-foreground/70 hover:text-foreground hover:bg-foreground/[0.08] border border-foreground/[0.08] transition-colors"
             aria-label="Close search"
           >
             <X className="w-6 h-6" />
@@ -71,14 +71,14 @@ export function SearchModal({ onClose }: SearchModalProps) {
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="flex flex-wrap gap-4 pt-2 pb-4 border-b border-white/10">
+          <div className="flex flex-wrap gap-4 pt-2 pb-4 border-b border-foreground/[0.08]">
             {/* Region Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-1">Region</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 px-1">Region</label>
               <select 
                 value={region} 
                 onChange={(e) => setRegion(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50"
+                className="bg-card border border-foreground/[0.12] rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
               >
                 <option value="Any">Any Region</option>
                 <option value="Kullu">Kullu & Manali</option>
@@ -91,11 +91,11 @@ export function SearchModal({ onClose }: SearchModalProps) {
 
             {/* Difficulty Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-1">Difficulty</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 px-1">Difficulty</label>
               <select 
                 value={difficulty} 
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50"
+                className="bg-card border border-foreground/[0.12] rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
               >
                 <option value="Any">Any Difficulty</option>
                 <option value="Easy">Easy</option>
@@ -107,11 +107,11 @@ export function SearchModal({ onClose }: SearchModalProps) {
 
             {/* Duration Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-1">Duration</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 px-1">Duration</label>
               <select 
                 value={duration} 
                 onChange={(e) => setDuration(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50"
+                className="bg-card border border-foreground/[0.12] rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
               >
                 <option value="Any">Any Duration</option>
                 <option value="1-3">1-3 Days (Short)</option>
@@ -122,11 +122,11 @@ export function SearchModal({ onClose }: SearchModalProps) {
 
             {/* Altitude Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-1">Max Altitude</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-foreground/50 px-1">Max Altitude</label>
               <select 
                 value={altitude} 
                 onChange={(e) => setAltitude(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50"
+                className="bg-card border border-foreground/[0.12] rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
               >
                 <option value="Any">Any Altitude</option>
                 <option value="<3000">Below 3,000m</option>
@@ -144,7 +144,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
                     setDuration("Any");
                     setAltitude("Any");
                   }}
-                  className="px-3 py-2 text-sm font-mono text-white/40 hover:text-white transition-colors"
+                  className="px-3 py-2 text-sm font-mono text-foreground/50 hover:text-foreground transition-colors"
                 >
                   Clear All
                 </button>
@@ -157,15 +157,15 @@ export function SearchModal({ onClose }: SearchModalProps) {
       <div className="flex-1 overflow-y-auto container mx-auto px-6 pb-8 max-w-4xl">
         {query.trim() === "" && !isFilterActive ? (
           <div className="text-center mt-20 space-y-2">
-            <p className="text-white/50 text-base font-light">
+            <p className="text-foreground/50 text-base font-light">
               Start typing to search Himalayan trails, summits, and guides...
             </p>
-            <p className="text-white/30 text-xs font-mono">
+            <p className="text-foreground/30 text-xs font-mono">
               e.g. &ldquo;Beas Kund&rdquo;, &ldquo;Friendship Peak&rdquo;, &ldquo;Spiti&rdquo;, &ldquo;Permits&rdquo;
             </p>
           </div>
         ) : results.length === 0 ? (
-          <p className="text-white/50 text-center mt-20 font-light">
+          <p className="text-foreground/50 text-center mt-20 font-light">
             No results found matching your criteria.
           </p>
         ) : (
@@ -181,13 +181,13 @@ export function SearchModal({ onClose }: SearchModalProps) {
                       key={r.slug}
                       href={r.href}
                       onClick={onClose}
-                      className="block p-4 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all group"
+                      className="block p-4 rounded-xl bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-foreground/[0.08] hover:border-primary/40 transition-all group shadow-sm"
                     >
-                      <span className="text-white font-medium block text-base group-hover:text-primary transition-colors">
+                      <span className="text-foreground font-medium block text-base group-hover:text-primary transition-colors">
                         {r.title}
                       </span>
                       {r.subtitle && (
-                        <span className="text-xs text-white/40 font-mono mt-1 block">
+                        <span className="text-xs text-foreground/50 font-mono mt-1 block">
                           {r.subtitle}
                         </span>
                       )}
@@ -208,13 +208,13 @@ export function SearchModal({ onClose }: SearchModalProps) {
                       key={r.slug}
                       href={r.href}
                       onClick={onClose}
-                      className="block p-4 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all group"
+                      className="block p-4 rounded-xl bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-foreground/[0.08] hover:border-primary/40 transition-all group shadow-sm"
                     >
-                      <span className="text-white font-medium block text-base group-hover:text-primary transition-colors">
+                      <span className="text-foreground font-medium block text-base group-hover:text-primary transition-colors">
                         {r.title}
                       </span>
                       {r.subtitle && (
-                        <span className="text-xs text-white/40 font-mono mt-1 block">
+                        <span className="text-xs text-foreground/50 font-mono mt-1 block">
                           {r.subtitle}
                         </span>
                       )}
@@ -235,13 +235,13 @@ export function SearchModal({ onClose }: SearchModalProps) {
                       key={r.slug}
                       href={r.href}
                       onClick={onClose}
-                      className="block p-4 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all group"
+                      className="block p-4 rounded-xl bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-foreground/[0.08] hover:border-primary/40 transition-all group shadow-sm"
                     >
-                      <span className="text-white font-medium block text-base group-hover:text-primary transition-colors">
+                      <span className="text-foreground font-medium block text-base group-hover:text-primary transition-colors">
                         {r.title}
                       </span>
                       {r.subtitle && (
-                        <span className="text-xs text-white/40 font-mono mt-1 block">
+                        <span className="text-xs text-foreground/50 font-mono mt-1 block">
                           {r.subtitle}
                         </span>
                       )}
@@ -262,13 +262,13 @@ export function SearchModal({ onClose }: SearchModalProps) {
                       key={r.slug}
                       href={r.href}
                       onClick={onClose}
-                      className="block p-4 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all group"
+                      className="block p-4 rounded-xl bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-foreground/[0.08] hover:border-primary/40 transition-all group shadow-sm"
                     >
-                      <span className="text-white font-medium block text-base group-hover:text-primary transition-colors">
+                      <span className="text-foreground font-medium block text-base group-hover:text-primary transition-colors">
                         {r.title}
                       </span>
                       {r.subtitle && (
-                        <span className="text-xs text-white/40 font-mono mt-1 block">
+                        <span className="text-xs text-foreground/50 font-mono mt-1 block">
                           {r.subtitle}
                         </span>
                       )}
@@ -289,13 +289,13 @@ export function SearchModal({ onClose }: SearchModalProps) {
                       key={r.slug}
                       href={r.href}
                       onClick={onClose}
-                      className="block p-4 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all group"
+                      className="block p-4 rounded-xl bg-foreground/[0.02] hover:bg-foreground/[0.06] border border-foreground/[0.08] hover:border-primary/40 transition-all group shadow-sm"
                     >
-                      <span className="text-white font-medium block text-base group-hover:text-primary transition-colors">
+                      <span className="text-foreground font-medium block text-base group-hover:text-primary transition-colors">
                         {r.title}
                       </span>
                       {r.subtitle && (
-                        <span className="text-xs text-white/40 font-mono mt-1 block">
+                        <span className="text-xs text-foreground/50 font-mono mt-1 block">
                           {r.subtitle}
                         </span>
                       )}

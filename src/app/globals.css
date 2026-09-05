@@ -241,6 +241,16 @@
     background-clip: text;
   }
 
+  /* ── Hero Mountain Wallpaper Styling (Luminous in Dark Mode) ─ */
+  .hero-wallpaper-img {
+    filter: contrast(1.06) saturate(1.08) brightness(1.02);
+    transition: filter 400ms ease;
+  }
+
+  .dark .hero-wallpaper-img {
+    filter: contrast(1.08) saturate(1.18) brightness(1.24);
+  }
+
   .text-gradient-blue {
     background: linear-gradient(135deg, #1E40AF 0%, #2563EB 50%, #0284C7 100%);
     -webkit-background-clip: text;
@@ -322,13 +332,25 @@
     box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
   }
 
-  /* Keep white text on primary buttons and dark pills */
+  /* Keep white text on primary buttons, dark pills, and dark photographic cards */
   .btn-primary, .bg-primary, .bg-primary *,
   button.bg-primary, button.bg-primary *,
   a.bg-primary, a.bg-primary *,
   .bg-black, .bg-black *,
-  .bg-slate-950, .bg-slate-950 * {
+  .bg-slate-950, .bg-slate-950 *,
+  .dark-photo-card h1, .dark-photo-card h2, .dark-photo-card h3,
+  .dark-photo-card h4, .dark-photo-card h5, .dark-photo-card h6,
+  .dark-photo-card .text-white {
     color: #FFFFFF !important;
+  }
+  .dark-photo-card .text-white\/90 {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  .dark-photo-card .text-white\/80 {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  .dark-photo-card .text-white\/75 {
+    color: rgba(255, 255, 255, 0.75) !important;
   }
 }
 
@@ -377,4 +399,68 @@
   pointer-events: none;
   will-change: transform;
 }
+
+/* ── Offline Print & Expedition Paper Guide Stylesheet ───────── */
+@media print {
+  /* Hide non-printable web UI */
+  header,
+  footer,
+  nav,
+  .no-print,
+  button,
+  [data-print="hide"],
+  .theme-toggle,
+  .grain-overlay,
+  .fog-layer {
+    display: none !important;
+  }
+
+  /* Force pure black on white for paper legibility and zero wasted ink */
+  body,
+  main,
+  article {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  h1, h2, h3, h4 {
+    color: #000000 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Preserve card layout on paper without dark backgrounds */
+  .glass-museum-card,
+  .glass-capsule,
+  .bg-card {
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+    color: #111111 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Keep day-by-day itinerary items from splitting across page cuts */
+  .itinerary-day-card,
+  article > section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  a {
+    color: #111111 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Unhide printable checklist checkboxes */
+  input[type="checkbox"] {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+  }
+}
+
 

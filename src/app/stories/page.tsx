@@ -5,19 +5,24 @@ import Image from "next/image";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { Compass, BookOpen, Clock, ArrowRight, Mountain, ShieldCheck } from "lucide-react";
+import { generatePageMetadata } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
-export const metadata: Metadata = {
-  title: "Himalayan Stories & Field Dispatches | Discover Himalayan Trails",
+export const metadata: Metadata = generatePageMetadata({
+  title: "Himalayan Field Dispatches & Expedition Stories — First-Hand Trail Chronicles",
   description:
-    "First-hand alpine narratives, route scouting chronicles, and photographic dispatches from high passes across Himachal Pradesh, Kashmir, Ladakh, and Uttarakhand.",
-  alternates: { canonical: "https://discoverhimalayantrails.com/stories" },
-  openGraph: {
-    title: "Himalayan Stories & Field Dispatches | Discover Himalayan Trails",
-    description: "First-hand alpine narratives, route scouting chronicles, and photographic dispatches across the Indian Himalayas.",
-    url: "https://discoverhimalayantrails.com/stories",
-    type: "website",
-  },
-};
+    "First-hand alpine narratives, route reconnaissance chronicles, and photographic dispatches from high passes across Himachal Pradesh, Kashmir, Ladakh, and Uttarakhand.",
+  path: "/stories",
+  keywords: [
+    "Himalayan trekking stories",
+    "alpine expedition stories",
+    "Hampta pass crossing narrative",
+    "Kashmir great lakes chronicles",
+    "Zanskar high pass dispatches",
+    "Nanda Devi trekking dispatch",
+  ],
+});
+
 
 interface StoryArticle {
   id: string;
@@ -103,8 +108,17 @@ const FEATURED_STORIES: StoryArticle[] = [
 ];
 
 export default function StoriesPage() {
+  const breadcrumbsSchema = buildBreadcrumbJsonLd([
+    { label: "Home", href: "/" },
+    { label: "Stories & Dispatches", href: "/stories" },
+  ]);
+
   return (
     <PageTransition>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbsSchema) }}
+      />
       <HeroSection 
         title="Field Dispatches & Alpine Stories" 
         subtitle="First-hand accounts, route reconnaissance reports, and photographic chronicles across the 2,400km Indian Himalayan Arc."

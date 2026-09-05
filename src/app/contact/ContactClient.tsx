@@ -13,7 +13,7 @@ export function ContactClient() {
     <main className="relative min-h-[90vh] pt-28 pb-24 bg-background overflow-hidden">
       {/* Ambient Radial Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(#0000000d_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none opacity-40" />
 
       <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 py-8">
         {/* Header Typography with Expedition Seal Badge */}
@@ -23,16 +23,16 @@ export function ContactClient() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: TRANSITION_EASE }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 mb-4"
             >
               <span className="w-2 h-2 rounded-full bg-amber-400" />
-              <span className="font-mono text-xs text-amber-300 uppercase tracking-widest">
+              <span className="font-mono text-xs text-amber-600 dark:text-amber-300 uppercase tracking-widest font-medium">
                 Official Expedition Seal • Atlas HQ
               </span>
             </motion.div>
 
             <motion.h1
-              className="font-display tracking-tight text-4xl sm:text-5xl md:text-6xl text-white mb-5 font-semibold"
+              className="font-display tracking-tight text-4xl sm:text-5xl md:text-6xl text-foreground mb-5 font-semibold"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: TRANSITION_EASE }}
@@ -40,7 +40,7 @@ export function ContactClient() {
               Discover Himalayan Trails
             </motion.h1>
             <motion.p
-              className="text-lg md:text-xl text-white/70 font-light leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: TRANSITION_EASE }}
@@ -66,22 +66,22 @@ export function ContactClient() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4, ease: TRANSITION_EASE }}
-            className="p-8 rounded-3xl bg-surface hover:bg-[#121216] border border-white/10 hover:border-primary/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+            className="p-8 rounded-3xl bg-card hover:bg-card/80 border border-border hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
           >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 mb-6">
                 <Mail className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-semibold text-white mb-2">
+              <h3 className="font-display text-xl font-semibold text-foreground mb-2">
                 Email Dispatch
               </h3>
-              <p className="text-white/60 text-sm font-light leading-relaxed mb-6">
+              <p className="text-muted-foreground text-sm font-light leading-relaxed mb-6">
                 For route verification, editorial inquiries, partnerships, and general queries.
               </p>
             </div>
             <a
               href="mailto:hello@discoverhimalayantrails.com"
-              className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-white/5"
+              className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-border/50"
             >
               hello@discoverhimalayantrails.com
             </a>
@@ -92,22 +92,22 @@ export function ContactClient() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: TRANSITION_EASE }}
-            className="p-8 rounded-3xl bg-surface hover:bg-[#121216] border border-white/10 hover:border-primary/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+            className="p-8 rounded-3xl bg-card hover:bg-card/80 border border-border hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
           >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 mb-6">
                 <Phone className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-semibold text-white mb-2">
+              <h3 className="font-display text-xl font-semibold text-foreground mb-2">
                 Field Helpline
               </h3>
-              <p className="text-white/60 text-sm font-light leading-relaxed mb-6">
+              <p className="text-muted-foreground text-sm font-light leading-relaxed mb-6">
                 Direct phone support for trail conditions, weather updates, and emergency guidance.
               </p>
             </div>
             <a
               href="tel:+919876543210"
-              className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-white/5"
+              className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-border/50"
             >
               +91 98765 43210
             </a>
@@ -118,40 +118,40 @@ export function ContactClient() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6, ease: TRANSITION_EASE }}
-            className="p-8 rounded-3xl bg-surface hover:bg-[#121216] border border-white/10 hover:border-primary/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+            className="p-8 rounded-3xl bg-card hover:bg-card/80 border border-border hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
           >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 mb-6">
                 <MapPin className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-semibold text-white mb-2">
+              <h3 className="font-display text-xl font-semibold text-foreground mb-2">
                 Basecamp HQ
               </h3>
-              <p className="text-white/60 text-sm font-light leading-relaxed mb-6">
+              <p className="text-muted-foreground text-sm font-light leading-relaxed mb-6">
                 Mall Road, Manali &amp; Shimla<br />
                 Himachal Pradesh 175131, India
               </p>
             </div>
-            <span className="text-xs font-mono text-white/40 block pt-4 border-t border-white/5">
+            <span className="text-xs font-mono text-muted-foreground block pt-4 border-t border-border/50">
               Field Operations &amp; Scouting
             </span>
           </motion.div>
         </div>
 
         {/* Mission & Territory Directory */}
-        <div className="p-8 md:p-12 rounded-3xl bg-surface border border-white/10 relative overflow-hidden">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+        <div className="p-8 md:p-12 rounded-3xl bg-card border border-border relative overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-border/50">
             <div>
-              <span className="font-mono text-xs text-primary uppercase tracking-widest block mb-1">
+              <span className="font-mono text-xs text-primary uppercase tracking-widest block mb-1 font-medium">
                 Explore The Indian Himalayas
               </span>
-              <h2 className="font-display text-2xl md:text-3xl font-semibold text-white">
+              <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
                 Atlas Territories
               </h2>
             </div>
             <Link
               href="/guides"
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-primary hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-primary hover:text-foreground transition-colors"
             >
               <BookOpen className="w-4 h-4" /> All Guides <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -162,18 +162,18 @@ export function ContactClient() {
               <Link
                 key={region.id}
                 href={`/explore/${region.id}`}
-                className="group p-5 rounded-2xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/30 transition-all flex flex-col justify-between"
+                className="group p-5 rounded-2xl bg-muted/40 hover:bg-muted border border-border/60 hover:border-primary/30 transition-all flex flex-col justify-between"
               >
                 <div>
                   <span className="text-3xl block mb-3">{region.emoji}</span>
-                  <h4 className="font-display font-semibold text-lg text-white mb-1 group-hover:text-primary transition-colors">
+                  <h4 className="font-display font-semibold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">
                     {region.name}
                   </h4>
-                  <p className="text-white/50 text-xs font-light line-clamp-2">
+                  <p className="text-muted-foreground text-xs font-light line-clamp-2">
                     {region.cardDesc}
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/40">
+                <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between text-xs font-mono text-muted-foreground">
                   <span>{region.subregions.length} Divisions</span>
                   <span className="text-primary group-hover:translate-x-1 transition-transform">
                     Explore →

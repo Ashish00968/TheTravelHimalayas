@@ -3,21 +3,45 @@ import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import Link from "next/link";
 import { Compass, Map, Calculator, Package, CloudLightning } from "lucide-react";
+import { generatePageMetadata } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Expedition Planning Suite | Discover Himalayan Trails",
+export const metadata: Metadata = generatePageMetadata({
+  title: "Himalayan Expedition Planning Suite — Trek Finder, Budget & Gear Tools",
   description:
-    "Professional deterministic tools for Himalayan trekking: Trek Finder, Comparison Matrix, Budget Calculator, Packing List Generator, and Seasonal Matrix.",
-  alternates: { canonical: "https://discoverhimalayantrails.com/plan" },
-  openGraph: {
-    title: "Expedition Planning Suite | Discover Himalayan Trails",
-    description: "Match, compare, budget, and prepare for your next Himalayan expedition with precision planning tools.",
-    url: "https://discoverhimalayantrails.com/plan",
-    type: "website",
-  },
-};
+    "Professional deterministic tools for Himalayan trekking: Trek Finder, Head-to-Head Comparison Matrix, Budget Estimator, Packing List Generator, and Seasonal Matrix.",
+  path: "/plan",
+  keywords: [
+    "Himalayan expedition planning",
+    "trek planning tools",
+    "Himalayan trek finder",
+    "trek comparison tool",
+    "trek budget calculator",
+    "trek packing list generator",
+  ],
+});
 
 export default function PlanPage() {
+  const breadcrumbsSchema = buildBreadcrumbJsonLd([
+    { label: "Home", href: "/" },
+    { label: "Plan", href: "/plan" },
+  ]);
+
+  const toolsListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Himalayan Expedition Planning Suite",
+    description: "Suite of interactive deterministic planning tools for Himalayan expeditions.",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trek Finder", url: `${SITE.url}/plan/trek-finder` },
+      { "@type": "ListItem", position: 2, name: "Trek Comparison Matrix", url: `${SITE.url}/plan/compare` },
+      { "@type": "ListItem", position: 3, name: "Trek Budget Calculator", url: `${SITE.url}/plan/budget` },
+      { "@type": "ListItem", position: 4, name: "Packing List Generator", url: `${SITE.url}/plan/packing` },
+      { "@type": "ListItem", position: 5, name: "Season Matrix", url: `${SITE.url}/plan/season` },
+    ],
+  };
+
   const tools = [
     {
       title: "Trek Finder",
@@ -58,6 +82,14 @@ export default function PlanPage() {
 
   return (
     <PageTransition>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(toolsListSchema) }}
+      />
       <HeroSection 
         title="Plan Your Expedition" 
         subtitle="Professional tools to discover, compare, and prepare for your next Himalayan adventure."

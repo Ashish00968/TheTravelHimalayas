@@ -15,6 +15,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { HimalayaPlace, HimalayaRegion, HimalayaSubRegion } from "@/data/atlas";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
 
@@ -85,7 +86,18 @@ export function DivisionClient({
       <div className="absolute inset-0 bg-[radial-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        {/* Breadcrumb */}
+        <div className="mb-4">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Explore", href: "/explore" },
+              { label: region.name, href: `/explore/${state}` },
+              { label: subRegion.name, href: `/explore/${state}/${division}` },
+            ]}
+          />
+        </div>
+
+        {/* Back Link */}
         <Link
           href={`/explore/${state}`}
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors mb-8 text-[10px] font-bold uppercase tracking-[0.15em] group"
@@ -226,8 +238,10 @@ export function DivisionClient({
                           src={placeHero}
                           alt={item.name}
                           fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-highland"
                         />
+
                       </div>
                     )}
 

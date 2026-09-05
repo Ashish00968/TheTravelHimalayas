@@ -22,7 +22,7 @@ export function ContentCard({
   return (
     <Link
       href={`${basePath}/${slug}`}
-      className="group block relative p-7 rounded-2xl bg-[#0d0d0f] hover:bg-[#141417] border border-white/10 hover:border-primary/40 transition-all duration-300 shadow-lg hover:shadow-primary/5 flex flex-col justify-between"
+      className="group block relative p-7 rounded-2xl bg-card hover:bg-card/80 border border-border hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
     >
       <div>
         {badges && badges.length > 0 && (
@@ -38,23 +38,23 @@ export function ContentCard({
           </div>
         )}
 
-        <h3 className="font-display text-xl sm:text-2xl font-semibold text-white mb-3 group-hover:text-primary transition-colors leading-tight">
+        <h3 className="font-display text-xl sm:text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors leading-tight">
           {title}
         </h3>
 
-        <p className="text-sm text-white/65 line-clamp-3 leading-relaxed mb-6 font-light">
+        <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed mb-6 font-light">
           {description}
         </p>
       </div>
 
-      <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-auto">
+      <div className="pt-4 border-t border-border/50 flex items-center justify-between mt-auto">
         {meta && meta.length > 0 ? (
-          <div className="flex flex-wrap gap-3 text-xs text-white/40">
+          <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
             {meta.map((m, i) => (
               <span key={m.label} className="flex items-center gap-2">
-                <span className="font-mono text-white/50">{m.value}</span>
+                <span className="font-mono text-muted-foreground">{m.value}</span>
                 {i < meta.length - 1 && (
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                  <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
                 )}
               </span>
             ))}

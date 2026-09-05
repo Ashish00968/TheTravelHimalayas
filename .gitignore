@@ -8,3 +8,5 @@ out
 *.tsbuildinfo
 Report.html
 .playwright-mcp
+info/
+scratch/
