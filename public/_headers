@@ -29,3 +29,13 @@
 # HTML documents: revalidate for instant updates
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Prevent search engine indexing on Cloudflare pages.dev subdomains (prevents duplicate content)
+https://thetravelhimalayas.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://*.thetravelhimalayas.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
