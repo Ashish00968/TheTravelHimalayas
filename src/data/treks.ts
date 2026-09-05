@@ -112,59 +112,122 @@ export const treks: Trek[] = [
   },
   {
     slug: "patalsu-peak",
-    title: "Patalsu Peak Day Hike",
+    title: "Patalsu Peak",
     region: "Kullu-Manali",
-    difficulty: "Moderate",
-    duration: "1 Day (5-6 hours)",
-    distance: "8 km",
-    maxAltitude: "4,220 m",
+    difficulty: "Challenging",
+    duration: "3 Days (1-Day Ultra Push for Fit Climbers)",
+    distance: "16 km round-trip",
+    maxAltitude: "4,261 m",
     bestSeason: "May to October",
-    coords: [32.3220, 77.1490],
+    coords: [32.3547, 77.1939],
     pathCoords: [
-      [32.3167, 77.1583], // Solang Trailhead (2,480m)
-      [32.3220, 77.1520], // Shagadugh Ridge Base (3,200m)
-      [32.3350, 77.1480], // High Alpine Moraine (3,800m)
-      [32.3480, 77.1450], // Patalsu Summit Ridge (4,220m)
+      [32.3207084, 77.153156],
+      [32.3213709, 77.1544826],
+      [32.3218839, 77.1556559],
+      [32.3211334, 77.1578156],
+      [32.3223317, 77.1597286],
+      [32.3235687, 77.1566359],
+      [32.326734, 77.1575822],
+      [32.3283213, 77.159604],
+      [32.3296138, 77.1605406],
+      [32.3310674, 77.1610072],
+      [32.3349906, 77.1624455],
+      [32.333463, 77.1633435],
+      [32.3339763, 77.1650009],
+      [32.3349343, 77.1674097],
+      [32.3364746, 77.1680582],
+      [32.3365693, 77.1690923],
+      [32.3362317, 77.1700603],
+      [32.3376497, 77.1709858],
+      [32.3399232, 77.1728621],
+      [32.3430227, 77.17523],
+      [32.3454777, 77.176108],
+      [32.346638, 77.1767026],
+      [32.3473727, 77.1770514],
+      [32.3484296, 77.177563],
+      [32.3507219, 77.1789534],
+      [32.3516948, 77.1797977],
+      [32.3519297, 77.1814396],
+      [32.3522329, 77.1831804],
+      [32.3522766, 77.1844407],
+      [32.3529648, 77.1865591],
+      [32.3515541, 77.1880191],
+      [32.3523286, 77.1895698],
+      [32.3532101, 77.1905993],
+      [32.3539401, 77.1906891],
+      [32.3547395, 77.1916726],
+      [32.3547474, 77.1938936],
     ],
-    startPoint: "Solang Village / Buruwa",
+    startPoint: "Solang Village / Buruwa (2,480m)",
     guideRatePerDay: 2500,
-    overview: "Patalsu Peak stands at approximately 4,220 meters and offers one of the most accessible high-altitude day hike experiences near Manali. The summit delivers a 360-degree panorama spanning the Pir Panjal range, Rohtang Pass, and the Kullu Valley below.",
-    routeDescription: "Take the Solang Valley ropeway to its upper station at approximately 3,300 meters. From here, follow the ridge trail heading northeast past high-altitude meadows and rocky moraine. The final ascent to the summit involves a steep scramble through loose shale.",
+    overview: "Patalsu Peak stands at 4,261 meters above Solang Valley, offering one of the most magnificent 360-degree panoramic vantage points in the Kullu region. While commercial guided expeditions pace this trek over 3 days with basecamp at Shagadugh meadow to allow safe acclimatization, experienced high-endurance mountaineers frequently push it as a grueling single-day summit attempt gaining over 1,700 vertical meters.\n\nFrom the summit crest, trekkers stand eye-level with Himalayan giants including Hanuman Tibba (5,982m), Friendship Peak (5,289m), Ladakhi Peak, Shitidhar, the Rohtang crest, and the boundless Dhauladhar ranges stretching toward the horizon.",
+    routeDescription: "Starting from the historic stone houses of Solang Village (2,480m), the trail ascends steadily through quiet deodar, pine, and birch woods where cattle graze in sunlit clearings. Breaking above the treeline at approximately 3,250m brings you to the broad, sweeping meadows of Shagadugh.\n\nFrom Shagadugh, the gradient steepens noticeably as the trail transitions from grassy slopes onto an exposed, narrow shale ridgeline. Hikers must negotiate loose scree and wind-blasted switchbacks while facing the immense precipice of Hanuman Tibba. The final 200m vertical push demands deliberate footwork across rock bands to reach the 4,261m summit marker.",
     itinerary: [
       {
         day: 1,
-        title: "Solang Village to Patalsu Summit and back",
-        description: "Start early from Solang Village or take the ropeway to 3,300m. Follow the clear ridge trail northeast through rhododendron shrubs and boulders. The final 200m vertical gain is steep but manageable with trekking poles. Summit views include Hanuman Tibba, Seven Sisters, and deep into the Kullu Valley. Descend by the same route. Total round-trip: 5-6 hours.",
-        elevationMeters: 4220,
-        distanceKm: 8
+        title: "Solang Valley / Buruwa (2,480m) to Shagadugh Alpine Meadow (3,250m)",
+        description: "Depart Old Manali and head toward Solang Valley. The trail leaves the commercial resort road and ascends through ancient Solang Village with its traditional stone houses and wooden balconies. Enter dense cedar, pine, and oak forests where village cattle graze in quiet clearings. Emerge above the treeline into the expansive Shagadugh meadow. Camp overnight under the stars with commanding views of the Solang basin.",
+        elevationMeters: 3250,
+        distanceKm: 5
+      },
+      {
+        day: 2,
+        title: "Summit Push: Shagadugh to Patalsu Peak (4,261m) & Return to High Camp",
+        description: "An alpine start at 5:00 AM to summit before midday convective clouds develop. Ascend steep grassy switchbacks that give way to an exposed, rocky ridgeline. As altitude increases, Hanuman Tibba (5,982m) looms in monumental scale directly across the valley. Battle the steep final 200m ridge of loose shale into bitter winds to reach the 4,261m summit. Enjoy an unrestricted 360° panorama of the Pir Panjal, Dhauladhar, and Rohtang pass before descending safely back to Shagadugh.",
+        elevationMeters: 4261,
+        distanceKm: 6
+      },
+      {
+        day: 3,
+        title: "Shagadugh Meadow to Solang Valley & Return to Old Manali (2,050m)",
+        description: "Wake to golden morning sunlight sweeping across the upper Kullu peaks. Enjoy a warm camp breakfast before descending through the pine forests to Solang Village. Celebrate with hot chai and paranthas at the valley trailhead before returning to Old Manali.",
+        elevationMeters: 2050,
+        distanceKm: 5
       }
     ],
     packingList: [
-      "Trekking shoes with ankle support",
-      "Layered warm clothing (summit can be cold even in summer)",
-      "Trekking poles — highly recommended for descent",
-      "2 liters of water",
-      "High-energy snacks",
-      "Sunscreen SPF 50+",
-      "Sunglasses with UV protection",
-      "Basic first aid kit"
+      "Sturdy high-ankle trekking boots with vibram or deep lug grip",
+      "Thermal base layers and down jacket (summit ridge is wind-swept and freezing)",
+      "Windproof and waterproof outer hardshell",
+      "Pair of trekking poles (indispensable on the loose scree descent)",
+      "Minimum 3 liters of water (no water sources above Shagadugh)",
+      "High-calorie trail snacks, energy bars, and dry fruits",
+      "UV400 Category 3/4 alpine sunglasses and sunscreen SPF 50+",
+      "Warm fleece gloves and windproof outer mittens",
+      "Headlamp with spare batteries for early dawn summit push",
+      "First aid kit with Diamox, ORS, and blister protection"
     ],
-    permits: "No permits are required for the Patalsu Peak day hike.",
+    permits: "No special inner-line permits are required. Normal forestry and local trailhead registration at Solang Village apply.",
     faqs: [
       {
-        question: "Do I need a local guide for Patalsu?",
-        answer: "Yes, standard guide rates in Solang range from ₹2,000 to ₹3,000 per day. Guides are vital to navigate the thick undergrowth in late monsoon and the steep snow slopes in early summer."
+        question: "Why do most people take 3 days while some do it in 1 day?",
+        answer: "Patalsu Peak demands more than 1,700 meters of continuous vertical ascent from Solang Valley (2,480m to 4,261m). Guided commercial groups standardise 3 days with camping at Shagadugh (3,250m) to acclimatize properly and prevent Acute Mountain Sickness (AMS). Solo, well-acclimatized athletes with ultra-endurance fitness sometimes attempt it as a grueling 12–14 hour single-day push starting before dawn."
       },
       {
-        question: "Is the Solang ropeway reliable?",
-        answer: "The ropeway operates during peak season (May–October) but can close in poor weather or high winds. Always have a contingency plan to walk up from the base."
+        question: "Is technical mountaineering equipment required?",
+        answer: "No technical climbing gear (ropes, harnesses, or ascenders) is required during the standard trekking window (June to October). However, sturdy boots, warm windproof layers, and trekking poles are strictly mandatory. In late autumn or early summer, microspikes or gaiters may be necessary for residual snow patches."
+      },
+      {
+        question: "What peaks are visible from the summit?",
+        answer: "The summit offers an unparalleled 360-degree panorama: the towering massif of Hanuman Tibba (5,982m) dominates the western view, along with Friendship Peak (5,289m), Ladakhi Peak, Shitidhar, the Rohtang ridge, and the sweeping snow crests of the Greater Himalayas and Dhauladhar."
       }
     ],
     images: [
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/2clearviewofPatalsu.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/4GoingtoSolangVillage.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/6SolangVillage.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/7trekStart.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/8intotheforestsectionCattleGrazing.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/v1777212310/9_1doghiking.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/10abovetheTreelineViewOfDhauladharRanges.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/11IntoRidgeline.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/13ViewOfHanumanTibba.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/12FinalRidge.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/14SummitSelfie.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/15SunsetHanumanTibba.jpg"
     ],
-    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-    description: "A rewarding high-altitude day hike from Solang Valley to a 4,220m summit with panoramic views of the Pir Panjal and Greater Himalayan ranges."
+    heroImage: "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/10abovetheTreelineViewOfDhauladharRanges.jpg",
+    description: "A commanding 4,261m non-technical summit rising above Solang Valley. Standard 3-day expedition with high camp at Shagadugh, or a grueling 1-day endurance push with 360° panoramas of Hanuman Tibba and the Pir Panjal."
   },
   {
     slug: "hampta-pass",

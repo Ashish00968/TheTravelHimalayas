@@ -257,15 +257,30 @@ export const himalayaAtlas: HimalayaRegion[] = [
         places: [
           ...treks.map((t) => {
             const isDayHike =
-              t.duration.toLowerCase().includes("1 day") ||
+              (t.duration.toLowerCase().includes("1 day") && !t.duration.toLowerCase().includes("3 day")) ||
               t.duration.toLowerCase().includes("hour") ||
-              t.slug === "patalsu-peak" ||
               t.slug === "lamadugh";
+
+            const isPatalsu = t.slug === "patalsu-peak";
+            const experience = isPatalsu
+              ? "The final push to the Patalsu summit ridge was into a bitter wind, but the moment the clouds parted and I saw both Rohtang and the Dhauladhar range at once — completely worth it. While standard guided trekking parties space this expedition across 3 days with basecamps at Shagadugh and high meadow, pushing the summit in a single day demands relentless endurance and early Alpine timing."
+              : undefined;
+
+            const tips = isPatalsu
+              ? [
+                  "Commercial parties standardise Patalsu as a 3-day trek with camping at Shagadugh (3,250m) to acclimatize properly; single-day ascents gain over 1,700m of vertical elevation and should only be attempted by ultra-fit, pre-acclimatized hikers starting before dawn.",
+                  "Start by 5:00 AM from Solang to clear the ridge and summit before afternoon convective clouds and gale winds roll in.",
+                  "Water is completely unavailable above Shagadugh meadow. Refill all bottles at the last forest stream (carry at least 3 liters).",
+                  "The final 200m vertical climb traverses loose scree and exposed rock bands — trekking poles are essential for balance on both ascent and descent.",
+                  "No technical mountaineering gear (ropes or crampons) is required between July and October, but high-ankle boots with deep lugs are mandatory."
+                ]
+              : undefined;
+
             return {
               id: t.slug,
               name: t.title,
               type: (isDayHike ? "day-hike" : "trek") as PlaceType,
-              emoji: isDayHike ? "🚶" : "🥾",
+              emoji: isDayHike ? "🚶" : (isPatalsu ? "⛰️" : "🥾"),
               coords: t.coords,
               elevation: t.maxAltitude,
               bestSeason: t.bestSeason,
@@ -274,6 +289,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
               distance: t.distance,
               overview: t.overview,
               routeDescription: t.routeDescription,
+              experience,
+              tips,
               itinerary: t.itinerary,
               packingList: t.packingList,
               faqs: t.faqs,

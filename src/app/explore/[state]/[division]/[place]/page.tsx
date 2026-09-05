@@ -54,12 +54,13 @@ export async function generateMetadata({
   const isTrek = Boolean(place.trekData || place.type === "trek");
   const isPeak = Boolean(place.peakData || place.type === "peak");
 
-  const baseName = place.name.replace(/\s+Trek$/i, "").replace(/\s+Peak$/i, "").trim();
   let pageTitle = `${place.name} Guide — Altitude, Route, Best Season & Map`;
   if (isTrek) {
-    pageTitle = `${baseName} Trek Guide — Itinerary, Difficulty, Best Time & 3D Map`;
+    const cleanTrekName = place.name.replace(/\s+Trek$/i, "").trim();
+    pageTitle = `${cleanTrekName} Trek Guide — Itinerary, Difficulty, Best Time & 3D Map`;
   } else if (isPeak) {
-    pageTitle = `${baseName} Peak Expedition Profile — Altitude, Climbing Route, Permits & Map`;
+    const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
+    pageTitle = `${cleanPeakName} Peak Expedition Profile — Altitude, Climbing Route, Permits & Map`;
   }
 
   const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);

@@ -241,15 +241,15 @@ A moderate hike through dense deodar forests leading to a high-altitude meadow:
 
 ## Patalsu Peak
 
-The most challenging day hike near Manali, rewarding strong hikers with 360-degree Himalayan views:
+A commanding 4,261m non-technical summit rising above Solang Valley. While commercial guided expeditions standardise Patalsu Peak as a 3-day trek with camping at Shagadugh meadow to allow safe acclimatization, experienced high-endurance hikers sometimes push the summit in a grueling single day:
 
-- **Distance**: 8 km round trip
-- **Duration**: 7–8 hours
-- **Difficulty**: Difficult
-- Start from the Solang Valley gondola top station (saves 2 hours of ascent)
-- Summit at 4,220m with views of Beas Kund, Hanuman Tibba, and Deo Tibba
-- Best attempted May–June and September–October when the trail is snow-free
-- Carry warm layers as temperatures drop sharply above 3,500m
+- **Distance**: 16 km round trip (8 km from Solang gondola station)
+- **Duration**: 3 Days (Standard Expedition) / 7–8 hours (Solo Ultra-Push)
+- **Difficulty**: Challenging
+- Trailhead starts at ancient Solang Village / Buruwa; ascents through cedar forests into Shagadugh
+- Summit at 4,261m delivers staggering 360-degree panoramas of Hanuman Tibba (5,982m), Friendship Peak, and Rohtang Pass
+- Best attempted June–July and September–October when the upper scree ridge is snow-free
+- Carry windproof layers and minimum 3 litres of water as streams dry up above the treeline
 
 ## Brighu Lake Trail (Short Version)
 
