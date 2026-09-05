@@ -80,10 +80,10 @@ export function ContactClient() {
               </p>
             </div>
             <a
-              href="mailto:hello@discoverhimalayantrails.com"
+              href="mailto:explore@discoverhimalayantrails.com"
               className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-border/50"
             >
-              hello@discoverhimalayantrails.com
+              explore@discoverhimalayantrails.com
             </a>
           </motion.div>
 

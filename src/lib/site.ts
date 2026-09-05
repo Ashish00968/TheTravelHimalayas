@@ -16,7 +16,8 @@ export const SITE = {
   author: "Discover Himalayan Trails Team",
   /** Contact addresses */
   email: {
-    hello: "hello@discoverhimalayantrails.com",
+    hello: "explore@discoverhimalayantrails.com",
+    explore: "explore@discoverhimalayantrails.com",
     photos: "photos@discoverhimalayantrails.com",
   },
   /** Social profiles. Replace # with real URLs once accounts are created. */
