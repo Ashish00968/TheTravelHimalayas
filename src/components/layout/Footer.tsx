@@ -36,30 +36,30 @@ export function Footer() {
 
           {/* Territories (Col 6-8) */}
           <div className="lg:col-span-3">
-            <h4 className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/50">
+            <p className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/75">
               Territories
-            </h4>
+            </p>
             <ul className="space-y-4">
               <li>
-                <Link href="/explore/himachal-pradesh" className="text-foreground/70 hover:text-[#F59E0B] text-sm font-light transition-colors flex items-center justify-between group">
+                <Link href="/explore/himachal-pradesh" className="text-foreground/80 hover:text-[#F59E0B] text-sm font-light transition-colors flex items-center justify-between group">
                   Himachal Pradesh
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="/explore/uttarakhand" className="text-foreground/70 hover:text-[#0D9488] text-sm font-light transition-colors flex items-center justify-between group">
+                <Link href="/explore/uttarakhand" className="text-foreground/80 hover:text-[#0D9488] text-sm font-light transition-colors flex items-center justify-between group">
                   Uttarakhand
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="/explore/ladakh" className="text-foreground/70 hover:text-[#7C3AED] text-sm font-light transition-colors flex items-center justify-between group">
+                <Link href="/explore/ladakh" className="text-foreground/80 hover:text-[#7C3AED] text-sm font-light transition-colors flex items-center justify-between group">
                   Ladakh
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="/explore/jammu-kashmir" className="text-foreground/70 hover:text-[#3B82F6] text-sm font-light transition-colors flex items-center justify-between group">
+                <Link href="/explore/jammu-kashmir" className="text-foreground/80 hover:text-[#3B82F6] text-sm font-light transition-colors flex items-center justify-between group">
                   Jammu &amp; Kashmir
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </Link>
@@ -69,27 +69,27 @@ export function Footer() {
 
           {/* Resources (Col 9-10) */}
           <div className="lg:col-span-2">
-            <h4 className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/50">
+            <p className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/75">
               Resources
-            </h4>
+            </p>
             <ul className="space-y-4">
               <li>
-                <Link href="/guides" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <Link href="/guides" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Compass className="w-3.5 h-3.5" /> Field Guides
                 </Link>
               </li>
               <li>
-                <Link href="/safety" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <Link href="/safety" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Shield className="w-3.5 h-3.5" /> Alpine Safety
                 </Link>
               </li>
               <li>
-                <Link href="/plan" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <Link href="/plan" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Mountain className="w-3.5 h-3.5" /> Itinerary Planner
                 </Link>
               </li>
               <li>
-                <Link href="/map" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <Link href="/map" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Map className="w-3.5 h-3.5" /> 3D Atlas
                 </Link>
               </li>
@@ -98,12 +98,12 @@ export function Footer() {
 
           {/* Connect (Col 11-12) */}
           <div className="lg:col-span-2">
-            <h4 className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/50">
+            <p className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] mb-6 text-foreground/75">
               Connect
-            </h4>
+            </p>
             <ul className="space-y-4">
               <li>
-                <Link href="/contact" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <Link href="/contact" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5" /> Contact
                 </Link>
               </li>
@@ -112,13 +112,13 @@ export function Footer() {
                   href="https://instagram.com/discoverhimalayantrails" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-foreground/70 hover:text-pink-500 text-sm font-light transition-colors flex items-center gap-2"
+                  className="text-foreground/80 hover:text-pink-500 text-sm font-light transition-colors flex items-center gap-2"
                 >
                   <Globe className="w-3.5 h-3.5" /> Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
+                <a href="#" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Send className="w-3.5 h-3.5" /> Telegram
                 </a>
               </li>
@@ -133,7 +133,7 @@ export function Footer() {
         >
           <div className="flex items-start gap-3">
             <Shield className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-foreground/70 font-light leading-relaxed">
+            <div className="text-xs text-foreground/80 font-light leading-relaxed">
               <strong className="text-amber-600 dark:text-amber-300 font-semibold">Development Phase &amp; Legal Disclaimer:</strong> Discover Himalayan Trails is currently in an active development preview. All photography, location imagery, coordinates, and route metadata are illustrative placeholders for technical demonstration and may not reflect real-world locations or current terrain conditions. High-altitude trekking involves inherent dangers. Users must independently verify all route logistics with local authorities. The platform accepts no legal liability for expedition decisions or outcomes.{" "}
               <Link href="/disclaimer" className="text-amber-600 dark:text-amber-400 hover:underline font-mono font-medium">
                 Read Full Terms &amp; Disclaimer →
@@ -146,10 +146,10 @@ export function Footer() {
         <div 
           className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-foreground/[0.08]"
         >
-          <div className="text-foreground/50 text-xs font-light">
+          <div className="text-foreground/75 text-xs font-light">
             &copy; {new Date().getFullYear()} Discover Himalayan Trails. Designed for high-altitude explorers.
           </div>
-          <div className="flex items-center gap-6 text-foreground/50 text-xs font-light">
+          <div className="flex items-center gap-6 text-foreground/75 text-xs font-light">
             <Link href="/disclaimer" className="hover:text-foreground transition-colors">Legal Disclaimer</Link>
             <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
           </div>

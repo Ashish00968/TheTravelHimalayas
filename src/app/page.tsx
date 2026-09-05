@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     images: [
       {
-        url: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg",
+        url: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1200/v1777213099/Wallpaper.jpg",
         width: 1200,
         height: 630,
         alt: "Discover Himalayan Trails Panorama",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
     description:
       "Definitive authority platform for trekking and alpine exploration in the Indian Himalayas. 59+ mapped trails, 3D terrain, and comprehensive safety protocols.",
-    images: ["https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"],
+    images: ["https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1200/v1777213099/Wallpaper.jpg"],
   },
 };
 

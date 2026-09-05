@@ -60,7 +60,7 @@ const TERRITORY_PROFILES: Record<
     glow: "rgba(59,130,246,0.35)",
     label: "Jammu & Kashmir",
     shortLabel: "Kashmir",
-    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1780383856/jkMain.jpg",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1780383856/jkMain.jpg",
     ranges: "Pir Panjal & Great Lakes Massif",
     altitude: "1,585m – 4,300m",
     emoji: "🏔️",
@@ -70,7 +70,7 @@ const TERRITORY_PROFILES: Record<
     glow: "rgba(245,158,11,0.35)",
     label: "Himachal Pradesh",
     shortLabel: "Himachal",
-    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777221149/himachalMain.jpg",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777221149/himachalMain.jpg",
     ranges: "Dhauladhar & Spiti Trans-Himalaya",
     altitude: "1,200m – 6,050m",
     emoji: "🌲",
@@ -80,7 +80,7 @@ const TERRITORY_PROFILES: Record<
     glow: "rgba(124,58,237,0.35)",
     label: "Ladakh",
     shortLabel: "Ladakh",
-    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777213083/ladakhMain.png",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213083/ladakhMain.png",
     ranges: "Zanskar, Ladakh & Karakoram Ranges",
     altitude: "3,000m – 7,135m",
     emoji: "🌌",
@@ -90,7 +90,7 @@ const TERRITORY_PROFILES: Record<
     glow: "rgba(13,148,136,0.35)",
     label: "Uttarakhand",
     shortLabel: "Uttarakhand",
-    image: "https://res.cloudinary.com/dehriwm1o/image/upload/v1777220041/UttrakhandMain.jpg",
+    image: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777220041/UttrakhandMain.jpg",
     ranges: "Garhwal & Kumaon Sanctuary",
     altitude: "1,800m – 7,816m",
     emoji: "🛕",
@@ -107,7 +107,7 @@ function MobileHero() {
       {/* Mountain Background Image */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image
-          src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+          src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
           alt="Himalayan Mountain Range Panorama"
           fill
           priority
@@ -231,22 +231,22 @@ function MobileHero() {
       >
         <div>
           <span className="font-display font-extrabold text-sm text-blue-400 block">59</span>
-          <span className="text-[9px] font-mono uppercase tracking-wider text-white/70">Trails</span>
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-200">Trails</span>
         </div>
         <span className="w-px h-5 bg-white/20" />
         <div>
           <span className="font-display font-extrabold text-sm text-amber-400 block">4</span>
-          <span className="text-[9px] font-mono uppercase tracking-wider text-white/70">Territories</span>
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-200">Territories</span>
         </div>
         <span className="w-px h-5 bg-white/20" />
         <div>
           <span className="font-display font-extrabold text-sm text-purple-400 block">7,816m</span>
-          <span className="text-[9px] font-mono uppercase tracking-wider text-white/70">Ceiling</span>
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-200">Ceiling</span>
         </div>
         <span className="w-px h-5 bg-white/20" />
         <div>
           <span className="font-display font-extrabold text-sm text-teal-400 block">100%</span>
-          <span className="text-[9px] font-mono uppercase tracking-wider text-white/70">Free</span>
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-200">Free</span>
         </div>
       </motion.div>
     </section>
@@ -357,7 +357,7 @@ function DesktopHero() {
           }}
         >
           <Image
-            src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
             alt="Himalayan Mountain Range Panorama"
             fill
             priority
@@ -524,28 +524,28 @@ function DesktopHero() {
             <div className="flex flex-wrap items-center justify-center gap-6 px-7 py-2.5 rounded-full glass-capsule border border-white/15 bg-white/[0.05] dark:bg-[#0A1122]/60 backdrop-blur-xl shadow-lg">
               <div className="flex items-center gap-2.5">
                 <span className="font-display font-extrabold text-base text-blue-400">59</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-white/70 font-semibold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
                   Mapped Trails
                 </span>
               </div>
               <span className="w-px h-4 bg-white/20" />
               <div className="flex items-center gap-2.5">
                 <span className="font-display font-extrabold text-base text-amber-400">4</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-white/70 font-semibold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
                   Territories
                 </span>
               </div>
               <span className="w-px h-4 bg-white/20" />
               <div className="flex items-center gap-2.5">
                 <span className="font-display font-extrabold text-base text-purple-400">7,816m</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-white/70 font-semibold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
                   Highest Peak
                 </span>
               </div>
               <span className="w-px h-4 bg-white/20" />
               <div className="flex items-center gap-2.5">
                 <span className="font-display font-extrabold text-base text-teal-400">100%</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-white/70 font-semibold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
                   Free Access
                 </span>
               </div>
@@ -897,10 +897,10 @@ function PlatformTrustRibbon() {
               <Icon className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-display font-bold text-sm text-foreground mb-1">
+              <h3 className="font-display font-bold text-sm text-foreground mb-1">
                 {title}
-              </h4>
-              <p className="text-xs text-foreground/65 font-light leading-relaxed">
+              </h3>
+              <p className="text-xs text-foreground/80 font-light leading-relaxed">
                 {desc}
               </p>
             </div>
