@@ -22,7 +22,7 @@ export const SITE = {
   },
   /** Social profiles. Replace # with real URLs once accounts are created. */
   social: {
-    instagram: "#",
+    instagram: "https://instagram.com/discoverhimalayantrails",
     youtube: "#",
     twitter: "#",
   },

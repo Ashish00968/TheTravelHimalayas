@@ -2,9 +2,19 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Mail, Phone, MapPin, ArrowRight, BookOpen } from "lucide-react";
+import { Mail, MapPin, ArrowRight, BookOpen } from "lucide-react";
 import { himalayaAtlas } from "@/data/atlas";
 import { LogoSeal } from "@/components/brand/LogoSeal";
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
 
 const TRANSITION_EASE = [0.23, 1, 0.32, 1] as const;
 
@@ -87,29 +97,31 @@ export function ContactClient() {
             </a>
           </motion.div>
 
-          {/* Card 2: Phone */}
+          {/* Card 2: Instagram */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: TRANSITION_EASE }}
-            className="p-8 rounded-3xl bg-card hover:bg-card/80 border border-border hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
+            className="p-8 rounded-3xl bg-card hover:bg-card/80 border border-border hover:border-pink-500/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
           >
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 mb-6">
-                <Phone className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-2xl bg-pink-500/10 text-pink-500 flex items-center justify-center border border-pink-500/20 mb-6">
+                <InstagramIcon className="w-6 h-6" />
               </div>
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-                Field Helpline
+                Instagram Community
               </h3>
               <p className="text-muted-foreground text-sm font-light leading-relaxed mb-6">
-                Direct phone support for trail conditions, weather updates, and emergency guidance.
+                Follow our visual expeditions, trail highlights, behind-the-scenes scouting, and announcements.
               </p>
             </div>
             <a
-              href="tel:+919876543210"
-              className="text-sm font-mono text-primary hover:underline block pt-4 border-t border-border/50"
+              href="https://instagram.com/discoverhimalayantrails"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-mono text-pink-500 hover:text-pink-400 hover:underline block pt-4 border-t border-border/50"
             >
-              +91 98765 43210
+              @discoverhimalayantrails
             </a>
           </motion.div>
 

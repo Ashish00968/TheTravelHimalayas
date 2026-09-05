@@ -108,8 +108,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
-                  <Globe className="w-3.5 h-3.5" /> Social
+                <a 
+                  href="https://instagram.com/discoverhimalayantrails" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-foreground/70 hover:text-pink-500 text-sm font-light transition-colors flex items-center gap-2"
+                >
+                  <Globe className="w-3.5 h-3.5" /> Instagram
                 </a>
               </li>
               <li>
