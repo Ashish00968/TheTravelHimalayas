@@ -1,88 +1,19 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import { Logo, LogoMark } from "@/components/brand/Logo";
 import { LogoSeal } from "@/components/brand/LogoSeal";
 import { ArrowLeft, Download, Sparkles, CheckCircle2 } from "lucide-react";
 
 export default function BrandAssetClient() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const handleDownloadDp = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const size = 1080;
-    canvas.width = size;
-    canvas.height = size;
-
-    // Draw background circle
-    const center = size / 2;
-    const radius = size / 2 - 20;
-
-    // Outer dark radial gradient
-    const bgGrad = ctx.createRadialGradient(center, center * 0.7, 0, center, center, radius);
-    bgGrad.addColorStop(0, "#151f32");
-    bgGrad.addColorStop(0.65, "#080d17");
-    bgGrad.addColorStop(1, "#030509");
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(center, center, radius, 0, Math.PI * 2);
-    ctx.fillStyle = bgGrad;
-    ctx.fill();
-
-    // Golden sunrise alpenglow in upper center
-    const glowGrad = ctx.createRadialGradient(center, center * 0.65, 0, center, center * 0.65, radius * 0.7);
-    glowGrad.addColorStop(0, "rgba(254, 240, 138, 0.45)");
-    glowGrad.addColorStop(0.35, "rgba(245, 158, 11, 0.2)");
-    glowGrad.addColorStop(1, "transparent");
-    ctx.fillStyle = glowGrad;
-    ctx.fill();
-
-    // Outer gold metallic bezel
-    ctx.lineWidth = 14;
-    const goldGrad = ctx.createLinearGradient(0, 0, size, size);
-    goldGrad.addColorStop(0, "#FFFBEB");
-    goldGrad.addColorStop(0.3, "#FDE68A");
-    goldGrad.addColorStop(0.6, "#F59E0B");
-    goldGrad.addColorStop(1, "#B45309");
-    ctx.strokeStyle = goldGrad;
-    ctx.stroke();
-
-    // Inner gold hairline ring
-    ctx.beginPath();
-    ctx.arc(center, center, radius - 24, 0, Math.PI * 2);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "rgba(245, 158, 11, 0.35)";
-    ctx.stroke();
-
-    // Draw Mountain Peak (Ama Dablam)
-    const img = new (window as unknown as { Image: new () => HTMLImageElement }).Image();
-    img.crossOrigin = "anonymous";
-    img.src = "/mountain-transparent.png";
-    img.onload = () => {
-      const mountainSize = size * 0.72;
-      const x = (size - mountainSize) / 2;
-      const y = (size - mountainSize) / 2 + 30;
-
-      // Clip to circular badge before drawing mountain
-      ctx.beginPath();
-      ctx.arc(center, center, radius - 10, 0, Math.PI * 2);
-      ctx.clip();
-
-      ctx.drawImage(img, x, y, mountainSize, mountainSize);
-      ctx.restore();
-
-      // Trigger download
-      const link = document.createElement("a");
-      link.download = "discover-himalayan-trails-instagram-dp.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    };
+    const link = document.createElement("a");
+    link.download = "discover-himalayan-trails-instagram-dp.png";
+    link.href = "/brand/instagram-profile-logo.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -136,15 +67,12 @@ export default function BrandAssetClient() {
 
             <div className="mb-8">
               <h3 className="text-xl font-display font-bold text-foreground mb-2">
-                Ama Dablam Minimalist Emblem
+                Official Himalayan Trails Medallion
               </h3>
               <p className="text-foreground/60 text-xs sm:text-sm max-w-md font-light leading-relaxed">
-                Free of cluttered arched text, designed to remain razor-sharp and instantly recognizable at small 110px mobile app icon sizes.
+                Precision alpine medallion with sunrise alpenglow, majestic Himalayan massif, and circular double cyan ring border.
               </p>
             </div>
-
-            {/* Hidden canvas for PNG generation */}
-            <canvas ref={canvasRef} className="hidden" />
 
             <button
               onClick={handleDownloadDp}
