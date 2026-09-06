@@ -33,7 +33,7 @@ Key capabilities of the platform:
 - **Compressed Single-Card FAQ Engine**: Single compact capsule card expanding into 10 interactive question accordions with pre-rendered Schema.org `FAQPage` structured data.
 - **Platform Authority Ribbon**: 4 trust pillars on the homepage highlighting Zero Commercial Bias, 100% Geospatially Mapped, Clinical Altitude Protocols, and Offline PWA & Print Ready.
 - **Intelligent Search & Discovery**: Fast, token-matched, multi-facet search across treks, peaks, regions, and guides with instant O(1) `placeLocationIndex` resolution.
-- **World-Class SEO Scaffolding**: Rich JSON-LD structured data (`Article`, `Mountain`, `TouristTrip`, `FAQPage`, `BreadcrumbList`), dynamic sitemaps, semantic HTML, and open graph optimization across all 111 static pre-rendered routes.
+- **World-Class SEO Scaffolding**: Rich JSON-LD structured data (`Article`, `Mountain`, `TouristTrip`, `FAQPage`, `BreadcrumbList`), dynamic sitemaps, semantic HTML, and open graph optimization across all 112 static pre-rendered routes.
 
 Do not overbuild. Build strictly what aligns with the roadmap, the current task, and user specifications.
 
@@ -108,8 +108,8 @@ Follow this structured workflow loop for every task:
 - **Design Tokens over Hardcoded Styles**:
   - Always use Tailwind CSS utility classes configured in `tailwind.config.ts` and CSS variables in `src/app/globals.css`.
   - Consult `info/context.md` before building new UI.
-- **Responsiveness**: Mobile-first responsive layouts down to 320px.
-- **Accessibility & Touch Targets**: Minimum 44px tap targets for mobile interactions, clear focus rings (`focus-visible:ring-2`), proper ARIA labels, semantic landmark elements, and skip links.
+- **Accessibility & Touch Targets**: Minimum 44px tap targets for mobile interactions, clear focus rings (`focus-visible:ring-2`), proper ARIA labels, semantic landmark elements, and skip links. Maintain WCAG AA / AAA contrast ratios (minimum 4.5:1 for normal text, 7:1 for small text) across both light and dark modes. Never use opacity below 75% on body text.
+- **Strict Heading Hierarchy**: Headings must strictly descend sequentially (`<h1>` &rarr; `<h2>` &rarr; `<h3>`). Never skip levels (e.g. `<h2>` jumping straight to `<h4>`). Use styled `<p>` tags for navigational column labels.
 - **Animations**: Subtle, high-performance animations using `framer-motion` and `tailwindcss-animate`. Respect `prefers-reduced-motion`.
 
 ---
@@ -130,11 +130,12 @@ Follow this structured workflow loop for every task:
 │   └── api/newsletter.ts # Edge serverless route handler for newsletter submissions
 ├── src/
 │   ├── app/              # Next.js App Router (pages, layouts, static SSG)
-│   │   ├── (routes)/     # 111 static routes (/explore, /guides, /safety, /plan, /map, etc.)
+│   │   ├── (routes)/     # 112 static routes (/explore, /guides, /safety, /plan, /map, etc.)
 │   │   ├── globals.css   # Global styles, Himalayan design tokens, CSS variables
 │   │   ├── layout.tsx    # Root layout with navbar, footer, analytics, metadata
-│   │   ├── sitemap.ts    # Dynamic XML sitemap generation (111 routes)
+│   │   ├── sitemap.ts    # Dynamic XML sitemap generation (112 routes)
 │   │   ├── robots.ts     # Robots.txt configuration
+│   │   ├── robot.txt/    # Singular crawler fallback route
 │   │   └── manifest.webmanifest/ # Dynamic W3C Web App Manifest route
 │   ├── components/       # Reusable UI components
 │   │   ├── ui/           # Atomic primitives (buttons, dialogs, badges, inputs)
@@ -193,6 +194,9 @@ Follow this structured workflow loop for every task:
 - **O(1) Indexed Lookups**: All geospatial and route resolutions use `placeLocationIndex` (Map) in `src/data/atlas.ts` instead of linear array scans.
 - **Zero-Auth LocalStorage Bookmark Engine**: Client-side bookmarking using React 19 `useSyncExternalStore` for flicker-free, hydration-safe cross-component synchronization without backend overhead.
 - **Programmatic SEO & Schema**: Every entity page (trek, peak, guide, safety topic) automatically generates corresponding OpenGraph tags, canonical links, and Schema.org JSON-LD structures (`TouristTrip`, `Mountain`, `Article`, `FAQPage`, `BreadcrumbList`).
+- **Edge Image Delivery Pipeline**: All remote mountain imagery must use Cloudinary URL transformations (`f_auto,q_auto,w_*`) to eliminate multi-megabyte payloads. Mobile wallpapers capped at `w_800` (<70 KB), desktop at `w_1600` (<300 KB), and cards at `w_800`–`w_1000`.
+- **Telemetry & Google Analytics 4**: GA4 measurement tag `G-LER3T5515M` injected in `<head>` with preconnect optimizations and `process.env.NEXT_PUBLIC_GA_ID` override support.
+- **Crawler & Staging Protection**: Cloudflare Pages `public/_headers` restricts crawler indexing on `*.pages.dev/*` via `X-Robots-Tag: noindex` to preserve organic ranking authority on `discoverhimalayantrails.com`.
 - **Client-Side Search**: Multi-category search runs efficiently in-memory over typed datasets using tokenized scoring in `src/lib/search.ts` without external search infrastructure costs.
 - **Strict Git Documentation Privacy**: Private developer context and historical build logs reside exclusively in `info/` which is ignored by Git, leaving the repository clean with a single public `README.md`.
 

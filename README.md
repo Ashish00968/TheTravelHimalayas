@@ -17,7 +17,9 @@
 - **Offline PWA & Print Ready**: Dynamic Web App Manifest (`/manifest.webmanifest`) and `@media print` paper-guide stylesheets with page-break-proof cards.
 - **Zero-Auth Bookmarking**: Client-side saved expeditions drawer powered by React 19 `useSyncExternalStore` with real-time navigation badge.
 - **Compressed Single-Card FAQ Engine**: Sleek capsule card with category tags and interactive accordion drawer with pre-rendered Schema.org `FAQPage` structured data.
-- **Production Edge Performance**: Zero runtime database latency with strongly-typed static TypeScript datasets, O(1) indexed `placeLocationIndex` resolution, and 100% static pre-rendering (111 pre-rendered routes).
+- **Edge Performance & Asset Optimization**: Zero runtime database latency with strongly-typed static TypeScript datasets, O(1) indexed `placeLocationIndex` resolution, dynamic Cloudinary WebP/AVIF transformations (`f_auto,q_auto`), and 100% static pre-rendering (112 pre-rendered routes).
+- **Integrated Telemetry**: Google Analytics 4 (GA4) with non-blocking async execution.
+- **Official Brand Community**: Instagram community [@discoverhimalayantrails](https://instagram.com/discoverhimalayantrails) and expedition dispatch at `explore@discoverhimalayantrails.com`.
 
 ---
 
@@ -31,6 +33,7 @@
 - **Geospatial & 3D Maps**: Mapbox GL & `react-map-gl` (with WebGL satellite terrain)
 - **Icons**: Lucide React
 - **Validation**: Zod
+- **Telemetry**: Google Analytics (gtag.js)
 - **Edge Deployment**: Static Export (`output: "export"`) with Cloudflare Pages Functions (`functions/api/newsletter.ts`)
 
 ---
