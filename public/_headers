@@ -30,7 +30,3 @@
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 
-# Prevent search engine indexing on Cloudflare pages.dev domain (prevents duplicate content)
-https://thetravelhimalayas.pages.dev/*
-  X-Robots-Tag: noindex
-

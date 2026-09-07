@@ -7,7 +7,7 @@ import {
   buildTouristTripJsonLd,
   serializeJsonLd,
 } from "@/lib/json-ld";
-import { SITE } from "@/lib/site";
+import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     "Himalayan weather radar",
   ],
   alternates: {
-    canonical: SITE.url,
+    canonical: absoluteUrl("/"),
   },
   openGraph: {
     title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
     description:
       "Definitive authority platform for trekking and alpine exploration in the Indian Himalayas. 59+ mapped trails, interactive 3D terrain, real-time safety telemetry, and expedition planning instruments.",
-    url: SITE.url,
+    url: absoluteUrl("/"),
     siteName: SITE.name,
     images: [
       {

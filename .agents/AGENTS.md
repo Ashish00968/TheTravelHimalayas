@@ -196,7 +196,7 @@ Follow this structured workflow loop for every task:
 - **Programmatic SEO & Schema**: Every entity page (trek, peak, guide, safety topic) automatically generates corresponding OpenGraph tags, canonical links, and Schema.org JSON-LD structures (`TouristTrip`, `Mountain`, `Article`, `FAQPage`, `BreadcrumbList`).
 - **Edge Image Delivery Pipeline**: All remote mountain imagery must use Cloudinary URL transformations (`f_auto,q_auto,w_*`) to eliminate multi-megabyte payloads. Mobile wallpapers capped at `w_800` (<70 KB), desktop at `w_1600` (<300 KB), and cards at `w_800`–`w_1000`.
 - **Telemetry & Google Analytics 4**: GA4 measurement tag `G-LER3T5515M` injected in `<head>` with preconnect optimizations and `process.env.NEXT_PUBLIC_GA_ID` override support.
-- **Crawler & Staging Protection**: Cloudflare Pages `public/_headers` restricts crawler indexing on `*.pages.dev/*` via `X-Robots-Tag: noindex` to preserve organic ranking authority on `discoverhimalayantrails.com`.
+- **Crawler & Staging Protection**: Cloudflare Pages middleware (`functions/_middleware.ts`) conditionally sets `X-Robots-Tag: noindex, nofollow` exclusively on `*.pages.dev/*` staging deployments, preserving 100% clean indexability and organic ranking authority on `discoverhimalayantrails.com`.
 - **Client-Side Search**: Multi-category search runs efficiently in-memory over typed datasets using tokenized scoring in `src/lib/search.ts` without external search infrastructure costs.
 - **Strict Git Documentation Privacy**: Private developer context and historical build logs reside exclusively in `info/` which is ignored by Git, leaving the repository clean with a single public `README.md`.
 
