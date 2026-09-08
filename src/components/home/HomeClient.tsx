@@ -1279,7 +1279,7 @@ function IconicTreksSection() {
   const WAYPOINTS = [
     { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Beas Kund", alt: "3,700 m" },
     { color: "#F59E0B", bg: "bg-amber-500", glow: "rgba(245, 158, 11, 0.45)", name: "Lamadugh", alt: "3,300 m" },
-    { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Patalsu Peak", alt: "4,220 m" },
+    { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Patalsu Peak Trek", alt: "4,261 m" },
     { color: "#10B981", bg: "bg-emerald-500", glow: "rgba(16, 185, 129, 0.45)", name: "Hampta Pass", alt: "4,270 m" },
   ];
 

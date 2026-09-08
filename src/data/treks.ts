@@ -112,7 +112,7 @@ export const treks: Trek[] = [
   },
   {
     slug: "patalsu-peak",
-    title: "Patalsu Peak",
+    title: "Patalsu Peak Trek",
     region: "Kullu-Manali",
     difficulty: "Challenging",
     duration: "3 Days (1-Day Ultra Push for Fit Climbers)",

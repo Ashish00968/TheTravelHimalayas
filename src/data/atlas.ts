@@ -94,8 +94,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sanasar",
             name: "Sanasar Lake & Meadow",
-            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
             type: "lake",
             emoji: "🛶",
             coords: [33.1230, 75.2810],
@@ -708,8 +706,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khirsu",
             name: "Khirsu Mountain Village",
-            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🍂",
             coords: [30.1700, 78.8500],
@@ -875,8 +871,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "pangong-tso",
             name: "Pangong Tso Lake",
-            heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=72",
             type: "lake",
             emoji: "🌊",
             coords: [33.7500, 78.6500],
