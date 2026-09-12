@@ -54,10 +54,10 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
   const fillPathD = `${pathD} L ${getX(points.length - 1)} ${height - 50} L ${getX(0)} ${height - 50} Z`;
 
   return (
-    <div className="w-full relative overflow-hidden bg-card border border-border rounded-3xl p-6 md:p-10 shadow-sm">
+    <div className="w-full relative overflow-hidden bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-sm dark:shadow-xl">
       <div className="mb-8">
-        <h3 className="text-xl font-display font-semibold text-foreground mb-2">Elevation Profile</h3>
-        <p className="text-muted-foreground text-sm font-light">Interactive altitude map across the itinerary.</p>
+        <h3 className="text-xl font-display font-semibold text-slate-900 dark:text-white mb-2">Elevation Profile</h3>
+        <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Interactive altitude map across the itinerary.</p>
       </div>
 
       <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
@@ -65,8 +65,8 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
           <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto overflow-visible">
             <defs>
               <linearGradient id="elevationGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+                <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.02" />
               </linearGradient>
             </defs>
 
@@ -75,9 +75,9 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
               const y = height - 50 - ratio * (height - 100);
               const elevValue = Math.round(chartMinY + ratio * (chartMaxY - chartMinY));
               return (
-                <g key={ratio} className="text-foreground/20">
+                <g key={ratio} className="text-slate-400/40 dark:text-white/20">
                   <line x1="50" y1={y} x2={width - 50} y2={y} stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
-                  <text x="40" y={y + 4} fill="currentColor" fontSize="12" textAnchor="end" className="font-light">
+                  <text x="40" y={y + 4} fill="currentColor" fontSize="12" textAnchor="end" className="font-mono text-slate-500 dark:text-slate-400 font-light">
                     {elevValue}m
                   </text>
                 </g>
@@ -97,7 +97,7 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
             <motion.path
               d={pathD}
               fill="none"
-              stroke="var(--primary)"
+              stroke="#3B82F6"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -127,8 +127,8 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                     cx={x} 
                     cy={y} 
                     r={isHovered ? "8" : "5"} 
-                    fill="var(--background)" 
-                    stroke="var(--primary)" 
+                    fill="var(--bg-surface)" 
+                    stroke="#3B82F6" 
                     strokeWidth="3" 
                     className="transition-all duration-300"
                   />
@@ -140,7 +140,7 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                     fill="currentColor"
                     fontSize="14" 
                     textAnchor="middle" 
-                    className={`font-medium transition-colors ${isHovered ? "text-primary" : "text-muted-foreground"}`}
+                    className={`font-medium transition-colors ${isHovered ? "text-primary font-bold" : "text-slate-600 dark:text-slate-400"}`}
                   >
                     Day {p.day}
                   </text>
@@ -153,7 +153,7 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                       fill="currentColor"
                       fontSize="11" 
                       textAnchor="middle" 
-                      className="text-muted-foreground/60 font-light"
+                      className="text-slate-500 dark:text-slate-400 font-mono font-light"
                     >
                       {p.distanceKm} km
                     </text>
@@ -168,27 +168,27 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                         width="200" 
                         height="60" 
                         rx="8" 
-                        className="fill-card stroke-border" 
+                        fill="#0E172C" 
+                        stroke="rgba(255,255,255,0.2)" 
                         strokeWidth="1"
                       />
                       <text 
                         x={x} 
                         y={y - 55} 
-                        fill="currentColor"
+                        fill="#FFFFFF"
                         fontSize="14" 
                         fontWeight="600" 
                         textAnchor="middle"
-                        className="text-foreground"
                       >
                         {p.elevationMeters} m
                       </text>
                       <text 
                         x={x} 
                         y={y - 35} 
-                        fill="currentColor"
+                        fill="#94A3B8" 
                         fontSize="12" 
                         textAnchor="middle" 
-                        className="text-muted-foreground font-light truncate"
+                        className="font-light truncate"
                       >
                         {p.title.length > 25 ? p.title.substring(0, 25) + '...' : p.title}
                       </text>

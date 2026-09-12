@@ -7,7 +7,6 @@ import {
   Search, 
   Compass, 
   Mountain, 
-  Waves, 
   Footprints, 
   MapPin, 
   ArrowUpRight, 
@@ -42,11 +41,10 @@ interface ExploreDirectoryProps {
 }
 
 const CATEGORY_TABS = [
-  { id: "all", label: "All Expeditions", icon: Compass },
-  { id: "trek", label: "High-Altitude Treks", icon: Footprints },
-  { id: "peak", label: "Summit Peaks", icon: Mountain },
-  { id: "lake-pass", label: "Lakes & Passes", icon: Waves },
-  { id: "day-hike", label: "Day Hikes & Trails", icon: MapPin },
+  { id: "all", label: "All Destinations", icon: Compass },
+  { id: "places", label: "Places", icon: MapPin },
+  { id: "treks", label: "Treks & Trails", icon: Footprints },
+  { id: "expeditions", label: "Expeditions", icon: Mountain },
 ] as const;
 
 const TERRITORY_FILTERS = [
@@ -77,10 +75,9 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
       .filter((place) => {
         // Category Filter
         if (selectedCategory !== "all") {
-          if (selectedCategory === "trek" && place.type !== "trek") return false;
-          if (selectedCategory === "peak" && place.type !== "peak") return false;
-          if (selectedCategory === "lake-pass" && place.type !== "lake" && place.type !== "scenic") return false;
-          if (selectedCategory === "day-hike" && place.type !== "day-hike") return false;
+          if (selectedCategory === "places" && (place.type === "trek" || place.type === "peak" || place.type === "day-hike")) return false;
+          if (selectedCategory === "treks" && place.type !== "trek" && place.type !== "day-hike") return false;
+          if (selectedCategory === "expeditions" && place.type !== "peak") return false;
         }
 
         // Territory Filter
@@ -279,6 +276,12 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               border: "rgba(59,130,246,0.25)",
             };
             const imageSrc = place.heroImage || place.image;
+            const categoryBadge =
+              place.type === "peak"
+                ? "Expedition"
+                : place.type === "trek" || place.type === "day-hike"
+                ? "Trek & Trail"
+                : "Place";
 
             return (
               <Link
@@ -316,23 +319,30 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                         className="font-mono text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
                         style={{ color: style.accent, background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
                       >
-                        {place.type}
+                        {categoryBadge}
                       </span>
                     </div>
                   )}
 
                   {/* Badges Row */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span 
-                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                      style={{ 
-                        color: style.accent, 
-                        background: `${style.accent}15`, 
-                        border: `1px solid ${style.accent}30` 
-                      }}
-                    >
-                      {place.regionName}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span 
+                        className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                        style={{ 
+                          color: style.accent, 
+                          background: `${style.accent}15`, 
+                          border: `1px solid ${style.accent}30` 
+                        }}
+                      >
+                        {place.regionName}
+                      </span>
+                      <span 
+                        className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-foreground/70 bg-foreground/[0.05] border border-foreground/[0.08]"
+                      >
+                        {categoryBadge}
+                      </span>
+                    </div>
 
                     <span 
                       className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-foreground/60 bg-muted/60 border border-foreground/[0.08]"

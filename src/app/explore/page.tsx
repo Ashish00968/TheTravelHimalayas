@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { himalayaAtlas } from "@/data/atlas";
 import { ExploreDirectory, ExplorePlaceItem } from "@/components/explore/ExploreDirectory";
-import { ArrowRight, Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
+import { ExploreTerritoriesTree } from "@/components/explore/ExploreTerritoriesTree";
+import { Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
 import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
@@ -23,14 +23,6 @@ export const metadata: Metadata = generatePageMetadata({
     "Kashmir alpine lakes directory",
   ],
 });
-
-
-const TERRITORY_STYLES: Record<string, { accent: string; glow: string; border: string }> = {
-  "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.25)", border: "rgba(59,130,246,0.35)" },
-  "himachal-pradesh": { accent: "#F59E0B", glow: "rgba(245,158,11,0.25)", border: "rgba(245,158,11,0.35)" },
-  ladakh:             { accent: "#7C3AED", glow: "rgba(124,58,237,0.25)", border: "rgba(124,58,237,0.35)" },
-  uttarakhand:        { accent: "#0D9488", glow: "rgba(13,148,136,0.25)", border: "rgba(13,148,136,0.35)" },
-};
 
 export default function ExplorePage() {
   // Flatten all places across territories and valleys
@@ -94,7 +86,7 @@ export default function ExplorePage() {
 
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden border-b border-foreground/[0.08]">
+      <section className="relative py-14 md:py-20 overflow-hidden">
         {/* Ambient Top Glow */}
         <div 
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] rounded-full blur-[140px] pointer-events-none opacity-20 bg-primary/20"
@@ -138,120 +130,23 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Territory Command Center */}
-      <section className="container mx-auto px-6 max-w-7xl py-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+      {/* The Four Himalayan Territories — Interconnected Expedition Tree */}
+      <ExploreTerritoriesTree />
+
+      {/* Master Trailhead & Summit Directory */}
+      <section className="container mx-auto px-4 sm:px-6 max-w-7xl pb-16">
+        {/* Directory Header — Clean, seamless without harsh divider lines */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pt-2">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-primary font-bold block mb-2">
-              Step 1: Choose a Territory
-            </span>
-            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground">
-              The Four Great Himalayan Regions
-            </h2>
-          </div>
-          <p className="text-foreground/70 text-sm font-light max-w-md">
-            Each territory hosts distinctive geological terrain, permit jurisdictions, seasonal weather windows, and cultural traditions.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-          {himalayaAtlas.map((region) => {
-            const style = TERRITORY_STYLES[region.id] ?? {
-              accent: "#3B82F6",
-              glow: "rgba(59,130,246,0.20)",
-              border: "rgba(59,130,246,0.30)",
-            };
-            const regionPlacesCount = region.subregions.reduce(
-              (acc, sub) => acc + sub.places.length,
-              0
-            );
-
-            return (
-              <Link
-                key={region.id}
-                href={`/explore/${region.id}`}
-                className="group relative rounded-3xl p-7 transition-all duration-300 flex flex-col justify-between overflow-hidden glass-museum-card shadow-lg"
-                style={{
-                  borderTop: `3px solid ${style.accent}`,
-                }}
-              >
-                {/* Territory Landscape Backdrop */}
-                {region.image && (
-                  <div className="absolute inset-0 pointer-events-none z-0">
-                    <Image
-                      src={region.image}
-                      alt={region.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover object-center opacity-10 dark:opacity-15 group-hover:opacity-25 group-hover:scale-105 transition-all duration-700 ease-out"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/85 to-transparent" />
-                  </div>
-                )}
-
-                {/* Ambient Top Glow */}
-                <div
-                  className="absolute top-0 left-0 right-0 h-28 pointer-events-none opacity-30 transition-opacity duration-300 group-hover:opacity-80 z-[1]"
-                  style={{ background: `radial-gradient(ellipse at 50% 0%, ${style.glow}, transparent 70%)` }}
-                />
-
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-5">
-                    <span 
-                      className="text-4xl p-2.5 rounded-2xl drop-shadow-md"
-                      style={{ background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
-                    >
-                      {region.emoji}
-                    </span>
-                    <div className="text-right">
-                      <span 
-                        className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full block"
-                        style={{ color: style.accent, background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
-                      >
-                        {region.subregions.length} {region.subregions.length === 1 ? "valley" : "valleys"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <h3 className="font-display text-2xl font-bold text-foreground mb-2.5 group-hover:text-primary transition-colors">
-                    {region.name}
-                  </h3>
-
-                  <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed mb-6 line-clamp-3">
-                    {region.cardDesc}
-                  </p>
-                </div>
-
-                <div 
-                  className="relative z-10 pt-4 flex items-center justify-between mt-auto border-t border-foreground/[0.08]"
-                >
-                  <span className="text-[11px] font-mono text-foreground/50">
-                    {regionPlacesCount} destinations
-                  </span>
-                  <span 
-                    className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide group-hover:translate-x-1 transition-transform"
-                    style={{ color: style.accent }}
-                  >
-                    Enter Hub <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Directory Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pt-10 border-t border-foreground/[0.08]">
-          <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-primary font-bold block mb-2">
-              Step 2: Filter by Expedition Profile
-            </span>
-            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3 border border-slate-200/80 dark:border-white/10">
+              <Compass className="w-3.5 h-3.5" />
               Master Trailhead &amp; Summit Directory
+            </div>
+            <h2 className="font-display tracking-tight font-bold text-2xl sm:text-4xl text-foreground">
+              Filter by Expedition Profile
             </h2>
           </div>
-          <p className="text-foreground/70 text-sm font-light max-w-md">
+          <p className="text-foreground/70 text-xs sm:text-sm font-light max-w-md">
             Query 59 verified expeditions across the northern ranges. Filter by category, territory, and technical difficulty.
           </p>
         </div>

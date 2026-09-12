@@ -45,7 +45,7 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="py-10 sm:py-16 relative z-10 bg-background transition-colors duration-300 border-t border-border/40"
+      className="py-8 sm:py-14 relative z-10 bg-background transition-colors duration-300"
       aria-label="Frequently Asked Questions"
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-5xl">

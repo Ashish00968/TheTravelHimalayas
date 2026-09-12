@@ -62,10 +62,11 @@ export const treks: Trek[] = [
         answer: "Absolutely. Beas Kund is one of the best beginner treks near Manali. The short duration (3 days), moderate altitude, and well-marked trail make it perfect for first-timers."
       }
     ],
+    heroImage: "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=1600",
     images: [
-      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=72",
+      "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.pexels.com/photos/18979386/pexels-photo-18979386.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
-    heroImage: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=72",
     description: "A short and rewarding trek to the glacial source of River Beas, offering dramatic views of Friendship Peak and surrounding glaciers — perfect for beginners."
   },
   {
@@ -74,18 +75,17 @@ export const treks: Trek[] = [
     region: "Kullu-Manali",
     difficulty: "Easy",
     duration: "1 Day (4-5 hours)",
-    distance: "6 km",
+    distance: "9 km round-trip",
     maxAltitude: "3,300 m",
-    bestSeason: "March to November",
-    coords: [32.2620, 77.1680],
+    bestSeason: "April to November",
+    coords: [32.2530, 77.1680],
     pathCoords: [
-      [32.2472, 77.1812], // Hadimba Temple Trailhead (2,050m)
-      [32.2530, 77.1750], // Manali Sanctuary Forest Ridge (2,600m)
-      [32.2580, 77.1710], // Nasogi Meadow approach (2,950m)
-      [32.2620, 77.1680], // Lamadugh High Meadow (3,300m)
+      [32.2470, 77.1830], // Hadimba Temple Trailhead (2,050m)
+      [32.2510, 77.1770], // Deodar Canopy Crest (2,450m)
+      [32.2540, 77.1710], // Oak & Birch Transitional Ridge (2,900m)
+      [32.2530, 77.1680], // Lamadugh Alpine Meadow (3,300m)
     ],
     startPoint: "Hadimba Temple, Old Manali",
-    guideRatePerDay: 1500,
     overview: "Lamadugh is a serene meadow nestled in the dense deodar and oak forests above Manali. The trail offers a gentle ascent through shaded woodland paths, opening up to a vast alpine clearing at around 3,300 meters.",
     routeDescription: "The hike begins from the Manali Sanctuary gate near the Hadimba Temple complex. Follow the well-marked forest trail that winds uphill through thick deodar forest.",
     itinerary: [],
@@ -104,10 +104,10 @@ export const treks: Trek[] = [
         answer: "The trail to Lamadugh is reasonably well-marked. However, hiring a local guide from Old Manali is recommended to navigate the forest sections confidently."
       }
     ],
+    heroImage: "https://images.pexels.com/photos/11948660/pexels-photo-11948660.jpeg?auto=compress&cs=tinysrgb&w=1600",
     images: [
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
+      "https://images.pexels.com/photos/11948660/pexels-photo-11948660.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
-    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
     description: "A peaceful forest walk leading to a stunning alpine meadow with panoramic Himalayan views, perfect for a half-day escape from Manali."
   },
   {
@@ -160,8 +160,8 @@ export const treks: Trek[] = [
     ],
     startPoint: "Solang Village / Buruwa (2,480m)",
     guideRatePerDay: 2500,
-    overview: "Patalsu Peak stands at 4,261 meters above Solang Valley, offering one of the most magnificent 360-degree panoramic vantage points in the Kullu region. While commercial guided expeditions pace this trek over 3 days with basecamp at Shagadugh meadow to allow safe acclimatization, experienced high-endurance mountaineers frequently push it as a grueling single-day summit attempt gaining over 1,700 vertical meters.\n\nFrom the summit crest, trekkers stand eye-level with Himalayan giants including Hanuman Tibba (5,982m), Friendship Peak (5,289m), Ladakhi Peak, Shitidhar, the Rohtang crest, and the boundless Dhauladhar ranges stretching toward the horizon.",
-    routeDescription: "Starting from the historic stone houses of Solang Village (2,480m), the trail ascends steadily through quiet deodar, pine, and birch woods where cattle graze in sunlit clearings. Breaking above the treeline at approximately 3,250m brings you to the broad, sweeping meadows of Shagadugh.\n\nFrom Shagadugh, the gradient steepens noticeably as the trail transitions from grassy slopes onto an exposed, narrow shale ridgeline. Hikers must negotiate loose scree and wind-blasted switchbacks while facing the immense precipice of Hanuman Tibba. The final 200m vertical push demands deliberate footwork across rock bands to reach the 4,261m summit marker.",
+    overview: "Patalsu Peak stands at 4,261 meters (13,980 ft) above Solang Valley, widely recognized as the premier beginner-friendly 4,000m trekking peak in Manali and one of the finest non-technical summits in Himachal Pradesh. The route covers 16 km round-trip from Solang Village (8 km each way) with an intense vertical gain of +1,781 meters.\n\nCelebrated as one of the best snow Manali treks during spring (May to June) when the upper ridgelines retain snowfields, and an iconic high-altitude speed hike trek in autumn for endurance athletes conquering the summit in a grueling 12–13 hour single-day push. From the summit crest, trekkers enjoy an unrestricted 360-degree panorama of Hanuman Tibba (5,982m), Friendship Peak (5,289m), Shitidhar, Ladakhi Peak, Rohtang Pass, and the boundless Dhauladhar and Pir Panjal ranges.",
+    routeDescription: "Starting from the traditional stone houses of Solang Village (2,480m) just 14 km from Manali, the trail ascends through fragrant deodar, pine, and oak woods. Breaking above the treeline at approximately 3,250m brings you to the sweeping alpine amphitheater of Shagadugh meadow.\n\nFrom Shagadugh, the gradient steepens onto an exposed shale ridgeline. Trekkers navigate loose scree switchbacks facing the monumental western face of Hanuman Tibba. The final 200m ridge climb leads directly to the 4,261m summit marker, rewarding hikers with one of the most commanding viewpoints in the Western Himalayas.",
     itinerary: [
       {
         day: 1,
@@ -200,16 +200,40 @@ export const treks: Trek[] = [
     permits: "No special inner-line permits are required. Normal forestry and local trailhead registration at Solang Village apply.",
     faqs: [
       {
-        question: "Why do most people take 3 days while some do it in 1 day?",
-        answer: "Patalsu Peak demands more than 1,700 meters of continuous vertical ascent from Solang Valley (2,480m to 4,261m). Guided commercial groups standardise 3 days with camping at Shagadugh (3,250m) to acclimatize properly and prevent Acute Mountain Sickness (AMS). Solo, well-acclimatized athletes with ultra-endurance fitness sometimes attempt it as a grueling 12–14 hour single-day push starting before dawn."
+        question: "How much does it cost to trek to Patalsu Peak?",
+        answer: "A self-supported 1-day speed hike costs virtually ₹0 beyond personal food and local transit to Solang Valley. Hiring an accredited local Manali mountain guide typically costs ₹1,500 to ₹2,500 per day. Full 2 to 3-day guided expedition packages (including alpine camping at Shagadugh, dome tents, high-altitude meals, guide, and porter logistics) range between ₹4,000 and ₹7,500 per trekker."
       },
       {
-        question: "Is technical mountaineering equipment required?",
-        answer: "No technical climbing gear (ropes, harnesses, or ascenders) is required during the standard trekking window (June to October). However, sturdy boots, warm windproof layers, and trekking poles are strictly mandatory. In late autumn or early summer, microspikes or gaiters may be necessary for residual snow patches."
+        question: "What is the height and altitude of Patalsu Peak?",
+        answer: "Patalsu Peak stands at an elevation of 4,261 meters (13,980 feet) above sea level. The trek starts at Solang Village (2,480m / 8,136 ft), demanding an intense continuous vertical gain of +1,781 meters (5,843 ft) to reach the summit crest."
       },
       {
-        question: "What peaks are visible from the summit?",
-        answer: "The summit offers an unparalleled 360-degree panorama: the towering massif of Hanuman Tibba (5,982m) dominates the western view, along with Friendship Peak (5,289m), Ladakhi Peak, Shitidhar, the Rohtang ridge, and the sweeping snow crests of the Greater Himalayas and Dhauladhar."
+        question: "What is the distance of the Patalsu Peak trek from Solang Valley?",
+        answer: "The total distance of the Patalsu Peak trek is 16 kilometers round-trip. The ascent from Solang Village to Patalsu Peak summit is approximately 8 km, with a corresponding 8 km descent back to the trailhead."
+      },
+      {
+        question: "Is Patalsu Peak beginner-friendly compared to other peaks in Manali?",
+        answer: "Yes, Patalsu Peak (4,261m) is widely regarded as the best beginner-friendly 4,000m peak in Manali. Unlike technical 5,000m peaks like Friendship Peak (5,289m) or Ladakhi Peak which require crampons, ropes, and ice axes, Patalsu is a non-technical trekking peak. While it requires strong cardiovascular stamina to tackle the +1,781m elevation gain, anyone with good physical fitness can safely summit when paced over 2 to 3 days."
+      },
+      {
+        question: "Can Patalsu Peak be done in one day as a speed hike?",
+        answer: "Yes, Patalsu Peak is famous as one of Himachal's premier speed hike treks. Fit alpine athletes and acclimatized trail runners complete the entire 16 km trail with +1,781m vertical gain in 12 to 13 continuous hours. A 5:00 AM alpine start from Solang Village is strictly mandatory to clear the summit ridge before afternoon winds and convective clouds roll in."
+      },
+      {
+        question: "Is it possible to trek Patalsu Peak in May?",
+        answer: "Yes, May is one of the best months for Patalsu Peak. The lower cedar forests and Shagadugh meadows are lush with early spring growth and blooming wildflowers, while the upper ridge above 3,800m still holds crisp snow patches, delivering an exhilarating snow trek experience with moderate temperatures."
+      },
+      {
+        question: "Can you do the Patalsu Peak trek in December or winter?",
+        answer: "In December, Patalsu Peak transforms into a heavy winter snow trek. Trekking up to Shagadugh meadow (3,250m) through snow-draped pine forests is a popular winter hike achievable with gaiters and microspikes. However, pushing past the ridge to the 4,261m summit in mid-winter becomes an advanced snow mountaineering undertaking due to sub-zero blizzards, hidden shale crevasses, and avalanche risk."
+      },
+      {
+        question: "What is the weather and temperature on Patalsu Peak?",
+        answer: "During peak season (May–June and September–October), daytime valley temperatures range from 12°C to 20°C, while summit temperatures hover between 2°C and 8°C. Night temperatures at Shagadugh camp drop to 0°C to 4°C. In late autumn (late October) and winter, summit temperatures plummet to -5°C to -15°C with severe ridge wind-chill."
+      },
+      {
+        question: "What peaks can you see from Patalsu Peak summit?",
+        answer: "The summit offers an unparalleled 360-degree Himalayan amphitheater: the colossal western precipice of Hanuman Tibba (5,982m) dominates the skyline, alongside Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak, the Rohtang Pass ridge, Deo Tibba (6,001m), and the vast sweeping snow peaks of the Dhauladhar and Greater Himalayan ranges."
       }
     ],
     images: [
@@ -315,13 +339,12 @@ export const treks: Trek[] = [
         answer: "Absolutely — Chandratal (Moon Lake) at 4,300m near Chatru is one of India's most beautiful high-altitude lakes. Most itineraries include a 12km round trip to the lake on Day 4."
       }
     ],
+    heroImage: "https://images.unsplash.com/photo-1688804470994-271ad19db477?auto=format&fit=crop&w=1600&q=80",
     images: [
+      "https://images.unsplash.com/photo-1688804470994-271ad19db477?auto=format&fit=crop&w=1600&q=80",
       "https://images.pexels.com/photos/32109154/pexels-photo-32109154.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      "https://images.pexels.com/photos/19100015/pexels-photo-19100015.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      "https://images.pexels.com/photos/9354091/pexels-photo-9354091.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.pexels.com/photos/38654969/pexels-photo-38654969.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
-    heroImage:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     description: "A stunning 5-day crossover trek from the green Kullu Valley to the arid moonscape of Lahaul, crossing Hampta Pass at 4,270m — one of Himachal's most dramatic contrasts."
   },
   {
@@ -388,10 +411,11 @@ export const treks: Trek[] = [
         answer: "Yes. Spend at least one full day in Manali (2,050m) before beginning this trek. Ascending to 4,300m without prior acclimatization increases risk of altitude sickness."
       }
     ],
+    heroImage: "https://cdn.pixabay.com/photo/2021/04/05/18/44/bhrigu-lake-6154348_1280.jpg",
     images: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
+      "https://cdn.pixabay.com/photo/2021/04/05/18/44/bhrigu-lake-6154348_1280.jpg",
+      "https://cdn.pixabay.com/photo/2016/10/15/16/27/trekking-1742822_1280.jpg",
     ],
-    heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
     description: "Trek to one of the most beautiful alpine lakes near Manali, perched at 4,300m on the edge of the Rohtang plateau amid vast wildflower-carpeted meadows."
   },
   {
@@ -468,10 +492,10 @@ export const treks: Trek[] = [
         answer: "The pass is rated difficult mainly due to steep sections and some loose trail near the top. The altitude is moderate at 3,660m, making it safer for acclimatized trekkers compared to higher passes."
       }
     ],
+    heroImage: "https://upload.wikimedia.org/wikipedia/commons/2/24/Chandrakhani_pass_3%2C_himachal_pradesh.jpg",
     images: [
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
+      "https://upload.wikimedia.org/wikipedia/commons/2/24/Chandrakhani_pass_3%2C_himachal_pradesh.jpg",
     ],
-    heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
     description: "Cross the dramatic Chandrakhani Pass into the ancient, enigmatic Malana village — one of the most culturally fascinating treks in the Kullu Valley."
   }
 ];

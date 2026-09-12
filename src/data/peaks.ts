@@ -53,11 +53,10 @@ export const peaks: Peak[] = [
           "The success rate is relatively high at around 60-70% in good weather windows, primarily because the technical difficulty is moderate. Weather and acclimatization are the main factors affecting summit attempts.",
       },
     ],
+    heroImage: "https://images.unsplash.com/photo-1550532888-571ab50a4638?q=80&w=2340&auto=format&fit=crop",
     images: [
-      "https://images.pexels.com/photos/8303567/pexels-photo-8303567.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.unsplash.com/photo-1550532888-571ab50a4638?q=80&w=2340&auto=format&fit=crop",
     ],
-    heroImage:
-      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
     description:
       "A 5289m peak in the Pir Panjal range near Manali, ideal for climbers seeking their first high-altitude summit experience.",
   },
@@ -108,10 +107,11 @@ export const peaks: Peak[] = [
           "Solo climbing is strongly discouraged and permit regulations require a minimum team size. The technical terrain, crevasse hazards, and need for fixed ropes make a roped team of at least 4 members essential for safety.",
       },
     ],
+    heroImage: "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/13ViewOfHanumanTibba.jpg",
     images: [
-      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/13ViewOfHanumanTibba.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/15SunsetHanumanTibba.jpg",
     ],
-    heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
     description:
       "The highest peak of the Dhauladhar range at 5982m, a technically demanding climb requiring advanced mountaineering skills.",
   },
@@ -167,10 +167,7 @@ export const peaks: Peak[] = [
           "You need a climbing permit from the Indian Mountaineering Foundation (IMF) and a liaison officer is required for the expedition. Additionally, inner line permits may be needed for certain approach routes. Your expedition operator typically handles all permit logistics.",
       },
     ],
-    images: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-    ],
-    heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
+    images: [],
     description:
       "An elegant 6001m pyramidal peak near Manali, offering a comprehensive mountaineering challenge at the gateway to high-altitude climbing.",
   },
@@ -226,10 +223,7 @@ export const peaks: Peak[] = [
           "There are no permanent rescue facilities near Indrasan. Helicopter rescue is theoretically possible but depends on weather and visibility. Teams must be self-sufficient for emergency situations. Carrying a satellite communicator and having an evacuation plan with your expedition operator is mandatory.",
       },
     ],
-    images: [
-      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-    ],
-    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
+    images: [],
     description:
       "A formidable 6221m peak with steep ice walls and technical ridges, one of the most challenging mountaineering objectives near Manali.",
   },

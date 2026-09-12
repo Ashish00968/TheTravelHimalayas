@@ -36,7 +36,7 @@ interface StoryArticle {
   readTime: string;
   date: string;
   author: string;
-  image: string;
+  image?: string;
   relatedHref: string;
 }
 
@@ -54,7 +54,6 @@ const FEATURED_STORIES: StoryArticle[] = [
     readTime: "6 min read",
     date: "August 2025",
     author: "Alpine Field Team",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=75",
     relatedHref: "/explore/himachal-pradesh/kullu/hampta-pass",
   },
   {
@@ -70,7 +69,6 @@ const FEATURED_STORIES: StoryArticle[] = [
     readTime: "8 min read",
     date: "July 2025",
     author: "Alpine Field Team",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=75",
     relatedHref: "/explore/jammu-kashmir",
   },
   {
@@ -86,7 +84,6 @@ const FEATURED_STORIES: StoryArticle[] = [
     readTime: "9 min read",
     date: "September 2025",
     author: "Alpine Field Team",
-    image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1200&q=75",
     relatedHref: "/explore/ladakh",
   },
   {
@@ -102,7 +99,6 @@ const FEATURED_STORIES: StoryArticle[] = [
     readTime: "7 min read",
     date: "June 2025",
     author: "Alpine Field Team",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=75",
     relatedHref: "/explore/uttarakhand",
   },
 ];
@@ -147,16 +143,29 @@ export default function StoriesPage() {
                 key={story.id}
                 className="group relative rounded-3xl overflow-hidden glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.25] transition-all duration-500 shadow-xl flex flex-col justify-between"
               >
-                {/* Photo Thumbnail */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
-                  <Image
-                    src={story.image}
-                    alt={story.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                {/* Photo Thumbnail / Alpine Banner */}
+                <div className="relative h-48 sm:h-56 w-full overflow-hidden">
+                  {story.image ? (
+                    <Image
+                      src={story.image}
+                      alt={story.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center bg-card dark:bg-[#090e1a]"
+                      style={{
+                        backgroundImage: `radial-gradient(ellipse at 50% 30%, ${story.territoryColor}15 0%, transparent 70%)`,
+                      }}
+                    >
+                      <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center shadow-inner">
+                        <Mountain className="w-6 h-6" style={{ color: story.territoryColor, opacity: 0.7 }} />
+                      </div>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-card dark:from-[#090e1a] via-transparent to-black/20 pointer-events-none" />
 
                   {/* Top Badges */}
                   <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10">

@@ -34,6 +34,8 @@ import {
   GraduationCap,
   Radio,
   ShieldCheck,
+  ChevronLeft,
+  ChevronRight,
   MapPin,
   Sparkles,
 } from "lucide-react";
@@ -814,8 +816,8 @@ function Hero() {
 function TerritoriesSection() {
   const [activeBranch, setActiveBranch] = useState<string | null>(null);
 
-  const leftTerritories = [himalayaAtlas[0], himalayaAtlas[3]]; // J&K, Uttarakhand
-  const rightTerritories = [himalayaAtlas[1], himalayaAtlas[2]]; // Himachal, Ladakh
+  const leftTerritories = [himalayaAtlas[0], himalayaAtlas[2]]; // J&K (#3B82F6), Uttarakhand (#0D9488)
+  const rightTerritories = [himalayaAtlas[1], himalayaAtlas[3]]; // Himachal (#F59E0B), Ladakh (#7C3AED)
 
   return (
     <section
@@ -1224,63 +1226,154 @@ function PlatformTrustRibbon() {
 
 /* ── 3. Featured Iconic Expeditions (Himalayan Ridge Trail Flow) ─────────── */
 function IconicTreksSection() {
-  const featured = treks.slice(0, 4);
+  const featured = treks;
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const areaRef = useRef<SVGPathElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsVisible, setCardsVisible] = useState(4);
+  const [offset, setOffset] = useState(0);
+  const [svgWidth, setSvgWidth] = useState(1800);
+
+  const shouldReduceMotion = useReducedMotion();
+
+  // Determine how many cards are visible in viewport
+  useEffect(() => {
+    const updateLayout = () => {
+      let visible = 1;
+      if (window.innerWidth >= 1024) {
+        visible = 4;
+      } else if (window.innerWidth >= 640) {
+        visible = 2;
+      }
+      setCardsVisible(visible);
+      const newMax = Math.max(0, featured.length - visible);
+      setCurrentIndex((prev) => Math.min(prev, newMax));
+    };
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+    return () => window.removeEventListener("resize", updateLayout);
+  }, [featured.length]);
+
+  const maxIndex = Math.max(0, featured.length - cardsVisible);
+  const safeIndex = Math.min(currentIndex, maxIndex);
+
+  // Update offset whenever safeIndex or layout changes
+  useEffect(() => {
+    const updateOffset = () => {
+      const el = cardRefs.current[safeIndex];
+      if (el) {
+        setOffset(el.offsetLeft);
+      } else {
+        setOffset(0);
+      }
+    };
+    updateOffset();
+    window.addEventListener("resize", updateOffset);
+    return () => window.removeEventListener("resize", updateOffset);
+  }, [safeIndex, cardsVisible]);
+
+  // Compute SVG mountain ridge wave path across all 6 cards
   useEffect(() => {
     const updateWave = () => {
-      if (!containerRef.current || !pathRef.current || !svgRef.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
-      if (containerRect.width === 0) return;
+      if (!pathRef.current || !svgRef.current) return;
 
       const coords: { x: number; y: number }[] = [];
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < featured.length; i++) {
         const el = cardRefs.current[i];
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const x = rect.left - containerRect.left + rect.width / 2;
+        if (!el) continue;
+        const x = el.offsetLeft + el.offsetWidth / 2;
         const y = i % 2 === 0 ? 20 : 76;
         coords.push({ x, y });
       }
 
-      if (coords.length === 4) {
-        const [p0, p1, p2, p3] = coords;
-        const dx01 = p1.x - p0.x;
-        const dx12 = p2.x - p1.x;
-        const dx23 = p3.x - p2.x;
-        const W = containerRect.width;
+      if (coords.length >= 2) {
+        const lastEl = cardRefs.current[featured.length - 1];
+        const totalW = lastEl ? lastEl.offsetLeft + lastEl.offsetWidth + 80 : 1800;
+        setSvgWidth(totalW);
 
-        const curve = `M 0 ${(p0.y + p1.y) / 2}
-          C ${p0.x * 0.4} ${(p0.y + p1.y) / 2}, ${p0.x - dx01 * 0.3} ${p0.y}, ${p0.x} ${p0.y}
-          C ${p0.x + dx01 * 0.45} ${p0.y}, ${p1.x - dx01 * 0.45} ${p1.y}, ${p1.x} ${p1.y}
-          C ${p1.x + dx12 * 0.45} ${p1.y}, ${p2.x - dx12 * 0.45} ${p2.y}, ${p2.x} ${p2.y}
-          C ${p2.x + dx23 * 0.45} ${p2.y}, ${p3.x - dx23 * 0.45} ${p3.y}, ${p3.x} ${p3.y}
-          C ${p3.x + (W - p3.x) * 0.3} ${p3.y}, ${W - (W - p3.x) * 0.4} ${(p2.y + p3.y) / 2}, ${W} ${(p2.y + p3.y) / 2}`
-          .replace(/\s+/g, " ")
-          .trim();
+        let curve = `M 0 ${(coords[0].y + 40) / 2}`;
+        for (let i = 0; i < coords.length; i++) {
+          const curr = coords[i];
+          if (i === 0) {
+            curve += ` C ${Math.max(0, curr.x * 0.4)} ${(curr.y + 40) / 2}, ${curr.x - 30} ${curr.y}, ${curr.x} ${curr.y}`;
+          } else {
+            const prev = coords[i - 1];
+            const dx = curr.x - prev.x;
+            curve += ` C ${prev.x + dx * 0.45} ${prev.y}, ${curr.x - dx * 0.45} ${curr.y}, ${curr.x} ${curr.y}`;
+          }
+        }
+        const last = coords[coords.length - 1];
+        curve += ` C ${last.x + (totalW - last.x) * 0.4} ${last.y}, ${totalW - (totalW - last.x) * 0.3} ${(last.y + 40) / 2}, ${totalW} ${(last.y + 40) / 2}`;
 
         pathRef.current.setAttribute("d", curve);
         if (areaRef.current) {
-          areaRef.current.setAttribute("d", `${curve} L ${W} 320 L 0 320 Z`);
+          areaRef.current.setAttribute("d", `${curve} L ${totalW} 320 L 0 320 Z`);
         }
-        svgRef.current.setAttribute("viewBox", `0 0 ${W} 320`);
+        svgRef.current.setAttribute("viewBox", `0 0 ${totalW} 320`);
       }
     };
 
     updateWave();
     window.addEventListener("resize", updateWave);
     return () => window.removeEventListener("resize", updateWave);
-  }, []);
+  }, [featured.length, cardsVisible]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  // Horizontal wheel swipe on trackpad, vertical passes naturally to window
+  const wheelLockRef = useRef(false);
+  const onWheel = (e: React.WheelEvent) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.4 && Math.abs(e.deltaX) > 20) {
+      if (wheelLockRef.current) return;
+      wheelLockRef.current = true;
+      if (e.deltaX > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+      setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 350);
+    }
+    // If vertical deltaY is dominant, DO NOTHING: window scrolls naturally!
+  };
+
+  // Touch swipe support for mobile
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const diffX = touchStartX.current - e.changedTouches[0].clientX;
+    const diffY = touchStartY.current - e.changedTouches[0].clientY;
+    if (Math.abs(diffX) > Math.abs(diffY) * 1.3 && Math.abs(diffX) > 35) {
+      if (diffX > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+  };
 
   const WAYPOINTS = [
     { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Beas Kund", alt: "3,700 m" },
     { color: "#F59E0B", bg: "bg-amber-500", glow: "rgba(245, 158, 11, 0.45)", name: "Lamadugh", alt: "3,300 m" },
-    { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Patalsu Peak Trek", alt: "4,261 m" },
+    { color: "#3B82F6", bg: "bg-blue-500", glow: "rgba(59, 130, 246, 0.45)", name: "Patalsu Peak", alt: "4,261 m" },
     { color: "#10B981", bg: "bg-emerald-500", glow: "rgba(16, 185, 129, 0.45)", name: "Hampta Pass", alt: "4,270 m" },
+    { color: "#8B5CF6", bg: "bg-purple-500", glow: "rgba(139, 92, 246, 0.45)", name: "Bhrigu Lake", alt: "4,300 m" },
+    { color: "#06B6D4", bg: "bg-cyan-500", glow: "rgba(6, 182, 212, 0.45)", name: "Chandrakhani", alt: "3,660 m" },
   ];
 
   return (
@@ -1294,81 +1387,134 @@ function IconicTreksSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-3 sm:mb-4 gap-2 relative z-10"
+          className="flex flex-col sm:flex-row sm:items-end justify-between mb-3 sm:mb-4 gap-3 relative z-10"
         >
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-1 border border-slate-200/80 dark:border-white/10">
               <Mountain className="w-3 h-3" />
-              Flagship Routes
+              Flagship Routes ({featured.length})
             </div>
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-foreground tracking-tight leading-[1.1]">
               Discover the trails
             </h2>
           </div>
-          <Link
-            href="/explore"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-[0.18em] text-primary hover:text-foreground transition-colors group"
-          >
-            <span>View All Guides &amp; Trails</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+
+          <div className="flex items-center gap-3 self-end sm:self-auto">
+            {/* Carousel Navigation Buttons */}
+            <div className="flex items-center gap-1.5 bg-card/85 dark:bg-[#0b101e]/85 p-1 rounded-full border border-border/80 shadow-sm">
+              <button
+                type="button"
+                onClick={handlePrev}
+                disabled={safeIndex === 0}
+                aria-label="Previous trails"
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  safeIndex === 0
+                    ? "opacity-30 cursor-not-allowed text-foreground/40"
+                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/[0.08] active:scale-90"
+                }`}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={handleNext}
+                disabled={safeIndex >= maxIndex}
+                aria-label="Next trails"
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  safeIndex >= maxIndex
+                    ? "opacity-30 cursor-not-allowed text-foreground/40"
+                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/[0.08] active:scale-90"
+                }`}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <Link
+              href="/explore"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-[0.16em] text-primary hover:text-foreground transition-colors group py-1"
+            >
+              <span>View All (59+)</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </motion.div>
 
-        {/* Relative Grid Wrapper Containing Ridge Wave & Anchored Cards */}
-        <div ref={containerRef} className="relative pb-2">
-          {/* Background Mountain Trail Ridge Wave */}
-          <div className="absolute inset-0 pointer-events-none hidden lg:block overflow-visible z-0">
-            <svg
-              ref={svgRef}
-              className="w-full h-[300px]"
-              viewBox="0 0 1200 300"
-              preserveAspectRatio="none"
-              fill="none"
+        {/* Relative Carousel Container with overflow-hidden to prevent wheel trapping */}
+        <div
+          ref={containerRef}
+          onWheel={onWheel}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          className="relative pb-2 overflow-hidden"
+        >
+          {/* Sliding Track containing both SVG Wave & Cards */}
+          <div
+            className={`flex items-start gap-4 sm:gap-5 relative z-10 pt-1 will-change-transform ${
+              shouldReduceMotion ? "transition-none" : "transition-transform duration-500 ease-out"
+            }`}
+            style={{ transform: `translateX(-${offset}px)` }}
+          >
+            {/* Background Mountain Trail Ridge Wave translates directly with cards */}
+            <div
+              className="absolute top-0 left-0 pointer-events-none hidden lg:block overflow-visible z-0"
+              style={{ width: `${svgWidth}px`, height: "300px" }}
             >
-              <defs>
-                <linearGradient id="trailRidgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
-                  <stop offset="35%" stopColor="#F59E0B" stopOpacity="0.85" />
-                  <stop offset="65%" stopColor="#3B82F6" stopOpacity="0.85" />
-                  <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="terrainAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.08" />
-                  <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.02" />
-                  <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-                </linearGradient>
-                <filter id="trailGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
+              <svg
+                ref={svgRef}
+                className="w-full h-[300px]"
+                viewBox={`0 0 ${svgWidth} 300`}
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <defs>
+                  <linearGradient id="trailRidgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
+                    <stop offset="35%" stopColor="#F59E0B" stopOpacity="0.85" />
+                    <stop offset="65%" stopColor="#3B82F6" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
+                  </linearGradient>
+                  <linearGradient id="terrainAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.08" />
+                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.02" />
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+                  </linearGradient>
+                  <filter id="trailGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
 
-              <path ref={areaRef} d="" fill="url(#terrainAreaGrad)" />
-              <path
-                d=""
-                stroke="url(#trailRidgeGrad)"
-                strokeWidth="4"
-                opacity="0.3"
-                filter="url(#trailGlow)"
-              />
-              <path
-                ref={pathRef}
-                d=""
-                stroke="url(#trailRidgeGrad)"
-                strokeWidth="2"
-                strokeDasharray="5 5"
-              />
-            </svg>
-          </div>
+                <path ref={areaRef} d="" fill="url(#terrainAreaGrad)" />
+                <path
+                  d=""
+                  stroke="url(#trailRidgeGrad)"
+                  strokeWidth="4"
+                  opacity="0.3"
+                  filter="url(#trailGlow)"
+                />
+                <path
+                  ref={pathRef}
+                  d=""
+                  stroke="url(#trailRidgeGrad)"
+                  strokeWidth="2"
+                  strokeDasharray="5 5"
+                />
+              </svg>
+            </div>
 
-          {/* Mobile Snap Carousel / Desktop Sinusoidal Grid */}
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 sm:gap-5 relative z-10 pt-1 items-start">
             {featured.map((trek, index) => {
               const isLower = index % 2 === 1;
-              const wp = WAYPOINTS[index];
+              const wp = WAYPOINTS[index] || {
+                color: "#3B82F6",
+                bg: "bg-blue-500",
+                glow: "rgba(59, 130, 246, 0.45)",
+                name: trek.title,
+                alt: trek.maxAltitude,
+              };
 
               return (
                 <div
@@ -1376,7 +1522,7 @@ function IconicTreksSection() {
                   ref={(el) => {
                     cardRefs.current[index] = el;
                   }}
-                  className={`relative shrink-0 w-[72vw] max-w-[260px] snap-center md:w-auto md:max-w-none md:shrink transition-all duration-500 ${
+                  className={`relative shrink-0 w-[80vw] max-w-[280px] sm:w-[calc(50%-10px)] sm:max-w-none lg:w-[calc(25%-15px)] lg:min-w-[270px] transition-all duration-500 ${
                     isLower ? "lg:mt-[44px]" : "lg:mt-0"
                   }`}
                 >
@@ -1403,7 +1549,7 @@ function IconicTreksSection() {
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.05 }}
-                    transition={{ duration: 0.4, delay: index * 0.08, ease: EASE }}
+                    transition={{ duration: 0.4, delay: index * 0.06, ease: EASE }}
                   >
                     <Card3D
                       depth={6}
@@ -1415,16 +1561,21 @@ function IconicTreksSection() {
                         className="group rounded-2xl overflow-hidden bg-card/90 dark:bg-[#090e1a]/95 backdrop-blur-xl flex flex-col justify-between block border border-border/70 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/10"
                       >
                         <div className="relative h-20 sm:h-24 md:h-26 w-full overflow-hidden shrink-0">
-                          <Image
-                            src={
-                              trek.heroImage ||
-                              "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=72"
-                            }
-                            alt={trek.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                          />
+                          {trek.heroImage ? (
+                            <Image
+                              src={trek.heroImage}
+                              alt={trek.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#0c1424] via-[#101c34] to-[#070c18] flex items-center justify-center">
+                              <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                                <Mountain className="w-4 h-4 text-primary/60" />
+                              </div>
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gradient-to-t from-card dark:from-[#090e1a] via-transparent to-black/30" />
 
                           <div
@@ -1475,10 +1626,18 @@ function IconicTreksSection() {
             })}
           </div>
 
-          {/* Mobile Carousel Swipe Indicator Dots */}
-          <div className="flex items-center justify-center gap-1.5 pt-2 pb-1 md:hidden">
-            {featured.map((t) => (
-              <span key={t.slug} className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+          {/* Carousel Swipe Indicator Dots */}
+          <div className="flex items-center justify-center gap-1.5 pt-3 pb-1">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  safeIndex === idx ? "w-5 bg-primary" : "w-1.5 bg-primary/25 hover:bg-primary/50"
+                }`}
+              />
             ))}
           </div>
         </div>
@@ -1571,112 +1730,104 @@ const PLANNING_TOOLS = [
 
 function PlanningSuiteSection() {
   return (
-    <section className="py-16 sm:py-24 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-10 sm:py-14 relative z-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="text-center mb-10 sm:mb-16 max-w-2xl mx-auto"
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="text-center mb-6 sm:mb-8 max-w-2xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-3 border border-slate-200/80 dark:border-white/10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-2 border border-slate-200/80 dark:border-white/10">
             <Compass className="w-3.5 h-3.5" />
             Expedition Planning Suite
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-foreground mb-3 tracking-tight leading-[1.08]">
+          <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-2 tracking-tight leading-[1.1]">
             Precision Alpine Planning
           </h2>
-          <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed max-w-xl mx-auto">
-            Eliminate guesswork before stepping onto high Himalayan trails. Six deterministic field instruments calibrated for 1,500m to 7,135m traverses.
+          <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed max-w-xl mx-auto">
+            Six deterministic field instruments calibrated for 1,500m to 7,135m Himalayan traverses.
           </p>
         </motion.div>
 
-        {/* 6-Instrument Balanced Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+        {/* 6-Instrument Balanced Compact Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4.5 items-stretch">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <motion.div
                 key={tool.id}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: index * 0.08, ease: EASE }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: index * 0.05, ease: EASE }}
                 className="h-full"
               >
-                <Card3D depth={6} glareColor={tool.glow} className="rounded-2xl sm:rounded-3xl h-full">
+                <Card3D depth={4} glareColor={tool.glow} className="rounded-xl sm:rounded-2xl h-full">
                   <Link
                     href={tool.href}
-                    className="group relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 bg-surface/90 dark:bg-[#0A1122]/90 backdrop-blur-xl transition-all duration-300 shadow-md hover:shadow-xl active:scale-[0.99] h-full min-h-[320px] overflow-hidden block"
+                    className="group relative rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 bg-surface/90 dark:bg-[#0A1122]/90 backdrop-blur-xl transition-all duration-300 shadow-sm hover:shadow-lg active:scale-[0.99] h-full overflow-hidden block"
                   >
                     <div
-                      className="absolute -top-20 -right-20 w-44 h-44 rounded-full pointer-events-none opacity-0 group-hover:opacity-25 transition-opacity duration-500 blur-3xl"
+                      className="absolute -top-16 -right-16 w-32 h-32 rounded-full pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-2xl"
                       style={{ background: tool.accent }}
                     />
 
-                    <div className="relative z-10 flex items-center justify-between gap-2 mb-6">
-                      <div
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border transition-colors"
-                        style={{
-                          color: tool.accent,
-                          borderColor: `${tool.accent}33`,
-                          backgroundColor: `${tool.accent}0D`,
-                        }}
-                      >
-                        <span>{tool.num}</span>
-                        <span className="opacity-40">•</span>
-                        <span>{tool.category}</span>
+                    <div className="relative z-10 flex items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-105 shadow-sm shrink-0"
+                          style={{
+                            backgroundColor: `${tool.accent}14`,
+                            borderColor: `${tool.accent}35`,
+                            color: tool.accent,
+                          }}
+                        >
+                          <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                        </div>
+
+                        <div
+                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border"
+                          style={{
+                            color: tool.accent,
+                            borderColor: `${tool.accent}33`,
+                            backgroundColor: `${tool.accent}0D`,
+                          }}
+                        >
+                          <span>{tool.num}</span>
+                          <span className="opacity-40">•</span>
+                          <span>{tool.category}</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-wider uppercase text-foreground/45">
+                      <div className="flex items-center gap-1 text-[9px] font-mono tracking-wider uppercase text-foreground/45">
                         <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: tool.accent }} />
                         <span>Tool</span>
                       </div>
                     </div>
 
                     <div className="relative z-10 flex-1 flex flex-col">
-                      <div className="mb-5">
-                        <div
-                          className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110 shadow-sm"
-                          style={{
-                            backgroundColor: `${tool.accent}14`,
-                            borderColor: `${tool.accent}35`,
-                            color: tool.accent,
-                            boxShadow: `0 8px 24px -6px ${tool.accent}30`,
-                          }}
-                        >
-                          <Icon className="w-7 h-7" />
-                        </div>
-                      </div>
-
-                      <h3 className="font-display font-bold text-xl sm:text-2xl text-foreground group-hover:text-primary transition-colors leading-tight mb-2.5 tracking-tight">
+                      <h3 className="font-display font-bold text-base sm:text-lg text-foreground group-hover:text-primary transition-colors leading-snug mb-1 tracking-tight">
                         {tool.title}
                       </h3>
 
-                      <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                      <p className="text-foreground/70 text-xs font-light leading-relaxed mb-3 line-clamp-2">
                         {tool.desc}
                       </p>
                     </div>
 
-                    <div className="relative z-10 pt-4 border-t border-slate-100 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3 mt-auto">
-                      <div className="flex flex-wrap gap-1.5">
-                        {tool.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/75 border border-foreground/[0.08]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="relative z-10 pt-2.5 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 mt-auto">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/70 border border-foreground/[0.08] truncate max-w-[150px]">
+                        {tool.tags[0]}
+                      </span>
 
                       <span
-                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1 transition-transform"
                         style={{ color: tool.accent }}
                       >
                         <span>{tool.action}</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-3 h-3" />
                       </span>
                     </div>
                   </Link>
@@ -1720,44 +1871,44 @@ function SafetyFeatureSection() {
   ];
 
   return (
-    <section className="py-14 sm:py-24 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-8 sm:py-12 relative z-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 32, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-2xl bg-white/75 dark:bg-[#070D1A]/95 backdrop-blur-2xl"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-8 relative overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-xl bg-white/75 dark:bg-[#070D1A]/95 backdrop-blur-2xl"
         >
-          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-blue-500/15 blur-[120px] pointer-events-none" />
-          <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-amber-500/10 blur-[120px] pointer-events-none" />
+          <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-blue-500/10 blur-[100px] pointer-events-none" />
+          <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-amber-500/10 blur-[100px] pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-slate-200/70 dark:border-white/10">
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6 pb-5 border-b border-slate-200/70 dark:border-white/10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 High-Altitude Safety Command
               </div>
-              <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground tracking-tight leading-[1.15]">
+              <h2 className="font-display font-extrabold text-xl sm:text-2xl lg:text-3xl text-foreground tracking-tight leading-tight">
                 High-Altitude Acclimatisation &amp; Medicine
               </h2>
-              <p className="text-foreground/70 text-xs sm:text-sm font-light leading-relaxed max-w-2xl mt-2">
-                Altitude sickness is physiological and indifferent to physical fitness. Study comprehensive field protocols on Acute Mountain Sickness (AMS), HAPE, HACE, cold-injury triage, and certified mountaineering syllabus standards.
+              <p className="text-foreground/70 text-xs sm:text-[13px] font-light leading-relaxed max-w-xl mt-1.5">
+                Altitude sickness is physiological and indifferent to physical fitness. Study clinical protocols for AMS, HAPE, HACE, and certified mountaineering syllabus standards.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto">
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0 w-full lg:w-auto">
               <Link
                 href="/safety"
-                className="px-6 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_4px_20px_rgba(59,130,246,0.35)] hover:shadow-[0_6px_25px_rgba(59,130,246,0.45)] active:scale-[0.98] group"
+                className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-[0.98] group"
               >
-                <Shield className="w-4 h-4" />
+                <Shield className="w-3.5 h-3.5" />
                 <span>Explore Safety Protocols</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/conditions"
-                className="px-6 py-3.5 rounded-full glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-slate-200/90 dark:border-white/15 active:scale-[0.98]"
+                className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full glass-capsule hover:bg-foreground/[0.08] text-foreground font-display font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all border border-slate-200/90 dark:border-white/15 active:scale-[0.98]"
               >
                 <Activity className="w-3.5 h-3.5 text-primary" />
                 <span>Live Weather Radar</span>
@@ -1765,26 +1916,26 @@ function SafetyFeatureSection() {
             </div>
           </div>
 
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-8">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-5">
             {safetyPillars.map((pillar, idx) => {
               const Icon = pillar.icon;
               return (
                 <div
                   key={idx}
-                  className="p-5 sm:p-6 rounded-2xl border border-slate-200/70 dark:border-white/[0.08] bg-slate-50/70 dark:bg-white/[0.03] transition-all hover:border-slate-300 dark:hover:border-white/20 group"
+                  className="p-3.5 sm:p-4 rounded-xl border border-slate-200/70 dark:border-white/[0.08] bg-slate-50/70 dark:bg-white/[0.02] transition-all hover:border-slate-300 dark:hover:border-white/20 group"
                 >
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${pillar.bg} ${pillar.accent}`}>
-                      <Icon className="w-4 h-4" />
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center border ${pillar.bg} ${pillar.accent}`}>
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
-                    <span className="text-[10px] font-mono uppercase font-bold tracking-wider px-2.5 py-1 rounded-md bg-foreground/[0.05] text-foreground/75 border border-foreground/[0.08]">
+                    <span className="text-[9px] font-mono uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/75 border border-foreground/[0.08]">
                       {pillar.badge}
                     </span>
                   </div>
-                  <h3 className="font-display font-bold text-sm sm:text-base text-foreground mb-1.5">
+                  <h3 className="font-display font-bold text-xs sm:text-sm text-foreground mb-1">
                     {pillar.title}
                   </h3>
-                  <p className="text-foreground/65 text-xs leading-relaxed font-light">
+                  <p className="text-foreground/65 text-[11px] sm:text-xs leading-relaxed font-light">
                     {pillar.desc}
                   </p>
                 </div>
@@ -1792,15 +1943,15 @@ function SafetyFeatureSection() {
             })}
           </div>
 
-          <div className="relative z-10 mt-8 pt-5 border-t border-slate-200/60 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-foreground/50">
-            <div className="flex flex-wrap items-center gap-4">
+          <div className="relative z-10 mt-5 pt-3 border-t border-slate-200/60 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] font-mono text-foreground/50">
+            <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 UIAA &amp; Wilderness Medical Society Standards
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                Emergency SAR Frequencies (121.5 / 243.0 MHz)
+                SAR Frequencies (121.5 / 243.0 MHz)
               </span>
             </div>
             <Link

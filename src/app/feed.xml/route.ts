@@ -63,7 +63,6 @@ const FEATURED_STORIES = [
     excerpt:
       "A transition so abrupt it feels geological. Within four hours, the sodden meadows of Jobra dissolve into the bone-dry moonscape of Chandra Valley, Spiti.",
     date: new Date("2025-08-15T06:00:00Z").toUTCString(),
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=75",
     category: "Himachal Pradesh",
   },
   {
@@ -73,7 +72,6 @@ const FEATURED_STORIES = [
     excerpt:
       "Vishansar, Kishansar, and Gadsar. Beyond the reach of motorable roads, Kashmir's glacial cirques reflect clouds at 4,000 meters in complete, untouched isolation.",
     date: new Date("2025-07-20T06:00:00Z").toUTCString(),
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=75",
     category: "Jammu & Kashmir",
   },
   {
@@ -83,7 +81,6 @@ const FEATURED_STORIES = [
     excerpt:
       "Centuries-old monasteries perched like raptors on sheer cliffs. Navigating the frozen rivers and remote gorges of high-altitude trans-Himalayan Ladakh.",
     date: new Date("2025-09-10T06:00:00Z").toUTCString(),
-    image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1200&q=75",
     category: "Ladakh",
   },
   {
@@ -93,7 +90,6 @@ const FEATURED_STORIES = [
     excerpt:
       "Trekking the outer rim of India's second-highest summit. Alpine rhododendron groves give way to granite walls that scrape the stratosphere at 7,816 meters.",
     date: new Date("2025-06-18T06:00:00Z").toUTCString(),
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=75",
     category: "Uttarakhand",
   },
 ];
@@ -112,7 +108,7 @@ export async function GET(): Promise<Response> {
       description: story.excerpt,
       pubDate: story.date,
       category: story.category,
-      imageUrl: story.image,
+      imageUrl: undefined,
     });
   }
 

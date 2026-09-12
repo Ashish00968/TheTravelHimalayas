@@ -83,7 +83,7 @@ export default async function StateHub({
   return (
     <main className="min-h-screen pt-28 pb-20 bg-background text-foreground transition-colors duration-300">
       {/* State Header Banner with Cinematic Landscape Background */}
-      <section className="relative py-16 md:py-24 border-b border-foreground/[0.08] overflow-hidden transition-colors duration-300">
+      <section className="relative py-14 md:py-20 overflow-hidden transition-colors duration-300">
         {/* Territory Landscape Backdrop */}
         {region.image && (
           <div className="absolute inset-0 pointer-events-none z-0">
@@ -158,15 +158,15 @@ export default async function StateHub({
         </div>
       </section>
 
-      {/* Divisions Grid */}
-      <div className="container mx-auto px-6 max-w-7xl py-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      {/* Regions & Valleys Grid */}
+      <div className="container mx-auto px-6 max-w-7xl py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
             <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground mb-2">
-              Divisions &amp; Valleys
+              Regions &amp; Valleys
             </h2>
             <p className="text-foreground/60 text-base font-light">
-              Select a sub-region to explore its trekking trails, peaks, and alpine passes.
+              Select a sub-region to explore its places, trekking trails, and alpine expeditions.
             </p>
           </div>
         </div>

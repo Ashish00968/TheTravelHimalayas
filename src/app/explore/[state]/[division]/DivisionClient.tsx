@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
-  Compass,
   Mountain,
   Sparkles,
   ArrowRight,
@@ -19,7 +18,8 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
 
-type FilterTab = "all" | "trek" | "day-hike" | "peak" | "scenic";
+type FilterTab = "all" | "places" | "treks" | "expeditions";
+type SortOption = "featured" | "elevation" | "duration" | "alpha";
 
 const TERRITORY_STYLE: Record<string, { accent: string; glow: string }> = {
   "jammu-kashmir":    { accent: "#3B82F6", glow: "rgba(59,130,246,0.20)" },
@@ -42,37 +42,72 @@ export function DivisionClient({
   subRegion,
 }: DivisionClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const [sortBy, setSortBy] = useState<SortOption>("featured");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const treks = useMemo(() => subRegion.places.filter((p) => p.type === "trek"), [subRegion.places]);
-  const dayHikes = useMemo(() => subRegion.places.filter((p) => p.type === "day-hike"), [subRegion.places]);
-  const peaks = useMemo(() => subRegion.places.filter((p) => p.type === "peak"), [subRegion.places]);
-  const scenic = useMemo(() => subRegion.places.filter((p) => ["scenic", "lake", "spiritual", "adventure", "road"].includes(p.type)), [subRegion.places]);
+  // Categorize places cleanly into (1) Places, (2) Treks & Trails, (3) Expeditions
+  const placesList = useMemo(
+    () => subRegion.places.filter((p) => p.type !== "trek" && p.type !== "day-hike" && p.type !== "peak"),
+    [subRegion.places]
+  );
+  const treksList = useMemo(
+    () => subRegion.places.filter((p) => p.type === "trek" || p.type === "day-hike"),
+    [subRegion.places]
+  );
+  const expeditionsList = useMemo(
+    () => subRegion.places.filter((p) => p.type === "peak"),
+    [subRegion.places]
+  );
 
   const tabs = useMemo(() => {
     const list: { id: FilterTab; label: string; count: number; icon: React.ElementType }[] = [
-      { id: "all", label: "All Places", count: subRegion.places.length, icon: MapPin },
+      { id: "all", label: "All Destinations", count: subRegion.places.length, icon: MapPin },
     ];
-    if (treks.length > 0) list.push({ id: "trek", label: "Treks", count: treks.length, icon: Compass });
-    if (dayHikes.length > 0) list.push({ id: "day-hike", label: "Day Hikes", count: dayHikes.length, icon: Footprints });
-    if (peaks.length > 0) list.push({ id: "peak", label: "Peaks", count: peaks.length, icon: Mountain });
-    if (scenic.length > 0) list.push({ id: "scenic", label: "Scenic", count: scenic.length, icon: Sparkles });
+    if (placesList.length > 0) list.push({ id: "places", label: "Places", count: placesList.length, icon: Sparkles });
+    if (treksList.length > 0) list.push({ id: "treks", label: "Treks & Trails", count: treksList.length, icon: Footprints });
+    if (expeditionsList.length > 0) list.push({ id: "expeditions", label: "Expeditions", count: expeditionsList.length, icon: Mountain });
     return list;
-  }, [subRegion.places.length, treks.length, dayHikes.length, peaks.length, scenic.length]);
+  }, [subRegion.places.length, placesList.length, treksList.length, expeditionsList.length]);
 
   const filteredPlaces = useMemo(() => {
     let list: HimalayaPlace[] = subRegion.places;
-    if (activeFilter === "trek") list = treks;
-    else if (activeFilter === "day-hike") list = dayHikes;
-    else if (activeFilter === "peak") list = peaks;
-    else if (activeFilter === "scenic") list = scenic;
+    if (activeFilter === "places") list = placesList;
+    else if (activeFilter === "treks") list = treksList;
+    else if (activeFilter === "expeditions") list = expeditionsList;
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter((p) => p.name.toLowerCase().includes(q) || (p.overview && p.overview.toLowerCase().includes(q)));
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter((p) => 
+        p.name.toLowerCase().includes(q) || 
+        (p.overview && p.overview.toLowerCase().includes(q)) ||
+        (p.elevation && p.elevation.toLowerCase().includes(q))
+      );
     }
-    return list;
-  }, [subRegion.places, activeFilter, searchQuery, treks, dayHikes, peaks, scenic]);
+
+    // Sort options
+    return [...list].sort((a, b) => {
+      if (sortBy === "alpha") {
+        return a.name.localeCompare(b.name);
+      }
+      if (sortBy === "elevation") {
+        const getMeters = (elevationStr?: string) => {
+          if (!elevationStr) return 0;
+          const match = elevationStr.replace(/,/g, "").match(/\d+/);
+          return match ? parseInt(match[0], 10) : 0;
+        };
+        return getMeters(b.elevation) - getMeters(a.elevation);
+      }
+      if (sortBy === "duration") {
+        const getDays = (d?: string) => {
+          if (!d) return 0;
+          const match = d.match(/(\d+)\s*(?:day|hour)/i);
+          return match ? parseInt(match[1], 10) : 0;
+        };
+        return getDays(b.duration) - getDays(a.duration);
+      }
+      return 0; // Default curated order
+    });
+  }, [subRegion.places, activeFilter, searchQuery, sortBy, placesList, treksList, expeditionsList]);
 
   const style = TERRITORY_STYLE[region.id] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.15)" };
 
@@ -130,10 +165,10 @@ export function DivisionClient({
           )}
         </div>
 
-        {/* Top Category Filter & Search Section */}
-        <div className="space-y-6 mb-12">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
-            {/* Filter Tabs */}
+        {/* Top Category Filter & Search/Sort Section */}
+        <div className="space-y-6 mb-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            {/* Filter Tabs matching (1) Places, (2) Treks/Trails, (3) Expeditions */}
             <div 
               className="flex flex-wrap gap-2 p-1.5 rounded-2xl w-fit bg-foreground/[0.04] border border-foreground/[0.08]"
             >
@@ -165,36 +200,57 @@ export function DivisionClient({
               })}
             </div>
 
-            {/* Quick Search */}
-            <div className="relative w-full lg:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search ${subRegion.name}...`}
-                className="w-full pl-11 pr-4 py-3 rounded-2xl text-[13px] text-foreground placeholder:text-foreground/40 bg-foreground/[0.04] border border-foreground/[0.1] focus:outline-none transition-all"
-                onFocus={(e) => {
-                  e.target.style.borderColor = style.accent;
-                  e.target.style.boxShadow = `0 0 0 3px ${style.glow}`;
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "";
-                  e.target.style.boxShadow = "none";
-                }}
-              />
+            {/* Controls: Quick Search & Sort By */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+              {/* Sort By Dropdown */}
+              <div className="relative min-w-[170px]">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className="w-full pl-4 pr-9 py-3 rounded-2xl text-xs text-foreground bg-foreground/[0.04] border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer font-mono font-medium appearance-none"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 14px center",
+                  }}
+                >
+                  <option value="featured" className="bg-background text-foreground">Sort: Featured</option>
+                  <option value="elevation" className="bg-background text-foreground">Sort: Highest Elevation</option>
+                  <option value="duration" className="bg-background text-foreground">Sort: Duration</option>
+                  <option value="alpha" className="bg-background text-foreground">Sort: Alphabetical (A–Z)</option>
+                </select>
+              </div>
+
+              {/* Quick Search Input */}
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={`Search ${subRegion.name}...`}
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl text-[13px] text-foreground placeholder:text-foreground/40 bg-foreground/[0.04] border border-foreground/[0.1] focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.target.style.borderColor = style.accent;
+                    e.target.style.boxShadow = `0 0 0 3px ${style.glow}`;
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "";
+                    e.target.style.boxShadow = "none";
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Content Section Title */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-foreground/[0.08]">
+        {/* Content Section Title — Clean, seamless without harsh divider line */}
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl sm:text-3xl font-display tracking-tight font-bold text-foreground">
-              {activeFilter === "all" ? "All Places" : 
-               activeFilter === "trek" ? "Multi-Day Treks" : 
-               activeFilter === "day-hike" ? "Day Hikes" : 
-               activeFilter === "peak" ? "Peaks & Expeditions" : "Scenic & Sanctuaries"}
+              {activeFilter === "all" ? "All Destinations" : 
+               activeFilter === "places" ? "Places & Scenic Highlights" : 
+               activeFilter === "treks" ? "Treks & Alpine Trails" : "High-Altitude Expeditions"}
             </h2>
           </div>
           <span className="text-foreground/50 text-[11px] font-mono font-bold uppercase tracking-widest">
@@ -205,7 +261,7 @@ export function DivisionClient({
         {/* Place Cards Grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeFilter}
+            key={`${activeFilter}-${sortBy}`}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
@@ -214,6 +270,10 @@ export function DivisionClient({
           >
             {filteredPlaces.map((item) => {
               const placeHero = item.heroImage || item.peakData?.heroImage || item.trekData?.heroImage;
+              const categoryLabel = 
+                item.type === "peak" ? "Expedition" :
+                (item.type === "trek" || item.type === "day-hike") ? "Trek & Trail" : "Place";
+
               return (
                 <Link
                   key={item.id}
@@ -241,7 +301,6 @@ export function DivisionClient({
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-highland"
                         />
-
                       </div>
                     )}
 
@@ -249,9 +308,9 @@ export function DivisionClient({
                       <span className="text-3xl drop-shadow-md">{item.emoji}</span>
                       <div className="flex items-center gap-2">
                         <span 
-                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-foreground/[0.04] border border-foreground/[0.1] text-foreground/60"
+                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-foreground/[0.04] border border-foreground/[0.1] text-foreground/75"
                         >
-                          {item.type}
+                          {categoryLabel}
                         </span>
                         {item.difficulty && (
                           <span 
@@ -276,7 +335,7 @@ export function DivisionClient({
                   </div>
 
                   <div 
-                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-foreground/50 font-mono font-bold uppercase tracking-widest border-t border-foreground/[0.08]"
+                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-foreground/50 font-mono font-bold uppercase tracking-widest border-t border-foreground/[0.06]"
                   >
                     <div className="flex items-center gap-2">
                       {item.elevation && <span>{item.elevation}</span>}

@@ -33,7 +33,7 @@ Key capabilities of the platform:
 - **Compressed Single-Card FAQ Engine**: Single compact capsule card expanding into 10 interactive question accordions with pre-rendered Schema.org `FAQPage` structured data.
 - **Platform Authority Ribbon**: 4 trust pillars on the homepage highlighting Zero Commercial Bias, 100% Geospatially Mapped, Clinical Altitude Protocols, and Offline PWA & Print Ready.
 - **Intelligent Search & Discovery**: Fast, token-matched, multi-facet search across treks, peaks, regions, and guides with instant O(1) `placeLocationIndex` resolution.
-- **World-Class SEO Scaffolding**: Rich JSON-LD structured data (`Article`, `Mountain`, `TouristTrip`, `FAQPage`, `BreadcrumbList`), dynamic sitemaps, semantic HTML, and open graph optimization across all 112 static pre-rendered routes.
+- **World-Class SEO Scaffolding**: Rich JSON-LD structured data (`Article`, `Mountain`, `TouristTrip`, `FAQPage`, `BreadcrumbList`), dynamic sitemaps, semantic HTML, and open graph optimization across all 113 static pre-rendered routes.
 
 Do not overbuild. Build strictly what aligns with the roadmap, the current task, and user specifications.
 
@@ -123,17 +123,17 @@ Follow this structured workflow loop for every task:
 ├── info/                 # Private developer documentation (Git-ignored)
 │   ├── BUILD_LOG.md      # Full milestone chronicle & bug resolution log
 │   ├── TECHNICAL_SPECS.md# Static export rules, schemas & O(1) lookup indexing
-│   ├── context.md        # Technical context, full 111-route map & design tokens
+│   ├── context.md        # Technical context, full 113-route map & design tokens
 │   └── memory.md         # Active session memory, recent updates & next priorities
 ├── README.md             # ONLY markdown file at the root (public repository guide)
 ├── functions/            # Cloudflare Pages Functions
 │   └── api/newsletter.ts # Edge serverless route handler for newsletter submissions
 ├── src/
 │   ├── app/              # Next.js App Router (pages, layouts, static SSG)
-│   │   ├── (routes)/     # 112 static routes (/explore, /guides, /safety, /plan, /map, etc.)
+│   │   ├── (routes)/     # 113 static routes (/explore, /guides, /safety, /plan, /map, etc.)
 │   │   ├── globals.css   # Global styles, Himalayan design tokens, CSS variables
 │   │   ├── layout.tsx    # Root layout with navbar, footer, analytics, metadata
-│   │   ├── sitemap.ts    # Dynamic XML sitemap generation (112 routes)
+│   │   ├── sitemap.ts    # Dynamic XML sitemap generation (113 routes)
 │   │   ├── robots.ts     # Robots.txt configuration
 │   │   ├── robot.txt/    # Singular crawler fallback route
 │   │   └── manifest.webmanifest/ # Dynamic W3C Web App Manifest route

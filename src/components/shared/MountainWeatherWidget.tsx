@@ -70,7 +70,7 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
 
   if (loading) {
     return (
-      <div className="w-full h-48 bg-card border border-border rounded-3xl animate-pulse flex items-center justify-center">
+      <div className="w-full h-48 bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 rounded-2xl sm:rounded-3xl animate-pulse flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     );
@@ -78,7 +78,7 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
 
   if (error || !data) {
     return (
-      <div className="w-full p-6 glass-museum-card text-foreground/60 text-center text-sm font-light">
+      <div className="w-full p-6 bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 rounded-2xl sm:rounded-3xl text-slate-600 dark:text-foreground/60 text-center text-sm font-light">
         Live weather unavailable for this location.
       </div>
     );
@@ -107,55 +107,55 @@ export function MountainWeatherWidget({ coords, locationName }: WeatherWidgetPro
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full relative overflow-hidden glass-museum-card p-6 md:p-8 shadow-xl"
+      className="w-full relative overflow-hidden bg-white dark:bg-[#080e1a] rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-white/10 p-5 sm:p-8 shadow-sm dark:shadow-xl"
     >
-      <div className="absolute top-0 right-0 p-4 opacity-5">
+      <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
         {getWeatherIcon(current.weather_code)}
       </div>
 
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
         <div>
           <span className="font-mono text-xs text-primary uppercase tracking-[0.2em] font-bold block mb-1">
             Live Conditions
           </span>
-          <h3 className="font-display tracking-tight font-semibold text-xl text-foreground">
+          <h3 className="font-display tracking-tight font-semibold text-lg sm:text-xl text-slate-900 dark:text-foreground">
             {locationName}
           </h3>
         </div>
-        <div className="flex flex-col items-end">
+        <div className="flex items-center sm:flex-col sm:items-end justify-between sm:justify-start gap-3">
           <div className="flex items-center gap-3">
             {getWeatherIcon(current.weather_code)}
-            <span className="text-4xl font-display font-bold text-foreground">
+            <span className="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-foreground">
               {Math.round(current.temperature_2m)}°
             </span>
           </div>
-          <span className="text-foreground/70 text-sm font-light mt-1">
+          <span className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-light">
             {getWeatherText(current.weather_code)} (Feels like {Math.round(current.apparent_temperature)}°)
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
-          <Wind className="w-5 h-5 text-primary mb-2" />
-          <span className="text-foreground font-semibold">{current.wind_speed_10m} km/h</span>
-          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Wind</span>
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+        <div className="bg-slate-100/90 dark:bg-white/[0.04] border border-slate-200/90 dark:border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center">
+          <Wind className="w-4 h-4 sm:w-5 sm:h-5 text-primary mb-1.5 sm:mb-2" />
+          <span className="text-slate-900 dark:text-white font-semibold text-xs sm:text-base">{current.wind_speed_10m} <span className="text-[10px] sm:text-xs font-normal">km/h</span></span>
+          <span className="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-mono uppercase mt-0.5 sm:mt-1">Wind</span>
         </div>
         
-        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
-          <Droplets className="w-5 h-5 text-blue-500 mb-2" />
-          <span className="text-foreground font-semibold">{current.precipitation} mm</span>
-          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Precip</span>
+        <div className="bg-slate-100/90 dark:bg-white/[0.04] border border-slate-200/90 dark:border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center">
+          <Droplets className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mb-1.5 sm:mb-2" />
+          <span className="text-slate-900 dark:text-white font-semibold text-xs sm:text-base">{current.precipitation} <span className="text-[10px] sm:text-xs font-normal">mm</span></span>
+          <span className="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-mono uppercase mt-0.5 sm:mt-1">Precip</span>
         </div>
 
-        <div className="bg-muted/60 dark:bg-card border border-border rounded-2xl p-4 flex flex-col items-center justify-center text-center">
-          <Snowflake className="w-5 h-5 text-primary mb-2" />
-          <span className="text-foreground font-semibold">{current.snowfall} cm</span>
-          <span className="text-muted-foreground text-xs font-mono uppercase mt-1">Snow</span>
+        <div className="bg-slate-100/90 dark:bg-white/[0.04] border border-slate-200/90 dark:border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center">
+          <Snowflake className="w-4 h-4 sm:w-5 sm:h-5 text-primary mb-1.5 sm:mb-2" />
+          <span className="text-slate-900 dark:text-white font-semibold text-xs sm:text-base">{current.snowfall} <span className="text-[10px] sm:text-xs font-normal">cm</span></span>
+          <span className="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-mono uppercase mt-0.5 sm:mt-1">Snow</span>
         </div>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-border flex justify-between items-center text-xs text-muted-foreground font-mono">
+      <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-slate-200/80 dark:border-white/10 flex justify-between items-center text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono">
         <span>Powered by Open-Meteo</span>
         <span className="flex items-center gap-1">Live <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse ml-1" /></span>
       </div>

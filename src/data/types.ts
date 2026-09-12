@@ -16,7 +16,7 @@ export interface Trek {
   permits: string;
   faqs: { question: string; answer: string }[];
   images: string[];
-  heroImage: string;
+  heroImage?: string;
   description: string;
   // Map & pricing extensions (optional — no breaking changes to existing entries)
   coords?: [number, number]; // [latitude, longitude] of the trailhead
@@ -39,7 +39,7 @@ export interface Peak {
   gearRequirements: string[];
   faqs: { question: string; answer: string }[];
   images: string[];
-  heroImage: string;
+  heroImage?: string;
   description: string;
   // Map extension (optional)
   coords?: [number, number]; // [latitude, longitude] of the base camp
@@ -56,7 +56,7 @@ export interface DayHike {
   routeDescription: string;
   faqs: { question: string; answer: string }[];
   images: string[];
-  heroImage: string;
+  heroImage?: string;
   description: string;
 }
 

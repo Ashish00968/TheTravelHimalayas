@@ -22,8 +22,15 @@ const config: Config = {
           glassHover: "rgba(255,255,255,0.07)",
         },
 
+        card: {
+          DEFAULT:    "var(--bg-card)",
+          foreground: "var(--text-high)",
+        },
+
         border: {
-          DEFAULT:    "rgba(255,255,255,0.07)",
+          DEFAULT:    "var(--border-base)",
+          dim:        "var(--border-dim)",
+          bright:     "var(--border-bright)",
           glass:      "rgba(255,255,255,0.07)",
           glassHover: "rgba(255,255,255,0.14)",
           strong:     "rgba(255,255,255,0.18)",

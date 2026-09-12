@@ -23,6 +23,7 @@
     --text-low:   #94A3B8;      /* Cloud rim grey */
 
     /* Brand Accents */
+    --primary:       #2563EB;   /* Primary glacier blue */
     --accent-blue:   #2563EB;   /* Glacial deep blue */
     --accent-gold:   #D97706;   /* Sunlit alpenglow */
     --accent-violet: #7C3AED;   /* High altitude twilight */
@@ -52,6 +53,7 @@
     --text-low:   #64748B;      /* Deep ridge shadow */
 
     /* Brand Accents */
+    --primary:       #3B82F6;   /* Vibrant glacier blue */
     --accent-blue:   #3B82F6;   /* Vibrant glacier blue */
     --accent-gold:   #F59E0B;   /* Alpenglow gold */
     --accent-violet: #8B5CF6;   /* Ladakh twilight */
@@ -338,19 +340,46 @@
   a.bg-primary, a.bg-primary *,
   .bg-black, .bg-black *,
   .bg-slate-950, .bg-slate-950 *,
-  .dark-photo-card h1, .dark-photo-card h2, .dark-photo-card h3,
-  .dark-photo-card h4, .dark-photo-card h5, .dark-photo-card h6,
-  .dark-photo-card .text-white {
+  :root:not(.dark) .dark-photo-card,
+  :root:not(.dark) .dark-photo-card *,
+  :root:not(.dark) .preserve-white-text,
+  :root:not(.dark) .preserve-white-text *,
+  :root:not(.dark) .hero-dark-overlay,
+  :root:not(.dark) .hero-dark-overlay *,
+  :root:not(.dark) .preserve-white-text h1,
+  :root:not(.dark) .preserve-white-text h2,
+  :root:not(.dark) .preserve-white-text h3,
+  :root:not(.dark) .preserve-white-text h4,
+  :root:not(.dark) .preserve-white-text p,
+  :root:not(.dark) .preserve-white-text span,
+  :root:not(.dark) .dark-photo-card h1,
+  :root:not(.dark) .dark-photo-card h2,
+  :root:not(.dark) .dark-photo-card h3,
+  :root:not(.dark) .dark-photo-card h4,
+  :root:not(.dark) .dark-photo-card p,
+  :root:not(.dark) .dark-photo-card span {
     color: #FFFFFF !important;
   }
-  .dark-photo-card .text-white\/90 {
+  :root:not(.dark) .preserve-white-text .text-white\/90, :root:not(.dark) .dark-photo-card .text-white\/90, :root:not(.dark) .hero-dark-overlay .text-white\/90 {
     color: rgba(255, 255, 255, 0.9) !important;
   }
-  .dark-photo-card .text-white\/80 {
+  :root:not(.dark) .preserve-white-text .text-white\/85, :root:not(.dark) .dark-photo-card .text-white\/85, :root:not(.dark) .hero-dark-overlay .text-white\/85 {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+  :root:not(.dark) .preserve-white-text .text-white\/80, :root:not(.dark) .dark-photo-card .text-white\/80, :root:not(.dark) .hero-dark-overlay .text-white\/80 {
     color: rgba(255, 255, 255, 0.8) !important;
   }
-  .dark-photo-card .text-white\/75 {
+  :root:not(.dark) .preserve-white-text .text-white\/75, :root:not(.dark) .dark-photo-card .text-white\/75, :root:not(.dark) .hero-dark-overlay .text-white\/75 {
     color: rgba(255, 255, 255, 0.75) !important;
+  }
+  :root:not(.dark) .preserve-white-text .text-white\/70, :root:not(.dark) .dark-photo-card .text-white\/70, :root:not(.dark) .hero-dark-overlay .text-white\/70 {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  :root:not(.dark) .preserve-white-text .text-white\/60, :root:not(.dark) .dark-photo-card .text-white\/60, :root:not(.dark) .hero-dark-overlay .text-white\/60 {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  :root:not(.dark) .preserve-white-text .text-white\/50, :root:not(.dark) .dark-photo-card .text-white\/50, :root:not(.dark) .hero-dark-overlay .text-white\/50 {
+    color: rgba(255, 255, 255, 0.5) !important;
   }
 }
 

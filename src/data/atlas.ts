@@ -69,8 +69,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "patnitop",
             name: "Patnitop Meadow",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "day-hike",
             emoji: "🌲",
             coords: [33.0850, 75.3280],
@@ -111,8 +109,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "nathatop",
             name: "Nathatop Ridge",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "⛰️",
             coords: [33.1020, 75.3120],
@@ -130,8 +126,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "vaishno-devi",
             name: "Vaishno Devi Trail",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [33.0305, 74.9500],
@@ -156,8 +150,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kashmir-great-lakes",
             name: "Kashmir Great Lakes Trek",
-            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌊",
             coords: [34.2500, 75.0500],
@@ -194,8 +186,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "tarsar-marsar",
             name: "Tarsar Marsar Trek",
-            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🏔️",
             coords: [34.1500, 75.1500],
@@ -210,8 +200,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sonmarg",
             name: "Sonmarg & Thajiwas Glacier",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "❄️",
             coords: [34.3000, 75.2900],
@@ -225,8 +213,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "gulmarg",
             name: "Gulmarg & Apharwat Peak",
-            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
             type: "adventure",
             emoji: "🚠",
             coords: [34.0500, 74.3800],
@@ -250,8 +236,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
     subregions: [
       {
         id: "kullu",
-        name: "Kullu",
-        tagline: "Manali trailheads, alpine glaciers, and iconic high-altitude pass crossings",
+        name: "Kullu & Manali",
+        tagline: "Manali trailheads, Solang Valley, alpine glaciers, and iconic high-altitude pass crossings",
         places: [
           ...treks.map((t) => {
             const isDayHike =
@@ -261,16 +247,16 @@ export const himalayaAtlas: HimalayaRegion[] = [
 
             const isPatalsu = t.slug === "patalsu-peak";
             const experience = isPatalsu
-              ? "The final push to the Patalsu summit ridge was into a bitter wind, but the moment the clouds parted and I saw both Rohtang and the Dhauladhar range at once — completely worth it. While standard guided trekking parties space this expedition across 3 days with basecamps at Shagadugh and high meadow, pushing the summit in a single day demands relentless endurance and early Alpine timing."
+              ? "I did Patalsu as a continuous 12 to 13-hour single-day speed-hike in October with only minimal breaks. Conquering the +1,781m vertical gain in one push is an incredible test of mountain endurance, but for most trekkers, I strongly recommend doing this as a 2 to 3-day trek. Camping at Shagadugh gives your body time to acclimatize and lets you truly experience the peaceful forest before tackling the relentless loose scree on the summit ridge."
               : undefined;
 
             const tips = isPatalsu
               ? [
-                  "Commercial parties standardise Patalsu as a 3-day trek with camping at Shagadugh (3,250m) to acclimatize properly; single-day ascents gain over 1,700m of vertical elevation and should only be attempted by ultra-fit, pre-acclimatized hikers starting before dawn.",
-                  "Start by 5:00 AM from Solang to clear the ridge and summit before afternoon convective clouds and gale winds roll in.",
-                  "Water is completely unavailable above Shagadugh meadow. Refill all bottles at the last forest stream (carry at least 3 liters).",
-                  "The final 200m vertical climb traverses loose scree and exposed rock bands — trekking poles are essential for balance on both ascent and descent.",
-                  "No technical mountaineering gear (ropes or crampons) is required between July and October, but high-ankle boots with deep lugs are mandatory."
+                  "Water Warning: Natural water sources end very early, roughly 500 meters above Solang Village. There is no reliable water along the upper forest, Shagadugh (dry in late season), or the summit ridge. You must carry at least 2 to 4 Liters of water from the start.",
+                  "Duration Recommendation: While trail runners and seasoned endurance hikers can tackle this as a grueling 12–13 hour single-day speed-hike, we strongly recommend 2 to 3 days for standard trekkers with a camp at Shagadugh meadow (3,250m).",
+                  "Early Alpine Start: Start before dawn (5:00 AM) to summit before afternoon cloud buildups and gale winds, and to avoid descending the steep, slippery forest sections in total darkness.",
+                  "Scree Footing & Poles: The final 200m vertical ascent traverses narrow, wind-swept loose scree and fractured shale. Sturdy boots with deep traction lugs and trekking poles are non-negotiable for balance.",
+                  "Wind Protection: Even during clear October weather, winds on the exposed 4,200m ridge are bitterly cold. Carry a windproof shell jacket, warm beanie, and thermal gloves."
                 ]
               : undefined;
 
@@ -316,8 +302,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "solang-valley",
             name: "Solang Valley",
-            heroImage: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=800&q=72",
             type: "adventure",
             emoji: "🎿",
             coords: [32.3150, 77.1580],
@@ -330,8 +314,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sethan",
             name: "Sethan Village & Valley",
-            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🛖",
             coords: [32.2240, 77.2510],
@@ -344,8 +326,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "tirthan-valley",
             name: "Tirthan Valley & GHNP",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🐟",
             coords: [31.6300, 77.4000],
@@ -353,6 +333,10 @@ export const himalayaAtlas: HimalayaRegion[] = [
             bestSeason: "March to June, Sep to Nov",
             difficulty: "Moderate",
             duration: "2–4 Days",
+            heroImage: "https://images.unsplash.com/photo-1651391572827-97410cbb2f82?auto=format&fit=crop&w=1600&q=80",
+            images: [
+              "https://images.unsplash.com/photo-1651391572827-97410cbb2f82?auto=format&fit=crop&w=1600&q=80",
+            ],
             overview: "Pristine buffer zone of the UNESCO Great Himalayan National Park, famous for crystal trout streams, dense deodar forests, and peaceful trails to Jalori Pass and Serolsar Lake."
           }
         ]
@@ -365,8 +349,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chandratal-lake",
             name: "Chandratal Lake (Moon Lake)",
-            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
             type: "lake",
             emoji: "🌙",
             coords: [32.4820, 77.6180],
@@ -380,8 +362,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "key-monastery",
             name: "Key Gompa & Kibber",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [32.2980, 78.0120],
@@ -395,8 +375,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "pin-bhaba-pass",
             name: "Pin Bhaba Pass Trek",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🥾",
             coords: [31.8400, 77.9800],
@@ -411,8 +389,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "sissu",
             name: "Sissu & Lahaul Valley",
-            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🌊",
             coords: [32.4700, 77.1200],
@@ -432,8 +408,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kinner-kailash",
             name: "Kinner Kailash Parikrama",
-            heroImage: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "⛰️",
             coords: [31.5200, 78.3800],
@@ -447,8 +421,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chitkul",
             name: "Chitkul & Baspa Valley",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🏡",
             coords: [31.3500, 78.4300],
@@ -461,8 +433,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kalpa",
             name: "Kalpa & Roghi Cliff",
-            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🍎",
             coords: [31.5300, 78.2500],
@@ -482,8 +452,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "triund",
             name: "Triund Trek",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🥾",
             coords: [32.2580, 76.3530],
@@ -497,8 +465,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kareri-lake",
             name: "Kareri Lake Trek",
-            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌊",
             coords: [32.3100, 76.2800],
@@ -512,8 +478,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "bir-billing",
             name: "Bir Billing Adventure Hub",
-            heroImage: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1527489377706-5bf97e608852?auto=format&fit=crop&w=800&q=72",
             type: "adventure",
             emoji: "🪂",
             coords: [32.0500, 76.7100],
@@ -542,8 +506,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kedarnath",
             name: "Kedarnath Temple & Trail",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [30.7350, 79.0660],
@@ -570,8 +532,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "har-ki-dun",
             name: "Har Ki Dun (Valley of Gods)",
-            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌲",
             coords: [31.1400, 78.4300],
@@ -604,8 +564,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chopta-tungnath",
             name: "Chopta, Tungnath & Chandrashila",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🥾",
             coords: [30.4880, 79.2170],
@@ -640,8 +598,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "valley-of-flowers",
             name: "Valley of Flowers National Park",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌸",
             coords: [30.7200, 79.6000],
@@ -655,8 +611,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "hemkund-sahib",
             name: "Hemkund Sahib & Lokpal Lake",
-            heroImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "☬",
             coords: [30.7000, 79.6200],
@@ -670,8 +624,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kuari-pass",
             name: "Kuari Pass (Curzon Trail)",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🏔️",
             coords: [30.5000, 79.5500],
@@ -692,8 +644,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "lansdowne",
             name: "Lansdowne Hill Station",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🌲",
             coords: [29.8370, 78.6800],
@@ -725,8 +675,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "gangotri-gaumukh",
             name: "Gaumukh Tapovan Trek",
-            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🧊",
             coords: [30.9200, 79.0800],
@@ -740,8 +688,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "dayara-bugyal",
             name: "Dayara Bugyal Trek",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌾",
             coords: [30.8500, 78.5500],
@@ -755,8 +701,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kedarkantha",
             name: "Kedarkantha Summit Trek",
-            heroImage: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "❄️",
             coords: [31.0200, 78.1700],
@@ -777,8 +721,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "munsiyari-panchachuli",
             name: "Munsiyari & Panchachuli Base Camp",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "⛰️",
             coords: [30.0600, 80.2300],
@@ -792,8 +734,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khaliya-top",
             name: "Khaliya Top Ridge Hike",
-            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
             type: "day-hike",
             emoji: "🥾",
             coords: [30.0800, 80.2100],
@@ -806,8 +746,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "milam-glacier",
             name: "Milam Glacier Expedition",
-            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🧊",
             coords: [30.4500, 80.1500],
@@ -837,8 +775,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "markha-valley",
             name: "Markha Valley Trek",
-            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🏜️",
             coords: [33.8800, 77.4000],
@@ -883,8 +819,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "khardung-la",
             name: "Khardung La Pass",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "road",
             emoji: "🏍️",
             coords: [34.2800, 77.6000],
@@ -897,8 +831,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "thiksey-monastery",
             name: "Thiksey Monastery",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [34.0500, 77.6600],
@@ -918,8 +850,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "suru-valley",
             name: "Suru Valley & Nun Kun Massif",
-            heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "⛰️",
             coords: [34.1500, 76.0000],
@@ -932,8 +862,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "mulbekh-monastery",
             name: "Mulbekh Rock-Carved Maitreya",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🗿",
             coords: [34.3800, 76.3500],
@@ -953,8 +881,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "hunder-sand-dunes",
             name: "Hunder Sand Dunes & Bactrian Camels",
-            heroImage: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🐪",
             coords: [34.5800, 77.4700],
@@ -967,8 +893,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "diskit-monastery",
             name: "Diskit Monastery & 32m Buddha",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [34.5400, 77.5600],
@@ -981,8 +905,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "turtuk",
             name: "Turtuk Balti Village",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🍑",
             coords: [34.8400, 76.8300],
@@ -1002,8 +924,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "mushkoh-valley",
             name: "Mushkoh Valley Wildflower Trail",
-            heroImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🌸",
             coords: [34.4200, 75.7200],
@@ -1016,8 +936,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "kargil-war-memorial",
             name: "Drass & Kargil War Memorial",
-            heroImage: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🎖️",
             coords: [34.4300, 75.7500],
@@ -1037,8 +955,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "chadar-trek",
             name: "Chadar Trek (Frozen River Expedition)",
-            heroImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=72",
             type: "trek",
             emoji: "🧊",
             coords: [33.8000, 76.9000],
@@ -1052,8 +968,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "phuktal-monastery",
             name: "Phuktal Gompa (Cave Monastery)",
-            heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=72",
             type: "spiritual",
             emoji: "🛕",
             coords: [33.2700, 77.1800],
@@ -1067,8 +981,6 @@ export const himalayaAtlas: HimalayaRegion[] = [
           {
             id: "padum",
             name: "Padum & Karsha Gompa",
-            heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=72",
             type: "scenic",
             emoji: "🏔️",
             coords: [33.4600, 76.8700],
