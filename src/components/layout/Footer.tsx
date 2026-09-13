@@ -18,7 +18,7 @@ export function Footer() {
             <div className="inline-block mb-6">
               <Logo variant="horizontal" size="md" glow={true} />
             </div>
-            <p className="text-foreground/70 text-sm font-light leading-relaxed mb-8 max-w-sm">
+            <p className="text-foreground/80 text-sm font-light leading-relaxed mb-8 max-w-sm">
               The definitive English-language guide and geospatial atlas for high-altitude trekking, peak expeditions, and alpine exploration across the North Indian Himalayas.
             </p>
 
@@ -28,7 +28,7 @@ export function Footer() {
                 <ShieldCheck className="w-4 h-4 text-primary" />
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">Authoritative Field Atlas</span>
               </div>
-              <p className="text-foreground/60 text-xs font-light leading-relaxed">
+              <p className="text-foreground/75 text-xs font-light leading-relaxed">
                 Independent, verified trail telemetry covering Himachal Pradesh, Uttarakhand, Ladakh, and Jammu &amp; Kashmir.
               </p>
             </div>

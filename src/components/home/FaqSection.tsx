@@ -89,7 +89,7 @@ export function FaqSection() {
               {/* Quick Topic Chips in Compressed State */}
               {!isExpanded && (
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-4 pt-3 border-t border-border/40">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/50 mr-1 hidden sm:inline">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/75 mr-1 hidden sm:inline">
                     Topics Covered:
                   </span>
                   {[
@@ -207,7 +207,7 @@ export function FaqSection() {
                                   {faq.question}
                                 </h3>
                                 {!isOpen && (
-                                  <p className="text-foreground/60 text-xs font-light mt-1 line-clamp-1">
+                                  <p className="text-foreground/75 text-xs font-light mt-1 line-clamp-1">
                                     {faq.shortAnswer}
                                   </p>
                                 )}
@@ -246,7 +246,7 @@ export function FaqSection() {
 
                                     {faq.links && faq.links.length > 0 && (
                                       <div className="mt-4 pt-3 border-t border-border/40 flex flex-wrap items-center gap-3">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/50">
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/75">
                                           Related Intel:
                                         </span>
                                         {faq.links.map((link) => (

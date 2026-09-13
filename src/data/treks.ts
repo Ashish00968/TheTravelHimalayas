@@ -62,7 +62,7 @@ export const treks: Trek[] = [
         answer: "Absolutely. Beas Kund is one of the best beginner treks near Manali. The short duration (3 days), moderate altitude, and well-marked trail make it perfect for first-timers."
       }
     ],
-    heroImage: "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    heroImage: "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=600",
     images: [
       "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=1600",
       "https://images.pexels.com/photos/18979386/pexels-photo-18979386.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -104,7 +104,7 @@ export const treks: Trek[] = [
         answer: "The trail to Lamadugh is reasonably well-marked. However, hiring a local guide from Old Manali is recommended to navigate the forest sections confidently."
       }
     ],
-    heroImage: "https://images.pexels.com/photos/11948660/pexels-photo-11948660.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    heroImage: "https://images.pexels.com/photos/11948660/pexels-photo-11948660.jpeg?auto=compress&cs=tinysrgb&w=600",
     images: [
       "https://images.pexels.com/photos/11948660/pexels-photo-11948660.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
@@ -250,7 +250,7 @@ export const treks: Trek[] = [
       "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/14SummitSelfie.jpg",
       "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/15SunsetHanumanTibba.jpg"
     ],
-    heroImage: "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/10abovetheTreelineViewOfDhauladharRanges.jpg",
+    heroImage: "/images/patalsu-hero.webp",
     description: "A commanding 4,261m non-technical summit rising above Solang Valley. Standard 3-day expedition with high camp at Shagadugh, or a grueling 1-day endurance push with 360° panoramas of Hanuman Tibba and the Pir Panjal."
   },
   {
@@ -339,7 +339,7 @@ export const treks: Trek[] = [
         answer: "Absolutely — Chandratal (Moon Lake) at 4,300m near Chatru is one of India's most beautiful high-altitude lakes. Most itineraries include a 12km round trip to the lake on Day 4."
       }
     ],
-    heroImage: "https://images.unsplash.com/photo-1688804470994-271ad19db477?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1688804470994-271ad19db477?auto=format&fit=crop&w=600&q=75",
     images: [
       "https://images.unsplash.com/photo-1688804470994-271ad19db477?auto=format&fit=crop&w=1600&q=80",
       "https://images.pexels.com/photos/32109154/pexels-photo-32109154.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -411,7 +411,7 @@ export const treks: Trek[] = [
         answer: "Yes. Spend at least one full day in Manali (2,050m) before beginning this trek. Ascending to 4,300m without prior acclimatization increases risk of altitude sickness."
       }
     ],
-    heroImage: "https://cdn.pixabay.com/photo/2021/04/05/18/44/bhrigu-lake-6154348_1280.jpg",
+    heroImage: "/images/bhrigu-lake.webp",
     images: [
       "https://cdn.pixabay.com/photo/2021/04/05/18/44/bhrigu-lake-6154348_1280.jpg",
       "https://cdn.pixabay.com/photo/2016/10/15/16/27/trekking-1742822_1280.jpg",
@@ -492,9 +492,9 @@ export const treks: Trek[] = [
         answer: "The pass is rated difficult mainly due to steep sections and some loose trail near the top. The altitude is moderate at 3,660m, making it safer for acclimatized trekkers compared to higher passes."
       }
     ],
-    heroImage: "https://upload.wikimedia.org/wikipedia/commons/2/24/Chandrakhani_pass_3%2C_himachal_pradesh.jpg",
+    heroImage: "/images/chandrakhani-pass.webp",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/2/24/Chandrakhani_pass_3%2C_himachal_pradesh.jpg",
+      "/images/chandrakhani-pass.webp",
     ],
     description: "Cross the dramatic Chandrakhani Pass into the ancient, enigmatic Malana village — one of the most culturally fascinating treks in the Kullu Valley."
   }

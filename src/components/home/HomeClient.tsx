@@ -182,7 +182,7 @@ function MobileHero() {
           className="z-0"
         >
           <Image
-            src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
             alt="Himalayan Mountain Range Panorama"
             fill
             priority
@@ -266,6 +266,7 @@ function MobileHero() {
             src="/brand/hero-mountain-foreground-mobile.webp"
             alt="Foreground Mountain Ridge"
             fill
+            priority
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center"
           />
@@ -503,7 +504,7 @@ function DesktopHero() {
           }}
         >
           <Image
-            src="https://res.cloudinary.com/dehriwm1o/image/upload/v1777213099/Wallpaper.jpg"
+            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
             alt="Himalayan Mountain Range Panorama"
             fill
             priority
@@ -1799,7 +1800,7 @@ function PlanningSuiteSection() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1 text-[9px] font-mono tracking-wider uppercase text-foreground/45">
+                      <div className="flex items-center gap-1 text-[9px] font-mono tracking-wider uppercase text-foreground/75">
                         <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: tool.accent }} />
                         <span>Tool</span>
                       </div>
@@ -1933,7 +1934,7 @@ function SafetyFeatureSection() {
                   <h3 className="font-display font-bold text-xs sm:text-sm text-foreground mb-1">
                     {pillar.title}
                   </h3>
-                  <p className="text-foreground/65 text-[11px] sm:text-xs leading-relaxed font-light">
+                  <p className="text-foreground/80 text-[11px] sm:text-xs leading-relaxed font-light">
                     {pillar.desc}
                   </p>
                 </div>
@@ -1941,7 +1942,7 @@ function SafetyFeatureSection() {
             })}
           </div>
 
-          <div className="relative z-10 mt-5 pt-3 border-t border-slate-200/60 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] font-mono text-foreground/50">
+          <div className="relative z-10 mt-5 pt-3 border-t border-slate-200/60 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] font-mono text-foreground/75">
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />

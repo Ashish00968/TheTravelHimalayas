@@ -117,7 +117,7 @@ export function Navigation() {
                       className={`relative z-10 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors duration-200 block ${
                         active
                           ? "text-foreground font-semibold"
-                          : "text-foreground/65 hover:text-foreground"
+                          : "text-foreground/80 hover:text-foreground"
                       }`}
                     >
                       {link.label}
@@ -139,12 +139,12 @@ export function Navigation() {
               {/* Quick Search Pill (Desktop) */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/60 hover:text-foreground text-xs transition-all duration-200 group"
+                className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/80 hover:text-foreground text-xs transition-all duration-200 group"
                 aria-label="Search Himalayas"
               >
                 <Search className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
                 <span className="font-light">Search...</span>
-                <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[9px] font-mono rounded bg-foreground/10 text-foreground/50 border border-foreground/10">
+                <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[9px] font-mono rounded bg-foreground/10 text-foreground/75 border border-foreground/10">
                   ⌘K
                 </kbd>
               </button>
@@ -226,20 +226,20 @@ export function Navigation() {
                   setIsMobileOpen(false);
                   setIsSearchOpen(true);
                 }}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/[0.1] text-foreground/60 transition-all text-sm group"
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/[0.1] text-foreground/80 transition-all text-sm group"
               >
                 <span className="flex items-center gap-3">
                   <Search className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
                   <span className="font-light">Search expeditions, peaks, passes...</span>
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-foreground/10 text-foreground/60">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-foreground/10 text-foreground/80">
                   Search
                 </span>
               </button>
 
               {/* Territory Quick Links */}
               <div>
-                <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-foreground/50 block mb-2.5">
+                <span className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-foreground/75 block mb-2.5">
                   Territories
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -289,18 +289,18 @@ export function Navigation() {
                       className={`flex items-center justify-between py-3.5 text-base font-display font-medium transition-colors ${
                         active
                           ? "text-primary font-bold"
-                          : "text-foreground/75 hover:text-foreground active:text-primary"
+                          : "text-foreground/85 hover:text-foreground active:text-primary"
                       }`}
                     >
                       <span className="flex items-center gap-3.5">
                         <span className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                          active ? "bg-primary/15 text-primary" : "bg-foreground/[0.04] text-foreground/60"
+                          active ? "bg-primary/15 text-primary" : "bg-foreground/[0.04] text-foreground/80"
                         }`}>
                           <Icon className="w-4 h-4" />
                         </span>
                         <span>{label}</span>
                       </span>
-                      <span className="text-foreground/30 text-xs font-mono">→</span>
+                      <span className="text-foreground/60 text-xs font-mono">→</span>
                     </Link>
                   );
                 })}

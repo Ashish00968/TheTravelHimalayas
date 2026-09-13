@@ -17,10 +17,10 @@
     --bg-muted:   #F1F5F9;      /* Granite slate wash */
     --bg-input:   rgba(15, 23, 42, 0.05);
 
-    /* Text Scale */
-    --text-high:  #0F172A;      /* Deep granite slate */
-    --text-mid:   #475569;      /* Mountain mist grey */
-    --text-low:   #94A3B8;      /* Cloud rim grey */
+    /* Text Scale (WCAG AA & AAA Compliant) */
+    --text-high:  #0F172A;      /* Deep granite slate (16:1) */
+    --text-mid:   #334155;      /* Mountain slate (9.6:1 AAA) */
+    --text-low:   #475569;      /* Mountain mist grey (5.8:1 AA) */
 
     /* Brand Accents */
     --primary:       #2563EB;   /* Primary glacier blue */
@@ -47,10 +47,10 @@
     --bg-muted:   #15223A;      /* High ridge mist */
     --bg-input:   rgba(255, 255, 255, 0.05);
 
-    /* Text Scale */
-    --text-high:  #F8FAFC;      /* Snow peak white */
-    --text-mid:   #94A3B8;      /* Glacial mist */
-    --text-low:   #64748B;      /* Deep ridge shadow */
+    /* Text Scale (WCAG AA & AAA Compliant) */
+    --text-high:  #F8FAFC;      /* Snow peak white (17.5:1) */
+    --text-mid:   #CBD5E1;      /* Crisp light slate (11:1 AAA) */
+    --text-low:   #94A3B8;      /* Glacial mist (6.8:1 AA) */
 
     /* Brand Accents */
     --primary:       #3B82F6;   /* Vibrant glacier blue */
