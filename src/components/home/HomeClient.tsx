@@ -13,7 +13,6 @@ import {
 } from "framer-motion";
 import { himalayaAtlas, placeLocationIndex } from "@/data/atlas";
 import { treks } from "@/data/treks";
-import { NewsletterSignup } from "@/components/monetization/NewsletterSignup";
 import { Card3D } from "@/components/animation/Card3D";
 import { FaqSection } from "@/components/home/FaqSection";
 import {
@@ -32,7 +31,6 @@ import {
   Activity,
   TrendingUp,
   GraduationCap,
-  Radio,
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
@@ -1968,79 +1966,6 @@ function SafetyFeatureSection() {
   );
 }
 
-/* ── 6. Himalayan Dispatch Newsletter ─────────────────────────────────────── */
-function DispatchNewsletterSection() {
-  const dispatchHighlights = [
-    {
-      label: "Pass Radar",
-      detail: "Rohtang, Kunzum, Sach, Zoji La & high-pass status telemetry",
-      icon: Radio,
-    },
-    {
-      label: "Permit Alerts",
-      detail: "ILP & Forest Dept clearance regulation notices",
-      icon: ShieldCheck,
-    },
-    {
-      label: "Expedition Logs",
-      detail: "Newly surveyed GPS routes and field gear evaluations",
-      icon: Compass,
-    },
-  ];
-
-  return (
-    <section className="pt-6 sm:pt-10 pb-16 sm:pb-24 relative z-10 bg-background transition-colors duration-300">
-      <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="p-5 sm:p-10 md:p-14 rounded-3xl border border-slate-200/80 dark:border-white/10 relative overflow-hidden shadow-2xl bg-gradient-to-b from-slate-50/90 via-white to-slate-50/80 dark:from-[#09101F]/90 dark:via-[#070D1A] dark:to-[#050A14] backdrop-blur-xl"
-        >
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[350px] rounded-full blur-[120px] pointer-events-none bg-primary/15" />
-
-          <div className="relative z-10 max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-capsule text-primary text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-4 border border-slate-200/80 dark:border-white/10">
-              <Radio className="w-3.5 h-3.5 animate-pulse" />
-              Alpine Field Intelligence
-            </div>
-            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-foreground mb-3 tracking-tight leading-[1.1]">
-              High-Altitude Trail Intelligence
-            </h2>
-            <p className="text-foreground/70 text-xs sm:text-base font-light leading-relaxed mb-8 max-w-xl mx-auto">
-              Seasonal pass openings, permit policy changes, snowpack depth telemetry, and newly surveyed alpine routes delivered directly to your inbox.
-            </p>
-
-            <NewsletterSignup variant="hero" className="max-w-lg mx-auto mb-10" />
-
-            {/* 3 Dispatch Focus Pillars */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-200/60 dark:border-white/[0.08] text-left">
-              {dispatchHighlights.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-xl bg-slate-100/60 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/[0.05]"
-                  >
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-foreground mb-1">
-                      <Icon className="w-3.5 h-3.5 text-primary" />
-                      <span>{item.label}</span>
-                    </div>
-                    <p className="text-[11px] text-foreground/60 leading-snug font-light">
-                      {item.detail}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
 /* ── Master Home Client Component ─────────────────────────────────────────── */
 export function HomeClient() {
   return (
@@ -2052,8 +1977,8 @@ export function HomeClient() {
       <PlanningSuiteSection />
       <SafetyFeatureSection />
       <FaqSection />
-      <DispatchNewsletterSection />
     </div>
   );
 }
+
 

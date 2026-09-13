@@ -27,7 +27,7 @@ Our platform uses `output: "export"` in `next.config.ts` for sub-millisecond CDN
      ```
    - For nested routes `[state]/[division]/[place]/page.tsx`, generate all valid path combinations at build time.
 3. **Dynamic Server APIs Belong in Cloudflare Functions**:
-   - Put all serverless endpoints requiring runtime execution (e.g. newsletter subscriptions, form webhooks) in `functions/api/` (e.g. `functions/api/newsletter.ts`).
+   - Put all serverless endpoints requiring runtime execution (e.g. form webhooks, contact submissions) in `functions/api/`.
    - Do NOT create `src/app/api/` routes that fail static export.
 
 ---

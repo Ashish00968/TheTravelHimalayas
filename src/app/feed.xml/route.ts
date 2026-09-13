@@ -57,40 +57,13 @@ interface RssFeedItem {
 // Editorial feature stories from the Himalayan Field Dispatches
 const FEATURED_STORIES = [
   {
-    id: "story-1",
-    title: "Crossing the Hampta: When Lush Pine Forests Give Way to the Cold Desert",
-    slug: "crossing-hampta-pass-monsoon",
+    id: "story-patalsu-peak",
+    title: "Speed-Hiking the 4,261m Crest: An Autumn Solo Ascent of Patalsu Peak",
+    slug: "patalsu-peak-autumn-speed-hike",
     excerpt:
-      "A transition so abrupt it feels geological. Within four hours, the sodden meadows of Jobra dissolve into the bone-dry moonscape of Chandra Valley, Spiti.",
-    date: new Date("2025-08-15T06:00:00Z").toUTCString(),
+      "A grueling +1,781m continuous vertical climb from Solang Village through old-growth cedar forests and high alpine meadows of Shagadugh to the loose scree knife-edge facing Hanuman Tibba. 12–13 hours of non-stop alpine endurance.",
+    date: new Date("2024-10-15T06:00:00Z").toUTCString(),
     category: "Himachal Pradesh",
-  },
-  {
-    id: "story-2",
-    title: "The Seven Hidden Turquoise Basins: An Alpine Traverse of Kashmir",
-    slug: "seven-hidden-turquoise-basins-kashmir",
-    excerpt:
-      "Vishansar, Kishansar, and Gadsar. Beyond the reach of motorable roads, Kashmir's glacial cirques reflect clouds at 4,000 meters in complete, untouched isolation.",
-    date: new Date("2025-07-20T06:00:00Z").toUTCString(),
-    category: "Jammu & Kashmir",
-  },
-  {
-    id: "story-3",
-    title: "Beyond the Khardung La: Solitude Across the Ancient Kingdom of Zanskar",
-    slug: "solitude-across-ancient-zanskar",
-    excerpt:
-      "Centuries-old monasteries perched like raptors on sheer cliffs. Navigating the frozen rivers and remote gorges of high-altitude trans-Himalayan Ladakh.",
-    date: new Date("2025-09-10T06:00:00Z").toUTCString(),
-    category: "Ladakh",
-  },
-  {
-    id: "story-4",
-    title: "In the Shadow of Nanda Devi: The Sacred Sanctuaries of Garhwal",
-    slug: "in-the-shadow-of-nanda-devi",
-    excerpt:
-      "Trekking the outer rim of India's second-highest summit. Alpine rhododendron groves give way to granite walls that scrape the stratosphere at 7,816 meters.",
-    date: new Date("2025-06-18T06:00:00Z").toUTCString(),
-    category: "Uttarakhand",
   },
 ];
 

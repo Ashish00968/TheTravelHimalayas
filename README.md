@@ -33,8 +33,7 @@
 - **Geospatial & 3D Maps**: Mapbox GL & `react-map-gl` (with WebGL satellite terrain)
 - **Icons**: Lucide React
 - **Validation**: Zod
-- **Telemetry**: Google Analytics (gtag.js)
-- **Edge Deployment**: Static Export (`output: "export"`) with Cloudflare Pages Functions (`functions/api/newsletter.ts`)
+- **Edge Deployment**: Static Export (`output: "export"`) with Cloudflare Pages edge middleware (`functions/_middleware.ts`)
 
 ---
 

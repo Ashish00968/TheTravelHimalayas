@@ -42,7 +42,6 @@ The project is a fully functional **Himalayan discovery + planning platform** wi
 
 **Build Now (Phase 3):**
 - **Interactive Itinerary Mapping:** Draw exact GeoJSON paths of treks on the Mapbox layer with altitude profiles.
-- **Newsletter API Integration:** Connect `/api/newsletter` route to Resend/ConvertKit via environment variables.
 - **Content Expansion:** Continuously enrich itineraries, insider field tips, and photo showcases across Uttarakhand and Ladakh entries in `src/data/atlas.ts`.
 - **Advanced State Management:** Refine client-side state across planning tools if required for the map integration.
 
@@ -126,8 +125,8 @@ Follow this structured workflow loop for every task:
 │   ├── context.md        # Technical context, full 113-route map & design tokens
 │   └── memory.md         # Active session memory, recent updates & next priorities
 ├── README.md             # ONLY markdown file at the root (public repository guide)
-├── functions/            # Cloudflare Pages Functions
-│   └── api/newsletter.ts # Edge serverless route handler for newsletter submissions
+├── functions/            # Cloudflare Pages Functions & Edge Middleware
+│   └── _middleware.ts    # Edge crawler protection middleware (staging noindex)
 ├── src/
 │   ├── app/              # Next.js App Router (pages, layouts, static SSG)
 │   │   ├── (routes)/     # 113 static routes (/explore, /guides, /safety, /plan, /map, etc.)
