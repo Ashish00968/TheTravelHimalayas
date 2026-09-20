@@ -368,7 +368,7 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "kot-ranka",
-            name: "Kot Ranka",
+            name: "Kotranka (Bakori)",
             type: "scenic",
             emoji: "🌾",
             coords: [33.3750, 74.5600],
@@ -376,31 +376,38 @@ export const himalayaAtlas: HimalayaRegion[] = [
             bestSeason: "March to November",
             difficulty: "Easy",
             duration: "1 Day",
-            overview: "Set in a verdant amphitheater along the Ans River valley in Rajouri district, Kot Ranka (also known as Kotranka / Budhal subdivision) is characterized by terraced cornfields, sparkling streamlets, and pine-covered hillsides. Away from highway traffic, it offers a glimpse into traditional agrarian Himalayan life and serves as a springboard for exploring the untamed highlands of Budhal and the southern approaches to the Pir Panjal wilderness.",
-            experience: "Unrushed valley life with the gentle murmur of mountain streams flowing past hillside farms.",
+            overview: "Known natively to locals as Bakori, Kotranka is a scenic foothill town and sub-divisional hub nestled in a verdant amphitheater along the Ans River in Rajouri district. Surrounded by terraced cornfields, sparkling streamlets, and pine-clad hillsides, Kotranka (Bakori) is the lively commercial crossroads and cultural heartland of the lower Pir Panjal. Away from highway congestion, it offers genuine insight into traditional Pahari and Gujjar rural Himalayan life and serves as an essential staging post on the route ascending toward Budhal and the untamed high alpine wilderness.",
+            experience: "Vibrant local bazaar life at Bakori where Gujjar shepherds and Pahari farmers meet along the clear rush of the Ans River.",
             tips: [
-              "Explore the village walking trails heading up towards Budhal for secluded hillside vistas.",
+              "Locally referred to as Bakori by residents and taxi drivers; use 'Bakori' when asking for directions or public transport from Rajouri.",
+              "Explore the village walking trails branching off from Bakori along the Ans river toward the upper pine ridges and Budhal.",
               "Spring (March-April) and Autumn (September-October) offer pleasant weather and clear skies."
             ],
             faqs: [
               {
-                question: "Where is Kot Ranka located?",
-                answer: "Kot Ranka is situated in the eastern hills of Rajouri district along the Ans River, approximately 40 km from Rajouri town."
+                question: "Why is Kotranka also called Bakori?",
+                answer: "Bakori is the indigenous and most widely used local name for the town and main bazaar, while Kotranka serves as the official administrative tehsil and sub-division title."
               },
               {
-                question: "What kind of terrain characterizes Kot Ranka?",
+                question: "Where is Kotranka (Bakori) located and how to reach it?",
+                answer: "Kotranka (Bakori) is situated in the eastern hills of Rajouri district along the Ans River, approximately 40 km from Rajouri town via the Rajouri-Budhal road, reachable by shared cabs and private vehicles."
+              },
+              {
+                question: "What kind of terrain characterizes Kotranka (Bakori)?",
                 answer: "It features gentle pine-clad hills, terraced agriculture, river banks, and traditional rural settlements nestled below the Pir Panjal range."
               }
             ],
-            seoTitle: "Kot Ranka (1,520m), Rajouri — Ans River Valley & Rural Foothill Trails",
-            seoDescription: "Explore Kot Ranka (1,520m) in Jammu. Picturesque Ans river valley, terraced cornfields, Budhal highlands approach, peaceful rural walks, and travel tips.",
+            seoTitle: "Kotranka (Bakori) 1,520m, Rajouri — Valley Hub, Ans River & Local Trails",
+            seoDescription: "Explore Kotranka (Bakori local) at 1,520m in Rajouri, Jammu & Kashmir. Picturesque Ans river valley, local Pahari and Gujjar culture, Budhal gateway, and travel tips.",
             keywords: [
-              "Kot Ranka Rajouri",
-              "Kotranka Budhal",
-              "Ans river valley",
-              "rural Himalayan trails",
+              "Kotranka Bakori",
+              "Kotranka Rajouri",
+              "Bakori local Rajouri",
+              "Kotranka Ans river valley",
+              "Kotranka Budhal road",
+              "Pahari culture Jammu",
               "Rajouri offbeat destinations",
-              "Kot Ranka altitude"
+              "Kotranka altitude"
             ]
           },
           {
