@@ -60,6 +60,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
         });
       }
     }
+
+    if (region.id === "uttarakhand") {
+      divisionRoutes.push({
+        url: `${BASE_URL}/explore/uttarakhand/garhwal`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.85,
+      });
+      divisionRoutes.push({
+        url: `${BASE_URL}/explore/uttarakhand/kumaon`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.85,
+      });
+      divisionRoutes.push({
+        url: `${BASE_URL}/explore/uttarakhand/garhwal/char-dham-yatra`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.95,
+      });
+    }
   }
 
   const guideRoutes: MetadataRoute.Sitemap = guides.map((guide) => ({
@@ -69,11 +90,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.80,
   }));
 
-  return [
+  const allEntries = [
     ...staticRoutes,
     ...stateRoutes,
     ...divisionRoutes,
     ...placeRoutes,
     ...guideRoutes,
   ];
+
+  const uniqueMap = new Map<string, (typeof allEntries)[number]>();
+  for (const entry of allEntries) {
+    if (!uniqueMap.has(entry.url)) {
+      uniqueMap.set(entry.url, entry);
+    }
+  }
+
+  return Array.from(uniqueMap.values());
 }

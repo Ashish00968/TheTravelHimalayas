@@ -67,7 +67,7 @@ export function TrekElevation({
           >
             Elevation
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             {isPatalsu
               ? "Vertical elevation profile from Solang Valley (2,480m) to the 4,261-meter summit crest."
               : `Vertical elevation profile from ${startPoint} to the ${maxAltitude} summit crest.`}

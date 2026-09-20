@@ -114,6 +114,7 @@ export function Navigation() {
                   <li key={link.href} className="relative">
                     <Link
                       href={link.href}
+                      prefetch={false}
                       className={`relative z-10 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors duration-200 block ${
                         active
                           ? "text-foreground font-semibold"
@@ -152,7 +153,7 @@ export function Navigation() {
               {/* Saved Expeditions Trigger Button */}
               <button
                 onClick={() => setIsSavedOpen(true)}
-                className="relative p-1.5 sm:p-2 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/70 hover:text-foreground transition-all duration-200 shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
+                className="relative p-2 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/70 hover:text-foreground transition-all duration-200 shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={`Saved expeditions (${savedCount})`}
                 title="View saved expeditions"
               >
@@ -168,7 +169,7 @@ export function Navigation() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search"
-                className="sm:hidden p-1.5 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
+                className="sm:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
                 <Search className="w-4 h-4" />
               </button>
@@ -176,7 +177,7 @@ export function Navigation() {
               {/* Mobile Drawer Hamburger Button */}
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="xl:hidden p-1.5 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center"
+                className="xl:hidden p-2 rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10 transition-colors shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={isMobileOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileOpen}
               >
@@ -247,6 +248,7 @@ export function Navigation() {
                     <Link
                       key={t.id}
                       href={`/explore/${t.id}`}
+                      prefetch={false}
                       onClick={() => setIsMobileOpen(false)}
                       className="p-3.5 rounded-2xl bg-foreground/[0.03] hover:bg-foreground/[0.07] border border-foreground/[0.08] flex items-center gap-2.5 text-xs font-semibold transition-all active:scale-[0.98]"
                       style={{ color: t.accent }}
@@ -285,6 +287,7 @@ export function Navigation() {
                     <Link
                       key={href}
                       href={href}
+                      prefetch={false}
                       onClick={() => setIsMobileOpen(false)}
                       className={`flex items-center justify-between py-3.5 text-base font-display font-medium transition-colors ${
                         active

@@ -74,7 +74,7 @@ export function TrekRouteMap({
           >
             The Route
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             Trailhead coordinates, navigation milestones, and geospatial profile connecting {startPoint} to the summit crest.
           </p>
         </div>

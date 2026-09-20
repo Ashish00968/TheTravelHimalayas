@@ -75,7 +75,7 @@
   body {
     background-color: var(--bg-base);
     color: var(--text-high);
-    font-family: var(--font-hanken), sans-serif;
+    font-family: var(--font-jakarta), sans-serif;
     overflow-x: clip;
     min-height: 100vh;
     transition: background-color 300ms var(--ease-highland), color 300ms var(--ease-highland);
@@ -185,7 +185,7 @@
     border-radius: 9999px;
     background: var(--accent-blue);
     color: #FFFFFF;
-    font-family: var(--font-hanken), sans-serif;
+    font-family: var(--font-jakarta), sans-serif;
     font-weight: 600;
     font-size: 0.9375rem;
     letter-spacing: 0.01em;
@@ -210,7 +210,7 @@
     border-radius: 9999px;
     background: transparent;
     color: var(--text-mid);
-    font-family: var(--font-hanken), sans-serif;
+    font-family: var(--font-jakarta), sans-serif;
     font-weight: 500;
     font-size: 0.9375rem;
     border: 1px solid var(--border-base);

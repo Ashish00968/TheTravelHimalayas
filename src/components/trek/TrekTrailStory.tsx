@@ -209,14 +209,14 @@ export function TrekTrailStory({
           <h2 className="font-display font-bold text-3xl sm:text-5xl md:text-6xl text-slate-900 dark:text-foreground tracking-tight mb-3">
             The Trail
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             {isPatalsu
               ? "A first-hand visual chronicle and field observations from Solang Village to the 4,261m crest."
               : `Photographic plates and visual observations along the ${title} route in ${subRegionName}.`}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-foreground/50 shrink-0">
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300 shrink-0">
           <Camera className="w-3.5 h-3.5" style={{ color: style.accent }} />
           <span>{images.length} Authentic Trail Plates &bull; Click to Expand</span>
         </div>
@@ -400,7 +400,7 @@ export function TrekTrailStory({
                   {meta.title}
                 </h3>
                 
-                <p className="text-slate-600 dark:text-foreground/75 font-light text-sm sm:text-base leading-relaxed">
+                <p className="text-slate-700 dark:text-slate-300 font-light text-sm sm:text-base leading-relaxed">
                   {meta.caption}
                 </p>
 

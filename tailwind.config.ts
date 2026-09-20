@@ -79,7 +79,7 @@ const config: Config = {
       },
 
       fontFamily: {
-        sans:    ["var(--font-jakarta)", "var(--font-hanken)", "sans-serif"],
+        sans:    ["var(--font-jakarta)", "sans-serif"],
         display: ["var(--font-sora)", "sans-serif"],
         cinzel:  ["var(--font-cinzel)", "serif"],
         serif:   ["var(--font-serif)", "serif"],

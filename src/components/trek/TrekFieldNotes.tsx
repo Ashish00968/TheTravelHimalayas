@@ -51,7 +51,7 @@ export function TrekFieldNotes({
           >
             Trail Tips
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             Practical advice on water, loose scree, timing, and route navigation directly from the trail.
           </p>
         </div>

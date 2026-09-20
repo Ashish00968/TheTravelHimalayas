@@ -11,10 +11,43 @@ import {
   useSpring,
   useReducedMotion,
 } from "framer-motion";
-import { himalayaAtlas, placeLocationIndex } from "@/data/atlas";
-import { treks } from "@/data/treks";
 import { Card3D } from "@/components/animation/Card3D";
 import { FaqSection } from "@/components/home/FaqSection";
+
+export interface LightweightTerritory {
+  id: string;
+  name: string;
+  totalPlaces: number;
+  subregions: {
+    id: string;
+    name: string;
+    count: number;
+  }[];
+}
+
+export interface LightweightFeaturedTrek {
+  slug: string;
+  title: string;
+  duration: string;
+  maxAltitude: string;
+  difficulty: string;
+  overview: string;
+  heroImage?: string;
+  region: string;
+  href: string;
+}
+
+export interface HomeClientProps {
+  territories?: LightweightTerritory[];
+  featuredTreks?: LightweightFeaturedTrek[];
+}
+
+const DEFAULT_TERRITORIES: LightweightTerritory[] = [
+  { id: "jammu-kashmir", name: "Jammu & Kashmir", totalPlaces: 12, subregions: [{ id: "kashmir-valley", name: "Kashmir Valley", count: 8 }, { id: "jammu-division", name: "Jammu Division", count: 4 }] },
+  { id: "himachal-pradesh", name: "Himachal Pradesh", totalPlaces: 54, subregions: [{ id: "kullu", name: "Kullu Manali", count: 12 }, { id: "lahaul-spiti", name: "Lahaul & Spiti", count: 12 }] },
+  { id: "uttarakhand", name: "Uttarakhand", totalPlaces: 28, subregions: [{ id: "garhwal", name: "Garhwal", count: 16 }, { id: "kumaon", name: "Kumaon", count: 12 }] },
+  { id: "ladakh", name: "Ladakh", totalPlaces: 18, subregions: [{ id: "leh", name: "Leh Central", count: 10 }, { id: "zanskar", name: "Zanskar", count: 8 }] },
+];
 import {
   ArrowRight,
   Map,
@@ -266,7 +299,6 @@ function MobileHero() {
             src="/brand/hero-mountain-foreground-mobile.webp"
             alt="Foreground Mountain Ridge"
             fill
-            priority
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center"
           />
@@ -339,7 +371,7 @@ function MobileHero() {
                 <Link
                   key={id}
                   href={`/explore/${id}`}
-                  className="py-1.5 px-2.5 rounded-full text-[10.5px] font-mono font-medium tracking-wide bg-slate-900/75 dark:bg-black/50 backdrop-blur-md transition-all flex items-center justify-center gap-1.5 shadow-sm border border-white/25 text-white active:scale-95 hover:border-white/40"
+                  className="py-2 px-2.5 min-h-[38px] rounded-full text-[10.5px] font-mono font-medium tracking-wide bg-slate-900/75 dark:bg-black/50 backdrop-blur-md transition-all flex items-center justify-center gap-1.5 shadow-sm border border-white/25 text-white active:scale-95 hover:border-white/40"
                   style={{ borderLeft: `3px solid ${t.accent}` }}
                 >
                   <span>{t.emoji}</span>
@@ -507,7 +539,6 @@ function DesktopHero() {
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
             alt="Himalayan Mountain Range Panorama"
             fill
-            priority
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
           />
@@ -621,7 +652,6 @@ function DesktopHero() {
             src="/brand/hero-mountain-foreground-desktop.webp"
             alt="Foreground Mountain Ridge"
             fill
-            priority
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
           />
@@ -812,11 +842,12 @@ function Hero() {
 }
 
 /* ── 2. Territories Showcase (Cinematic Mountain Expedition Tree) ──────────── */
-function TerritoriesSection() {
+function TerritoriesSection({ territories }: { territories?: LightweightTerritory[] }) {
   const [activeBranch, setActiveBranch] = useState<string | null>(null);
+  const data = territories && territories.length >= 4 ? territories : DEFAULT_TERRITORIES;
 
-  const leftTerritories = [himalayaAtlas[0], himalayaAtlas[2]]; // J&K (#3B82F6), Uttarakhand (#0D9488)
-  const rightTerritories = [himalayaAtlas[1], himalayaAtlas[3]]; // Himachal (#F59E0B), Ladakh (#7C3AED)
+  const leftTerritories = [data[0], data[2]]; // J&K (#3B82F6), Uttarakhand (#0D9488)
+  const rightTerritories = [data[1], data[3]]; // Himachal (#F59E0B), Ladakh (#7C3AED)
 
   return (
     <section
@@ -933,12 +964,9 @@ function TerritoriesSection() {
 
           {/* Mobile 2x2 Clean Quadrant Grid (All 4 in One Screen) */}
           <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:hidden">
-            {[himalayaAtlas[0], himalayaAtlas[1], himalayaAtlas[2], himalayaAtlas[3]].map((region, idx) => {
+            {[data[0], data[1], data[2], data[3]].map((region, idx) => {
               const profile = TERRITORY_PROFILES[region.id];
-              const totalPlaces = region.subregions.reduce(
-                (acc, s) => acc + s.places.length,
-                0
-              );
+              const totalPlaces = region.totalPlaces ?? region.subregions.length;
               return (
                 <motion.div
                   key={region.id}
@@ -1021,10 +1049,7 @@ function TerritoriesSection() {
             <div className="space-y-4 md:space-y-16">
               {leftTerritories.map((region, idx) => {
                 const profile = TERRITORY_PROFILES[region.id];
-                const totalPlaces = region.subregions.reduce(
-                  (acc, s) => acc + s.places.length,
-                  0
-                );
+                const totalPlaces = region.totalPlaces ?? region.subregions.length;
                 return (
                   <motion.div
                     key={region.id}
@@ -1038,6 +1063,7 @@ function TerritoriesSection() {
                     <Card3D depth={8} glareColor={profile.glow} className="rounded-2xl sm:rounded-3xl">
                       <Link
                         href={`/explore/${region.id}`}
+                        prefetch={false}
                         className="dark-photo-card group relative rounded-2xl sm:rounded-3xl overflow-hidden block border border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-500 shadow-lg hover:shadow-2xl h-[185px] sm:h-[230px]"
                       >
                         <Image
@@ -1097,10 +1123,7 @@ function TerritoriesSection() {
             <div className="space-y-4 md:space-y-16 mt-0 md:mt-16">
               {rightTerritories.map((region, idx) => {
                 const profile = TERRITORY_PROFILES[region.id];
-                const totalPlaces = region.subregions.reduce(
-                  (acc, s) => acc + s.places.length,
-                  0
-                );
+                const totalPlaces = region.totalPlaces ?? region.subregions.length;
                 return (
                   <motion.div
                     key={region.id}
@@ -1114,6 +1137,7 @@ function TerritoriesSection() {
                     <Card3D depth={8} glareColor={profile.glow} className="rounded-2xl sm:rounded-3xl">
                       <Link
                         href={`/explore/${region.id}`}
+                        prefetch={false}
                         className="dark-photo-card group relative rounded-2xl sm:rounded-3xl overflow-hidden block border border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-500 shadow-lg hover:shadow-2xl h-[185px] sm:h-[230px]"
                       >
                         <Image
@@ -1224,8 +1248,8 @@ function PlatformTrustRibbon() {
 }
 
 /* ── 3. Featured Iconic Expeditions (Himalayan Ridge Trail Flow) ─────────── */
-function IconicTreksSection() {
-  const featured = treks;
+function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeaturedTrek[] }) {
+  const featured = featuredTreks && featuredTreks.length > 0 ? featuredTreks : [];
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const areaRef = useRef<SVGPathElement>(null);
@@ -1556,7 +1580,8 @@ function IconicTreksSection() {
                       className="rounded-2xl"
                     >
                       <Link
-                        href={placeLocationIndex.get(trek.slug)?.href || `/explore/himachal-pradesh/kullu/${trek.slug}`}
+                        href={trek.href || `/explore/${trek.slug}`}
+                        prefetch={false}
                         className="group rounded-2xl overflow-hidden bg-card/90 dark:bg-[#090e1a]/95 backdrop-blur-xl flex flex-col justify-between block border border-border/70 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/10"
                       >
                         <div className="relative h-20 sm:h-24 md:h-26 w-full overflow-hidden shrink-0">
@@ -1626,17 +1651,21 @@ function IconicTreksSection() {
           </div>
 
           {/* Carousel Swipe Indicator Dots */}
-          <div className="flex items-center justify-center gap-1.5 pt-3 pb-1">
+          <div className="flex items-center justify-center gap-0.5 pt-2 pb-1">
             {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setCurrentIndex(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  safeIndex === idx ? "w-5 bg-primary" : "w-1.5 bg-primary/25 hover:bg-primary/50"
-                }`}
-              />
+                className="p-3.5 flex items-center justify-center min-w-[44px] min-h-[44px] focus:outline-none"
+              >
+                <span
+                  className={`h-1.5 rounded-full transition-all duration-300 block ${
+                    safeIndex === idx ? "w-5 bg-primary" : "w-1.5 bg-primary/25 hover:bg-primary/50"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>
@@ -1766,6 +1795,7 @@ function PlanningSuiteSection() {
                 <Card3D depth={4} glareColor={tool.glow} className="rounded-xl sm:rounded-2xl h-full">
                   <Link
                     href={tool.href}
+                    prefetch={false}
                     className="group relative rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 bg-surface/90 dark:bg-[#0A1122]/90 backdrop-blur-xl transition-all duration-300 shadow-sm hover:shadow-lg active:scale-[0.99] h-full overflow-hidden block"
                   >
                     <div
@@ -1968,12 +1998,12 @@ function SafetyFeatureSection() {
 }
 
 /* ── Master Home Client Component ─────────────────────────────────────────── */
-export function HomeClient() {
+export function HomeClient({ territories, featuredTreks }: HomeClientProps = {}) {
   return (
     <div className="w-full bg-background transition-colors duration-300 overflow-x-clip">
       <Hero />
-      <TerritoriesSection />
-      <IconicTreksSection />
+      <TerritoriesSection territories={territories} />
+      <IconicTreksSection featuredTreks={featuredTreks} />
       <PlatformTrustRibbon />
       <PlanningSuiteSection />
       <SafetyFeatureSection />

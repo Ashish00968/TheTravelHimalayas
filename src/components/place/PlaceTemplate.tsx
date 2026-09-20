@@ -6,6 +6,7 @@ import { PlaceHero } from "./PlaceHero";
 import { PlaceQuickFacts } from "./PlaceQuickFacts";
 import { PlaceOverview } from "./PlaceOverview";
 import { PlaceHighlights } from "./PlaceHighlights";
+import { PlaceItinerary } from "./PlaceItinerary";
 import { PlaceAccess } from "./PlaceAccess";
 import { PlaceMapContext } from "./PlaceMapContext";
 import { PlaceSeason } from "./PlaceSeason";
@@ -79,6 +80,15 @@ export function PlaceTemplate({
           place={place}
           stateSlug={state}
         />
+
+        {/* 4b. Optional Day-by-Day Route Itinerary */}
+        {place.itinerary && place.itinerary.length > 0 && (
+          <PlaceItinerary
+            title={place.name}
+            itinerary={place.itinerary}
+            stateSlug={state}
+          />
+        )}
 
         {/* 5. Access & Live Mountain Weather */}
         <PlaceAccess

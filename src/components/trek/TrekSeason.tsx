@@ -91,7 +91,7 @@ export function TrekSeason({
           >
             Best Time to Trek
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             Seasonal climatic cycles across {subRegionName}, from spring snow crossings in May to crystalline autumn skies in October.
           </p>
         </div>

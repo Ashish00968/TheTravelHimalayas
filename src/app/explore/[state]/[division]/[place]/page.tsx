@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { himalayaAtlas, getPlace, getSubRegion, getRegion } from "@/data/atlas";
 import { peaks } from "@/data/peaks";
+import type { Trek } from "@/data/types";
 import { generatePageMetadata } from "@/lib/seo";
 import { TrekTemplate } from "@/components/trek/TrekTemplate";
 import { PlaceTemplate } from "@/components/place/PlaceTemplate";
@@ -24,6 +25,7 @@ export function generateStaticParams() {
       });
     });
   });
+  params.push({ state: "uttarakhand", division: "garhwal", place: "char-dham-yatra" });
   return params;
 }
 
@@ -33,11 +35,12 @@ export async function generateMetadata({
   params: Promise<{ state: string; division: string; place: string }>;
 }): Promise<Metadata> {
   const { state, division, place: placeId } = await params;
-  const place = getPlace(state, division, placeId);
+  const resolvedPlaceId = placeId === "char-dham-yatra" ? "char-dham" : placeId;
+  const place = getPlace(state, division, resolvedPlaceId) || getPlace(state, division, placeId);
   const region = getRegion(state);
   const subRegion = getSubRegion(state, division);
 
-  if (!place) return {};
+  if (!place || !region || !subRegion) return {};
 
   const isExpedition = Boolean(place.peakData || place.type === "peak");
   const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike");
@@ -49,14 +52,16 @@ export async function generateMetadata({
   const diffStr = place.difficulty || place.trekData?.difficulty || place.peakData?.difficulty;
 
   let pageTitle = `${place.name} Guide — Altitude, Route, Best Season & Map`;
-  if (isPatalsu) {
+  if (place.seoTitle) {
+    pageTitle = place.seoTitle;
+  } else if (isPatalsu) {
     pageTitle = "Patalsu Peak Trek (4,261m) Manali — Route, Height, Best Season & Cost";
   } else if (isExpedition) {
     const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
     pageTitle = `${cleanPeakName} Peak${altTag} Expedition Dossier — Route, Permits & 3D Map`;
   } else if (isTrek) {
-    const cleanTrekName = place.name.replace(/\s+Trek$/i, "").trim();
+    const cleanTrekName = place.name.replace(/\s+Trek(\s*\(.*\))?$/i, "").replace(/\s+Trek$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
     pageTitle = `${cleanTrekName} Trek${altTag} — Itinerary, Difficulty, Best Time & 3D Map`;
   } else {
@@ -71,9 +76,9 @@ export async function generateMetadata({
   ].filter(Boolean).join(" | ");
 
   const rawDesc = place.overview || place.experience || place.trekData?.description || place.peakData?.description;
-  let description = descSnippets
+  let description = place.seoDescription || (descSnippets
     ? `${place.name} in ${subRegion?.name}, ${region?.name} (${descSnippets}). ${rawDesc || "Comprehensive trail breakdown, verified GPS coordinates, and packing advice."}`
-    : rawDesc || `Explore ${place.name} in ${subRegion?.name}, ${region?.name}. Detailed trails, route guides, and local insights.`;
+    : rawDesc || `Explore ${place.name} in ${subRegion?.name}, ${region?.name}. Detailed trails, route guides, and local insights.`);
 
   if (isPatalsu) {
     description = "Complete guide to Patalsu Peak Trek (4,261m / 13,980 ft) in Manali. Discover height, distance from Solang Valley (16km), best season, cost, snow conditions, and the 1-day speed hike route.";
@@ -104,23 +109,25 @@ export async function generateMetadata({
     "mount patalsu",
   ];
 
+  const keywords = place.keywords || (isPatalsu ? patalsuKeywords : [
+    `${place.name} trek`,
+    `${place.name} itinerary`,
+    `${place.name} difficulty`,
+    `${place.name} best time`,
+    `${place.name} altitude`,
+    `${place.name} height`,
+    `${subRegion?.name} trekking`,
+    `${region?.name} trails`,
+    "Himalayan trekking guide",
+    "mountain expedition",
+  ]);
+
   return generatePageMetadata({
     title: pageTitle,
     description,
     path: `/explore/${state}/${division}/${place.id}`,
     image: heroImg,
-    keywords: isPatalsu ? patalsuKeywords : [
-      `${place.name} trek`,
-      `${place.name} itinerary`,
-      `${place.name} difficulty`,
-      `${place.name} best time`,
-      `${place.name} altitude`,
-      `${place.name} height`,
-      `${subRegion?.name} trekking`,
-      `${region?.name} trails`,
-      "Himalayan trekking guide",
-      "mountain expedition",
-    ],
+    keywords,
   });
 }
 
@@ -132,7 +139,8 @@ export default async function PlacePage({
   const { state, division, place: placeId } = await params;
   const region = getRegion(state);
   const subRegion = getSubRegion(state, division);
-  const place = getPlace(state, division, placeId);
+  const resolvedPlaceId = placeId === "char-dham-yatra" ? "char-dham" : placeId;
+  const place = getPlace(state, division, resolvedPlaceId) || getPlace(state, division, placeId);
 
   if (!region || !subRegion || !place) notFound();
 
@@ -141,12 +149,22 @@ export default async function PlacePage({
   const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
   const placeCoords = place.coords || place.trekData?.coords || place.peakData?.coords;
 
-  const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: region.name, href: `/explore/${state}` },
-    { label: subRegion.name, href: `/explore/${state}/${division}` },
-    { label: title, href: placePath },
-  ];
+  const breadcrumbItems = division === "garhwal"
+    ? [
+        { label: "Home", href: "/" },
+        { label: region.name, href: `/explore/${state}` },
+        { label: "Garhwal Division", href: `/explore/${state}/garhwal` },
+        { label: title, href: placePath },
+      ]
+    : [
+        { label: "Home", href: "/" },
+        { label: region.name, href: `/explore/${state}` },
+        ...(subRegion.division
+          ? [{ label: `${subRegion.division} Division`, href: `/explore/${state}#${subRegion.division.toLowerCase()}` }]
+          : []),
+        { label: subRegion.name, href: `/explore/${state}/${division}` },
+        { label: title, href: placePath },
+      ];
 
   // 3-Tier Platform Entity Architecture:
   // Type 1: Places (Scenic viewpoints, cultural hamlets, mountain passes, lakes, shrines) -> PlaceTemplate
@@ -157,9 +175,32 @@ export default async function PlacePage({
 
   const schemas: Record<string, unknown>[] = [];
 
-  if (isTrek && place.trekData) {
+  if (isTrek) {
+    const trekData = place.trekData || {
+      slug: place.id,
+      title: place.name,
+      region: subRegion.name,
+      difficulty: (place.difficulty as "Easy" | "Moderate" | "Difficult" | "Challenging") || "Moderate",
+      duration: place.duration || "Multi-day",
+      distance: place.distance || "",
+      maxAltitude: place.elevation || "",
+      bestSeason: place.bestSeason || "",
+      overview: place.overview || "",
+      description: place.overview || "",
+      heroImage: heroImg || "",
+      itinerary: (place.itinerary || []).map((it, idx) => ({
+        day: it.day || idx + 1,
+        title: it.title,
+        description: it.description,
+        elevationMeters: it.elevationMeters,
+        distanceKm: it.distanceKm,
+      })),
+      faqs: place.faqs || [],
+      highlights: place.tips || [],
+      coords: placeCoords,
+    };
     schemas.push(
-      buildTouristTripJsonLd(place.trekData, {
+      buildTouristTripJsonLd(trekData as unknown as Trek, {
         url: placePath,
         image: heroImg,
         coords: placeCoords,

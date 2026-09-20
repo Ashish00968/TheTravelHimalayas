@@ -1,7 +1,23 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useSyncExternalStore } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
+
+function subscribeHover(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const mql = window.matchMedia("(hover: hover) and (pointer: fine)");
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+}
+
+function getHoverSnapshot() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+function getHoverServerSnapshot() {
+  return false;
+}
 
 interface Card3DProps {
   children: React.ReactNode;
@@ -20,6 +36,7 @@ export function Card3D({
 }: Card3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const canHover = useSyncExternalStore(subscribeHover, getHoverSnapshot, getHoverServerSnapshot);
   const shouldReduceMotion = useReducedMotion();
 
   const x = useMotionValue(0);
@@ -36,7 +53,7 @@ export function Card3D({
   const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (shouldReduceMotion || !ref.current) return;
+    if (shouldReduceMotion || !canHover || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -49,18 +66,18 @@ export function Card3D({
   };
 
   const handleMouseEnter = () => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion || !canHover) return;
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion || !canHover) return;
     setIsHovered(false);
     x.set(0);
     y.set(0);
   };
 
-  if (shouldReduceMotion) {
+  if (shouldReduceMotion || !canHover) {
     return <div className={className}>{children}</div>;
   }
 

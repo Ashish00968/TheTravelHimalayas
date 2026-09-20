@@ -3,4 +3,19 @@
 /regions /#regions 301
 /treks/* /explore/himachal-pradesh/kullu/:splat 301
 /peaks/* /explore/himachal-pradesh/kullu/:splat 301
+/explore/uttarakhand/garhwal/kedarnath /explore/uttarakhand/rudraprayag/kedarnath 301
+/explore/uttarakhand/garhwal/chopta-tungnath /explore/uttarakhand/rudraprayag/chopta-tungnath 301
+/explore/uttarakhand/garhwal/har-ki-dun /explore/uttarakhand/uttarkashi/har-ki-dun 301
+/explore/uttarakhand/char-dham /explore/uttarakhand/garhwal/char-dham 301
+/explore/uttarakhand/char-dham/* /explore/uttarakhand/garhwal/char-dham 301
+/explore/uttarakhand/garhwal/char-dham-yatra /explore/uttarakhand/garhwal/char-dham 301
+/explore/uttarakhand/char-dham/char-dham-yatra /explore/uttarakhand/garhwal/char-dham 301
+/explore/himachal-pradesh/kullu-manali /explore/himachal-pradesh/kullu 301
+/explore/himachal-pradesh/kullu-manali/* /explore/himachal-pradesh/kullu/:splat 301
+/explore/himachal-pradesh/kullu/old-manali-hadimba /explore/himachal-pradesh/kullu/old-manali 301
+/explore/himachal-pradesh/kullu/hadimba-devi-temple /explore/himachal-pradesh/kullu/hadimba-temple 301
+/explore/himachal-pradesh/kullu/dundhi /explore/himachal-pradesh/kullu/dhundi 301
+/explore/himachal-pradesh/kullu/bijli-mahadev-trail /explore/himachal-pradesh/kullu/bijli-mahadev 301
+
+
 

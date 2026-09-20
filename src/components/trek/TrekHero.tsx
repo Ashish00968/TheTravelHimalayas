@@ -243,7 +243,6 @@ export function TrekHero({
         <a
           href="#overview"
           className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors group cursor-pointer"
-          aria-label="Scroll down to trek overview"
         >
           <span className="text-[11px] uppercase tracking-widest font-semibold">Explore the Trail</span>
           <ChevronDown className="w-4 h-4 animate-bounce group-hover:translate-y-0.5 transition-transform" />

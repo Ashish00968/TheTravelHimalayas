@@ -67,12 +67,12 @@ export function TrekItinerary({
           >
             Itinerary
           </h2>
-          <p className="text-slate-600 dark:text-foreground/75 font-light text-base sm:text-lg max-w-2xl">
+          <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             Recommended day-by-day progression from Solang Village to the high meadows and summit ridge.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-foreground/50">
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
           <Calendar className="w-3.5 h-3.5" style={{ color: style.accent }} />
           <span>{itinerary.length} Day Stages</span>
         </div>

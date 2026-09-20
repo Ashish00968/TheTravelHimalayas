@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { HomeClient } from "@/components/home/HomeClient";
 import { HOMEPAGE_FAQS } from "@/data/homepage-faqs";
 import { treks } from "@/data/treks";
+import { himalayaAtlas, placeLocationIndex } from "@/data/atlas";
 import {
   buildFAQJsonLd,
   buildTouristTripJsonLd,
@@ -79,6 +80,32 @@ export default function HomePage() {
     ],
   };
 
+  // Pre-calculate lightweight serialized territory data on server (SSG)
+  // Strips 4,600+ lines of raw atlas details from the client JS bundle
+  const territoriesData = himalayaAtlas.map((r) => ({
+    id: r.id,
+    name: r.name,
+    totalPlaces: r.subregions.reduce((acc, s) => acc + s.places.length, 0),
+    subregions: r.subregions.map((s) => ({
+      id: s.id,
+      name: s.name,
+      count: s.places.length,
+    })),
+  }));
+
+  // Pre-calculate lightweight trek carousel items with resolved hrefs
+  const featuredTreksData = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    duration: t.duration,
+    maxAltitude: t.maxAltitude,
+    difficulty: t.difficulty,
+    overview: t.overview,
+    heroImage: t.heroImage,
+    region: t.region,
+    href: placeLocationIndex.get(t.slug)?.href || `/explore/himachal-pradesh/kullu/${t.slug}`,
+  }));
+
   return (
     <>
       {/* Search Engine Machine-Readable Schema Graph (Google Rich Results & AI Overviews) */}
@@ -86,7 +113,11 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }}
       />
-      <HomeClient />
+      <HomeClient
+        territories={territoriesData}
+        featuredTreks={featuredTreksData}
+      />
     </>
   );
 }
+

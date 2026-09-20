@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { himalayaAtlas, getRegion } from "@/data/atlas";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { UttarakhandDivisionExplorer } from "@/components/explore/UttarakhandDivisionExplorer";
 import { generatePageMetadata } from "@/lib/seo";
 import { buildTouristDestinationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -136,14 +137,36 @@ export default async function StateHub({
             </div>
 
             <div className="flex items-center gap-6 border-t md:border-t-0 md:border-l border-foreground/10 pt-6 md:pt-0 md:pl-8">
-              <div>
-                <span className="text-3xl font-mono font-bold text-foreground block mb-1">
-                  {region.subregions.length}
-                </span>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/50">
-                  Valleys
-                </span>
-              </div>
+              {region.id === "uttarakhand" ? (
+                <>
+                  <div>
+                    <span className="text-3xl font-mono font-bold text-foreground block mb-1">
+                      2
+                    </span>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/50">
+                      Divisions
+                    </span>
+                  </div>
+                  <div className="h-10 w-px bg-foreground/10" />
+                  <div>
+                    <span className="text-3xl font-mono font-bold text-foreground block mb-1">
+                      {region.subregions.filter((s) => s.id !== "garhwal" && s.id !== "kumaon").length}
+                    </span>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/50">
+                      Districts
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <span className="text-3xl font-mono font-bold text-foreground block mb-1">
+                    {region.subregions.length}
+                  </span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/50">
+                    Valleys
+                  </span>
+                </div>
+              )}
               <div className="h-10 w-px bg-foreground/10" />
               <div>
                 <span className="text-3xl font-mono font-bold block mb-1" style={{ color: style.accent }}>
@@ -160,77 +183,97 @@ export default async function StateHub({
 
       {/* Regions & Valleys Grid */}
       <div className="container mx-auto px-6 max-w-7xl py-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-          <div>
-            <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground mb-2">
-              Regions &amp; Valleys
-            </h2>
-            <p className="text-foreground/60 text-base font-light">
-              Select a sub-region to explore its places, trekking trails, and alpine expeditions.
-            </p>
-          </div>
-        </div>
+        {(() => {
+          const garhwalSubregions = region.subregions.filter((s) => s.division === "Garhwal");
+          const kumaonSubregions = region.subregions.filter((s) => s.division === "Kumaon");
+          const hasDivisions = garhwalSubregions.length > 0 && kumaonSubregions.length > 0;
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {region.subregions.map((sub) => (
-            <Link
-              key={sub.id}
-              href={`/explore/${state}/${sub.id}`}
-              className="group relative rounded-3xl p-8 transition-all duration-300 flex flex-col justify-between min-h-[260px] glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-lg hover:shadow-xl"
-            >
-              {/* Dynamic Territory Accent Glow on Hover */}
-              <div 
-                className="absolute inset-0 rounded-3xl transition-all duration-300 pointer-events-none opacity-0 group-hover:opacity-100"
-                style={{
-                  border: `1px solid ${style.accent}50`,
-                  boxShadow: `0 0 30px ${style.glow}`,
-                }}
+          if (hasDivisions) {
+            return (
+              <UttarakhandDivisionExplorer
+                garhwalDistricts={garhwalSubregions}
+                kumaonDistricts={kumaonSubregions}
+                state={state}
+                accentColor={style.accent}
+                glowColor={style.glow}
               />
+            );
+          }
 
-              <div className="relative z-10">
-                <div className="flex justify-between items-start mb-5">
-                  <div>
-                    <h3 className="font-display tracking-tight font-bold text-2xl text-foreground mb-1.5 group-hover:text-primary transition-colors">
-                      {sub.name}
-                    </h3>
-                    <p className="text-xs font-mono font-semibold" style={{ color: style.accent }}>
-                      {sub.places.length} destinations
-                    </p>
-                  </div>
-                  <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 group-hover:text-foreground group-hover:bg-foreground/[0.08]"
-                  >
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </div>
-
-                {sub.tagline && (
-                  <p className="text-foreground/65 text-sm font-light leading-relaxed mb-6 max-w-sm">
-                    {sub.tagline}
+          return (
+            <div>
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                  <h2 className="font-display tracking-tight font-bold text-3xl sm:text-4xl text-foreground mb-2">
+                    Regions &amp; Valleys
+                  </h2>
+                  <p className="text-foreground/60 text-base font-light">
+                    Select a sub-region to explore its places, trekking trails, and alpine expeditions.
                   </p>
-                )}
+                </div>
               </div>
 
-              {/* Peek at places */}
-              <div className="relative z-10 flex flex-wrap gap-2 pt-5 border-t border-foreground/[0.08]">
-                {sub.places.slice(0, 3).map((p) => (
-                  <span
-                    key={p.id}
-                    className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.08] text-foreground/75"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {region.subregions.map((sub) => (
+                  <Link
+                    key={sub.id}
+                    href={`/explore/${state}/${sub.id}`}
+                    className="group relative rounded-3xl p-8 transition-all duration-300 flex flex-col justify-between min-h-[260px] glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-lg hover:shadow-xl"
                   >
-                    <span>{p.emoji}</span>
-                    <span>{p.name}</span>
-                  </span>
+                    <div 
+                      className="absolute inset-0 rounded-3xl transition-all duration-300 pointer-events-none opacity-0 group-hover:opacity-100"
+                      style={{
+                        border: `1px solid ${style.accent}50`,
+                        boxShadow: `0 0 30px ${style.glow}`,
+                      }}
+                    />
+
+                    <div className="relative z-10">
+                      <div className="flex justify-between items-start mb-5">
+                        <div>
+                          <h3 className="font-display tracking-tight font-bold text-2xl text-foreground mb-1.5 group-hover:text-primary transition-colors">
+                            {sub.name}
+                          </h3>
+                          <p className="text-xs font-mono font-semibold" style={{ color: style.accent }}>
+                            {sub.places.length} destinations
+                          </p>
+                        </div>
+                        <div 
+                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 group-hover:text-foreground group-hover:bg-foreground/[0.08]"
+                        >
+                          <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                        </div>
+                      </div>
+
+                      {sub.tagline && (
+                        <p className="text-foreground/65 text-sm font-light leading-relaxed mb-6 max-w-sm">
+                          {sub.tagline}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="relative z-10 flex flex-wrap gap-2 pt-5 border-t border-foreground/[0.08]">
+                      {sub.places.slice(0, 3).map((p) => (
+                        <span
+                          key={p.id}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.08] text-foreground/75"
+                        >
+                          <span>{p.emoji}</span>
+                          <span>{p.name}</span>
+                        </span>
+                      ))}
+                      {sub.places.length > 3 && (
+                        <span className="text-foreground/40 text-[11px] font-mono px-2 py-1.5">
+                          +{sub.places.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </Link>
                 ))}
-                {sub.places.length > 3 && (
-                  <span className="text-foreground/40 text-[11px] font-mono px-2 py-1.5">
-                    +{sub.places.length - 3} more
-                  </span>
-                )}
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Structured Data */}

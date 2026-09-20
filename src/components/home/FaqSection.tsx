@@ -113,12 +113,12 @@ export function FaqSection() {
 
             {/* Expand / Collapse Action Trigger */}
             <div className="shrink-0 flex items-center gap-3">
-              <button
-                type="button"
+              <span
+                aria-hidden="true"
                 className={`px-5 py-2.5 rounded-full font-mono text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 shadow-md ${
                   isExpanded
                     ? "bg-foreground/[0.08] hover:bg-foreground/[0.14] text-foreground border border-border"
-                    : "bg-primary text-white hover:bg-primary/90 shadow-primary/25 group-hover:scale-105"
+                    : "bg-blue-600 dark:bg-blue-600 text-white hover:bg-blue-700 dark:hover:bg-blue-700 shadow-primary/25 group-hover:scale-105"
                 }`}
               >
                 <span>{isExpanded ? "Collapse FAQs" : "Open All FAQs (10)"}</span>
@@ -127,7 +127,7 @@ export function FaqSection() {
                 ) : (
                   <ChevronDown className="w-4 h-4" />
                 )}
-              </button>
+              </span>
             </div>
           </div>
 

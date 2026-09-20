@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Sora, Hanken_Grotesk, Plus_Jakarta_Sans, Playfair_Display, Space_Mono } from "next/font/google";
+import { Sora, Plus_Jakarta_Sans, Playfair_Display, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navigation } from "@/components/layout/Navigation";
@@ -25,12 +25,6 @@ export const viewport: Viewport = {
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sora",
-  display: "swap",
-});
-
-const hanken = Hanken_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-hanken",
   display: "swap",
 });
 
@@ -124,7 +118,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         sora.variable,
-        hanken.variable,
         jakarta.variable,
         playfair.variable,
         spaceMono.variable,
@@ -135,9 +128,9 @@ export default function RootLayout({
         {/* Google tag (gtag.js) */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -150,6 +143,10 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://images.pexels.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.pexels.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}

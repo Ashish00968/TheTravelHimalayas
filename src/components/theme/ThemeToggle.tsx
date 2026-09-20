@@ -100,7 +100,7 @@ export function ThemeToggle({ variant = "nav", className = "" }: ThemeToggleProp
     <button
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === "dark" ? "Light" : "Dark"} mode`}
-      className={`p-1.5 rounded-full transition-colors duration-200 flex items-center justify-center ${
+      className={`min-w-[44px] min-h-[44px] p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${
         theme === "dark"
           ? "text-amber-400 hover:bg-white/10"
           : "text-blue-600 hover:bg-slate-200/80"
