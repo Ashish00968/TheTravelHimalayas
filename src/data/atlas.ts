@@ -530,6 +530,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
         places: [
           {
             id: "kashmir-great-lakes",
+            heroImage: "https://images.unsplash.com/photo-1631420105765-caf5ccd069bc?q=80&w=2340&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1631420105765-caf5ccd069bc?q=80&w=2340&auto=format&fit=crop",
             name: "Kashmir Great Lakes Trek",
             type: "trek",
             emoji: "🌊",
@@ -580,6 +582,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "tarsar-marsar",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Tarsar_lake.jpg/1920px-Tarsar_lake.jpg",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Tarsar_lake.jpg/1920px-Tarsar_lake.jpg",
             name: "Tarsar Marsar Trek",
             type: "trek",
             emoji: "🏔️",
@@ -658,6 +662,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "gulmarg",
+            heroImage: "https://cdn.pixabay.com/photo/2017/11/03/19/45/autumn-2915438_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2017/11/03/19/45/autumn-2915438_1280.jpg",
             name: "Gulmarg & Apharwat Peak",
             type: "adventure",
             emoji: "🚠",
@@ -695,6 +701,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "srinagar",
+            heroImage: "https://cdn.pixabay.com/photo/2022/08/16/12/45/shikara-7390155_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2022/08/16/12/45/shikara-7390155_1280.jpg",
             name: "Srinagar",
             type: "scenic",
             emoji: "🛶",
@@ -732,6 +740,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "pahalgam",
+            heroImage: "https://cdn.pixabay.com/photo/2022/09/19/20/09/mountains-7466370_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2022/09/19/20/09/mountains-7466370_1280.jpg",
             name: "Pahalgam",
             type: "scenic",
             emoji: "🌲",
@@ -806,6 +816,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "yusmarg",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Yousmarg.jpg/1920px-Yousmarg.jpg",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Yousmarg.jpg/1920px-Yousmarg.jpg",
             name: "Yusmarg",
             type: "scenic",
             emoji: "🌿",
@@ -843,6 +855,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "doodhpathri",
+            heroImage: "https://images.unsplash.com/photo-1623996732821-66f739df7280?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1623996732821-66f739df7280?q=80&w=1600&auto=format&fit=crop",
             name: "Doodhpathri",
             type: "scenic",
             emoji: "🥛",
@@ -880,6 +894,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "aharbal",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Waterfall_of_Aharbal.JPG/1920px-Waterfall_of_Aharbal.JPG",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Waterfall_of_Aharbal.JPG/1920px-Waterfall_of_Aharbal.JPG",
             name: "Aharbal",
             type: "scenic",
             emoji: "🌊",
@@ -933,6 +949,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
         places: [
           {
             id: "dalhousie-dainkund",
+            heroImage: "https://images.unsplash.com/photo-1733490094009-454bd67f3e2a?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1733490094009-454bd67f3e2a?q=80&w=1600&auto=format&fit=crop",
             name: "Dalhousie & Dainkund Peak",
             type: "scenic",
             emoji: "🌲",
@@ -962,6 +980,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "khajjiar-meadow",
+            heroImage: "https://images.unsplash.com/photo-1714381639586-80d1f04dfb0e?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1714381639586-80d1f04dfb0e?q=80&w=1600&auto=format&fit=crop",
             name: "Khajjiar Meadow & Lake",
             type: "lake",
             emoji: "⛳",
@@ -987,6 +1007,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "bharmour-chaurasi",
+            heroImage: "https://images.unsplash.com/photo-1789576890316-3ba0633fbf7d?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1789576890316-3ba0633fbf7d?q=80&w=1600&auto=format&fit=crop",
             name: "Bharmour & Chaurasi Temples",
             type: "spiritual",
             emoji: "🛕",
@@ -1012,6 +1034,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "manimahesh-kailash",
+            heroImage: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Kailash_Manimahesh.jpg",
+            image: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Kailash_Manimahesh.jpg",
             name: "Manimahesh Kailash Lake & Trek",
             type: "trek",
             emoji: "⛰️",
@@ -1042,6 +1066,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "sach-pass",
+            heroImage: "https://upload.wikimedia.org/wikipedia/commons/1/1d/View_of_Saach_pass.jpg",
+            image: "https://upload.wikimedia.org/wikipedia/commons/1/1d/View_of_Saach_pass.jpg",
             name: "Sach Pass Alpine Crossing",
             type: "road",
             emoji: "🚙",
@@ -1067,6 +1093,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "pangi-valley",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Pangi_Valley.jpg/1280px-Pangi_Valley.jpg",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Pangi_Valley.jpg/1280px-Pangi_Valley.jpg",
             name: "Pangi Valley & Killar Gorge",
             type: "scenic",
             emoji: "🏞️",
@@ -1099,6 +1127,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
         places: [
           {
             id: "triund",
+            heroImage: "https://images.unsplash.com/photo-1620684979162-e8ffbb2fd462?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1620684979162-e8ffbb2fd462?q=80&w=1600&auto=format&fit=crop",
             name: "Triund Trek",
             type: "trek",
             emoji: "🥾",
@@ -1112,6 +1142,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "kareri-lake",
+            heroImage: "https://images.unsplash.com/photo-1596808042579-6057d4b79fc7?q=80&w=2340&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1596808042579-6057d4b79fc7?q=80&w=2340&auto=format&fit=crop",
             name: "Kareri Lake Trek",
             type: "trek",
             emoji: "🌊",
@@ -1125,6 +1157,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "bir-billing",
+            heroImage: "https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?q=80&w=1600&auto=format&fit=crop",
             name: "Bir Billing Adventure Hub",
             type: "adventure",
             emoji: "🪂",
@@ -1137,6 +1171,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "dharamshala-mcleodganj",
+            heroImage: "https://cdn.pixabay.com/photo/2020/04/13/06/59/dhauladhar-range-5036975_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2020/04/13/06/59/dhauladhar-range-5036975_1280.jpg",
             name: "Dharamshala & McLeod Ganj",
             type: "spiritual",
             emoji: "🕉️",
@@ -1162,6 +1198,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "indrahar-pass",
+            heroImage: "https://cdn.pixabay.com/photo/2018/01/11/21/04/nature-3076910_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2018/01/11/21/04/nature-3076910_1280.jpg",
             name: "Indrahar Pass Trek",
             type: "trek",
             emoji: "🧗",
@@ -1188,6 +1226,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "kangra-fort-masrur",
+            heroImage: "https://images.unsplash.com/photo-1656670610903-025312104457?q=80&w=2400&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1656670610903-025312104457?q=80&w=2400&auto=format&fit=crop",
             name: "Kangra Fort & Masrur Rock Temples",
             type: "spiritual",
             emoji: "🏰",
@@ -1396,6 +1436,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "kheerganga",
+            heroImage: "https://cdn.pixabay.com/photo/2020/07/27/07/55/mountains-5441619_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2020/07/27/07/55/mountains-5441619_1280.jpg",
             name: "Kheerganga Hot Springs Trek",
             type: "trek",
             emoji: "♨️",
@@ -1839,6 +1881,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
         places: [
           {
             id: "prashar-lake",
+            heroImage: "https://images.unsplash.com/photo-1661318977466-5fbd41d8ed83?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1661318977466-5fbd41d8ed83?q=80&w=1600&auto=format&fit=crop",
             name: "Prashar Lake & Pagoda Temple",
             type: "lake",
             emoji: "🌊",
@@ -1869,6 +1913,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "rewalsar-lake",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Rewalsar-Himachal.jpg/1920px-Rewalsar-Himachal.jpg",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Rewalsar-Himachal.jpg/1920px-Rewalsar-Himachal.jpg",
             name: "Rewalsar Lake (Tso Pema)",
             type: "spiritual",
             emoji: "🪷",
@@ -1894,6 +1940,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "barot-valley",
+            heroImage: "https://images.unsplash.com/photo-1611523658822-385aa008324c?q=80&w=2148&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1611523658822-385aa008324c?q=80&w=2148&auto=format&fit=crop",
             name: "Barot Valley & Uhl River",
             type: "adventure",
             emoji: "🎣",
@@ -1919,6 +1967,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "mandi-chhoti-kashi",
+            heroImage: "https://cdn.pixabay.com/photo/2021/01/09/22/27/shimla-5903633_1280.jpg",
+            image: "https://cdn.pixabay.com/photo/2021/01/09/22/27/shimla-5903633_1280.jpg",
             name: "Mandi Heritage & Panchvaktra Temple",
             type: "spiritual",
             emoji: "🛕",
@@ -2003,6 +2053,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "pin-bhaba-pass",
+            heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Route_south_from_Bhaba_Pass%2C_Himachal_Pradesh%2C_India.jpg/1280px-Route_south_from_Bhaba_Pass%2C_Himachal_Pradesh%2C_India.jpg",
+            image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Route_south_from_Bhaba_Pass%2C_Himachal_Pradesh%2C_India.jpg/1280px-Route_south_from_Bhaba_Pass%2C_Himachal_Pradesh%2C_India.jpg",
             name: "Pin Bhaba Pass Trek",
             type: "trek",
             emoji: "🥾",
@@ -2054,6 +2106,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "dhankar-monastery-lake",
+            heroImage: "https://images.unsplash.com/photo-1779778378442-ccf581a4a06f?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1779778378442-ccf581a4a06f?q=80&w=1600&auto=format&fit=crop",
             name: "Dhankar Monastery & Lake",
             type: "spiritual",
             emoji: "🛕",
@@ -2130,6 +2184,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "pin-valley-national-park",
+            heroImage: "https://images.unsplash.com/photo-1620398762817-ff3885718863?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1620398762817-ff3885718863?q=80&w=1600&auto=format&fit=crop",
             name: "Pin Valley National Park & Mudh",
             type: "scenic",
             emoji: "🐆",
@@ -2180,6 +2236,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "suraj-tal-baralacha",
+            heroImage: "https://images.unsplash.com/photo-1565348271242-2393f74ed8b4?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1565348271242-2393f74ed8b4?q=80&w=1600&auto=format&fit=crop",
             name: "Suraj Tal & Baralacha La",
             type: "lake",
             emoji: "☀️",
@@ -2324,6 +2382,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
           },
           {
             id: "rupin-pass-kinnaur",
+            heroImage: "https://images.unsplash.com/photo-1728801483302-f91e13420b04?q=80&w=1600&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1728801483302-f91e13420b04?q=80&w=1600&auto=format&fit=crop",
             name: "Rupin Pass Trek (Kinnaur Terminus)",
             type: "trek",
             emoji: "🌊",
@@ -2587,6 +2647,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                             "places": [
                                       {
                                                 "id": "roopkund-trek",
+                                                "heroImage": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/22_A_mysterious_lake.jpg/1280px-22_A_mysterious_lake.jpg",
+                                                "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/22_A_mysterious_lake.jpg/1280px-22_A_mysterious_lake.jpg",
                                                 "name": "Roopkund Mystery Lake Trek",
                                                 "type": "trek",
                                                 "emoji": "💀",
@@ -2881,6 +2943,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "ghangaria",
+                                                "heroImage": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Ghangria_-_panoramio.jpg/1280px-Ghangria_-_panoramio.jpg",
+                                                "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Ghangria_-_panoramio.jpg/1280px-Ghangria_-_panoramio.jpg",
                                                 "name": "Ghangaria (Govinddham) Base Camp",
                                                 "type": "scenic",
                                                 "emoji": "🏕️",
@@ -2921,6 +2985,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "valley-of-flowers",
+                                                "heroImage": "https://images.unsplash.com/photo-1590252497717-dc039b62f57e?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1590252497717-dc039b62f57e?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Valley of Flowers National Park",
                                                 "type": "trek",
                                                 "emoji": "🌸",
@@ -3007,6 +3073,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "hemkund-sahib",
+                                                "heroImage": "https://images.unsplash.com/photo-1653545709990-a6a4c8a6c36c?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1653545709990-a6a4c8a6c36c?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Hemkund Sahib & Lokpal Lake",
                                                 "type": "spiritual",
                                                 "emoji": "☬",
@@ -3106,6 +3174,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "kuari-pass",
+                                                "heroImage": "https://images.unsplash.com/photo-1716573249423-f2ade6ce0098?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1716573249423-f2ade6ce0098?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Kuari Pass (Curzon Trail)",
                                                 "type": "trek",
                                                 "emoji": "🏔️",
@@ -3239,6 +3309,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "satopanth-tal-trek",
+                                                "heroImage": "https://upload.wikimedia.org/wikipedia/commons/4/48/Keder_tal.jpg",
+                                                "image": "https://upload.wikimedia.org/wikipedia/commons/4/48/Keder_tal.jpg",
                                                 "name": "Satopanth Tal Glacial Lake Trek",
                                                 "type": "trek",
                                                 "emoji": "🔺",
@@ -3397,6 +3469,12 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "chopta-tungnath",
+                                                "heroImage": "https://images.unsplash.com/photo-1547452377-b2ac40e02ed6?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1547452377-b2ac40e02ed6?q=80&w=1600&auto=format&fit=crop",
+                                                "images": [
+                                                          "https://images.unsplash.com/photo-1547452377-b2ac40e02ed6?q=80&w=1600&auto=format&fit=crop",
+                                                          "https://images.unsplash.com/photo-1705383852028-597b0f37b16f?q=80&w=1600&auto=format&fit=crop"
+                                                ],
                                                 "name": "Chopta, Tungnath & Chandrashila",
                                                 "type": "trek",
                                                 "emoji": "🥾",
@@ -3460,7 +3538,56 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                                 ]
                                       },
                                       {
+                                                "id": "chandrashila",
+                                                "name": "Chandrashila Peak Summit",
+                                                "type": "peak",
+                                                "emoji": "⛰️",
+                                                "coords": [
+                                                          30.490,
+                                                          79.219
+                                                ],
+                                                "elevation": "4,000 m",
+                                                "bestSeason": "March to December (Snow in Jan-Feb)",
+                                                "difficulty": "Moderate",
+                                                "duration": "1 Day (from Chopta or Tungnath)",
+                                                "distance": "1.5 km from Tungnath (10 km total from Chopta return)",
+                                                "heroImage": "https://images.unsplash.com/photo-1705383852028-597b0f37b16f?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1705383852028-597b0f37b16f?q=80&w=1600&auto=format&fit=crop",
+                                                "images": [
+                                                          "https://images.unsplash.com/photo-1705383852028-597b0f37b16f?q=80&w=1600&auto=format&fit=crop",
+                                                          "https://images.unsplash.com/photo-1547452377-b2ac40e02ed6?q=80&w=1600&auto=format&fit=crop"
+                                                ],
+                                                "overview": "Towering immediately above Tungnath Temple, Chandrashila ('Moon Rock') is a prominent 4,000-meter summit in the Garhwal Himalayas. Celebrated for its legendary 360-degree panorama encompassing Nanda Devi, Trishul, Chaukhamba, Kedar Dome, Bandarpunch, and the Gangotri ranges, it is according to Hindu legend where Lord Rama meditated after defeating Ravana, and where the Moon God Chandra spent hours in deep penance.",
+                                                "routeDescription": "Begins from Tungnath Temple (3,680m), ascending 1.5 km along a steep rocky switchback trail to the windswept summit cairn and Shiva shrine at 4,000m.",
+                                                "experience": "Watching the crimson glow of the Himalayan dawn light up the immense four-peaked Chaukhamba massif above a swirling ocean of morning clouds.",
+                                                "tips": [
+                                                          "Start the climb from Chopta before dawn by 4:00 AM to reach the summit for sunrise.",
+                                                          "Microspikes and trekking poles are essential in winter (January–March) when the upper rocky ridge is covered in hard snow and ice."
+                                                ],
+                                                "faqs": [
+                                                          {
+                                                                    "question": "What is the altitude of Chandrashila summit?",
+                                                                    "answer": "Chandrashila stands at an elevation of 4,000 meters (13,123 ft) above sea level, offering an unobstructed 360-degree Himalayan view."
+                                                          },
+                                                          {
+                                                                    "question": "How long does it take to climb from Tungnath to Chandrashila?",
+                                                                    "answer": "The 1.5 km climb from Tungnath Temple to Chandrashila summit takes approximately 45 to 60 minutes depending on fitness and snow conditions."
+                                                          }
+                                                ],
+                                                "seoTitle": "Chandrashila Peak Summit (4,000m) — Chopta Sunrise & Chaukhamba Panoramas",
+                                                "seoDescription": "Explore Chandrashila Peak Summit (4,000m) above Tungnath in Rudraprayag, Garhwal. 360° Chaukhamba and Nanda Devi views, trail guide, sunrise tips, and map.",
+                                                "keywords": [
+                                                          "Chandrashila summit trek",
+                                                          "Chandrashila altitude 4000m",
+                                                          "Chopta Chandrashila sunrise",
+                                                          "Chaukhamba view Chandrashila",
+                                                          "Tungnath to Chandrashila distance"
+                                                ]
+                                      },
+                                      {
                                                 "id": "deoria-tal",
+                                                "heroImage": "https://images.unsplash.com/photo-1625471070023-5a3b8bd6464c?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1625471070023-5a3b8bd6464c?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Deoria Tal Emerald Lake & Sari",
                                                 "type": "trek",
                                                 "emoji": "🌲",
@@ -4176,6 +4303,8 @@ export const himalayaAtlas: HimalayaRegion[] = [
                                       },
                                       {
                                                 "id": "harsil-valley",
+                                                "heroImage": "https://images.unsplash.com/photo-1674594342594-c33dcc58c5f2?q=80&w=1600&auto=format&fit=crop",
+                                                "image": "https://images.unsplash.com/photo-1674594342594-c33dcc58c5f2?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Harsil Valley & Dharali",
                                                 "type": "scenic",
                                                 "emoji": "🍎",

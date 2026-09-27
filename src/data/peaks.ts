@@ -223,7 +223,10 @@ export const peaks: Peak[] = [
           "There are no permanent rescue facilities near Indrasan. Helicopter rescue is theoretically possible but depends on weather and visibility. Teams must be self-sufficient for emergency situations. Carrying a satellite communicator and having an evacuation plan with your expedition operator is mandatory.",
       },
     ],
-    images: [],
+    heroImage: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Shea_Goru_%28Hampta_Pass%29.jpg/1280px-Shea_Goru_%28Hampta_Pass%29.jpg",
+    images: [
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Shea_Goru_%28Hampta_Pass%29.jpg/1280px-Shea_Goru_%28Hampta_Pass%29.jpg",
+    ],
     description:
       "A formidable 6221m peak with steep ice walls and technical ridges, one of the most challenging mountaineering objectives near Manali.",
   },
