@@ -59,7 +59,7 @@ The project is a fully functional **Himalayan discovery + planning platform** wi
 Follow this structured workflow loop for every task:
 
 1. **Understand & Inspect**:
-   - Read this file and the private project documentation in `info/` (`info/context.md`, `info/TECHNICAL_SPECS.md`, `info/BUILD_LOG.md`, `src/data/types.ts`).
+   - Read this file and the private project documentation in `info/` (`info/ARCHITECTURE.md`, `info/BUILD_LOG.md`, `src/data/types.ts`).
    - Check existing code and configurations before making assumptions.
    - If resuming a session or starting fresh, inspect `info/memory.md`.
 2. **Architect Before Coding**:
@@ -73,7 +73,7 @@ Follow this structured workflow loop for every task:
    - Respect Server/Client Component boundaries in Next.js 15 and React 19.
    - Adhere strictly to TypeScript types and Tailwind CSS design tokens.
 5. **Capture & Standardize UI Patterns**:
-   - Maintain visual consistency across every page, using design tokens from `info/context.md` and `info/TECHNICAL_SPECS.md`.
+   - Maintain visual consistency across every page, using design tokens from `info/ARCHITECTURE.md`.
 6. **Verify & Review**:
    - Perform a strict 3-layer audit: Plan Alignment, System Integrity, and Production Readiness.
    - Execute verification checks: TypeScript check (`npx tsc --noEmit`), ESLint (`npm run lint`), and Next.js build (`npm run build`).
@@ -85,7 +85,7 @@ Follow this structured workflow loop for every task:
 8. **Persist State & Respect Privacy Boundaries**:
    - Update `info/memory.md` at the end of every session to record what was built, decisions made, current state, and next steps.
    - **CRITICAL**: Keep the workspace root strictly clean. The workspace root must contain ONLY `README.md` as public project documentation.
-   - All private build logs, developer memory, and technical specifications must reside inside `info/` (`BUILD_LOG.md`, `TECHNICAL_SPECS.md`, `context.md`, `memory.md`).
+   - All private build logs, developer memory, and technical specifications must reside inside `info/` (`BUILD_LOG.md`, `ARCHITECTURE.md`, `memory.md`, `PLACES_ARCHITECTURE.md`).
    - The `info/` and `scratch/` directories are Git-ignored via `.gitignore` and must never be committed or pushed to public repositories.
 
 ---
@@ -106,7 +106,7 @@ Follow this structured workflow loop for every task:
   - Use solid, crisp typography (`#60A5FA` / `text-blue-400`) and pure CSS text shadows for hero titles.
 - **Design Tokens over Hardcoded Styles**:
   - Always use Tailwind CSS utility classes configured in `tailwind.config.ts` and CSS variables in `src/app/globals.css`.
-  - Consult `info/context.md` before building new UI.
+  - Consult `info/ARCHITECTURE.md` before building new UI.
 - **Accessibility & Touch Targets**: Minimum 44px tap targets for mobile interactions, clear focus rings (`focus-visible:ring-2`), proper ARIA labels, semantic landmark elements, and skip links. Maintain WCAG AA / AAA contrast ratios (minimum 4.5:1 for normal text, 7:1 for small text) across both light and dark modes. Never use opacity below 75% on body text.
 - **Strict Heading Hierarchy**: Headings must strictly descend sequentially (`<h1>` &rarr; `<h2>` &rarr; `<h3>`). Never skip levels (e.g. `<h2>` jumping straight to `<h4>`). Use styled `<p>` tags for navigational column labels.
 - **Animations**: Subtle, high-performance animations using `framer-motion` and `tailwindcss-animate`. Respect `prefers-reduced-motion`.
@@ -121,8 +121,8 @@ Follow this structured workflow loop for every task:
 │   └── skills/           # 7 installed workspace skills (.agents/skills/)
 ├── info/                 # Private developer documentation (Git-ignored)
 │   ├── BUILD_LOG.md      # Full milestone chronicle & bug resolution log
-│   ├── TECHNICAL_SPECS.md# Static export rules, schemas & O(1) lookup indexing
-│   ├── context.md        # Technical context, full 113-route map & design tokens
+│   ├── ARCHITECTURE.md   # Unified technical context, routing map, static export & design tokens
+│   ├── PLACES_ARCHITECTURE.md # 172-entity geographic hierarchy & operations playbook
 │   └── memory.md         # Active session memory, recent updates & next priorities
 ├── README.md             # ONLY markdown file at the root (public repository guide)
 ├── functions/            # Cloudflare Pages Functions & Edge Middleware
