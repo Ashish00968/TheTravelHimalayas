@@ -85,7 +85,7 @@ export function TrekHero({
         >
           <Image
             src={heroImage}
-            alt={`Panoramic vista on the ${title}`}
+            alt={`Panoramic alpine vista on the ${title} (${elevation || "High Himalayas"}, ${regionName})`}
             fill
             priority
             sizes="100vw"

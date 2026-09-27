@@ -90,7 +90,7 @@ export default async function StateHub({
           <div className="absolute inset-0 pointer-events-none z-0">
             <Image
               src={region.image}
-              alt={region.name}
+              alt={`Panoramic alpine landscape and mountain ranges of ${region.name} — ${region.cardDesc}`}
               fill
               priority
               sizes="100vw"

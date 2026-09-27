@@ -216,7 +216,7 @@ function MobileHero() {
         >
           <Image
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
-            alt="Himalayan Mountain Range Panorama"
+            alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
             fill
             priority
             sizes="100vw"
@@ -297,7 +297,7 @@ function MobileHero() {
         >
           <Image
             src="/brand/hero-mountain-foreground-mobile.webp"
-            alt="Foreground Mountain Ridge"
+            alt="Silhouetted alpine ridge and Himalayan rocky crest foreground"
             fill
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center"
@@ -537,7 +537,7 @@ function DesktopHero() {
         >
           <Image
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
-            alt="Himalayan Mountain Range Panorama"
+            alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
             fill
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
@@ -650,7 +650,7 @@ function DesktopHero() {
         >
           <Image
             src="/brand/hero-mountain-foreground-desktop.webp"
-            alt="Foreground Mountain Ridge"
+            alt="Silhouetted alpine ridge and Himalayan rocky crest foreground"
             fill
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
@@ -981,7 +981,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                   >
                     <Image
                       src={profile.image}
-                      alt={region.name}
+                      alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                       fill
                       sizes="50vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -1068,7 +1068,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                       >
                         <Image
                           src={profile.image}
-                          alt={region.name}
+                          alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -1142,7 +1142,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                       >
                         <Image
                           src={profile.image}
-                          alt={region.name}
+                          alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -1588,7 +1588,7 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                           {trek.heroImage ? (
                             <Image
                               src={trek.heroImage}
-                              alt={trek.title}
+                              alt={`${trek.title} — ${trek.region} Himalayan route reaching ${trek.maxAltitude}`}
                               fill
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                               className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"

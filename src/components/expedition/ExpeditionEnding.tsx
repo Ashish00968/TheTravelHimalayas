@@ -46,7 +46,7 @@ export function ExpeditionEnding({
           <div className="relative aspect-[16/9] md:aspect-[21/9] w-full min-h-[360px] sm:min-h-[420px]">
             <Image
               src={endingImage}
-              alt={`${peak.title} high alpine massif`}
+              alt={`Glaciated ridges and summit face of ${peak.title}${place.elevation ? ` (${place.elevation.toLocaleString()}m)` : ""} in ${subRegion.name}, ${region.name}`}
               fill
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"

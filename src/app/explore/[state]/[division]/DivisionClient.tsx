@@ -296,7 +296,7 @@ export function DivisionClient({
                       <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 border border-foreground/[0.08]">
                         <Image
                           src={placeHero}
-                          alt={item.name}
+                          alt={`${item.name}${item.elevation ? ` (${item.elevation.toLocaleString()}m)` : ""} in ${subRegion.name}, ${region.name} — ${item.type}`}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-highland"

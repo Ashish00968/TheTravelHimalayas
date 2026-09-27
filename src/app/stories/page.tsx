@@ -165,7 +165,7 @@ export default function StoriesPage() {
                     {story.image && (
                       <Image
                         src={story.image}
-                        alt={story.title}
+                        alt={`${story.title} — ${story.territory} expedition chronicle (${story.altitude})`}
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 58vw"

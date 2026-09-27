@@ -82,7 +82,7 @@ export function TrekEnding({
           <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] w-full min-h-[360px] sm:min-h-[400px]">
             <Image
               src={endingImage}
-              alt={`${subRegionName} sunset mountain panorama`}
+              alt={`Alpenglow and sunset horizon over the mountain ridgelines of ${subRegionName}, ${state}`}
               fill
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"

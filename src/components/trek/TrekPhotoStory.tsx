@@ -147,7 +147,7 @@ export function TrekPhotoStory({
               >
                 <Image
                   src={src}
-                  alt={`${title} - ${meta.title}`}
+                  alt={`${title} trail photograph: ${meta.title} — ${meta.caption}`}
                   fill
                   loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 66vw"

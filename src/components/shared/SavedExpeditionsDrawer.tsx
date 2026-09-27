@@ -137,7 +137,7 @@ export function SavedExpeditionsDrawer({ isOpen, onClose }: SavedExpeditionsDraw
                       <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-foreground/10">
                         <Image
                           src={item.image}
-                          alt={item.name}
+                          alt={`${item.name} (${item.regionName}) — saved expedition thumbnail`}
                           fill
                           sizes="80px"
                           className="object-cover group-hover:scale-105 transition-transform duration-300"

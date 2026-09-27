@@ -19,7 +19,7 @@ export function HeroSection({ title, subtitle, image }: HeroSectionProps) {
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <Image
             src={image}
-            alt={title}
+            alt={`${title} — Himalayan mountain landscape backdrop`}
             fill
             priority
             sizes="100vw"

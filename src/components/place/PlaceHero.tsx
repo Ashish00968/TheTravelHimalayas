@@ -105,7 +105,7 @@ export function PlaceHero({
         >
           <Image
             src={heroImage}
-            alt={`${title} landscape in ${subRegionName}, ${regionName}`}
+            alt={`${title} (${elevation ? `${elevation}, ` : ""}${subRegionName}, ${regionName}) — panoramic Himalayan vista and trail gateway`}
             fill
             priority
             sizes="100vw"

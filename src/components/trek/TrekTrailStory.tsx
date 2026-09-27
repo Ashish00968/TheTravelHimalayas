@@ -355,7 +355,7 @@ export function TrekTrailStory({
               >
                 <Image
                   src={src}
-                  alt={`${title} - ${meta.title}`}
+                  alt={`${title} — ${meta.title}: ${meta.caption}`}
                   fill
                   loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 66vw"
@@ -475,7 +475,7 @@ export function TrekTrailStory({
               <div className="relative aspect-[16/10] sm:aspect-[21/11] w-full max-h-[60vh] sm:max-h-[65vh] overflow-hidden bg-black">
                 <Image
                   src={images[activePhotoIndex]}
-                  alt={getMeta(images[activePhotoIndex], activePhotoIndex).title}
+                  alt={`${title} — ${getMeta(images[activePhotoIndex], activePhotoIndex).title}: ${getMeta(images[activePhotoIndex], activePhotoIndex).caption}`}
                   fill
                   sizes="100vw"
                   className="object-contain"

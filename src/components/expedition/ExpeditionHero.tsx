@@ -98,7 +98,7 @@ export function ExpeditionHero({
         >
           <Image
             src={heroImage}
-            alt={`${peak.title} mountain massif in ${regionName}`}
+            alt={`Summit massif of ${peak.title}${place.elevation ? ` (${place.elevation.toLocaleString()}m)` : ""} towering over ${subRegionName}, ${regionName}`}
             fill
             priority
             sizes="100vw"

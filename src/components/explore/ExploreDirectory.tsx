@@ -300,7 +300,7 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                     >
                       <Image
                         src={imageSrc}
-                        alt={place.name}
+                        alt={`${place.name} (${place.elevation || ""}) — ${place.type} trail in ${place.subRegionName || ""}, ${place.regionName || ""}`.replace(/\s+/g, " ").trim()}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"

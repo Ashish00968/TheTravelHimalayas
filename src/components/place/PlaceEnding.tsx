@@ -43,7 +43,7 @@ export function PlaceEnding({
           <div className="relative aspect-[16/9] md:aspect-[21/9] w-full min-h-[340px] sm:min-h-[400px]">
             <Image
               src={endingImage}
-              alt={`${place.name} landscape backdrop`}
+              alt={`${place.name} — ${place.elevation ? `${place.elevation} alpine landscape` : "mountain landscape"} in ${subRegion.name}, ${region.name}`}
               fill
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
