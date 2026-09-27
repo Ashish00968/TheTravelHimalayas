@@ -180,8 +180,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "During the transfer from Kedarnath to Badrinath via Ukhimath: (1) Ukhimath is the winter seat of Kedarnath and Omkareshwar Temple, and serves as the roadhead for the 3-day trek to Madhyamaheshwar (second Kedar, 3,497m). (2) At Joshimath/Helang, take a 12 km spur road into Urgam Valley to visit Kalpeshwar Mahadev (fifth Kedar, 2,200m), the only Panch Kedar temple open throughout the year without strenuous trekking."
                                                           }
                                                 ],
-                                                "seoTitle": "Garhwal Char Dham (3,584m) — Sacred 4 Shrines, 2 Itineraries & Guide",
-                                                "seoDescription": "Complete guide to the Garhwal Char Dham pilgrimage: Yamunotri, Gangotri, Kedarnath, and Badrinath. Compare 10–12 day agency tour vs 14–16 day DHT insider route with Dhari Devi, Mana Village, and Vasudhara Falls.",
+                                                "seoTitle": "Garhwal Char Dham (3,584m) — Sacred 4 Shrines",
+                                                "seoDescription": "Complete guide to the Garhwal Char Dham pilgrimage: Yamunotri, Gangotri, Kedarnath, and Badrinath. Compare 10–12 day agency tour vs 14–16 day DHT insider.",
                                                 "keywords": [
                                                           "char dham",
                                                           "char dham yatra",
@@ -292,8 +292,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, Mount Trishul (7,120m) and Nanda Ghunti (6,309m) rise directly above Roopkund Lake and Junargali Pass, appearing so close that their massive glaciers and icefalls dominate the entire horizon."
                                                           }
                                                 ],
-                                                "seoTitle": "Roopkund Trek (4,800m), Chamoli — Mystery Skeleton Lake & Bugyals Guide",
-                                                "seoDescription": "Complete guide to Roopkund Mystery Lake Trek (4,800m) in Chamoli, Garhwal. 6-day itinerary from Lohajung, Ali & Bedni Bugyals, Trishul views, maps, and travel advice.",
+                                                "seoTitle": "Roopkund Trek (4,800m), Chamoli — Mystery Skeleton Lake",
+                                                "seoDescription": "Complete guide to Roopkund Mystery Lake Trek (4,800m) in Chamoli, Garhwal. 6-day itinerary from Lohajung, Ali & Bedni Bugyals, Trishul views, maps, and.",
                                                 "keywords": [
                                                           "Roopkund trek",
                                                           "mystery lake Roopkund",
@@ -333,7 +333,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Badrinath is located approximately 45 kilometers northeast of Joshimath along NH7, traversing through Govindghat and Pandukeshwar (about 2 hours drive)."
                                                           }
                                                 ],
-                                                "seoTitle": "Badrinath Temple (3,133m), Chamoli — Char Dham & Nilkantha Peak Guide",
+                                                "seoTitle": "Badrinath Temple (3,133m), Chamoli — Char Dham",
                                                 "seoDescription": "Complete guide to Badrinath Temple (3,133m) in Chamoli, Uttarakhand. Char Dham shrine, Tapt Kund, Nilkantha peak views, opening dates, and travel advice.",
                                                 "keywords": [
                                                           "Badrinath Temple Chamoli",
@@ -373,8 +373,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The local residents are Marchha Bhotias, an Indo-Tibetan community traditionally engaged in trans-Himalayan wool trading and high-altitude pastoralism."
                                                           }
                                                 ],
-                                                "seoTitle": "Mana Village (3,200m), Chamoli — First Village of India & Bhim Pul Guide",
-                                                "seoDescription": "Explore Mana Village (3,200m) in Chamoli, Uttarakhand. First Indian Village, Bhim Pul over Saraswati River, Vyas Gufa, Bhotia culture, and Vasudhara Falls trail.",
+                                                "seoTitle": "Mana Village (3,200m), Chamoli — First Village of India",
+                                                "seoDescription": "Explore Mana Village (3,200m) in Chamoli, Uttarakhand. First Indian Village, Bhim Pul over Saraswati River, Vyas Gufa, Bhotia culture, and Vasudhara Falls.",
                                                 "keywords": [
                                                           "Mana village Uttarakhand",
                                                           "First Indian village",
@@ -413,8 +413,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Visitors can travel via the 4 km aerial passenger cable car or drive 14 km up the winding paved mountain road to Auli."
                                                           }
                                                 ],
-                                                "seoTitle": "Joshimath Gateway (1,890m), Chamoli — Jyotirmath, Auli Ropeway & Temples",
-                                                "seoDescription": "Complete guide to Joshimath (1,890m) in Chamoli, Garhwal. Shankaracharya Math, winter seat of Badrinath, Narsimha Temple, Auli cable car, and expedition logistics.",
+                                                "seoTitle": "Joshimath Gateway (1,890m), Chamoli — Jyotirmath",
+                                                "seoDescription": "Complete guide to Joshimath (1,890m) in Chamoli, Garhwal. Shankaracharya Math, winter seat of Badrinath, Narsimha Temple, Auli cable car, and expedition.",
                                                 "keywords": [
                                                           "Joshimath Chamoli",
                                                           "Jyotirmath Uttarakhand",
@@ -453,7 +453,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, GMVN (Garhwal Mandal Vikas Nigam) operates certified 7-day and 14-day ski courses with qualified instructors and gear rentals."
                                                           }
                                                 ],
-                                                "seoTitle": "Auli Ski Resort & Bugyals (2,800m), Chamoli — Winter Skiing & Nanda Devi Guide",
+                                                "seoTitle": "Auli Ski Resort & Bugyals (2,800m), Chamoli — Winter Skiing",
                                                 "seoDescription": "Explore Auli (2,800m) in Chamoli, Uttarakhand. Premier ski slopes, artificial lake, Gorson Bugyal trail, Nanda Devi views, cable car, and season guide.",
                                                 "keywords": [
                                                           "Auli skiing Uttarakhand",
@@ -493,7 +493,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, licensed mules, porters, and helicopter services to Ghangaria operate from the Govindghat/Pulna helipad."
                                                           }
                                                 ],
-                                                "seoTitle": "Govindghat (1,828m), Chamoli — Valley of Flowers & Hemkund Trailhead Guide",
+                                                "seoTitle": "Govindghat (1,828m), Chamoli — Valley of Flowers",
                                                 "seoDescription": "Guide to Govindghat (1,828m) in Chamoli, Uttarakhand. Starting trailhead for Valley of Flowers and Hemkund Sahib, Pulna taxi stand, Gurudwara, and route advice.",
                                                 "keywords": [
                                                           "Govindghat Chamoli",
@@ -535,7 +535,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The 10 km uphill trek from Pulna takes approximately 4 to 6 hours on foot or 2 to 3 hours on mule."
                                                           }
                                                 ],
-                                                "seoTitle": "Ghangaria / Govinddham (3,049m), Chamoli — Base Camp for Valley of Flowers",
+                                                "seoTitle": "Ghangaria / Govinddham (3,049m), Chamoli Guide",
                                                 "seoDescription": "Essential guide to Ghangaria (3,049m) in Chamoli, Uttarakhand. Base camp for Valley of Flowers National Park & Hemkund Sahib, hotel stays, mules, and tips.",
                                                 "keywords": [
                                                           "Ghangaria Chamoli",
@@ -623,8 +623,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "A botanist from the Royal Botanic Gardens, Kew, who died in 1939 while collecting specimens in the valley; her memorial stone still stands in the meadow."
                                                           }
                                                 ],
-                                                "seoTitle": "Valley of Flowers Trek (3,658m), Chamoli — UNESCO Trail Itinerary & Bloom Guide",
-                                                "seoDescription": "Complete guide to the Valley of Flowers Trek (3,658m) in Chamoli, Uttarakhand. 5-day itinerary, peak bloom dates, rare blue poppy, maps, permits, and packing list.",
+                                                "seoTitle": "Valley of Flowers Trek (3,658m), Chamoli — Bloom Guide",
+                                                "seoDescription": "Complete guide to the Valley of Flowers Trek (3,658m) in Chamoli, Uttarakhand. 5-day itinerary, peak bloom dates, rare blue poppy, maps, permits, and.",
                                                 "keywords": [
                                                           "Valley of Flowers trek",
                                                           "Valley of Flowers bloom time",
@@ -683,8 +683,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The mythical Brahma Kamal (Saussurea obvallata), the state flower of Uttarakhand, blooms in abundance on the rocky slopes surrounding the lake between July and August."
                                                           }
                                                 ],
-                                                "seoTitle": "Hemkund Sahib (4,632m), Chamoli — World's Highest Gurudwara & Lake Guide",
-                                                "seoDescription": "Explore Hemkund Sahib (4,632m) in Chamoli, Uttarakhand. World's highest Sikh pilgrimage, Lokpal glacial lake, 6km climb from Ghangaria, opening dates, and advice.",
+                                                "seoTitle": "Hemkund Sahib (4,632m), Chamoli — World's Highest Gurudwara",
+                                                "seoDescription": "Explore Hemkund Sahib (4,632m) in Chamoli, Uttarakhand. World's highest Sikh pilgrimage, Lokpal glacial lake, 6km climb from Ghangaria, opening dates, and.",
                                                 "keywords": [
                                                           "Hemkund Sahib altitude",
                                                           "Hemkund Sahib trek",
@@ -724,7 +724,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The trail offers dramatic up-close views of Mount Chaukhamba, Balakun, and the Satopanth glacier approaches."
                                                           }
                                                 ],
-                                                "seoTitle": "Vasudhara Falls Trail (3,700m), Mana — 122m Waterfall Day Hike Guide",
+                                                "seoTitle": "Vasudhara Falls Trail (3,700m), Mana Guide",
                                                 "seoDescription": "Hike the Vasudhara Falls trail (3,700m) from Mana village, Chamoli. 122m vertical glacial waterfall, route from Badrinath, Chaukhamba views, and trail advice.",
                                                 "keywords": [
                                                           "Vasudhara Falls trek",
@@ -819,8 +819,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, its moderate gradients, well-defined paths, and gradual altitude gain make it one of the best Himalayan entry treks for fit beginners."
                                                           }
                                                 ],
-                                                "seoTitle": "Kuari Pass Trek (3,876m), Chamoli — Curzon Trail & Nanda Devi Panoramas",
-                                                "seoDescription": "Complete guide to Kuari Pass Trek (3,876m) in Chamoli, Garhwal. 6-day Curzon Trail itinerary, front-row Nanda Devi views, Gorson Bugyal, winter snow advice, and maps.",
+                                                "seoTitle": "Kuari Pass Trek (3,876m), Chamoli — Curzon Trail",
+                                                "seoDescription": "Complete guide to Kuari Pass Trek (3,876m) in Chamoli, Garhwal. 6-day Curzon Trail itinerary, front-row Nanda Devi views, Gorson Bugyal, winter snow.",
                                                 "keywords": [
                                                           "Kuari Pass trek",
                                                           "Curzon Trail Uttarakhand",
@@ -859,7 +859,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "A paved motorable mountain road branches off from Helang on NH7, climbing 9 km up into the Urgam Valley."
                                                           }
                                                 ],
-                                                "seoTitle": "Urgam Valley & Kalpeshwar (2,200m), Chamoli — Fifth Panch Kedar Guide",
+                                                "seoTitle": "Urgam Valley & Kalpeshwar (2,200m), Chamoli Guide",
                                                 "seoDescription": "Explore Urgam Valley (2,200m) in Chamoli, Uttarakhand. Kalpeshwar Mahadev temple (Panch Kedar open in winter), apple orchards, rural homestays, and trails.",
                                                 "keywords": [
                                                           "Urgam Valley Chamoli",
@@ -947,8 +947,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Swargarohini (6,252m) and its staircase-like glacier rise directly behind Satopanth Tal, believed to be the stairway to heaven where Yudhishthira and the faithful dog ascended."
                                                           }
                                                 ],
-                                                "seoTitle": "Satopanth Tal Trek (4,600m), Chamoli — Holy Triangular Glacial Lake Guide",
-                                                "seoDescription": "Complete guide to Satopanth Tal Trek (4,600m) beyond Mana & Badrinath in Chamoli, Garhwal. 5-day itinerary, Chaukhamba & Swargarohini views, maps, and safety advice.",
+                                                "seoTitle": "Satopanth Tal Trek (4,600m), Chamoli Guide",
+                                                "seoDescription": "Complete guide to Satopanth Tal Trek (4,600m) beyond Mana & Badrinath in Chamoli, Garhwal. 5-day itinerary, Chaukhamba & Swargarohini views, maps, and.",
                                                 "keywords": [
                                                           "Satopanth Tal trek",
                                                           "holy triangular lake",
@@ -1019,7 +1019,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "During the 6-month winter closure, the symbolic idol of Lord Kedarnath is worshipped at the Omkareshwar Temple in Ukhimath."
                                                           }
                                                 ],
-                                                "seoTitle": "Kedarnath Temple (3,583m), Rudraprayag — Trail Itinerary & Jyotirlinga Guide",
+                                                "seoTitle": "Kedarnath Temple (3,583m), Rudraprayag — Trail Itinerary",
                                                 "seoDescription": "Complete guide to Kedarnath Temple (3,583m) in Rudraprayag, Garhwal. 16km trek route from Gaurikund, biometric registration, Kedar Dome, and opening dates.",
                                                 "keywords": [
                                                           "Kedarnath Temple Rudraprayag",
@@ -1089,8 +1089,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, Chopta becomes a premier winter snow trek in January and February; microspikes and gaiters are recommended for snow on the upper trail."
                                                           }
                                                 ],
-                                                "seoTitle": "Chopta Tungnath Chandrashila Trek (4,000m) — Highest Shiva Temple Guide",
-                                                "seoDescription": "Guide to Chopta, Tungnath (3,680m), and Chandrashila Summit (4,000m) in Rudraprayag. World's highest Shiva temple, 360° Nanda Devi sunrise, and snow trek advice.",
+                                                "seoTitle": "Chopta Tungnath Chandrashila Trek (4,000m) Guide",
+                                                "seoDescription": "Guide to Chopta, Tungnath (3,680m), and Chandrashila Summit (4,000m) in Rudraprayag. World's highest Shiva temple, 360° Nanda Devi sunrise, and snow trek.",
                                                 "keywords": [
                                                           "Chopta Tungnath trek",
                                                           "Chandrashila summit altitude",
@@ -1137,7 +1137,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The 1.5 km climb from Tungnath Temple to Chandrashila summit takes approximately 45 to 60 minutes depending on fitness and snow conditions."
                                                           }
                                                 ],
-                                                "seoTitle": "Chandrashila Peak Summit (4,000m) — Chopta Sunrise & Chaukhamba Panoramas",
+                                                "seoTitle": "Chandrashila Peak Summit (4,000m) — Chopta Sunrise",
                                                 "seoDescription": "Explore Chandrashila Peak Summit (4,000m) above Tungnath in Rudraprayag, Garhwal. 360° Chaukhamba and Nanda Devi views, trail guide, sunrise tips, and map.",
                                                 "keywords": [
                                                           "Chandrashila summit trek",
@@ -1202,8 +1202,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "According to Hindu mythology, this was the lake where the Yaksha tested the Pandava brothers with philosophical riddles during their exile."
                                                           }
                                                 ],
-                                                "seoTitle": "Deoria Tal Trek (2,438m), Rudraprayag — Sari Village & Chaukhamba Reflection",
-                                                "seoDescription": "Guide to Deoria Tal Trek (2,438m) in Rudraprayag, Uttarakhand. Mirror reflection of Chaukhamba peaks, Sari village homestays, camping, birdwatching, and trail guide.",
+                                                "seoTitle": "Deoria Tal Trek (2,438m), Rudraprayag — Sari Village",
+                                                "seoDescription": "Guide to Deoria Tal Trek (2,438m) in Rudraprayag, Uttarakhand. Mirror reflection of Chaukhamba peaks, Sari village homestays, camping, birdwatching, and.",
                                                 "keywords": [
                                                           "Deoria Tal trek",
                                                           "Sari to Deoria Tal distance",
@@ -1280,8 +1280,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "According to the Panch Kedar legend, the navel (nabhi) and stomach of Lord Shiva appeared at Madhyamaheshwar."
                                                           }
                                                 ],
-                                                "seoTitle": "Madhyamaheshwar Trek (3,497m), Rudraprayag — Second Panch Kedar Guide",
-                                                "seoDescription": "Complete guide to Madhyamaheshwar Trek (3,497m) in Rudraprayag, Garhwal. Second Panch Kedar, 4-day itinerary from Ransi, Buda Madhyamaheshwar, and Chaukhamba views.",
+                                                "seoTitle": "Madhyamaheshwar Trek (3,497m), Rudraprayag Guide",
+                                                "seoDescription": "Complete guide to Madhyamaheshwar Trek (3,497m) in Rudraprayag, Garhwal. Second Panch Kedar, 4-day itinerary from Ransi, Buda Madhyamaheshwar, and.",
                                                 "keywords": [
                                                           "Madhyamaheshwar trek",
                                                           "Second Panch Kedar",
@@ -1320,8 +1320,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, Gaurikund is famous for natural geothermal springs, although the pool structure was redeveloped following the 2013 flash floods."
                                                           }
                                                 ],
-                                                "seoTitle": "Gaurikund (1,982m), Rudraprayag — Kedarnath Trek Trailhead & Hot Springs",
-                                                "seoDescription": "Visitor guide to Gaurikund (1,982m) in Rudraprayag, Uttarakhand. Starting point for Kedarnath trek, natural thermal springs, Gauri Mata temple, and shared taxi advice.",
+                                                "seoTitle": "Gaurikund (1,982m), Rudraprayag — Kedarnath Trek Trailhead",
+                                                "seoDescription": "Visitor guide to Gaurikund (1,982m) in Rudraprayag, Uttarakhand. Starting point for Kedarnath trek, natural thermal springs, Gauri Mata temple, and shared.",
                                                 "keywords": [
                                                           "Gaurikund Kedarnath",
                                                           "Gaurikund starting point",
@@ -1360,8 +1360,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, Triyuginarayan has become one of India's most sought-after sacred wedding destinations, where couples marry before the eternal flame."
                                                           }
                                                 ],
-                                                "seoTitle": "Triyuginarayan Temple (1,980m), Rudraprayag — Eternal Wedding Flame Guide",
-                                                "seoDescription": "Discover Triyuginarayan Temple (1,980m) in Rudraprayag, Uttarakhand. Legendary wedding site of Shiva and Parvati, Akhand Dhuni eternal flame, kunds, and travel tips.",
+                                                "seoTitle": "Triyuginarayan Temple (1,980m), Rudraprayag Guide",
+                                                "seoDescription": "Discover Triyuginarayan Temple (1,980m) in Rudraprayag, Uttarakhand. Legendary wedding site of Shiva and Parvati, Akhand Dhuni eternal flame, kunds, and.",
                                                 "keywords": [
                                                           "Triyuginarayan temple",
                                                           "Shiva Parvati wedding site",
@@ -1400,8 +1400,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Rudraprayag is where Jim Corbett hunted the infamous man-eating Leopard of Rudraprayag in 1925, marked by a memorial pillar on the highway."
                                                           }
                                                 ],
-                                                "seoTitle": "Rudraprayag Sangam (895m) — Alaknanda & Mandakini Confluence Guide",
-                                                "seoDescription": "Explore Rudraprayag town (895m) in Garhwal. Sacred Panch Prayag confluence of Alaknanda and Mandakini rivers, Rudranath temple, crossroads to Kedarnath & Badrinath.",
+                                                "seoTitle": "Rudraprayag Sangam (895m) — Alaknanda",
+                                                "seoDescription": "Explore Rudraprayag town (895m) in Garhwal. Sacred Panch Prayag confluence of Alaknanda and Mandakini rivers, Rudranath temple, crossroads to Kedarnath &.",
                                                 "keywords": [
                                                           "Rudraprayag sangam",
                                                           "Panch Prayag Uttarakhand",
@@ -1448,8 +1448,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, Gangotri is connected by the well-paved all-weather highway NH34, approximately 100 km from Uttarkashi town."
                                                           }
                                                 ],
-                                                "seoTitle": "Gangotri Temple & Town (3,100m), Uttarkashi — Char Dham Shrine & Gorge Guide",
-                                                "seoDescription": "Complete guide to Gangotri Temple (3,100m) in Uttarkashi, Uttarakhand. Char Dham seat of Ganga, Surya Kund waterfall, Bhagirath Shila, opening dates, and travel advice.",
+                                                "seoTitle": "Gangotri Temple & Town (3,100m), Uttarkashi — Gorge Guide",
+                                                "seoDescription": "Complete guide to Gangotri Temple (3,100m) in Uttarkashi, Uttarakhand. Char Dham seat of Ganga, Surya Kund waterfall, Bhagirath Shila, opening dates, and.",
                                                 "keywords": [
                                                           "Gangotri Temple Uttarkashi",
                                                           "Char Dham Gangotri",
@@ -1489,7 +1489,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The Nehru Institute of Mountaineering is located across the suspension bridge in Ladari, about 4 km from the main bus stand."
                                                           }
                                                 ],
-                                                "seoTitle": "Uttarkashi Town & Kashi Vishwanath (1,158m) — Spiritual & NIM Capital Guide",
+                                                "seoTitle": "Uttarkashi Town & Kashi Vishwanath (1,158m) — Spiritual",
                                                 "seoDescription": "Guide to Uttarkashi town in Garhwal. Ancient Kashi Vishwanath Temple, the vibrating Shakti Trishul, NIM mountaineering museum, and Bhagirathi ghats.",
                                                 "keywords": [
                                                           "Uttarkashi town",
@@ -1582,7 +1582,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Tapovan is the base camp meadow for climbing Mount Shivling (6,543m), Meru (Shark's Fin), and the Bhagirathi I, II, and III massifs."
                                                           }
                                                 ],
-                                                "seoTitle": "Gaumukh Tapovan Trek (4,463m) — Source of Ganga & Mount Shivling Guide",
+                                                "seoTitle": "Gaumukh Tapovan Trek (4,463m) — Source of Ganga",
                                                 "seoDescription": "Complete guide to Gaumukh Tapovan Trek (4,463m) in Uttarkashi, Uttarakhand. 6-day itinerary to Gangotri Glacier, Mount Shivling base, permits, maps, and advice.",
                                                 "keywords": [
                                                           "Gaumukh Tapovan trek",
@@ -1667,8 +1667,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "In the Garhwali language, 'Bugyal' refers to high-altitude alpine pasturelands or meadows situated between 3,000 and 4,000 meters."
                                                           }
                                                 ],
-                                                "seoTitle": "Dayara Bugyal Trek (3,750m), Uttarkashi — Alpine Meadow & Bakaria Top Guide",
-                                                "seoDescription": "Complete guide to Dayara Bugyal Trek (3,750m) in Uttarkashi, Garhwal. 5-day itinerary from Raithal, 360° Bandarpoonch views, Butter Festival, winter snow, and maps.",
+                                                "seoTitle": "Dayara Bugyal Trek (3,750m), Uttarkashi — Alpine Meadow",
+                                                "seoDescription": "Complete guide to Dayara Bugyal Trek (3,750m) in Uttarkashi, Garhwal. 5-day itinerary from Raithal, 360° Bandarpoonch views, Butter Festival, winter snow.",
                                                 "keywords": [
                                                           "Dayara Bugyal trek",
                                                           "Dayara Bugyal altitude",
@@ -1753,8 +1753,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Daytime temperatures range from 5°C to 12°C, while nighttime temperatures at base camp routinely drop to -5°C to -10°C."
                                                           }
                                                 ],
-                                                "seoTitle": "Kedarkantha Trek (3,800m), Uttarkashi — Winter Snow Summit Itinerary Guide",
-                                                "seoDescription": "Complete guide to Kedarkantha Trek (3,800m) in Uttarkashi, Uttarakhand. 5-day winter snow summit itinerary from Sankri, Juda Ka Talab, gear, maps, and season advice.",
+                                                "seoTitle": "Kedarkantha Trek (3,800m), Uttarkashi Guide",
+                                                "seoDescription": "Complete guide to Kedarkantha Trek (3,800m) in Uttarkashi, Uttarakhand. 5-day winter snow summit itinerary from Sankri, Juda Ka Talab, gear, maps, and.",
                                                 "keywords": [
                                                           "Kedarkantha trek",
                                                           "Kedarkantha altitude",
@@ -1853,8 +1853,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "According to the Mahabharata, Mount Swargarohini ('Stairway to Heaven') is the glaciated peak the Pandavas climbed to ascend to the heavens."
                                                           }
                                                 ],
-                                                "seoTitle": "Har Ki Dun Trek (3,566m), Uttarkashi — Valley of Gods Itinerary & Guide",
-                                                "seoDescription": "Complete guide to Har Ki Dun Trek (3,566m) in Uttarkashi, Garhwal. 7-day itinerary from Sankri, ancient Osla village, Swargarohini views, maps, and season advice.",
+                                                "seoTitle": "Har Ki Dun Trek (3,566m), Uttarkashi — Guide",
+                                                "seoDescription": "Complete guide to Har Ki Dun Trek (3,566m) in Uttarkashi, Garhwal. 7-day itinerary from Sankri, ancient Osla village, Swargarohini views, maps, and season.",
                                                 "keywords": [
                                                           "Har Ki Dun trek",
                                                           "Valley of Gods Uttarakhand",
@@ -1895,8 +1895,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Frederick E. Wilson was a British adventurer who settled in Harsil in the 1850s, built the historic Wilson Cottage, and introduced commercial apple cultivation to the valley."
                                                           }
                                                 ],
-                                                "seoTitle": "Harsil Valley (2,620m), Uttarkashi — Apple Orchards & Bhagirathi River Guide",
-                                                "seoDescription": "Discover Harsil Valley (2,620m) in Uttarkashi, Uttarakhand. Deodar forests, Wilson apple orchards, Dharali wooden village, Mukhba Ganga temple, and travel advice.",
+                                                "seoTitle": "Harsil Valley (2,620m), Uttarkashi — Apple Orchards",
+                                                "seoDescription": "Discover Harsil Valley (2,620m) in Uttarkashi, Uttarakhand. Deodar forests, Wilson apple orchards, Dharali wooden village, Mukhba Ganga temple, and travel.",
                                                 "keywords": [
                                                           "Harsil Valley Uttarkashi",
                                                           "Harsil apple orchards",
@@ -1958,8 +1958,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The true source is Champasar Glacier on Kalind Parvat at 4,421m, approximately 1 km above the temple, but is virtually inaccessible due to steep moraines."
                                                           }
                                                 ],
-                                                "seoTitle": "Yamunotri Temple (3,291m), Uttarkashi — Char Dham & Janki Chatti Guide",
-                                                "seoDescription": "Complete guide to Yamunotri Temple (3,291m) in Uttarkashi, Uttarakhand. Char Dham western shrine, Surya Kund thermal springs, 6km trek from Janki Chatti, and route advice.",
+                                                "seoTitle": "Yamunotri Temple (3,291m), Uttarkashi — Char Dham",
+                                                "seoDescription": "Complete guide to Yamunotri Temple (3,291m) in Uttarkashi, Uttarakhand. Char Dham western shrine, Surya Kund thermal springs, 6km trek from Janki Chatti.",
                                                 "keywords": [
                                                           "Yamunotri Temple Uttarkashi",
                                                           "Char Dham pilgrimage",
@@ -2036,8 +2036,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The lake is famous for the rare Himalayan Golden Mahseer and Golden Trout, thriving in the cold freshwater fed by mountain springs."
                                                           }
                                                 ],
-                                                "seoTitle": "Dodital Trek (3,024m), Uttarkashi — Lake of Ganesha & Darwa Pass Guide",
-                                                "seoDescription": "Complete guide to Dodital Trek (3,024m) in Uttarkashi, Uttarakhand. Birthplace of Ganesha, golden trout lake, 4-day itinerary, Darwa Pass (4,150m), and Bandarpoonch views.",
+                                                "seoTitle": "Dodital Trek (3,024m), Uttarkashi — Lake of Ganesha",
+                                                "seoDescription": "Complete guide to Dodital Trek (3,024m) in Uttarkashi, Uttarakhand. Birthplace of Ganesha, golden trout lake, 4-day itinerary, Darwa Pass (4,150m), and.",
                                                 "keywords": [
                                                           "Dodital trek Uttarkashi",
                                                           "Dodital altitude",
@@ -2084,7 +2084,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Local Garhwali belief holds that Dhari Devi protects the entire state and the sacred Char Dham mountain passes from natural disasters. Pilgrims historically make their first sacred offering here."
                                                           }
                                                 ],
-                                                "seoTitle": "Dhari Devi Temple (560m), Kalyasaur — Guardian Deity of Char Dham Guide",
+                                                "seoTitle": "Dhari Devi Temple (560m), Kalyasaur Guide",
                                                 "seoDescription": "Explore Dhari Devi Temple on the Alaknanda River in Uttarakhand. Guardian deity of Char Dham, Kalyasaur location on NH7, darshan timings, and legends.",
                                                 "keywords": [
                                                           "Dhari Devi temple",
@@ -2124,8 +2124,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Because it is an active military cantonment managed by the Indian Army, commercial overdevelopment is strictly restricted, preserving its pristine forest atmosphere."
                                                           }
                                                 ],
-                                                "seoTitle": "Lansdowne Hill Station (1,706m), Pauri Garhwal — Colonial Pine Trails",
-                                                "seoDescription": "Explore Lansdowne (1,706m) in Pauri Garhwal, Uttarakhand. Peaceful colonial cantonment town, Garhwal Rifles heritage, Bhulla Tal, Tip-in-Top, and weekend getaways.",
+                                                "seoTitle": "Lansdowne Hill Station (1,706m), Pauri Garhwal Guide",
+                                                "seoDescription": "Explore Lansdowne (1,706m) in Pauri Garhwal, Uttarakhand. Peaceful colonial cantonment town, Garhwal Rifles heritage, Bhulla Tal, Tip-in-Top, and weekend.",
                                                 "keywords": [
                                                           "Lansdowne Pauri Garhwal",
                                                           "Lansdowne hill station",
@@ -2164,7 +2164,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Khirsu is renowned for its tranquil deodar woodland walks and its sweeping, unobstructed view of over 300 snow-capped peaks."
                                                           }
                                                 ],
-                                                "seoTitle": "Khirsu (1,700m), Pauri Garhwal — Quiet Village & 300 Peak Panoramas",
+                                                "seoTitle": "Khirsu (1,700m), Pauri Garhwal — Quiet Village",
                                                 "seoDescription": "Discover Khirsu (1,700m) in Pauri Garhwal, Uttarakhand. Peaceful mountain hamlet, deodar forests, apple orchards, 300+ snow peak panorama, and homestays.",
                                                 "keywords": [
                                                           "Khirsu Pauri Garhwal",
@@ -2204,8 +2204,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Devotees hang brass bells at the shrine when their wishes are fulfilled, creating a musical forest atmosphere."
                                                           }
                                                 ],
-                                                "seoTitle": "Tarkeshwar Mahadev (2,090m), Pauri Garhwal — Ancient Deodar Shrine Guide",
-                                                "seoDescription": "Visit Tarkeshwar Mahadev Temple (2,090m) in Pauri Garhwal, Uttarakhand. Ancient Shiva forest shrine near Lansdowne, towering deodars, thousand temple bells, and travel tips.",
+                                                "seoTitle": "Tarkeshwar Mahadev (2,090m), Pauri Garhwal Guide",
+                                                "seoDescription": "Visit Tarkeshwar Mahadev Temple (2,090m) in Pauri Garhwal, Uttarakhand. Ancient Shiva forest shrine near Lansdowne, towering deodars, thousand temple.",
                                                 "keywords": [
                                                           "Tarkeshwar Mahadev temple",
                                                           "Lansdowne to Tarkeshwar distance",
@@ -2252,8 +2252,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Tehri Lake is located about 75 kilometers north of Rishikesh via Chamba along NH94 (approximately 2.5 hours drive)."
                                                           }
                                                 ],
-                                                "seoTitle": "Tehri Lake & Dam (850m), Tehri Garhwal — Water Adventure & Floating Huts",
-                                                "seoDescription": "Explore Tehri Lake (850m) in Tehri Garhwal, Uttarakhand. Giant 42 sq km reservoir, water sports, jet skiing, floating houseboats, Tehri Dam view, and road route.",
+                                                "seoTitle": "Tehri Lake & Dam (850m), Tehri Garhwal — Water Adventure",
+                                                "seoDescription": "Explore Tehri Lake (850m) in Tehri Garhwal, Uttarakhand. Giant 42 sq km reservoir, water sports, jet skiing, floating houseboats, Tehri Dam view, and road.",
                                                 "keywords": [
                                                           "Tehri Lake Uttarakhand",
                                                           "Tehri Dam altitude",
@@ -2292,7 +2292,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Kanatal is located approximately 40 kilometers east of Mussoorie along the scenic Chamba road (about 1.5 hours drive)."
                                                           }
                                                 ],
-                                                "seoTitle": "Kanatal & Surkanda Devi (2,756m), Tehri — Ridge Views & Shakti Peetha Guide",
+                                                "seoTitle": "Kanatal & Surkanda Devi (2,756m), Tehri — Ridge Views",
                                                 "seoDescription": "Guide to Kanatal and Surkanda Devi Temple (2,756m) in Tehri Garhwal. Panoramic Himalayan views, Shakti Peetha ropeway, Eco-park trails, and weekend getaways.",
                                                 "keywords": [
                                                           "Kanatal Uttarakhand",
@@ -2332,7 +2332,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Devprayag is situated 70 kilometers northeast of Rishikesh along NH7, approximately 2 hours drive into the mountains."
                                                           }
                                                 ],
-                                                "seoTitle": "Devprayag Sangam (830m), Tehri Garhwal — Birthplace of River Ganga Guide",
+                                                "seoTitle": "Devprayag Sangam (830m), Tehri Garhwal Guide",
                                                 "seoDescription": "Discover Devprayag (830m) in Uttarakhand. Sacred confluence of Bhagirathi and Alaknanda creating River Ganga, Raghunathji temple, ghats, and travel tips.",
                                                 "keywords": [
                                                           "Devprayag sangam",
@@ -2380,8 +2380,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "George Everest Estate is located about 6 km west of Gandhi Chowk (Library Bazaar), reachable by taxi or an easy uphill hike."
                                                           }
                                                 ],
-                                                "seoTitle": "Mussoorie & George Everest (2,005m), Dehradun — Ridge Hike & Viewpoints",
-                                                "seoDescription": "Explore Mussoorie and Sir George Everest Peak (2,005m) in Dehradun, Uttarakhand. Doon Valley views, heritage house hike, Benog Wildlife Sanctuary, and travel guide.",
+                                                "seoTitle": "Mussoorie & George Everest (2,005m), Dehradun — Ridge Hike",
+                                                "seoDescription": "Explore Mussoorie and Sir George Everest Peak (2,005m) in Dehradun, Uttarakhand. Doon Valley views, heritage house hike, Benog Wildlife Sanctuary, and.",
                                                 "keywords": [
                                                           "Mussoorie Uttarakhand",
                                                           "George Everest peak Mussoorie",
@@ -2420,8 +2420,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Chakrata is located about 88 kilometers northwest of Dehradun via Vikas Nagar and Kalsi (approx. 3 hours drive)."
                                                           }
                                                 ],
-                                                "seoTitle": "Chakrata & Tiger Falls (2,118m), Dehradun — Jaunsar Deodar Trails Guide",
-                                                "seoDescription": "Complete guide to Chakrata and Tiger Falls (2,118m) in Dehradun, Uttarakhand. 95m forest waterfall hike, Chilmiri Neck sunset, Jaunsar culture, and weekend stay tips.",
+                                                "seoTitle": "Chakrata & Tiger Falls (2,118m), Dehradun Guide",
+                                                "seoDescription": "Complete guide to Chakrata and Tiger Falls (2,118m) in Dehradun, Uttarakhand. 95m forest waterfall hike, Chilmiri Neck sunset, Jaunsar culture, and.",
                                                 "keywords": [
                                                           "Chakrata Uttarakhand",
                                                           "Tiger Falls Chakrata",
@@ -2460,8 +2460,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "White-water rafting, India's highest bungee jumping (83m at Mohan Chatti), giant canyon swing, flying fox, kayaking, and riverside camping."
                                                           }
                                                 ],
-                                                "seoTitle": "Rishikesh Adventure & Yoga Hub (372m), Dehradun — River Rafting & Ghats",
-                                                "seoDescription": "Complete guide to Rishikesh (372m) in Uttarakhand. White-water Ganga rafting in Shivpuri, cliff jumping, Triveni Ghat aarti, Beatles Ashram, and Himalayan foothill gateway.",
+                                                "seoTitle": "Rishikesh Adventure & Yoga Hub (372m), Dehradun — Ghats",
+                                                "seoDescription": "Complete guide to Rishikesh (372m) in Uttarakhand. White-water Ganga rafting in Shivpuri, cliff jumping, Triveni Ghat aarti, Beatles Ashram, and Himalayan.",
                                                 "keywords": [
                                                           "Rishikesh rafting Uttarakhand",
                                                           "Shivpuri river camping",
@@ -2508,8 +2508,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Kankhal is approximately 3.5 km south of the Haridwar railway station, easily accessible by auto-rickshaw in 10 minutes."
                                                           }
                                                 ],
-                                                "seoTitle": "Kankhal & Daksh Prajapati Temple (Haridwar) — Yajna Kund & Heritage Guide",
-                                                "seoDescription": "Discover Kankhal in Haridwar, home of the historic Daksh Prajapati Temple, Sati's Yajna Kund, and Ma Anandamayi Ashram.",
+                                                "seoTitle": "Kankhal & Daksh Prajapati Temple (Haridwar) — Yajna Kund",
+                                                "seoDescription": "Discover Kankhal in Haridwar, home of the historic Daksh Prajapati Temple, Sati's Yajna Kund, and Ma Anandamayi Ashram Plan your journey with verified.",
                                                 "keywords": [
                                                           "Kankhal Haridwar",
                                                           "Daksh Prajapati temple",
@@ -2548,8 +2548,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The Udankhatola cable car generally operates from 7:00 AM to 7:00 PM daily."
                                                           }
                                                 ],
-                                                "seoTitle": "Mansa Devi & Chandi Devi Temples (Haridwar) — Ropeway & Hilltop Siddhpeeths",
-                                                "seoDescription": "Guide to Mansa Devi and Chandi Devi temples in Haridwar. Bilwa Parvat & Neel Parvat cable car (Udankhatola), temple timings, and legends.",
+                                                "seoTitle": "Mansa Devi & Chandi Devi Temples (Haridwar) — Ropeway",
+                                                "seoDescription": "Guide to Mansa Devi and Chandi Devi temples in Haridwar. Bilwa Parvat & Neel Parvat cable car (Udankhatola), temple timings, and legends Plan your journey.",
                                                 "keywords": [
                                                           "Mansa Devi temple Haridwar",
                                                           "Chandi Devi temple Haridwar",
@@ -2588,8 +2588,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "According to Hindu mythology, drops of the celestial nectar of immortality (Amrit) spilled here from the celestial pitcher during the Samudra Manthan, sanctifying Brahmakund."
                                                           }
                                                 ],
-                                                "seoTitle": "Har Ki Pauri & Ghats (Haridwar) — Evening Ganga Aarti, Brahmakund & Guide",
-                                                "seoDescription": "Complete guide to Har Ki Pauri ghats in Haridwar. Evening Ganga Aarti timings, Brahmakund sacred bath, history, and photography tips.",
+                                                "seoTitle": "Har Ki Pauri & Ghats (Haridwar) — Evening Ganga Aarti",
+                                                "seoDescription": "Complete guide to Har Ki Pauri ghats in Haridwar. Evening Ganga Aarti timings, Brahmakund sacred bath, history, and photography tips Plan your journey.",
                                                 "keywords": [
                                                           "Har Ki Pauri",
                                                           "Haridwar Ganga Aarti",
@@ -2628,8 +2628,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The Chilla Range along the eastern bank of the Ganga is the most popular zone, featuring open grasslands, river channels, and frequent elephant sightings."
                                                           }
                                                 ],
-                                                "seoTitle": "Rajaji National Park (302–1,000m), Haridwar — Elephant & Tiger Safari Guide",
-                                                "seoDescription": "Visitor guide to Rajaji National Park in the Himalayan Shivalik foothills. Wildlife jeep safaris, Asian elephant herds, tiger reserve, Chilla range, and booking info.",
+                                                "seoTitle": "Rajaji NP (302–1,000m), Haridwar — Elephant",
+                                                "seoDescription": "Visitor guide to Rajaji National Park in the Himalayan Shivalik foothills. Wildlife jeep safaris, Asian elephant herds, tiger reserve, Chilla range, and.",
                                                 "keywords": [
                                                           "Rajaji National Park Haridwar",
                                                           "Rajaji elephant safari",
@@ -2672,8 +2672,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The road and trail begin from Dharchula, traveling through Tawaghat, Khela, and Sobla into the upper valley."
                                                           }
                                                 ],
-                                                "seoTitle": "Darma Valley (3,400m), Pithoragarh — Rung Borderlands & Panchachuli East Guide",
-                                                "seoDescription": "Explore Darma Valley in Pithoragarh, Kumaon. Dhauliganga canyon, Panchachuli views, Dantu & Dugtu villages, and travel permit guide.",
+                                                "seoTitle": "Darma Valley (3,400m), Pithoragarh — Rung Borderlands",
+                                                "seoDescription": "Explore Darma Valley in Pithoragarh, Kumaon. Dhauliganga canyon, Panchachuli views, Dantu & Dugtu villages, and travel permit guide Plan your journey with.",
                                                 "keywords": [
                                                           "Darma Valley Pithoragarh",
                                                           "Darma valley trek",
@@ -2709,8 +2709,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "It is rated Moderate, accessible to fit beginners with prior hiking experience."
                                                           }
                                                 ],
-                                                "seoTitle": "Panchachuli Base Camp Trek (4,260m), Kumaon — Meola Glacier Guide",
-                                                "seoDescription": "Guide to Panchachuli Base Camp Trek (4,260m) in Pithoragarh, Kumaon. Itinerary, Dantu village route, Meola glacier, and gear list.",
+                                                "seoTitle": "Panchachuli Base Camp Trek (4,260m), Kumaon Guide",
+                                                "seoDescription": "Guide to Panchachuli Base Camp Trek (4,260m) in Pithoragarh, Kumaon. Itinerary, Dantu village route, Meola glacier, and gear list Plan your journey with.",
                                                 "keywords": [
                                                           "Panchachuli base camp trek",
                                                           "Panchachuli trek itinerary",
@@ -2746,7 +2746,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, while the Nanda Devi Inner Sanctuary in Garhwal is closed for conservation, the Nanda Devi East Base Camp in Kumaon is fully open for trekking."
                                                           }
                                                 ],
-                                                "seoTitle": "Nanda Devi East Base Camp Trek (4,300m), Munsiyari — Gori Ganga Gorge Guide",
+                                                "seoTitle": "Nanda Devi East Base Camp Trek (4,300m), Munsiyari Guide",
                                                 "seoDescription": "The authoritative guide to Nanda Devi East Base Camp Trek (4,300m) from Munsiyari, Kumaon. Itinerary, Martoli village, Gori Ganga route, and permits.",
                                                 "keywords": [
                                                           "Nanda Devi East base camp",
@@ -2837,7 +2837,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Panchachuli II is the highest of the five peaks at an altitude of 6,904 meters (22,651 ft)."
                                                           }
                                                 ],
-                                                "seoTitle": "Munsiyari & Panchachuli Base Camp (4,260m) — Kumaon Trek & Peaks Guide",
+                                                "seoTitle": "Munsiyari & Panchachuli Base Camp (4,260m) — Kumaon Trek",
                                                 "seoDescription": "Complete guide to Munsiyari and Panchachuli Base Camp Trek (4,260m) in Pithoragarh, Kumaon. 6-day Darma Valley itinerary, 5 epic peaks, maps, and travel advice.",
                                                 "keywords": [
                                                           "Munsiyari Panchachuli trek",
@@ -2878,7 +2878,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, there is a KMVN shelter and designated meadow camping areas near Khaliya Top with stunning sunset views."
                                                           }
                                                 ],
-                                                "seoTitle": "Khaliya Top Trek (3,500m), Munsiyari — Panchachuli Panorama Day Hike Guide",
+                                                "seoTitle": "Khaliya Top Trek (3,500m), Munsiyari Guide",
                                                 "seoDescription": "Hike to Khaliya Top (3,500m) from Munsiyari, Pithoragarh. 12km day hike, closest 360° view of Panchachuli & Nanda Devi, rhododendron trails, and camping tips.",
                                                 "keywords": [
                                                           "Khaliya Top trek",
@@ -2991,7 +2991,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Milam Glacier is one of the largest glaciers in Kumaon, measuring approximately 37 kilometers in length and spanning an area of 50 square kilometers."
                                                           }
                                                 ],
-                                                "seoTitle": "Milam Glacier Trek (4,267m), Pithoragarh — Historic Johar Valley Expedition",
+                                                "seoTitle": "Milam Glacier Trek (4,267m), Pithoragarh Guide",
                                                 "seoDescription": "Complete guide to Milam Glacier Trek (4,267m) in Pithoragarh, Kumaon. 9-day Indo-Tibetan trade trail, Martoli ruins, Mount Trishuli views, permits, and maps.",
                                                 "keywords": [
                                                           "Milam Glacier trek",
@@ -3032,8 +3032,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Adi Kailash (5,945m) is located within Indian territory in Uttarakhand and is considered the primordial (Adi) abode of Lord Shiva, second in reverence only to Mount Kailash in Tibet."
                                                           }
                                                 ],
-                                                "seoTitle": "Adi Kailash & Om Parvat (5,945m), Pithoragarh — Sacred Circuit & Route Guide",
-                                                "seoDescription": "Complete guide to the Adi Kailash & Om Parvat expedition in Pithoragarh, Kumaon. Sacred Parvati Sarovar, Gunji, Lipulekh border road, permits, and pilgrimage route.",
+                                                "seoTitle": "Adi Kailash & Om Parvat (5,945m), Pithoragarh Guide",
+                                                "seoDescription": "Complete guide to the Adi Kailash & Om Parvat expedition in Pithoragarh, Kumaon. Sacred Parvati Sarovar, Gunji, Lipulekh border road, permits, and.",
                                                 "keywords": [
                                                           "Adi Kailash trek",
                                                           "Om Parvat Pithoragarh",
@@ -3072,7 +3072,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Chaukori is accessible by road from Kathgodam (180 km via Almora and Bageshwar) or from Pithoragarh town (85 km)."
                                                           }
                                                 ],
-                                                "seoTitle": "Chaukori (2,010m), Pithoragarh — Tea Gardens & Nanda Devi Panoramas",
+                                                "seoTitle": "Chaukori (2,010m), Pithoragarh — Tea Gardens",
                                                 "seoDescription": "Discover Chaukori (2,010m) in Pithoragarh, Kumaon. Historic mountain tea gardens, unmatched sunrise views over Nanda Devi & Panchachuli, and serene stays.",
                                                 "keywords": [
                                                           "Chaukori Pithoragarh",
@@ -3112,8 +3112,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "According to legend, King Ritupurna discovered the cave in Treta Yuga, and Adi Shankaracharya consecrated the underground shrine in 1191 AD."
                                                           }
                                                 ],
-                                                "seoTitle": "Patal Bhuvaneshwar (1,350m), Pithoragarh — Ancient Limestone Cave Temple",
-                                                "seoDescription": "Visitor guide to Patal Bhuvaneshwar cave temple (1,350m) in Pithoragarh, Kumaon. 90-foot underground limestone shrine, stalactite formations, timings, and mythology.",
+                                                "seoTitle": "Patal Bhuvaneshwar (1,350m), Pithoragarh Guide",
+                                                "seoDescription": "Visitor guide to Patal Bhuvaneshwar cave temple (1,350m) in Pithoragarh, Kumaon. 90-foot underground limestone shrine, stalactite formations, timings, and.",
                                                 "keywords": [
                                                           "Patal Bhuvaneshwar cave",
                                                           "Pithoragarh cave temple",
@@ -3212,8 +3212,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, it is considered one of the most accessible glacier treks in India, with well-established trails, KMVN rest houses, and manageable gradients."
                                                           }
                                                 ],
-                                                "seoTitle": "Pindari Glacier Trek (3,860m), Bageshwar — Zero Point Itinerary & Route",
-                                                "seoDescription": "Complete guide to Pindari Glacier Trek (3,860m) in Bageshwar, Kumaon. 6-day itinerary to Zero Point, Khati village, Pindar river valley, Nanda Kot views, and maps.",
+                                                "seoTitle": "Pindari Glacier Trek (3,860m), Bageshwar — Route",
+                                                "seoDescription": "Complete guide to Pindari Glacier Trek (3,860m) in Bageshwar, Kumaon. 6-day itinerary to Zero Point, Khati village, Pindar river valley, Nanda Kot views.",
                                                 "keywords": [
                                                           "Pindari Glacier trek",
                                                           "Pindari Zero Point altitude",
@@ -3252,7 +3252,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Famous Hindi poet Sumitranandan Pant was born in Kausani; his ancestral home has been preserved as a museum housing his manuscripts."
                                                           }
                                                 ],
-                                                "seoTitle": "Kausani (1,890m), Bageshwar — 300km Himalayan Panorama & Gandhi Ashram",
+                                                "seoTitle": "Kausani (1,890m), Bageshwar — 300km Himalayan Panorama",
                                                 "seoDescription": "Explore Kausani (1,890m) in Bageshwar, Kumaon. 300km panoramic views of Trishul & Nanda Devi, Anasakti (Gandhi) Ashram, tea gardens, and sunset viewpoints.",
                                                 "keywords": [
                                                           "Kausani Uttarakhand",
@@ -3292,8 +3292,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Baijnath is located approximately 16 kilometers northeast of Kausani, easily accessible in 30 minutes by taxi or local bus."
                                                           }
                                                 ],
-                                                "seoTitle": "Baijnath Temples (1,126m), Bageshwar — 12th-Century Katyuri Heritage Guide",
-                                                "seoDescription": "Discover Baijnath Temple Complex (1,126m) in Bageshwar, Kumaon. Ancient 12th-century Katyuri stone shrines on Gomti riverbank, black stone Parvati idol, and history.",
+                                                "seoTitle": "Baijnath Temples (1,126m), Bageshwar Guide",
+                                                "seoDescription": "Discover Baijnath Temple Complex (1,126m) in Bageshwar, Kumaon. Ancient 12th-century Katyuri stone shrines on Gomti riverbank, black stone Parvati idol.",
                                                 "keywords": [
                                                           "Baijnath temple Bageshwar",
                                                           "Katyuri dynasty temples",
@@ -3377,8 +3377,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The Kafni River originates here, which joins the Pindar River at Dwali."
                                                           }
                                                 ],
-                                                "seoTitle": "Kafni Glacier Trek (3,860m), Bageshwar — Wild Kumaon Alpine Itinerary",
-                                                "seoDescription": "Guide to Kafni Glacier Trek (3,860m) in Bageshwar, Kumaon. Less-traveled glacial valley beneath Mount Nanda Kot, Dwali junction, 7-day itinerary, and trail maps.",
+                                                "seoTitle": "Kafni Glacier Trek (3,860m), Bageshwar Guide",
+                                                "seoDescription": "Guide to Kafni Glacier Trek (3,860m) in Bageshwar, Kumaon. Less-traveled glacial valley beneath Mount Nanda Kot, Dwali junction, 7-day itinerary, and.",
                                                 "keywords": [
                                                           "Kafni Glacier trek",
                                                           "Kafni glacier altitude",
@@ -3425,8 +3425,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Yes, vehicles can drive up to the KMVN Tourist Rest House (TRH) inside the sanctuary upon paying entry fees at the Forest Checkpost."
                                                           }
                                                 ],
-                                                "seoTitle": "Binsar Wildlife Sanctuary (2,420m), Almora — Zero Point & Birding Guide",
-                                                "seoDescription": "Complete guide to Binsar Wildlife Sanctuary (2,420m) in Almora, Kumaon. Zero Point Himalayan viewpoint, dense oak-rhododendron forest hikes, birding, and heritage stays.",
+                                                "seoTitle": "Binsar Sanctuary (2,420m), Almora — Zero Point",
+                                                "seoDescription": "Complete guide to Binsar Wildlife Sanctuary (2,420m) in Almora, Kumaon. Zero Point Himalayan viewpoint, dense oak-rhododendron forest hikes, birding, and.",
                                                 "keywords": [
                                                           "Binsar Wildlife Sanctuary",
                                                           "Zero Point Binsar altitude",
@@ -3465,8 +3465,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Jageshwar is located approximately 36 kilometers northeast of Almora along a scenic forest road (about 1 hour drive)."
                                                           }
                                                 ],
-                                                "seoTitle": "Jageshwar Dham (1,870m), Almora — 124 Ancient Stone Temples Guide",
-                                                "seoDescription": "Explore Jageshwar Dham (1,870m) in Almora, Uttarakhand. 124 ancient 7th-century Nagara stone temples in deep deodar forests, Jyotirlinga heritage, and visiting tips.",
+                                                "seoTitle": "Jageshwar Dham (1,870m), Almora Guide",
+                                                "seoDescription": "Explore Jageshwar Dham (1,870m) in Almora, Uttarakhand. 124 ancient 7th-century Nagara stone temples in deep deodar forests, Jyotirlinga heritage, and.",
                                                 "keywords": [
                                                           "Jageshwar Dham Almora",
                                                           "Jageshwar temple timings",
@@ -3505,7 +3505,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Ranikhet is located approximately 80 kilometers from Kathgodam, reachable in about 2.5 to 3 hours by taxi."
                                                           }
                                                 ],
-                                                "seoTitle": "Ranikhet (1,869m), Almora — Chaubatia Orchards, Golf Course & Pines",
+                                                "seoTitle": "Ranikhet (1,869m), Almora — Chaubatia Orchards",
                                                 "seoDescription": "Discover Ranikhet (1,869m) in Almora, Kumaon. Chaubatia apple orchards, historic Kumaon Regiment museum, high-altitude golf course, and pine forest walks.",
                                                 "keywords": [
                                                           "Ranikhet Almora",
@@ -3545,8 +3545,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "In the 1960s and 70s, the ridge became a bohemian haven for western writers, mystics, artists, and beat poets exploring meditation and consciousness."
                                                           }
                                                 ],
-                                                "seoTitle": "Kasar Devi & Crank's Ridge (2,116m), Almora — Cosmic Energy & Sunset Guide",
-                                                "seoDescription": "Visitor guide to Kasar Devi (2,116m) in Almora, Kumaon. Van Allen belt geomagnetic anomaly, Crank's Ridge bohemian heritage, Swami Vivekananda cave, and sunset ridge.",
+                                                "seoTitle": "Kasar Devi & Crank's Ridge (2,116m), Almora — Cosmic Energy",
+                                                "seoDescription": "Visitor guide to Kasar Devi (2,116m) in Almora, Kumaon. Van Allen belt geomagnetic anomaly, Crank's Ridge bohemian heritage, Swami Vivekananda cave, and.",
                                                 "keywords": [
                                                           "Kasar Devi temple Almora",
                                                           "Crank's Ridge Almora",
@@ -3593,7 +3593,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Bhimtal (with an island aquarium), Sattal (seven interconnected lakes), and Naukuchiatal (nine-cornered lake) are within a 25 km radius."
                                                           }
                                                 ],
-                                                "seoTitle": "Nainital Lake & Naina Peak (2,615m) — Boating, Trails & Viewpoint Guide",
+                                                "seoTitle": "Nainital Lake & Naina Peak (2,615m) — Boating",
                                                 "seoDescription": "Complete guide to Nainital (1,938m) and Naina Peak hike (2,615m). Naini Lake boating, Mall Road, Naina Devi temple, Snow View cable car, and travel advice.",
                                                 "keywords": [
                                                           "Nainital lake Uttarakhand",
@@ -3633,8 +3633,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Mount Nanda Devi, Trishul, Nanda Ghunti, and the Panchachuli range are clearly visible on cloudless days."
                                                           }
                                                 ],
-                                                "seoTitle": "Mukteshwar (2,171m), Nainital — Chauli Ki Jali Cliffs & Mountain Panoramas",
-                                                "seoDescription": "Explore Mukteshwar (2,171m) in Nainital, Kumaon. Chauli Ki Jali cliff rock climbing, 350-year Shiva temple, fruit orchards, Nanda Devi views, and quiet forest stays.",
+                                                "seoTitle": "Mukteshwar (2,171m), Nainital — Chauli Ki Jali Cliffs",
+                                                "seoDescription": "Explore Mukteshwar (2,171m) in Nainital, Kumaon. Chauli Ki Jali cliff rock climbing, 350-year Shiva temple, fruit orchards, Nanda Devi views, and quiet.",
                                                 "keywords": [
                                                           "Mukteshwar Nainital",
                                                           "Chauli Ki Jali cliffs",
@@ -3673,7 +3673,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Pangot is located approximately 15 kilometers northwest of Nainital, about a 40-minute drive along a scenic wooded mountain road."
                                                           }
                                                 ],
-                                                "seoTitle": "Pangot & Kilbury (2,100m), Nainital — Himalayan Birding Paradise Guide",
+                                                "seoTitle": "Pangot & Kilbury (2,100m), Nainital Guide",
                                                 "seoDescription": "Discover Pangot & Kilbury Bird Sanctuary (2,100m) near Nainital. 580+ avian species, cheer pheasant tracking, oak forest nature trails, and eco-lodge retreats.",
                                                 "keywords": [
                                                           "Pangot bird watching",
@@ -3713,8 +3713,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Ramnagar town in Nainital district is the primary railhead and administrative headquarters for all Corbett safari bookings."
                                                           }
                                                 ],
-                                                "seoTitle": "Jim Corbett National Park (400–1,220m) — Tiger Safari & Jungle Lodges Guide",
-                                                "seoDescription": "Visitor guide to Jim Corbett National Park in Nainital foothills. Royal Bengal tiger safari, Dhikala & Bijrani zones, elephant herds, Ramganga river, and safari booking.",
+                                                "seoTitle": "Jim Corbett NP (400–1,220m) — Tiger Safari",
+                                                "seoDescription": "Visitor guide to Jim Corbett National Park in Nainital foothills. Royal Bengal tiger safari, Dhikala & Bijrani zones, elephant herds, Ramganga river, and.",
                                                 "keywords": [
                                                           "Jim Corbett National Park",
                                                           "Corbett tiger safari booking",
@@ -3761,8 +3761,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Abbott Mount is situated just 7 kilometers north of Lohaghat in Champawat district."
                                                           }
                                                 ],
-                                                "seoTitle": "Abbott Mount & Lohaghat (1,981m), Champawat — Colonial Ridge Heritage",
-                                                "seoDescription": "Explore Abbott Mount and Lohaghat (1,981m) in Champawat, Kumaon. Historic 1914 European cottages, pine ridge walks, Himalayan snow vistas, and peaceful retreats.",
+                                                "seoTitle": "Abbott Mount & Lohaghat (1,981m), Champawat Guide",
+                                                "seoDescription": "Explore Abbott Mount and Lohaghat (1,981m) in Champawat, Kumaon. Historic 1914 European cottages, pine ridge walks, Himalayan snow vistas, and peaceful.",
                                                 "keywords": [
                                                           "Abbott Mount Champawat",
                                                           "Lohaghat tourism",
@@ -3801,8 +3801,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The ashram is 9 kilometers from Lohaghat and 22 kilometers from Champawat town, connected by a quiet forest motor road."
                                                           }
                                                 ],
-                                                "seoTitle": "Advaita Ashrama Mayawati (1,940m), Champawat — Vivekananda Retreat Guide",
-                                                "seoDescription": "Discover Advaita Ashrama Mayawati (1,940m) in Champawat, Kumaon. Historic 1899 Ramakrishna Math retreat founded under Swami Vivekananda, silent meditation & library.",
+                                                "seoTitle": "Advaita Ashrama Mayawati (1,940m), Champawat Guide",
+                                                "seoDescription": "Discover Advaita Ashrama Mayawati (1,940m) in Champawat, Kumaon. Historic 1899 Ramakrishna Math retreat founded under Swami Vivekananda, silent meditation.",
                                                 "keywords": [
                                                           "Mayawati Ashram Champawat",
                                                           "Advaita Ashrama Lohaghat",
@@ -3849,8 +3849,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "Nanakmatta is located approximately 55 kilometers east of Rudrapur and about 60 km from Pantnagar Airport."
                                                           }
                                                 ],
-                                                "seoTitle": "Nanakmatta Sahib (210m), Udham Singh Nagar — Historic Gurudwara & Lake",
-                                                "seoDescription": "Guide to Gurudwara Nanakmatta Sahib and reservoir in Udham Singh Nagar, Uttarakhand. Guru Nanak sacred tree, Sarovar, migratory bird wetland, and visiting details.",
+                                                "seoTitle": "Nanakmatta Sahib (210m), Udham Singh Nagar — Lake",
+                                                "seoDescription": "Guide to Gurudwara Nanakmatta Sahib and reservoir in Udham Singh Nagar, Uttarakhand. Guru Nanak sacred tree, Sarovar, migratory bird wetland, and visiting.",
                                                 "keywords": [
                                                           "Nanakmatta Sahib Gurudwara",
                                                           "Udham Singh Nagar places",

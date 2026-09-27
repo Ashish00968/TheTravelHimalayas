@@ -38,7 +38,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "December through February offers regular snowfall across Patnitop and Nathatop, turning the plateau into a winter playground."
               }
             ],
-            seoTitle: "Patnitop Meadow, Jammu & Kashmir — Meadows, Cedar Trails & Mountain Escape",
+            seoTitle: "Patnitop Meadow, J&K — Meadows",
             seoDescription: "Explore Patnitop (2,024m) in Jammu & Kashmir. Pine-clad meadow walks, Chenab basin views, seasonal snow, family day hikes, and local mountain travel guide.",
             keywords: [
               "Patnitop Jammu",
@@ -75,7 +75,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Sanasar offers eco-camping, trekking trails towards Shank Pal ridge, paragliding, and peaceful meadow walks around the lake."
               }
             ],
-            seoTitle: "Sanasar Lake, Jammu & Kashmir — Alpine Meadow, Eco-Adventure & High Trails",
+            seoTitle: "Sanasar Lake, J&K — Alpine Meadow",
             seoDescription: "Discover Sanasar Lake & Meadow (2,050m) in Jammu & Kashmir. Cup-shaped alpine meadow, camping, Shank Pal ridge hike, and tranquil lake atmosphere.",
             keywords: [
               "Sanasar Lake Jammu",
@@ -112,7 +112,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "On clear days, the high snow-capped summits of the Kishtwar range, Brammah peaks, and the Pir Panjal are visible."
               }
             ],
-            seoTitle: "Nathatop Ridge, Jammu & Kashmir — 360° Mountain Views & Snow Trails",
+            seoTitle: "Nathatop Ridge, J&K — 360° Mountain Views & Snow Trails",
             seoDescription: "Guide to Nathatop Ridge (2,710m) above Patnitop, Jammu & Kashmir. Panoramic Pir Panjal vistas, Kishtwar peak views, winter snow slopes, and photography tips.",
             keywords: [
               "Nathatop Ridge",
@@ -149,7 +149,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Yes, ponies, palanquins, battery-operated vehicles (from Adhkuwari), and a helicopter service from Katra to Sanjichhat are available."
               }
             ],
-            seoTitle: "Vaishno Devi Trail, Jammu & Kashmir — Sacred Trikuta Mountain Pilgrimage",
+            seoTitle: "Vaishno Devi Trail, J&K Guide",
             seoDescription: "Essential guide to the Vaishno Devi pilgrimage trek (1,585m) in Jammu & Kashmir. Katra trailhead, 13km route, Trikuta hills, permits, and planning tips.",
             keywords: [
               "Vaishno Devi trek",
@@ -186,7 +186,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Rajouri is the gateway to the Seven Alpine Lakes of the Pir Panjal (including Nandan Sar and Chandan Sar), typically approached via Darhal or Budhal."
               }
             ],
-            seoTitle: "Rajouri (915m), Jammu — Pir Panjal Foothills, Fort & Heritage Trails",
+            seoTitle: "Rajouri (915m) — Pir Panjal Foothills",
             seoDescription: "Explore Rajouri in Jammu (915m). Ancient 'Land of Kings', 19th-century Dhanidhar Fort, Pir Panjal foothill trails, Mughal Road access, and travel guide.",
             keywords: [
               "Rajouri Jammu Kashmir",
@@ -223,7 +223,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Noori Chamb is a scenic mountain waterfall near Behramgala on the road to Bafliaz, famed for its royal Mughal associations and mist-shrouded gorge."
               }
             ],
-            seoTitle: "Poonch (981m), Jammu — Historic Fort, Noori Chamb & Mughal Road",
+            seoTitle: "Poonch (981m) — Historic Fort, Noori Chamb & Mughal Road",
             seoDescription: "Discover Poonch in Jammu (981m). Explore historic Poonch Fort, Noori Chamb waterfall near Behramgala, Mughal Road borderland trails, and local travel guide.",
             keywords: [
               "Poonch Jammu Kashmir",
@@ -260,7 +260,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Yes, winter brings significant snowfall between December and February, temporarily dusting the deodar canopies in white."
               }
             ],
-            seoTitle: "Dera Ki Gali (2,050m), Jammu — Pine Pass & Pir Panjal Ridge Trails",
+            seoTitle: "Dera Ki Gali (2,050m) — Pine Pass & Pir Panjal Ridge Trails",
             seoDescription: "Guide to Dera Ki Gali / DKG (2,050m) in Jammu. Forested ridge pass connecting Rajouri and Poonch, virgin deodar trails, mountain tea stalls, and travel advice.",
             keywords: [
               "Dera Ki Gali",
@@ -297,7 +297,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "It served as the primary mountain pass traversed by Mughal Emperors Akbar, Jahangir, and Shah Jahan on their royal expeditions into Kashmir."
               }
             ],
-            seoTitle: "Pir Ki Gali Pass (3,485m) — Mughal Road Summit & Meadows Guide",
+            seoTitle: "Pir Ki Gali Pass (3,485m) — Mughal Road Summit",
             seoDescription: "Essential guide to Pir Ki Gali Pass (3,485m) on the Mughal Road in Jammu & Kashmir. High alpine meadows, Sheikh Ahmed Karim shrine, road status, and weather.",
             keywords: [
               "Pir Ki Gali",
@@ -339,8 +339,8 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "It features gentle pine-clad hills, terraced agriculture, river banks, and traditional rural settlements nestled below the Pir Panjal range."
               }
             ],
-            seoTitle: "Kotranka (Bakori) 1,520m, Rajouri — Valley Hub, Ans River & Local Trails",
-            seoDescription: "Explore Kotranka (Bakori local) at 1,520m in Rajouri, Jammu & Kashmir. Picturesque Ans river valley, local Pahari and Gujjar culture, Budhal gateway, and travel tips.",
+            seoTitle: "Kotranka (Bakori) 1,520m, Rajouri — Valley Hub",
+            seoDescription: "Explore Kotranka (Bakori local) at 1,520m in Rajouri, Jammu & Kashmir. Picturesque Ans river valley, local Pahari and Gujjar culture, Budhal gateway, and.",
             keywords: [
               "Kotranka Bakori",
               "Kotranka Rajouri",
@@ -378,7 +378,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Challenging wilderness routes lead northwards from Budhal across high alpine meadows towards Nandan Sar, Chandan Sar, and over high shepherd cols towards Kousar Nag and the Kashmir Valley."
               }
             ],
-            seoTitle: "Budhal (1,650m), Rajouri — Southern Pir Panjal & Seven Lakes Wilderness Gateway",
+            seoTitle: "Budhal (1,650m), Rajouri — Southern Pir Panjal",
             seoDescription: "Discover Budhal (1,650m) in Rajouri, Jammu & Kashmir. High Pir Panjal foothill trails, Gabbar river gorge, gateway to alpine shepherd passes, and travel guide.",
             keywords: [
               "Budhal Rajouri",
@@ -415,8 +415,8 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Yes, the drive from Rajouri to Darhal passes through lovely terraced hills and orchards, making it a peaceful day outing."
               }
             ],
-            seoTitle: "Darhal Valley (1,750m) — Seven Alpine Lakes of Rajouri Trailhead",
-            seoDescription: "Guide to Darhal (1,750m) in Jammu. Emerald apple bowl, starting point for Shakarmarg meadows and the Seven Alpine Lakes of the Pir Panjal (Nandan Sar, Chandan Sar).",
+            seoTitle: "Darhal Valley (1,750m) Guide",
+            seoDescription: "Guide to Darhal (1,750m) in Jammu. Emerald apple bowl, starting point for Shakarmarg meadows and the Seven Alpine Lakes of the Pir Panjal (Nandan Sar.",
             keywords: [
               "Darhal Rajouri",
               "Darhal valley",
@@ -452,8 +452,8 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "The region is famous for dramatic technical climbing peaks: Brammah I (6,416m), Sickle Moon (6,574m), Crooked Finger, and Kishtwar Shivling."
               }
             ],
-            seoTitle: "Kishtwar (1,638m) — Brammah Peak Expeditions & National Park Guide",
-            seoDescription: "Explore Kishtwar in Jammu (1,638m). High plateau above Chenab gorge, gateway to Brammah Massif (6,416m), Kishtwar National Park, Chowgan ground, and Sinthan Top.",
+            seoTitle: "Kishtwar (1,638m) — Brammah Peak Expeditions & NP Guide",
+            seoDescription: "Explore Kishtwar in Jammu (1,638m). High plateau above Chenab gorge, gateway to Brammah Massif (6,416m), Kishtwar National Park, Chowgan ground, and.",
             keywords: [
               "Kishtwar Jammu",
               "Kishtwar National Park",
@@ -511,8 +511,8 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "The highest point is Gadsar Pass at approximately 4,200 meters (13,779 feet), offering panoramas of high glacial tarns."
               }
             ],
-            seoTitle: "Kashmir Great Lakes Trek (4,190m) — 7 Alpine Lakes Itinerary & Map",
-            seoDescription: "Authoritative day-by-day guide to the Kashmir Great Lakes Trek (4,190m). Traverses Vishansar, Kishansar, Gadsar, Satsar & Gangabal lakes with trail map and permits.",
+            seoTitle: "Kashmir Great Lakes Trek (4,190m) — Map",
+            seoDescription: "Authoritative day-by-day guide to the Kashmir Great Lakes Trek (4,190m). Traverses Vishansar, Kishansar, Gadsar, Satsar & Gangabal lakes with trail map.",
             keywords: [
               "Kashmir Great Lakes trek",
               "KGL trek itinerary",
@@ -554,7 +554,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Unlike many lake treks where camping is restricted, trekkers on Tarsar Marsar camp right beside the turquoise water of Tarsar Lake surrounded by alpine wildflowers."
               }
             ],
-            seoTitle: "Tarsar Marsar Trek (4,020m) — Almond Lakes of Aru Valley Guide",
+            seoTitle: "Tarsar Marsar Trek (4,020m) Guide",
             seoDescription: "Complete guide to the Tarsar Marsar Trek (4,020m) from Aru Valley, Kashmir. Discover twin alpine lakes, Kolahoi massif views, day itinerary, and best season.",
             keywords: [
               "Tarsar Marsar trek",
@@ -591,7 +591,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Sonmarg is the last major valley in Kashmir on NH1 before the highway ascends steeply to Zojila Pass (3,528m) into Ladakh."
               }
             ],
-            seoTitle: "Sonmarg & Thajiwas Glacier, Kashmir — Glacier Trails & Himalayan Gateway",
+            seoTitle: "Sonmarg & Thajiwas Glacier — Glacier Trails",
             seoDescription: "Explore Sonmarg (2,740m) in Kashmir. Famous Thajiwas Glacier day hike, Sindh River meadows, gateway to Ladakh via Zojila Pass, and season guide.",
             keywords: [
               "Sonmarg Kashmir",
@@ -630,7 +630,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Yes, the gentle slopes of Gulmarg golf course and Kongdoori are ideal for beginners, with certified ski instructors and equipment rentals available."
               }
             ],
-            seoTitle: "Gulmarg & Apharwat Peak, Kashmir — Ski Slopes, Gondola & High Ridges",
+            seoTitle: "Gulmarg & Apharwat Peak — Ski Slopes, Gondola & High Ridges",
             seoDescription: "Complete guide to Gulmarg (3,950m) in Kashmir. Gulmarg Gondola Phases 1 & 2, Apharwat Peak skiing, Alpather Lake summer trek, winter snow, and booking tips.",
             keywords: [
               "Gulmarg Gondola booking",
@@ -669,7 +669,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Dal Lake, Nigeen Lake, Shalimar and Nishat Mughal Gardens, the 8th-century Shankaracharya Temple, and the historic wooden mosques of Old Srinagar."
               }
             ],
-            seoTitle: "Srinagar, Kashmir — Dal Lake, Mughal Gardens & Alpine Staging Hub",
+            seoTitle: "Srinagar — Dal Lake, Mughal Gardens & Alpine Staging Hub",
             seoDescription: "Complete guide to Srinagar, Kashmir (1,585m). Dal Lake houseboats, Mughal gardens, Old City heritage, Zabarwan hills, best seasons, and trail staging.",
             keywords: [
               "Srinagar Kashmir",
@@ -708,7 +708,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Betaab Valley is a picturesque meadow park along the Lidder River 15 km upstream from Pahalgam town on the road towards Chandanwari."
               }
             ],
-            seoTitle: "Pahalgam, Kashmir — Lidder Valley, Pine Meadows & Expedition Trailheads",
+            seoTitle: "Pahalgam — Lidder Valley",
             seoDescription: "Discover Pahalgam, Kashmir (2,130m). Lidder river trails, Baisaran and Betaab meadows, gateway to Kolahoi Glacier and Aru Valley, seasons, and travel tips.",
             keywords: [
               "Pahalgam Kashmir",
@@ -745,7 +745,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Habba Khatoon is a striking pyramid-shaped peak named after the famous 16th-century Kashmiri poetess-queen who wandered the slopes after her royal husband's exile."
               }
             ],
-            seoTitle: "Gurez Valley, Kashmir — Habba Khatoon Peak, Kishanganga & Border Trails",
+            seoTitle: "Gurez Valley — Habba Khatoon Peak",
             seoDescription: "Guide to Gurez Valley, Kashmir (2,400m). Habba Khatoon peak, Razdan Pass (3,557m), Kishanganga River, Dard-Shin culture, permits, and travel advice.",
             keywords: [
               "Gurez Valley Kashmir",
@@ -784,7 +784,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Day trails include the hike to the blue waters of Nilnag lake (4 km) and the full-day wilderness trek up the Doodhganga gorge to the frozen Sang-e-Safed valley."
               }
             ],
-            seoTitle: "Yusmarg, Kashmir — Pir Panjal Meadows, Doodhganga River & Nilnag Lake",
+            seoTitle: "Yusmarg — Pir Panjal Meadows",
             seoDescription: "Explore Yusmarg, Kashmir (2,396m). Untouched rolling meadows of the Pir Panjal, Doodhganga trails, Nilnag Lake hike, best time to visit, and peaceful escapes.",
             keywords: [
               "Yusmarg Kashmir",
@@ -823,7 +823,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Doodhpathri is about 42 kilometers southwest of Srinagar (around 1.5 hours drive via Khansahib)."
               }
             ],
-            seoTitle: "Doodhpathri (Valley of Milk), Kashmir — Alpine Pastures & Shaliganga Rapids",
+            seoTitle: "Doodhpathri (Valley of Milk) — Alpine Pastures",
             seoDescription: "Discover Doodhpathri, Kashmir (2,730m). Emerald meadows, frothing Shaliganga river, pine forests, shepherd pastures, weather, and day-trip guide.",
             keywords: [
               "Doodhpathri Kashmir",
@@ -862,7 +862,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
                 answer: "Aharbal is located approximately 70 kilometers south of Srinagar, easily reached via Shopian or Kulgam."
               }
             ],
-            seoTitle: "Aharbal Waterfall & Trailhead, Kashmir — Veshav Gorge & Kousar Nag Gateway",
+            seoTitle: "Aharbal Waterfall & Trailhead — Veshav Gorge",
             seoDescription: "Complete guide to Aharbal (2,260m) in Kashmir. Famous 25m waterfall, Veshav River gorge, Kungwattan meadows, Kousar Nag lake trek gateway, and travel tips.",
             keywords: [
               "Aharbal waterfall Kashmir",

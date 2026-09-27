@@ -43,7 +43,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
               }
             ],
             seoTitle: "Dalhousie & Dainkund Peak (2,755m) Guide — Ridge Hike & Map",
-            seoDescription: "Explore Dalhousie and Dainkund Peak (2,755m) in Chamba, Himachal Pradesh. 360° views of Pir Panjal, Pholani Devi temple hike, Kalatop sanctuary trail, and seasonal guide."
+            seoDescription: "Explore Dalhousie and Dainkund Peak (2,755m) in Chamba, Himachal Pradesh. 360° views of Pir Panjal, Pholani Devi temple hike, Kalatop sanctuary trail, and."
           },
           {
             id: "khajjiar-meadow",
@@ -96,8 +96,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Legend holds that 84 holy yogis (Siddhas) visited ancient Brahmpura and blessed the king with an heir; 84 shrines were erected to commemorate their divine presence."
               }
             ],
-            seoTitle: "Bharmour Chaurasi Temples (2,195m) — Ancient Gaddi Capital & Guide",
-            seoDescription: "Explore Bharmour & the 84 Chaurasi Temples (2,195m) in Chamba. Ancient Brahmpura architecture, Gaddi shepherd heritage, and base camp for the holy Manimahesh Yatra."
+            seoTitle: "Bharmour Chaurasi Temples (2,195m) — Ancient Gaddi Capital",
+            seoDescription: "Explore Bharmour & the 84 Chaurasi Temples (2,195m) in Chamba. Ancient Brahmpura architecture, Gaddi shepherd heritage, and base camp for the holy."
           },
           {
             id: "manimahesh-kailash",
@@ -128,8 +128,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The trail from the Hadsar trailhead to Manimahesh Lake is 14 km each way (28 km total round-trip), typically completed over 3 to 4 days with halts at Dhancho and Sundrasi."
               }
             ],
-            seoTitle: "Manimahesh Kailash Lake Trek (4,080m) — Route, Yatra Guide & 3D Map",
-            seoDescription: "Complete guide to the sacred Manimahesh Kailash Trek (4,080m) in Chamba. Route map from Hadsar, Gauri Kund, Yatra season, altitude precautions, and packing checklist."
+            seoTitle: "Manimahesh Kailash Lake Trek (4,080m) — Route",
+            seoDescription: "Complete guide to the sacred Manimahesh Kailash Trek (4,080m) in Chamba. Route map from Hadsar, Gauri Kund, Yatra season, altitude precautions, and."
           },
           {
             id: "sach-pass",
@@ -155,7 +155,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Sach Pass typically opens by late June or early July after the Border Roads Organisation (BRO) clears massive snowpack, and closes by mid-to-late October with early winter blizzards."
               }
             ],
-            seoTitle: "Sach Pass (4,414m) Highway Guide — Chamba to Pangi Valley 4x4 Route",
+            seoTitle: "Sach Pass (4,414m) Guide — Chamba to Pangi Valley 4x4 Route",
             seoDescription: "Essential guide to crossing Sach Pass (4,414m / 14,482 ft). Road status, opening dates, 4x4 route conditions from Bairagarh to Killar, and mountain safety."
           },
           {
@@ -182,7 +182,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Via Sach Pass from Chamba in summer, or via Atal Tunnel and Keylong through Udaipur along the Chandrabhaga river valley."
               }
             ],
-            seoTitle: "Pangi Valley & Killar (2,600m) — Wild Himalayas Guide & Chenab Gorge",
+            seoTitle: "Pangi Valley & Killar (2,600m) — Wild Himalayas Guide",
             seoDescription: "Explore the remote wilderness of Pangi Valley and Killar in Chamba. Chandrabhaga river canyon, tribal Pangwala heritage, cliffhanger routes, and travel guide."
           }
         ]
@@ -260,7 +260,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Dharamshala is the lower commercial and administrative city (1,457m), while McLeod Ganj (2,082m) is the upper hillside enclave where the Dalai Lama resides and Tibetan culture flourishes."
               }
             ],
-            seoTitle: "McLeod Ganj & Dharamshala (2,082m) — Tibetan Culture & Alpine Guide",
+            seoTitle: "McLeod Ganj & Dharamshala (2,082m) — Tibetan Culture",
             seoDescription: "Explore McLeod Ganj & Dharamshala in Kangra. Visit Tsuglagkhang temple, Dalai Lama residence, Tibetan heritage trails, and Dhauladhar trekking bases."
           },
           {
@@ -315,8 +315,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Masrur is the only monolithic rock-cut temple complex in the Himalayas, carved directly out of a single sandstone outcrop in the style of Ellora in Maharashtra."
               }
             ],
-            seoTitle: "Kangra Fort & Masrur Rock Cut Temples — Ancient Heritage Guide",
-            seoDescription: "Discover Kangra Fort (oldest fort in the Himalayas) and the 8th-century monolithic Masrur Rock Cut Temples. Katoch dynasty history, architecture, and visitor guide."
+            seoTitle: "Kangra Fort & Masrur Rock Cut Temples Guide",
+            seoDescription: "Discover Kangra Fort (oldest fort in the Himalayas) and the 8th-century monolithic Masrur Rock Cut Temples. Katoch dynasty history, architecture, and."
           }
         ]
       },
@@ -426,7 +426,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, though heavy winter snowfalls require 4WD vehicles with snow chains or a scenic hike from the lower snowline."
               }
             ],
-            seoTitle: "Sethan Village — Hampta Valley (2,700m) | Igloos, Bouldering & Trek Base",
+            seoTitle: "Sethan Village — Hampta Valley (2",
             seoDescription: "Complete guide to Sethan Village & Hampta Valley (2,700m). Winter snow igloos, world-class granite bouldering, Dhauladhar vistas, and Hampta Pass trailhead."
           },
           {
@@ -472,8 +472,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, visitors can enter after removing shoes and leather items. The sanctum encloses a natural rock cave shrine rather than a carved idol."
               }
             ],
-            seoTitle: "Hadimba Devi Temple (2,050m) Manali — History, Architecture & Guide",
-            seoDescription: "Complete visitor guide to the 16th-century Hadimba Temple in Manali. 1553 CE pagoda architecture, Dhungri sacred deodar forest, rituals, Ghatotkach shrine, and hours."
+            seoTitle: "Hadimba Devi Temple (2,050m) Manali — History",
+            seoDescription: "Complete visitor guide to the 16th-century Hadimba Temple in Manali. 1553 CE pagoda architecture, Dhungri sacred deodar forest, rituals, Ghatotkach."
           },
           {
             id: "old-manali",
@@ -498,8 +498,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Old Manali preserves traditional Himachali village architecture, quiet orchard lanes, bohemian cafes, and historical shrines, located 2.5 km uphill from the commercial shops of Mall Road."
               }
             ],
-            seoTitle: "Old Manali Village (2,050m) — Cafes, Kath-Kuni Architecture & Manu Temple",
-            seoDescription: "Explore Old Manali: heritage timber-and-stone architecture, Manu Maharishi Temple, Bohemian cafes, apple orchards, and scenic mountain trails above Manalsu River."
+            seoTitle: "Old Manali Village (2,050m) — Cafes",
+            seoDescription: "Explore Old Manali: heritage timber-and-stone architecture, Manu Maharishi Temple, Bohemian cafes, apple orchards, and scenic mountain trails above."
           },
           {
             id: "kheerganga",
@@ -526,7 +526,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, it is a natural geothermal sulfur hot spring possessing therapeutic mineral qualities, channeled into bathing pools with separate sections for men and women."
               }
             ],
-            seoTitle: "Kheerganga Trek (2,960m) Parvati Valley — Route, Hot Springs & Map",
+            seoTitle: "Kheerganga Trek (2,960m) Parvati Valley — Route",
             seoDescription: "Complete guide to Kheerganga Trek (2,960m). Trail from Barshaini, natural sulfur baths, camping meadows, difficulty rating, and seasonal tips."
           },
           {
@@ -552,7 +552,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "It spans 110 km over 11 days, involves continuous boulder scrambling, unpredictable glacier crevasses, frigid river fordings, and sustained exposure above 4,500m."
               }
             ],
-            seoTitle: "Pin Parvati Pass Trek (5,319m) — Expedition Guide & Crossover Map",
+            seoTitle: "Pin Parvati Pass Trek (5,319m) — Expedition Guide",
             seoDescription: "Detailed expedition dossier for Pin Parvati Pass (5,319m / 17,450 ft). 11-day itinerary from Parvati to Spiti, Mantalai Lake, glacier route, and safety gear."
           },
           {
@@ -577,7 +577,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, an online Rohtang Pass permit issued by the District Administration of Kullu is required to drive to the summit."
               }
             ],
-            seoTitle: "Rohtang Pass (3,978m) Guide — Permits, Snow Points & Manali Access",
+            seoTitle: "Rohtang Pass (3,978m) Guide — Permits",
             seoDescription: "Essential visitor guide to Rohtang Pass (3,978m / 13,051 ft) in Manali. NGT online permits, snow activities, Pir Panjal panoramas, and weather updates."
           },
           {
@@ -603,7 +603,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The hike is an easy 5 km each way (10 km total round trip), taking approximately 2 to 3 hours through pristine shaded oak forests."
               }
             ],
-            seoTitle: "Jalori Pass & Serolsar Lake Trek (3,120m) — Tirthan Valley Guide",
+            seoTitle: "Jalori Pass & Serolsar Lake Trek (3,120m) Guide",
             seoDescription: "Explore Jalori Pass (3,120m) and the mystical Serolsar Lake trail. Dense oak forests, Buddhi Nagin temple, Great Himalayan National Park border, and route map."
           },
           {
@@ -629,8 +629,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Authentic woolen Kullu shawls with geometric borders, Himachali Kinnauri caps (topis), pure cedarwood carvings, wild Himalayan honey, dried apricots, and Tibetan hand-knotted rugs."
               }
             ],
-            seoTitle: "Manali Mall Road (2,000m) — Shopping, Van Vihar & Town Center Guide",
-            seoDescription: "Visitor guide to Manali Mall Road (2,000m). Pedestrian shopping boulevard, certified Kullu shawl emporiums, Tibetan markets, Van Vihar riverside park, and dining."
+            seoTitle: "Manali Mall Road (2,000m) — Shopping",
+            seoDescription: "Visitor guide to Manali Mall Road (2,000m). Pedestrian shopping boulevard, certified Kullu shawl emporiums, Tibetan markets, Van Vihar riverside park, and."
           },
           {
             id: "kullu-town",
@@ -659,8 +659,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Unlike elsewhere in India, Kullu Dussehra begins on Vijayadashami day and continues for seven days, without burning effigies of Ravana. Instead, it is a divine congregation where over 300 village deities pay homage to Lord Raghunath."
               }
             ],
-            seoTitle: "Kullu Town (1,220m) — Shawl Factories, Raghunath Temple & Heritage Guide",
-            seoDescription: "Guide to Kullu Town, Himachal Pradesh. Authentic handloom shawl weaving factories (Bhuttico), historic Raghunath Temple, international Dussehra festival, and river rafting."
+            seoTitle: "Kullu Town (1,220m) — Shawl Factories",
+            seoDescription: "Guide to Kullu Town, Himachal Pradesh. Authentic handloom shawl weaving factories (Bhuttico), historic Raghunath Temple, international Dussehra festival."
           },
           {
             id: "vashisht",
@@ -689,8 +689,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "It is an easy to moderate 45-minute scenic hike (about 1.8 km each way) suitable for beginners and families, winding through picturesque apple groves and streams."
               }
             ],
-            seoTitle: "Vashisht Hot Springs & Temple (2,150m) Manali — Thermal Baths & Jogini Trail",
-            seoDescription: "Visitor guide to Vashisht Village (2,150m) in Manali. Ancient Vashistha temple, natural sulfur hot water baths, therapeutic kunds, and Jogini Waterfall day hike."
+            seoTitle: "Vashisht Hot Springs & Temple (2,150m) Manali Guide",
+            seoDescription: "Visitor guide to Vashisht Village (2,150m) in Manali. Ancient Vashistha temple, natural sulfur hot water baths, therapeutic kunds, and Jogini Waterfall."
           },
           {
             id: "burwa",
@@ -714,8 +714,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Nehru Kund is a natural spring named after Jawaharlal Nehru, who regularly drank water from this clear mountain source during his stays in Manali. The spring is believed to originate from Bhrigu Lake."
               }
             ],
-            seoTitle: "Burwa Village (2,200m) Manali — Apple Orchards, Nehru Kund & Rural Trails",
-            seoDescription: "Discover Burwa village near Manali. Traditional Kath-Kuni architecture, historic apple orchards, granite climbing crags, Nehru Kund spring, and scenic rural walks."
+            seoTitle: "Burwa Village (2,200m) Manali — Apple Orchards",
+            seoDescription: "Discover Burwa village near Manali. Traditional Kath-Kuni architecture, historic apple orchards, granite climbing crags, Nehru Kund spring, and scenic."
           },
           {
             id: "kothi",
@@ -739,8 +739,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The gorge is celebrated for its sheer vertical granite walls where the Beas River is compressed into a narrow chasm barely a few meters wide, plunging through a thunderous canyon."
               }
             ],
-            seoTitle: "Kothi Village & Beas Gorge (2,500m) Manali — Canyon Views & Rohtang Base",
-            seoDescription: "Explore Kothi village (2,500m) near Manali. Dramatic Beas River granite gorge, historic caravan trailheads, British-era rest house, and panoramic glacier vistas."
+            seoTitle: "Kothi Village & Beas Gorge (2,500m) Manali — Canyon Views",
+            seoDescription: "Explore Kothi village (2,500m) near Manali. Dramatic Beas River granite gorge, historic caravan trailheads, British-era rest house, and panoramic glacier."
           },
           {
             id: "gulaba",
@@ -764,8 +764,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "A vehicle permit is required beyond the Gulaba barrier on the Rohtang road. However, local taxis and pre-registered vehicles can enter easily with standard municipal tourism passes."
               }
             ],
-            seoTitle: "Gulaba Alpine Meadow (3,165m) Manali — Snow Point & Bhrigu Lake Trailhead",
-            seoDescription: "Complete guide to Gulaba (3,165m) on the Rohtang Pass highway. Official trailhead for Bhrigu Lake trek, winter snow activities, NGT permit rules, and alpine panoramas."
+            seoTitle: "Gulaba Alpine Meadow (3,165m) Manali — Snow Point",
+            seoDescription: "Complete guide to Gulaba (3,165m) on the Rohtang Pass highway. Official trailhead for Bhrigu Lake trek, winter snow activities, NGT permit rules, and."
           },
           {
             id: "marhi",
@@ -789,7 +789,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Marhi is famous as a scenic high-altitude plateau with multiple waterfalls, roadside dhabas, snow sports, and paragliding on the Manali-Leh Highway below Rohtang Pass."
               }
             ],
-            seoTitle: "Marhi Plateau (3,320m) — High-Altitude Halt & Rohtang Pass Route Guide",
+            seoTitle: "Marhi Plateau (3,320m) — High-Altitude Halt",
             seoDescription: "Visitor guide to Marhi (3,320m) on the Manali-Rohtang highway. High-altitude meadows, waterfalls, roadside dining, acclimatization tips, and paragliding."
           },
           {
@@ -814,8 +814,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Dhundi is the official trailhead for the Beas Kund trek (3,700m), Lady Leg camp, and basecamps for climbing Friendship Peak (5,289m) and Shitidhar Peak."
               }
             ],
-            seoTitle: "Dhundi (2,840m) Manali — Beas Kund Trailhead & Alpine Base Guide",
-            seoDescription: "Explore Dhundi (2,840m) near Solang Valley. Official starting point for Beas Kund glacier trek, climbing base for Friendship Peak, South Portal approach, and trail map."
+            seoTitle: "Dhundi (2,840m) Manali — Beas Kund Trailhead",
+            seoDescription: "Explore Dhundi (2,840m) near Solang Valley. Official starting point for Beas Kund glacier trek, climbing base for Friendship Peak, South Portal approach."
           },
           {
             id: "bijli-mahadev",
@@ -845,8 +845,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, it is a well-paved stone staircase trail of 3 km from Chansari with resting benches, easily manageable in 2–3 hours at a relaxed pace."
               }
             ],
-            seoTitle: "Bijli Mahadev Temple & Trek (2,460m) Kullu — Lightning Miracle & Guide",
-            seoDescription: "Complete guide to Bijli Mahadev Temple (2,460m) in Kullu. The lightning miracle Shiva lingam, 3 km pine forest hike from Chansari, 360-degree valley vistas, and history."
+            seoTitle: "Bijli Mahadev Temple & Trek (2,460m) Kullu — Guide",
+            seoDescription: "Complete guide to Bijli Mahadev Temple (2,460m) in Kullu. The lightning miracle Shiva lingam, 3 km pine forest hike from Chansari, 360-degree valley."
           },
           {
             id: "atal-tunnel",
@@ -876,7 +876,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, the tunnel operates year-round, keeping Lahaul connected even when Rohtang Pass is closed under 20 feet of snow."
               }
             ],
-            seoTitle: "Atal Tunnel Rohtang (9.02km) — World's Longest Highway Tunnel Guide",
+            seoTitle: "Atal Tunnel Rohtang (9.02km) Guide",
             seoDescription: "Essential guide to Atal Tunnel (Rohtang). 9.02 km engineering marvel connecting Manali and Lahaul, speed rules, South & North portals, and day trip itineraries."
           },
           {
@@ -906,7 +906,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, the Atal Tunnel keeps the road to Sissu open through most of the winter, allowing visitors to enjoy pristine snow without climbing Rohtang Pass."
               }
             ],
-            seoTitle: "Sissu Waterfall & Lake (3,120m) — Day Trip from Manali via Atal Tunnel",
+            seoTitle: "Sissu Waterfall & Lake (3,120m) Guide",
             seoDescription: "Plan your visit to Sissu (3,120m) from Manali via Atal Tunnel. 50m Palden Lhamo Waterfall, Sissu Lake, ziplining, winter snow points, and Chandra river views."
           },
           {
@@ -936,8 +936,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "December through April offers heavy snow cover for sledding and snow-tubing, while May to June provides snow patches alongside blooming alpine wildflowers."
               }
             ],
-            seoTitle: "Koksar Snow Point (3,140m) Lahaul — Day Trip from Manali & Snow Sports",
-            seoDescription: "Visitor guide to Koksar (3,140m), the historic first village of Lahaul. Winter snow tubing, Chandra river valley, Atal Tunnel access, and road to Spiti via Gramphu."
+            seoTitle: "Koksar Snow Point (3,140m) Lahaul — Day Trip from Manali",
+            seoDescription: "Visitor guide to Koksar (3,140m), the historic first village of Lahaul. Winter snow tubing, Chandra river valley, Atal Tunnel access, and road to Spiti."
           }
         ]
       },
@@ -975,7 +975,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The depth of Prashar Lake has never been accurately measured; according to local legends and diver attempts, the lake is fed by subterranean mountain aquifers of unknown depth."
               }
             ],
-            seoTitle: "Prashar Lake & Pagoda Temple (2,730m) Mandi — Trek & Visitor Guide",
+            seoTitle: "Prashar Lake & Pagoda Temple (2,730m) Mandi — Trek",
             seoDescription: "Discover Prashar Lake (2,730m) in Mandi. Mystical floating island, 13th-century 3-tiered pagoda temple, Baggi forest trek, camping guidelines, and 3D map."
           },
           {
@@ -1002,7 +1002,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "It is sacred to Buddhists as the site of Guru Padmasambhava's miracle and departure to Tibet, to Hindus for Sage Lomas's penance to Lord Shiva, and to Sikhs for Guru Gobind Singh's visit in 1701."
               }
             ],
-            seoTitle: "Rewalsar Lake (Tso Pema) — Sacred Buddhist, Hindu & Sikh Sanctuary",
+            seoTitle: "Rewalsar Lake (Tso Pema) — Sacred Buddhist",
             seoDescription: "Complete pilgrimage guide to Rewalsar Lake (1,360m) in Mandi. Guru Padmasambhava bronze statue, holy caves, monasteries, and multicultural history."
           },
           {
@@ -1029,7 +1029,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The Shanan funicular trolley was built in 1926 by British engineer Col. B.C. Batty to haul heavy machinery across the 2,500m mountain ridge between Joginder Nagar and Barot."
               }
             ],
-            seoTitle: "Barot Valley (1,830m) — Uhl River Trout Fishing & Adventure Guide",
+            seoTitle: "Barot Valley (1,830m) — Uhl River Trout Fishing",
             seoDescription: "Discover Barot Valley in Mandi. Pristine Uhl River trout fishing, British funicular trolley history, Nargu sanctuary trails, camping, and road access."
           },
           {
@@ -1056,7 +1056,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Because it features 81 historic stone-carved temples along the sacred Beas River, echoing the holy ghats and Shaivite pilgrimage tradition of Varanasi (Kashi)."
               }
             ],
-            seoTitle: "Mandi 'Chhoti Kashi' Heritage Guide — Panchvaktra Temple & Beas Ghats",
+            seoTitle: "Mandi 'Chhoti Kashi' Heritage Guide — Panchvaktra Temple",
             seoDescription: "Explore Mandi (Chhoti Kashi) in Himachal Pradesh. 81 ancient stone Shiva temples, 16th-century Panchvaktra confluence shrine, and International Shivratri guide."
           },
           {
@@ -1082,7 +1082,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "No. Local religious belief dictates that any attempt to remove the holy offerings from the lake invites severe divine retribution, ensuring the treasures have remained untouched for centuries."
               }
             ],
-            seoTitle: "Kamrunag Lake Trek (3,334m) — Sacred Lake of Gold & Rain God",
+            seoTitle: "Kamrunag Lake Trek (3,334m) — Sacred Lake of Gold",
             seoDescription: "Guide to the mysterious Kamrunag Lake Trek (3,334m) in Mandi. Ancient gold and silver offering traditions, Rohanda forest trail, and local legends."
           }
         ]
@@ -1168,7 +1168,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Stay well-hydrated with 3–4 liters of water daily, avoid strenuous physical activity on Day 1, and adhere strictly to DHT's 3,000-Meter Altitude Safety rules."
               }
             ],
-            seoTitle: "Kaza (3,650m) Spiti Valley — Travel Guide, Monasteries & Permits",
+            seoTitle: "Kaza (3,650m) Spiti Valley — Travel Guide",
             seoDescription: "Essential guide to Kaza in Spiti Valley. Acclimatization tips, homestays, inner-line permits, fuel, best cafes, and day excursions to high villages."
           },
           {
@@ -1221,7 +1221,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes! The Hikkim post office has operated since 1983; postmen carry mail bags on foot down to Kaza daily to be forwarded worldwide."
               }
             ],
-            seoTitle: "Langza, Hikkim & Komic Circuit — World's Highest Post Office & Fossils",
+            seoTitle: "Langza, Hikkim & Komic Circuit — Fossils",
             seoDescription: "Guide to Spiti's highest villages: Langza (4,400m Buddha statue & fossils), Hikkim (4,440m post office), and Komic (4,587m Tangyud Monastery)."
           },
           {
@@ -1246,7 +1246,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The bridge sits at an altitude of 4,150 meters above sea level and spans a 150-meter (500 ft) deep vertical canyon."
               }
             ],
-            seoTitle: "Chicham Bridge (4,150m) & Kibber Sanctuary — Highest Bridge in Asia",
+            seoTitle: "Chicham Bridge (4,150m) & Kibber Sanctuary Guide",
             seoDescription: "Visit Chicham Bridge (4,150m), Asia's highest suspension bridge over a 150m gorge. Snow leopard expeditions in Kibber Wildlife Sanctuary, route and photos."
           },
           {
@@ -1273,7 +1273,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The park is home to snow leopards, Siberian ibex, bharal (blue sheep), Tibetan wolves, red foxes, and Himalayan snowcocks."
               }
             ],
-            seoTitle: "Pin Valley National Park & Mudh (3,800m) — Spiti Wildlife Guide",
+            seoTitle: "Pin Valley NP & Mudh (3,800m) — Spiti Wildlife Guide",
             seoDescription: "Explore Pin Valley National Park and the colorful mountain village of Mudh. Snow leopard habitat, Buchen lamas, trekking trailheads, and permits."
           },
           {
@@ -1298,7 +1298,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Yes, Kunzum Pass (4,551m) is significantly higher than Rohtang Pass (3,978m) by nearly 600 meters."
               }
             ],
-            seoTitle: "Kunzum Pass (4,551m) Highway Guide — Lahaul to Spiti Gateway",
+            seoTitle: "Kunzum Pass (4,551m) Guide — Lahaul to Spiti Gateway",
             seoDescription: "Crossing Kunzum Pass (4,551m / 14,931 ft). Road conditions from Gramphu and Kaza, Chandratal hike trailhead, Kunzum Mata shrine, and Bara Shigri glacier views."
           },
           {
@@ -1325,7 +1325,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "The Bhaga River originates from Suraj Tal, while the Chandra River originates near Chandratal; they merge at Tandi in Lahaul to form the mighty Chandrabhaga (Chenab) River."
               }
             ],
-            seoTitle: "Suraj Tal Lake (4,883m) & Baralacha La — Third Highest Lake in India",
+            seoTitle: "Suraj Tal Lake (4,883m) & Baralacha La Guide",
             seoDescription: "Explore Suraj Tal Lake (4,883m) and Baralacha La Pass (4,890m) on the Manali-Leh Highway. Source of Bhaga river, altitude precautions, and photography spots."
           },
           {
@@ -1350,7 +1350,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Before the tunnel, Keylong was cut off for 6 months every winter by snow at Rohtang Pass. The Atal Tunnel now provides year-round road connectivity in under 2 hours from Manali."
               }
             ],
-            seoTitle: "Keylong & Kardang Monastery (3,080m) — Lahaul Capital & Guide",
+            seoTitle: "Keylong & Kardang Monastery (3,080m) — Lahaul Capital",
             seoDescription: "Discover Keylong in Lahaul. 900-year-old Kardang Monastery of the Drukpa Kagyu order, Bhaga valley trails, homestays, and Atal Tunnel road access."
           }
         ]
@@ -1419,7 +1419,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "It is constructed in classical Kath-Kuni style—interlocking wooden beams without mortar—making it extraordinarily resilient to Himalayan earthquakes for over a millennium."
               }
             ],
-            seoTitle: "Sangla Valley & Kamru Fort (2,680m) — Baspa Valley Heritage Guide",
+            seoTitle: "Sangla Valley & Kamru Fort (2,680m) Guide",
             seoDescription: "Explore Sangla Valley and the ancient 5-story Kamru Fort in Kinnaur. Baspa river apple orchards, Kath-Kuni timber architecture, and travel tips."
           },
           {
@@ -1444,7 +1444,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Nako Monastery dates back to the 11th century (1025 CE) and is associated with the great Buddhist scholar Lotsawa Rinchen Zangpo."
               }
             ],
-            seoTitle: "Nako Lake & 11th-Century Monastery (3,662m) — Upper Kinnaur Oasis",
+            seoTitle: "Nako Lake & 11th-Century Monastery (3,662m) Guide",
             seoDescription: "Complete guide to Nako Lake (3,662m) and the 11th-century Nako Gompa in Upper Kinnaur. Tibetan murals, Padmasambhava footprints, and Reo Purgyil views."
           },
           {
@@ -1497,7 +1497,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Indian citizens do not require permits for Kinnaur or the road to Spiti; only valid government photo ID is required at routine border checkpoints."
               }
             ],
-            seoTitle: "Reckong Peo (2,290m) — Kinnaur Capital, Permits & Kinner Kailash Views",
+            seoTitle: "Reckong Peo (2,290m) — Kinnaur Capital",
             seoDescription: "Visit Reckong Peo, headquarters of Kinnaur District. Inner Line Permit guidelines, apple orchards, bazaar guide, and Kinner Kailash viewpoints."
           }
         ]
