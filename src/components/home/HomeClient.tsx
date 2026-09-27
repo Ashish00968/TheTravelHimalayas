@@ -539,6 +539,7 @@ function DesktopHero() {
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
             alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
             fill
+            priority
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
           />
