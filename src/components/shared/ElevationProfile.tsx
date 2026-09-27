@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface ItineraryDay {
   day: number;
@@ -12,6 +12,7 @@ interface ItineraryDay {
 
 export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
   const [hoveredDay, setHoveredDay] = useState<number | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   // Filter out days without elevation
   const points = itinerary.filter((d) => d.elevationMeters !== undefined);
@@ -88,12 +89,13 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
             <motion.path
               d={fillPathD}
               fill="url(#elevationGradient)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: shouldReduceMotion ? 0 : 0.3 }}
             />
 
-            {/* Main Line */}
+            {/* Main Line: Animated Draw-On with Hero Spring Config */}
             <motion.path
               d={pathD}
               fill="none"
@@ -101,9 +103,14 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
+              initial={shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 90, damping: 28, restDelta: 0.001 }
+              }
             />
 
             {/* Points and Tooltips */}
