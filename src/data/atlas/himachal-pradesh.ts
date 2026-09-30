@@ -392,6 +392,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Solang Valley",
             type: "adventure",
             emoji: "🎿",
+            heroImage: "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/4GoingtoSolangVillage.jpg",
+            image: "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/4GoingtoSolangVillage.jpg",
             coords: [32.3150, 77.1580],
             elevation: "2,560 m",
             bestSeason: "Year-round",
