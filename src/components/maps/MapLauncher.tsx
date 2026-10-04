@@ -20,16 +20,15 @@ export function MapLauncher({ treks }: MapLauncherProps) {
 
   if (isMapActive) {
     return (
-      <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-surface">
+      <div className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-surface">
         <GlobalMap treks={treks} initialFocusId={focusParam} />
       </div>
     );
   }
 
-
   return (
     <div 
-      className="w-full min-h-[500px] sm:min-h-[550px] lg:min-h-[680px] rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-5 sm:p-8 md:p-12 transition-all duration-500"
+      className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-5 sm:p-8 md:p-12 transition-all duration-500"
       style={{
         background: "radial-gradient(ellipse at 50% 30%, #151f32 0%, #080d18 60%, #03050a 100%)",
         border: "1px solid rgba(59,130,246,0.3)",

@@ -9,12 +9,13 @@ import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Atlas & Trail Directory — 50+ High-Altitude Treks & Summits",
+  title: "All 172 Himalayan Destinations & Trail Directory — Discover Himalayan Trails",
   description:
-    "Comprehensive directory of 50+ verified high-altitude treks, technical peaks, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir with 3D terrain maps.",
+    "Comprehensive master directory of all 172 verified high-altitude treks, technical peaks, sacred pilgrimage shrines, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir.",
   path: "/explore",
   keywords: [
     "Himalayan atlas",
+    "all Himalayan destinations",
     "Himalayan trekking directory",
     "best treks Indian Himalayas",
     "Himachal Pradesh trekking routes",
@@ -147,7 +148,7 @@ export default function ExplorePage() {
             </h2>
           </div>
           <p className="text-foreground/70 text-xs sm:text-sm font-light max-w-md">
-            Query 59 verified expeditions across the northern ranges. Filter by category, territory, and technical difficulty.
+            Query all 172 verified destinations and expeditions across the northern ranges. Filter by category, territory, and technical difficulty.
           </p>
         </div>
 

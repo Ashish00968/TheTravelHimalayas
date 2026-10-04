@@ -121,12 +121,14 @@ export function UttarakhandDivisionExplorer({
             {/* Preview Pills */}
             <div className="flex flex-wrap gap-1.5 mb-6">
               {cleanGarhwalDistricts.map((d) => (
-                <span
+                <Link
                   key={d.id}
-                  className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-foreground/[0.04] border border-foreground/[0.06] text-foreground/70"
+                  href={`/explore/${state}/${d.id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.06] hover:border-emerald-500/40 text-foreground/75 hover:text-foreground transition-all"
                 >
                   {d.name}
-                </span>
+                </Link>
               ))}
             </div>
           </div>
@@ -196,12 +198,14 @@ export function UttarakhandDivisionExplorer({
             {/* Preview Pills */}
             <div className="flex flex-wrap gap-1.5 mb-6">
               {kumaonDistricts.map((d) => (
-                <span
+                <Link
                   key={d.id}
-                  className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-foreground/[0.04] border border-foreground/[0.06] text-foreground/70"
+                  href={`/explore/${state}/${d.id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.06] hover:border-teal-500/40 text-foreground/75 hover:text-foreground transition-all"
                 >
                   {d.name}
-                </span>
+                </Link>
               ))}
             </div>
           </div>
@@ -315,24 +319,27 @@ export function UttarakhandDivisionExplorer({
               {/* Grid of Districts */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {(activeDivision === "Garhwal" ? cleanGarhwalDistricts : cleanKumaonDistricts).map((sub) => (
-                  <Link
+                  <div
                     key={sub.id}
-                    href={`/explore/${state}/${sub.id}`}
                     className="group relative rounded-3xl p-6 sm:p-8 transition-all duration-300 flex flex-col justify-between min-h-[220px] glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-md hover:shadow-xl bg-background/50"
                   >
                     <div className="relative z-10">
                       <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h4 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-1 group-hover:text-primary transition-colors">
+                        <Link href={`/explore/${state}/${sub.id}`} className="group/title">
+                          <h4 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-1 group-hover/title:text-primary transition-colors">
                             {sub.name}
                           </h4>
                           <p className="text-xs font-mono font-semibold" style={{ color: accentColor }}>
                             {sub.places.length} destinations
                           </p>
-                        </div>
-                        <div className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 group-hover:text-foreground group-hover:bg-foreground/[0.08]">
+                        </Link>
+                        <Link
+                          href={`/explore/${state}/${sub.id}`}
+                          aria-label={`Explore ${sub.name} district`}
+                          className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 hover:text-foreground hover:bg-foreground/[0.08]"
+                        >
                           <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                        </div>
+                        </Link>
                       </div>
 
                       {sub.tagline && (
@@ -344,13 +351,14 @@ export function UttarakhandDivisionExplorer({
 
                     <div className="relative z-10 flex flex-wrap gap-1.5 pt-4 border-t border-foreground/[0.08]">
                       {sub.places.slice(0, 3).map((p: HimalayaPlace) => (
-                        <span
+                        <Link
                           key={p.id}
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-foreground/[0.04] border border-foreground/[0.08] text-foreground/75"
+                          href={`/explore/${state}/${sub.id}/${p.id}`}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.08] hover:border-foreground/[0.22] text-foreground/75 hover:text-foreground transition-all duration-200"
                         >
                           <span>{p.emoji}</span>
                           <span>{p.name}</span>
-                        </span>
+                        </Link>
                       ))}
                       {sub.places.length > 3 && (
                         <span className="text-foreground/40 text-[11px] font-mono px-2 py-1">
@@ -358,7 +366,7 @@ export function UttarakhandDivisionExplorer({
                         </span>
                       )}
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>

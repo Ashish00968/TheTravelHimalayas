@@ -215,9 +215,8 @@ export default async function StateHub({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {region.subregions.map((sub) => (
-                  <Link
+                  <div
                     key={sub.id}
-                    href={`/explore/${state}/${sub.id}`}
                     className="group relative rounded-3xl p-8 transition-all duration-300 flex flex-col justify-between min-h-[260px] glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-lg hover:shadow-xl"
                   >
                     <div 
@@ -230,19 +229,21 @@ export default async function StateHub({
 
                     <div className="relative z-10">
                       <div className="flex justify-between items-start mb-5">
-                        <div>
-                          <h3 className="font-display tracking-tight font-bold text-2xl text-foreground mb-1.5 group-hover:text-primary transition-colors">
+                        <Link href={`/explore/${state}/${sub.id}`} className="group/title">
+                          <h3 className="font-display tracking-tight font-bold text-2xl text-foreground mb-1.5 group-hover/title:text-primary transition-colors">
                             {sub.name}
                           </h3>
                           <p className="text-xs font-mono font-semibold" style={{ color: style.accent }}>
                             {sub.places.length} destinations
                           </p>
-                        </div>
-                        <div 
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 group-hover:text-foreground group-hover:bg-foreground/[0.08]"
+                        </Link>
+                        <Link
+                          href={`/explore/${state}/${sub.id}`}
+                          aria-label={`Explore ${sub.name} valley`}
+                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-foreground/[0.04] text-foreground/50 hover:text-foreground hover:bg-foreground/[0.08]"
                         >
                           <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-                        </div>
+                        </Link>
                       </div>
 
                       {sub.tagline && (
@@ -254,13 +255,14 @@ export default async function StateHub({
 
                     <div className="relative z-10 flex flex-wrap gap-2 pt-5 border-t border-foreground/[0.08]">
                       {sub.places.slice(0, 3).map((p) => (
-                        <span
+                        <Link
                           key={p.id}
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.08] text-foreground/75"
+                          href={`/explore/${state}/${sub.id}/${p.id}`}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.08] hover:border-foreground/[0.22] text-foreground/80 hover:text-foreground transition-all duration-200"
                         >
                           <span>{p.emoji}</span>
                           <span>{p.name}</span>
-                        </span>
+                        </Link>
                       ))}
                       {sub.places.length > 3 && (
                         <span className="text-foreground/40 text-[11px] font-mono px-2 py-1.5">
@@ -268,7 +270,7 @@ export default async function StateHub({
                         </span>
                       )}
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>

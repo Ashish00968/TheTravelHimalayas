@@ -1458,7 +1458,7 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
               href="/explore"
               className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-[0.16em] text-primary hover:text-foreground transition-colors group py-1"
             >
-              <span>View All (59+)</span>
+              <span>View All 172 Destinations</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -1668,6 +1668,38 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                 />
               </button>
             ))}
+          </div>
+
+          {/* Quick-Nav Popular Trails Directory Strip */}
+          <div className="mt-4 pt-4 border-t border-border/60 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[10px] uppercase font-bold tracking-wider text-muted-foreground">
+                More Trails:
+              </span>
+              {[
+                { name: "Valley of Flowers", href: "/explore/uttarakhand/chamoli/valley-of-flowers" },
+                { name: "Char Dham Yatra", href: "/explore/uttarakhand/garhwal/char-dham" },
+                { name: "Kashmir Great Lakes", href: "/explore/jammu-kashmir/kashmir/kashmir-great-lakes" },
+                { name: "Tarsar Marsar", href: "/explore/jammu-kashmir/kashmir/tarsar-marsar" },
+                { name: "Markha Valley", href: "/explore/ladakh/leh/markha-valley" },
+                { name: "Roopkund", href: "/explore/uttarakhand/chamoli/roopkund-trek" },
+              ].map((trail) => (
+                <Link
+                  key={trail.href}
+                  href={trail.href}
+                  className="px-2.5 py-1 rounded-lg bg-card/80 hover:bg-primary/10 border border-border/60 hover:border-primary/40 text-foreground/80 hover:text-primary transition-all font-medium text-[11px]"
+                >
+                  {trail.name}
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              href="/explore"
+              className="font-mono text-xs font-bold text-primary hover:underline inline-flex items-center gap-1"
+            >
+              Browse All 172 Destinations &rarr;
+            </Link>
           </div>
         </div>
       </div>

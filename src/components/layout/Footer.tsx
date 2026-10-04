@@ -103,6 +103,11 @@ export function Footer() {
             </p>
             <ul className="space-y-4">
               <li>
+                <Link href="/explore" className="text-primary hover:underline text-sm font-semibold transition-colors flex items-center gap-1.5">
+                  <Compass className="w-3.5 h-3.5" /> All Destinations (172)
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5" /> Contact
                 </Link>
@@ -125,6 +130,45 @@ export function Footer() {
             </ul>
           </div>
 
+        </div>
+
+        {/* Popular Himalayan Expeditions & High Passes Directory */}
+        <div className="mb-12 pt-8 border-t border-slate-200/60 dark:border-white/[0.06]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+            <p className="font-mono text-[10px] uppercase font-bold tracking-[0.2em] text-foreground/75">
+              Popular Himalayan Trails &amp; High Passes
+            </p>
+            <Link
+              href="/explore"
+              className="text-xs font-mono font-bold text-primary hover:underline flex items-center gap-1"
+            >
+              View Full Atlas Directory (172 Places) →
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: "Hampta Pass (4,270m)", href: "/explore/himachal-pradesh/kullu/hampta-pass" },
+              { name: "Beas Kund (3,700m)", href: "/explore/himachal-pradesh/kullu/beas-kund" },
+              { name: "Patalsu Peak (4,261m)", href: "/explore/himachal-pradesh/kullu/patalsu-peak" },
+              { name: "Bhrigu Lake (4,300m)", href: "/explore/himachal-pradesh/kullu/bhrigu-lake" },
+              { name: "Pin Parvati Pass (5,319m)", href: "/explore/himachal-pradesh/kullu/pin-parvati-pass" },
+              { name: "Valley of Flowers (3,658m)", href: "/explore/uttarakhand/chamoli/valley-of-flowers" },
+              { name: "Garhwal Char Dham (3,584m)", href: "/explore/uttarakhand/garhwal/char-dham" },
+              { name: "Roopkund Lake (4,800m)", href: "/explore/uttarakhand/chamoli/roopkund-trek" },
+              { name: "Kashmir Great Lakes (4,190m)", href: "/explore/jammu-kashmir/kashmir/kashmir-great-lakes" },
+              { name: "Tarsar Marsar (4,020m)", href: "/explore/jammu-kashmir/kashmir/tarsar-marsar" },
+              { name: "Markha Valley (5,200m)", href: "/explore/ladakh/leh/markha-valley" },
+              { name: "Pangong Tso (4,225m)", href: "/explore/ladakh/leh/pangong-tso" },
+            ].map((trail) => (
+              <Link
+                key={trail.href}
+                href={trail.href}
+                className="text-[11px] font-medium px-3 py-1.5 rounded-xl bg-foreground/[0.03] hover:bg-foreground/[0.08] border border-foreground/[0.06] hover:border-primary/40 text-foreground/75 hover:text-foreground transition-all duration-200"
+              >
+                {trail.name}
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* Development & Legal Disclaimer Box */}
