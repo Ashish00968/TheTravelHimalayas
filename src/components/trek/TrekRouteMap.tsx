@@ -2,8 +2,29 @@
 
 import React from "react";
 import Link from "next/link";
-import { Map, MapPin, Navigation, ArrowUpRight, Compass } from "lucide-react";
+import dynamic from "next/dynamic";
+import {
+  Map,
+  MapPin,
+  Navigation,
+  ArrowUpRight,
+  Compass,
+  Download,
+  ShieldCheck,
+  Smartphone,
+  AlertTriangle,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { getRouteData } from "@/data/routes";
+
+const RouteMap3D = dynamic(() => import("@/components/maps/RouteMap3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full min-h-[480px] rounded-3xl bg-slate-900/60 border border-white/10 flex items-center justify-center animate-pulse">
+      <div className="w-8 h-8 border-2 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin" />
+    </div>
+  ),
+});
 
 interface TrekRouteMapProps {
   title: string;
@@ -44,6 +65,7 @@ export function TrekRouteMap({
 
   const waypointCount = pathCoords?.length || 0;
   const hasCoordinates = Boolean(coords && coords[0] !== 0);
+  const routeData = isPatalsu ? getRouteData(slug) : null;
 
   return (
     <motion.section 
@@ -148,7 +170,7 @@ export function TrekRouteMap({
             <span>GPS Coordinates</span>
           </div>
           <h3 className="font-display font-bold text-lg text-slate-900 dark:text-white mb-1 font-mono">
-            {hasCoordinates ? `${coords![0].toFixed(4)}° N, ${coords![1].toFixed(4)}° E` : "32.3547° N, 77.1939° E"}
+            {hasCoordinates ? `${coords![0].toFixed(4)}° N, ${coords![1].toFixed(4)}° E` : "32.3539° N, 77.1911° E"}
           </h3>
           <p className="text-slate-600 dark:text-slate-300 text-xs font-light font-mono">
             {waypointCount > 0 ? `${waypointCount} verified trail waypoints` : "Mapped trail route"}
@@ -156,47 +178,131 @@ export function TrekRouteMap({
         </motion.div>
       </div>
 
-      {/* Geospatial Map Visual Representation Banner */}
-      <motion.div 
-        whileHover={shouldReduceMotion ? undefined : { borderColor: `${style.accent}40` }}
-        transition={{ duration: 0.3 }}
-        className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 dark:from-[#080e1a] dark:to-[#040812] border border-slate-800 dark:border-white/10 shadow-xl dark:shadow-2xl transition-all preserve-white-text dark-photo-card"
-      >
-        <div className="relative z-10 max-w-xl">
-          <span 
-            className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1 rounded-full border inline-block mb-3"
-            style={{
-              backgroundColor: `${style.accent}15`,
-              color: style.accent,
-              borderColor: `${style.accent}30`,
-            }}
-          >
-            Topological Route
-          </span>
-          <h3 className="font-display font-bold text-2xl text-white mb-2">
-            {isPatalsu
-              ? `Ridge Traversal Profile • ${distance}`
-              : `Trail Traversal Profile • ${distance}`}
-          </h3>
-          <p className="text-white/80 font-light text-sm leading-relaxed mb-6">
-            {isPatalsu
-              ? "The route leaves the Solang riverbed, follows ancient stone goat trails through the oak forest, ascends the wide Shagadugh saddle, and traces the sharp northern shale arête directly to the summit cairn."
-              : `The trail departs from ${startPoint.split("(")[0].trim()}, ascending steadily through the alpine geography of ${subRegionName} toward the high altitude elevation marker at ${maxAltitude}.`}
-          </p>
-          <div className="flex items-center gap-4 flex-wrap text-xs font-mono text-white/70">
-            <span>&bull; Trailhead: {isPatalsu ? "Solang Village (2,480m)" : startPoint.split("(")[0].trim()}</span>
-            {isPatalsu && <span>&bull; Mid Camp: Shagadugh (3,250m)</span>}
-            <span>&bull; High Point: {maxAltitude}</span>
+      {/* Route Visualization — Interactive 3D Terrain Map for Verified GPX Routes */}
+      {routeData ? (
+        <RouteMap3D
+          routeData={routeData}
+          placeName={title}
+          placeSlug={slug}
+          maxAltitude={maxAltitude}
+          distance={distance}
+          accentColor={style.accent}
+          isPatalsu={isPatalsu}
+        />
+      ) : (
+        /* Geospatial Map Visual Representation Banner (Fallback for Non-GPX Routes) */
+        <motion.div 
+          whileHover={shouldReduceMotion ? undefined : { borderColor: `${style.accent}40` }}
+          transition={{ duration: 0.3 }}
+          className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 dark:from-[#080e1a] dark:to-[#040812] border border-slate-800 dark:border-white/10 shadow-xl dark:shadow-2xl transition-all preserve-white-text dark-photo-card"
+        >
+          <div className="relative z-10 max-w-xl">
+            <span 
+              className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1 rounded-full border inline-block mb-3"
+              style={{
+                backgroundColor: `${style.accent}15`,
+                color: style.accent,
+                borderColor: `${style.accent}30`,
+              }}
+            >
+              Topological Route
+            </span>
+            <h3 className="font-display font-bold text-2xl text-white mb-2">
+              Trail Traversal Profile • {distance}
+            </h3>
+            <p className="text-white/80 font-light text-sm leading-relaxed mb-6">
+              The trail departs from {startPoint.split("(")[0].trim()}, ascending steadily through the alpine geography of {subRegionName} toward the high altitude elevation marker at ${maxAltitude}.
+            </p>
+            <div className="flex items-center gap-4 flex-wrap text-xs font-mono text-white/70">
+              <span>&bull; Trailhead: {startPoint.split("(")[0].trim()}</span>
+              <span>&bull; High Point: {maxAltitude}</span>
+            </div>
+          </div>
+
+          {/* Ambient Map Grid Watermark Effect */}
+          <div className="absolute right-4 bottom-4 sm:right-8 sm:bottom-8 opacity-20 pointer-events-none text-white font-mono text-[10px] space-y-1">
+            <div>LAT: {hasCoordinates ? coords![0].toFixed(4) : "32.3539"} N</div>
+            <div>LON: {hasCoordinates ? coords![1].toFixed(4) : "77.1911"} E</div>
+            <div>DATUM: WGS 84</div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── Phase 2 GPX Download Block (P2-08 & P2-09, Statically Pre-rendered for Googlebot & Users) ── */}
+      {routeData && (
+        <div className="mt-8 p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-100/90 dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-200/80 dark:border-white/10">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">
+                  Verified GPS Trace
+                </span>
+                <span className="text-[10px] font-mono text-slate-500 dark:text-white/40">
+                  WGS 84 • {routeData.stats.pointCount} Waypoints
+                </span>
+              </div>
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight mb-2">
+                Download GPX for {title}
+              </h2>
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-light max-w-2xl leading-relaxed">
+                Download the verified high-resolution GPS trail trace for {title}, recorded and validated directly on the mountain trail. Compatible with all handheld GPS units and smartphone navigation apps for offline route-finding.
+              </p>
+            </div>
+
+            <a
+              href={`/gpx/dht-${slug}.gpx`}
+              download={`dht-${slug}.gpx`}
+              onClick={() => {
+                if (typeof window !== "undefined" && typeof (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag === "function") {
+                  (window as unknown as { gtag: (...args: unknown[]) => void }).gtag("event", "gpx_download", {
+                    place_id: slug,
+                    file_name: `dht-${slug}.gpx`,
+                  });
+                }
+              }}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl sm:rounded-2xl bg-primary hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 flex-shrink-0 min-h-[44px]"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download GPX (95 KB)</span>
+            </a>
+          </div>
+
+          <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-mono">
+            <div>
+              <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200 font-bold mb-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                <span>Ground Verification Record</span>
+              </div>
+              <p className="text-slate-600 dark:text-white/60 leading-relaxed font-sans text-xs">
+                Verified on 16 July 2020 • Recorded with Strava GPS / Phone by Ashish.
+                All personal biometric timestamps and heart-rate telemetry have been completely stripped for clean, lightweight offline navigation.
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200 font-bold mb-2">
+                <Smartphone className="w-4 h-4 text-cyan-500" />
+                <span>Device &amp; App Compatibility</span>
+              </div>
+              <ul className="text-slate-600 dark:text-white/60 space-y-1 font-sans text-xs">
+                <li>&bull; <strong>Garmin &amp; Suunto:</strong> Transfer file directly via Garmin Connect or Suunto App.</li>
+                <li>&bull; <strong>Gaia GPS &amp; AllTrails:</strong> Select &ldquo;Import GPX&rdquo; to sync offline topo route.</li>
+                <li>&bull; <strong>Organic Maps &amp; OsmAnd:</strong> Tap file on mobile to open in 100% offline maps.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-slate-200/80 dark:border-white/[0.06] flex items-center gap-2 text-[11px] text-slate-500 dark:text-white/45">
+            <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+            <span>
+              Alpine conditions, snowpack, and rockfall shift seasonally. A GPS track is a navigation aid, not a substitute for local guiding or weather vigilance. Review our{" "}
+              <Link href="/disclaimer" className="text-primary underline hover:text-primary/80">
+                Alpine Safety Disclaimer
+              </Link>.
+            </span>
           </div>
         </div>
-
-        {/* Ambient Map Grid Watermark Effect */}
-        <div className="absolute right-4 bottom-4 sm:right-8 sm:bottom-8 opacity-20 pointer-events-none text-white font-mono text-[10px] space-y-1">
-          <div>LAT: {hasCoordinates ? coords![0].toFixed(4) : "32.3547"} N</div>
-          <div>LON: {hasCoordinates ? coords![1].toFixed(4) : "77.1939"} E</div>
-          <div>DATUM: WGS 84</div>
-        </div>
-      </motion.div>
+      )}
     </motion.section>
   );
 }

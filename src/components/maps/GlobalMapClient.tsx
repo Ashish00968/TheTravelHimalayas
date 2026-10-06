@@ -9,6 +9,7 @@ import {
   ChevronRight,
   ChevronLeft,
   RotateCcw,
+  RotateCw,
   ArrowUpRight,
   X,
   Compass,
@@ -23,6 +24,8 @@ import {
   Play,
   Plus,
   Minus,
+  Maximize2,
+  Minimize2,
   Navigation as NavigationIcon,
 } from "lucide-react";
 import { Trek } from "@/data/types";
@@ -49,50 +52,253 @@ const TERRITORY_ACCENT: Record<string, string> = {
   uttarakhand:        "#0D9488", // Emerald Pine
 };
 
-/* ── Territory Camera Presets with dramatic 3D pitch aimed at mountain massifs ──── */
+/* ── Territory Camera Presets: South-Offset Northward Look ──────────────────
+ *  Camera is positioned south of each territory, aimed Northward (bearing: 350°–15°)
+ *  with steep 75° pitch so the colossal snow walls tower majestically across the frame.
+ * ────────────────────────────────────────────────────────────────────────── */
 const TERRITORY_CAM: Record<string, [number, number, number, number, number]> = {
-  // [lat, lng, zoom, pitch, bearing] - oriented looking northeast/east towards snowy peaks
-  "jammu-kashmir":    [33.7,  74.8,  8.2, 70, 28],
-  "himachal-pradesh": [31.8,  77.1,  8.4, 72, 18],
-  ladakh:             [34.1,  77.5,  7.8, 68, -8],
-  uttarakhand:        [30.2,  79.2,  8.3, 72, 22],
+  // [lat, lng, zoom, pitch, bearing]
+  "jammu-kashmir":    [32.30, 74.80, 8.0, 75, 10],  // South of Pir Panjal, looking north across Kashmir valley
+  "himachal-pradesh": [30.90, 77.10, 8.2, 75, 5],   // Foothills south of Kalka, looking north into Pir Panjal & Great Himalayas
+  ladakh:             [32.80, 77.50, 7.8, 75, 355], // South looking north across Zanskar & Indus to Karakoram
+  uttarakhand:        [29.40, 79.00, 8.0, 75, 5],   // South looking north into Nanda Devi & Kedarnath massifs
 };
 
-/* ── 27 Subregion / Valley Precision 3D Camera Targets ─────────────────────── */
+/* ── 27 Subregion / Valley Precision 3D Camera Targets (South-Offset) ─────── */
 const SUBREGION_CAM: Record<string, [number, number, number, number, number]> = {
   // Jammu & Kashmir
-  jammu:               [33.35, 74.80,  9.6, 68, 10],
-  kashmir:             [34.10, 74.90,  9.8, 68, 15],
+  jammu:               [32.80, 75.28, 10.0, 68, 5],
+  kashmir:             [33.60, 74.90, 10.0, 68, 5],
   // Himachal Pradesh
-  chamba:              [32.65, 76.25, 10.0, 68, 8],
-  kangra:              [32.22, 76.38, 10.2, 68, 6],
-  kullu:               [32.18, 77.22, 10.2, 68, 4],
-  mandi:               [31.73, 76.96, 10.1, 68, 6],
-  "lahaul-spiti":      [32.32, 77.78,  9.5, 68, 356],
-  kinnaur:             [31.52, 78.36, 10.0, 68, 12],
+  chamba:              [32.25, 76.25, 10.0, 68, 8],
+  kangra:              [31.90, 76.35, 10.2, 68, 6],
+  kullu:               [31.80, 77.15, 10.2, 70, 5],
+  mandi:               [31.30, 76.93, 10.5, 68, 5],
+  "lahaul-spiti":      [31.80, 77.80,  9.6, 68, 5],
+  kinnaur:             [31.10, 78.35, 10.5, 68, 15],
   // Uttarakhand - Garhwal
-  garhwal:             [30.74, 79.49, 10.0, 68, 6],
-  chamoli:             [30.63, 79.55, 10.0, 68, 8],
-  rudraprayag:         [30.56, 79.11, 10.2, 68, 5],
-  uttarkashi:          [30.95, 78.59,  9.8, 68, 6],
-  "pauri-garhwal":     [30.03, 78.79, 10.1, 68, 5],
-  "tehri-garhwal":     [30.31, 78.47, 10.1, 68, 8],
-  dehradun:            [30.42, 78.06, 10.2, 68, 4],
-  haridwar:            [29.96, 78.17, 10.4, 66, 2],
+  garhwal:             [30.20, 79.10, 10.0, 68, 5],
+  chamoli:             [30.20, 79.50, 10.0, 68, 8],
+  rudraprayag:         [30.20, 79.05, 10.2, 68, 5],
+  uttarkashi:          [30.50, 78.55,  9.8, 68, 6],
+  "pauri-garhwal":     [29.70, 78.80, 10.1, 68, 5],
+  "tehri-garhwal":     [30.00, 78.45, 10.1, 68, 8],
+  dehradun:            [30.10, 78.05, 10.2, 68, 4],
+  haridwar:            [29.75, 78.15, 10.4, 66, 2],
   // Uttarakhand - Kumaon
-  pithoragarh:         [30.18, 80.26,  9.7, 68, 8],
-  bageshwar:           [30.06, 79.81, 10.1, 68, 6],
-  almora:              [29.66, 79.67, 10.2, 68, 4],
-  nainital:            [29.45, 79.33, 10.2, 68, 5],
-  champawat:           [29.42, 80.07, 10.2, 68, 6],
-  "udham-singh-nagar": [28.96, 79.81, 10.4, 65, 0],
+  pithoragarh:         [29.70, 80.20,  9.8, 68, 8],
+  bageshwar:           [29.70, 79.80, 10.1, 68, 6],
+  almora:              [29.35, 79.65, 10.2, 68, 4],
+  nainital:            [29.15, 79.35, 10.2, 68, 5],
+  champawat:           [29.10, 80.05, 10.2, 68, 6],
+  "udham-singh-nagar": [28.70, 79.80, 10.4, 65, 0],
   // Ladakh
-  leh:                 [33.95, 77.75,  9.4, 68, 354],
-  kargil:              [34.27, 76.18,  9.8, 68, 8],
-  nubra:               [34.65, 77.29,  9.6, 68, 356],
-  drass:               [34.43, 75.74, 10.1, 68, 6],
-  zanskar:             [33.51, 76.98,  9.4, 68, 12],
+  leh:                 [33.50, 77.58,  9.5, 68, 355],
+  kargil:              [34.00, 76.15,  9.8, 68, 8],
+  nubra:               [34.20, 77.30,  9.6, 68, 355],
+  drass:               [34.10, 75.75, 10.0, 68, 6],
+  zanskar:             [33.10, 76.98,  9.5, 68, 10],
 };
+
+/* ── Screen-Space Marker Relaxation Algorithm ──────────────────────────────
+ *  Pushes adjacent markers apart in screen-pixel space so labels/pins never
+ *  overlap or occlude in dense mountain valleys. Runs 4 relaxation passes.
+/* ── Colour per Adventure Type (Matches Pahadi Trails Engine) ──────────── */
+const TYPE_COLOR: Record<string, string> = {
+  trek: "#4ab8a0",
+  peak: "#F59E0B",
+  lake: "#4a9de8",
+  spiritual: "#c47ef5",
+  scenic: "#7eb6e8",
+  adventure: "#e87a4a",
+  road: "#e8c97a",
+};
+
+/* ── DOM Marker Builders (Exact Pahadi Trails Architecture) ──────────────── */
+
+function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLElement {
+  const color = TYPE_COLOR[place.type] ?? "#e8c97a";
+  const el = document.createElement("div");
+  el.className = "group pointer-events-auto cursor-pointer";
+  el.style.cssText =
+    "display: flex; flex-direction: column; align-items: center; user-select: none; gap: 2px; cursor: pointer;";
+
+  const nameBox = document.createElement("div");
+  nameBox.style.cssText = `
+    padding: 2.5px 8px;
+    background: rgba(6, 8, 12, 0.94);
+    border: 1px solid ${isSelected ? "#F59E0B" : color + "80"};
+    border-radius: 3px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: ${isSelected ? "#F59E0B" : color};
+    white-space: nowrap;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.85);
+  `;
+  nameBox.textContent = place.name;
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", "14");
+  svg.setAttribute("height", "18");
+  svg.setAttribute("viewBox", "0 0 14 18");
+  svg.setAttribute("fill", "none");
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", "7");
+  line.setAttribute("y1", "0");
+  line.setAttribute("x2", "7");
+  line.setAttribute("y2", "8");
+  line.setAttribute("stroke", isSelected ? "#F59E0B" : color);
+  line.setAttribute("stroke-width", "1.4");
+  line.setAttribute("opacity", "0.85");
+
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circle.setAttribute("cx", "7");
+  circle.setAttribute("cy", "13");
+  circle.setAttribute("r", "4.5");
+  circle.setAttribute("fill", isSelected ? "#F59E0B" : color);
+  circle.setAttribute("stroke", "#06080c");
+  circle.setAttribute("stroke-width", "1.2");
+
+  svg.appendChild(line);
+  svg.appendChild(circle);
+
+  el.appendChild(nameBox);
+  el.appendChild(svg);
+
+  el.addEventListener("mouseenter", () => {
+    nameBox.style.borderColor = "#FFFFFF";
+    nameBox.style.color = "#FFFFFF";
+    nameBox.style.boxShadow = `0 4px 16px rgba(0,0,0,0.95), 0 0 12px ${color}88`;
+    circle.setAttribute("stroke", "#FFFFFF");
+  });
+
+  el.addEventListener("mouseleave", () => {
+    nameBox.style.borderColor = isSelected ? "#F59E0B" : color + "80";
+    nameBox.style.color = isSelected ? "#F59E0B" : color;
+    nameBox.style.boxShadow = "0 2px 10px rgba(0,0,0,0.85)";
+    circle.setAttribute("stroke", "#06080c");
+  });
+
+  return el;
+}
+
+function buildSubRegionMarkerEl(name: string, count: number, accent: string): HTMLElement {
+  const el = document.createElement("div");
+  el.className = "group pointer-events-auto cursor-pointer";
+  el.style.cssText =
+    "display: flex; flex-direction: column; align-items: center; user-select: none; gap: 3px; cursor: pointer;";
+
+  const nameBox = document.createElement("div");
+  nameBox.style.cssText = `
+    padding: 3px 9px;
+    background: rgba(6, 8, 12, 0.94);
+    border: 1px solid ${accent}80;
+    border-radius: 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: ${accent};
+    white-space: nowrap;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.85);
+  `;
+  nameBox.textContent = `${name} · ${count} EXPEDITIONS`;
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", "28");
+  svg.setAttribute("height", "36");
+  svg.setAttribute("viewBox", "0 0 32 42");
+  svg.setAttribute("fill", "none");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute(
+    "d",
+    "M16 2C9.37 2 4 7.37 4 14C4 24.5 16 40 16 40C16 40 28 24.5 28 14C28 7.37 22.63 2 16 2Z"
+  );
+  path.setAttribute("fill", `${accent}25`);
+  path.setAttribute("stroke", accent);
+  path.setAttribute("stroke-width", "1.8");
+
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circle.setAttribute("cx", "16");
+  circle.setAttribute("cy", "14");
+  circle.setAttribute("r", "5");
+  circle.setAttribute("fill", `${accent}40`);
+  circle.setAttribute("stroke", accent);
+  circle.setAttribute("stroke-width", "1.2");
+
+  svg.appendChild(path);
+  svg.appendChild(circle);
+
+  el.appendChild(nameBox);
+  el.appendChild(svg);
+
+  el.addEventListener("mouseenter", () => {
+    nameBox.style.borderColor = "#FFFFFF";
+    nameBox.style.color = "#FFFFFF";
+    path.setAttribute("stroke", "#FFFFFF");
+    circle.setAttribute("stroke", "#FFFFFF");
+  });
+
+  el.addEventListener("mouseleave", () => {
+    nameBox.style.borderColor = `${accent}80`;
+    nameBox.style.color = accent;
+    path.setAttribute("stroke", accent);
+    circle.setAttribute("stroke", accent);
+  });
+
+  return el;
+}
+
+function buildStateMarkerEl(
+  name: string,
+  emoji: string,
+  idx: number,
+  accent: string,
+  count: number,
+  subregionsCount: number
+): HTMLElement {
+  const el = document.createElement("div");
+  el.className = "group pointer-events-auto cursor-pointer";
+  el.style.cssText =
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer;";
+
+  el.innerHTML = `
+    <div class="state-marker-float" style="animation-delay: ${idx * 0.4}s; animation-duration: ${2.2 + idx * 0.4}s; display: flex; flex-direction: column; align-items: center;">
+      <span style="font-size: 26px; line-height: 1; margin-bottom: -4px; filter: drop-shadow(0 2px 8px rgba(0,0,0,1));">${emoji}</span>
+      <svg width="42" height="54" viewBox="0 0 42 54" fill="none">
+        <path d="M21 3L2 44H40L21 3Z" fill="${accent}" stroke="#06080c" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12 44L21 24L30 44Z" fill="#FFFFFF" opacity="0.3"/>
+        <path d="M15 18L9 34H23L15 18Z" fill="#FFFFFF" opacity="0.5"/>
+        <circle cx="21" cy="50" r="3.5" fill="${accent}" stroke="#06080c" stroke-width="1.2"/>
+        <line x1="21" y1="44" x2="21" y2="46.5" stroke="#06080c" stroke-width="1.2"/>
+      </svg>
+      <div style="margin-top: 6px; padding: 4px 10px; background: rgba(6, 8, 12, 0.94); border: 1px solid ${accent}80; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${accent}; white-space: nowrap; backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.85);">${name} · ${count} EXPEDITIONS · ${subregionsCount} VALLEYS</div>
+    </div>`;
+
+  return el;
+}
+
+export interface FlyingState {
+  name: string;
+  subtitle?: string;
+  category?: string;
+  elevation?: string;
+  accent?: string;
+  coords?: [number, number];
+}
 
 /* ── Place Type Filtering Metadata ───────────────────────────────────────── */
 const PLACE_TYPES = [
@@ -111,12 +317,15 @@ const ALL_PLACES: HimalayaPlace[] = himalayaAtlas.flatMap((r) =>
   r.subregions.flatMap((s) => s.places)
 );
 
+
 export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClientProps) {
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const routeListenersRef = useRef<{ layerId: string; fn: () => void }[]>([]);
+  const activeTrailIdsRef = useRef<Set<string>>(new Set());
 
   const initialPlaceLoc = initialFocusId ? placeLocationIndex.get(initialFocusId) : null;
 
@@ -127,8 +336,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
   const [typeFilter, setTypeFilter]               = useState<FilterType>("all");
   const [searchQuery, setSearchQuery]             = useState("");
   const [isTerritoryDrawerOpen, setIsTerritoryDrawerOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen]           = useState(false);
   const [mapLoaded, setMapLoaded]                 = useState(false);
   const [navigating, setNavigating]               = useState(false);
+  const [flyingState, setFlyingState]             = useState<FlyingState | null>(null);
 
   const [isOrbiting, setIsOrbiting]               = useState(false);
   const orbitAnimRef = useRef<number | null>(null);
@@ -190,13 +401,36 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
   // ── Cinematic 3D Camera Animation Engine ──────────────────────────────
   const flyTo = useCallback(
-    (lat: number, lng: number, zoom: number, pitch = 68, bearing = 0, duration = 2400) => {
+    (
+      lat: number,
+      lng: number,
+      zoom: number,
+      pitch = 68,
+      bearing = 0,
+      duration = 2400,
+      recon?: FlyingState,
+      onComplete?: () => void
+    ) => {
+      const map = mapRef.current;
+      if (!map) return;
+
       if (orbitAnimRef.current) {
         cancelAnimationFrame(orbitAnimRef.current);
         orbitAnimRef.current = null;
         setIsOrbiting(false);
       }
-      mapRef.current?.flyTo({
+
+      if (recon) {
+        setFlyingState(recon);
+      }
+
+      const onMoveEnd = () => {
+        setFlyingState(null);
+        onComplete?.();
+      };
+      map.once("moveend", onMoveEnd);
+
+      map.flyTo({
         center: [lng, lat],
         zoom,
         pitch,
@@ -269,6 +503,113 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     mapRef.current?.resetNorthPitch({ duration: 1000 });
   }, []);
 
+  const handleRotateCW = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const current = map.getBearing();
+    map.easeTo({ bearing: (current + 45) % 360, duration: 600 });
+  }, []);
+
+  const handleRotateCCW = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const current = map.getBearing();
+    map.easeTo({ bearing: (current - 45 + 360) % 360, duration: 600 });
+  }, []);
+
+  // ── Fullscreen Controls & Keyboard Shortcuts ─────────────────────────
+  const toggleFullscreen = useCallback(async () => {
+    if (!containerRef.current) return;
+    try {
+      const isCurrentlyFs = Boolean(
+        document.fullscreenElement ||
+          (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement
+      );
+
+      if (!isCurrentlyFs) {
+        const el = containerRef.current as HTMLElement & {
+          webkitRequestFullscreen?: () => Promise<void>;
+        };
+        if (el.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          await el.webkitRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } else {
+        const doc = document as Document & {
+          webkitExitFullscreen?: () => Promise<void>;
+        };
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen();
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen();
+        }
+        setIsFullscreen(false);
+      }
+    } catch {
+      // Fallback to CSS overlay fullscreen
+      setIsFullscreen((prev) => !prev);
+    }
+  }, []);
+
+  const exitFullscreen = useCallback(async () => {
+    try {
+      const isCurrentlyFs = Boolean(
+        document.fullscreenElement ||
+          (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement
+      );
+      if (isCurrentlyFs) {
+        const doc = document as Document & {
+          webkitExitFullscreen?: () => Promise<void>;
+        };
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen();
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen();
+        }
+      }
+    } catch {}
+    setIsFullscreen(false);
+  }, []);
+
+  // Sync native fullscreen state change (e.g. user presses Esc in browser)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFs = Boolean(
+        document.fullscreenElement ||
+          (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement
+      );
+      setIsFullscreen(isFs);
+      setTimeout(() => {
+        mapRef.current?.resize();
+      }, 80);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  // Lock body scroll and trigger map canvas resize when fullscreen changes
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    const timer = setTimeout(() => {
+      mapRef.current?.resize();
+    }, 120);
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = "";
+    };
+  }, [isFullscreen]);
+
   const handleReset = useCallback(() => {
     setActiveRegionId(null);
     setActiveSubRegionId(null);
@@ -282,7 +623,14 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       setActiveSubRegionId(null);
       setSelectedPlaceId(null);
       const cam = TERRITORY_CAM[regionId] ?? [INIT_CAM.lat, INIT_CAM.lng, INIT_CAM.zoom, INIT_CAM.pitch, 0];
-      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2400);
+      const region = himalayaAtlas.find((r) => r.id === regionId);
+      const accent = TERRITORY_ACCENT[regionId] ?? "#3B82F6";
+      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2400, {
+        name: region?.name ?? "Territory",
+        subtitle: `${region?.subregions.length ?? 0} Alpine Valleys`,
+        category: "TERRITORY OVERVIEW",
+        accent,
+      });
     },
     [flyTo]
   );
@@ -292,9 +640,16 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       setActiveSubRegionId(subRegionId);
       setSelectedPlaceId(null);
       const cam = SUBREGION_CAM[subRegionId] ?? [31.8, 77.2, 10.0, 68, 5];
-      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000);
+      const sub = activeRegion?.subregions.find((s) => s.id === subRegionId);
+      const accent = activeRegion ? TERRITORY_ACCENT[activeRegion.id] ?? "#3B82F6" : "#3B82F6";
+      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000, {
+        name: sub?.name ?? "Alpine Valley",
+        subtitle: `${sub?.places.length ?? 0} Expeditions`,
+        category: "VALLEY RECONNAISSANCE",
+        accent,
+      });
     },
-    [flyTo]
+    [flyTo, activeRegion]
   );
 
   const handleSelectPlace = useCallback(
@@ -306,7 +661,41 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       }
       setSelectedPlaceId(place.id);
       if (place.coords && place.coords.length === 2) {
-        flyTo(place.coords[0], place.coords[1], 12.8, 70, -15, 2000);
+        // South-Offset Northward Look: camera positioned ~2.4km south of summit looking North
+        const heading = 5;
+        const rad = (heading * Math.PI) / 180;
+        const dist = 0.022;
+        const camLat = place.coords[0] - dist * Math.cos(rad);
+        const camLng = place.coords[1] - dist * Math.sin(rad);
+        const accent = loc ? TERRITORY_ACCENT[loc.regionId] ?? "#3B82F6" : "#3B82F6";
+
+        flyTo(
+          camLat,
+          camLng,
+          13.2,
+          70,
+          heading,
+          2200,
+          {
+            name: place.name,
+            subtitle: loc ? `${loc.subRegionName} · ${loc.regionName}` : undefined,
+            category: place.type === "peak" ? "SUMMIT RECONNAISSANCE" : "EXPEDITION FOCUS",
+            elevation: place.elevation,
+            accent,
+            coords: place.coords,
+          },
+          () => {
+            // Post-summit panoramic sweep: smoothly ease bearing +35° over 4 seconds
+            const map = mapRef.current;
+            if (map && !map.isMoving()) {
+              map.easeTo({
+                bearing: map.getBearing() + 35,
+                duration: 4000,
+                easing: (t) => t,
+              });
+            }
+          }
+        );
       }
     },
     [flyTo]
@@ -317,6 +706,65 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     setNavigating(true);
     router.push(selectedPlaceLocation.href);
   }, [selectedPlaceLocation, router]);
+
+  // Chronological immediate back navigation: Level 3 (Place) -> Level 2 (Valley) -> Level 1 (Territory) -> Level 0 (Atlas)
+  const handleClosePlace = useCallback(() => {
+    setSelectedPlaceId(null);
+    if (activeSubRegionId) {
+      const cam = SUBREGION_CAM[activeSubRegionId] ?? [31.8, 77.2, 10.0, 68, 5];
+      const sub = activeRegion?.subregions.find((s) => s.id === activeSubRegionId);
+      const accent = activeRegion ? TERRITORY_ACCENT[activeRegion.id] ?? "#3B82F6" : "#3B82F6";
+      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 1800, {
+        name: sub?.name ?? "Alpine Valley",
+        subtitle: `${sub?.places.length ?? 0} Expeditions`,
+        category: "VALLEY RECONNAISSANCE",
+        accent,
+      });
+    } else if (activeRegionId) {
+      const cam = TERRITORY_CAM[activeRegionId] ?? [INIT_CAM.lat, INIT_CAM.lng, INIT_CAM.zoom, INIT_CAM.pitch, 0];
+      const region = himalayaAtlas.find((r) => r.id === activeRegionId);
+      const accent = TERRITORY_ACCENT[activeRegionId] ?? "#3B82F6";
+      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000, {
+        name: region?.name ?? "Territory",
+        subtitle: `${region?.subregions.length ?? 0} Alpine Valleys`,
+        category: "TERRITORY OVERVIEW",
+        accent,
+      });
+    } else {
+      handleReset();
+    }
+  }, [activeSubRegionId, activeRegionId, activeRegion, flyTo, handleReset]);
+
+  // Global keyboard shortcuts: 'F' toggles fullscreen, 'Escape' goes back chronologically or exits fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === "Escape") {
+        if (selectedPlaceId) {
+          e.preventDefault();
+          handleClosePlace();
+        } else if (isFullscreen) {
+          e.preventDefault();
+          exitFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleFullscreen, exitFullscreen, isFullscreen, selectedPlaceId, handleClosePlace]);
 
   // ── Map Initialization ────────────────────────────────────────────────
   useEffect(() => {
@@ -373,19 +821,67 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         "star-intensity": 0.85,
       });
 
+      // Suppress default vector labels, country borders, and roads to reveal raw cinematic satellite wilderness
+      const layers = map.getStyle()?.layers || [];
+      for (const layer of layers) {
+        if (
+          layer.type === "symbol" ||
+          layer.id.includes("road") ||
+          layer.id.includes("label") ||
+          layer.id.includes("admin") ||
+          layer.id.includes("border")
+        ) {
+          try {
+            map.setLayoutProperty(layer.id, "visibility", "none");
+          } catch {
+            // style layer might be non-configurable
+          }
+        }
+      }
+
       if (initialFocusId) {
         const target = ALL_PLACES.find((p) => p.id === initialFocusId);
         if (target?.coords && target.coords.length === 2) {
+          const tLat = target.coords[0];
+          const tLng = target.coords[1];
+          const offsetDist = 0.042;
+          const rad = (5 * Math.PI) / 180;
+          const camLat = tLat - offsetDist * Math.cos(rad);
+          const camLng = tLng - offsetDist * Math.sin(rad);
+
+          setFlyingState({
+            name: target.name,
+            category: target.type === "peak" ? "SUMMIT RECONNAISSANCE" : "EXPEDITION FOCUS",
+            elevation: target.elevation,
+            coords: [tLat, tLng],
+          });
+
           map.flyTo({
-            center: [target.coords[1], target.coords[0]],
-            zoom: 12.8,
-            pitch: 70,
-            bearing: -15,
-            duration: 2200,
+            center: [camLng, camLat],
+            zoom: 13.2,
+            pitch: 72,
+            bearing: 5,
+            duration: 2400,
             essential: true,
+          });
+
+          map.once("moveend", () => {
+            setFlyingState(null);
+            setTimeout(() => {
+              if (mapRef.current) {
+                mapRef.current.easeTo({
+                  bearing: 5 + 32,
+                  duration: 4000,
+                  easing: (t) => t * (2 - t),
+                });
+              }
+            }, 300);
           });
         }
       }
+
+      // Mapbox GL JS v3 natively computes 3D terrain elevation transforms
+      // in lockstep with the WebGL terrain canvas for all Markers.
 
       setMapLoaded(true);
     });
@@ -417,106 +913,102 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     }
     routeListenersRef.current = [];
 
+    // Clean up native 3D terrain beacon layers
+    if (map.getLayer("places-beacons-halo")) map.removeLayer("places-beacons-halo");
+    if (map.getLayer("places-beacons-core")) map.removeLayer("places-beacons-core");
+    if (map.getSource("places-beacons-source")) map.removeSource("places-beacons-source");
+
+    // Clean up all active trail sources and layers (both treks and atlas places)
+    activeTrailIdsRef.current.forEach((id) => {
+      const sId = `source-${id}`;
+      const lId = `layer-${id}`;
+      const gId = `glow-${id}`;
+      if (map.getLayer(lId)) map.removeLayer(lId);
+      if (map.getLayer(gId)) map.removeLayer(gId);
+      if (map.getSource(sId)) map.removeSource(sId);
+    });
+    activeTrailIdsRef.current.clear();
+
     for (const trek of treks) {
       const sId = `source-${trek.slug}`,
         lId = `layer-${trek.slug}`,
         gId = `glow-${trek.slug}`;
-      if (map.getLayer(gId)) map.removeLayer(gId);
       if (map.getLayer(lId)) map.removeLayer(lId);
+      if (map.getLayer(gId)) map.removeLayer(gId);
       if (map.getSource(sId)) map.removeSource(sId);
     }
 
     // ── LEVEL 0: Overview Mode (No Territory Selected) ───────────────────
-    // Instead of scattering 172 unreadable dots across the globe, render
-    // 4 clean, interactive 3D Territorial Crest Badges at their regional centroids
     if (!activeRegionId) {
-      const REGION_CENTROIDS: Record<string, { lat: number; lng: number; name: string; emoji: string }> = {
-        "jammu-kashmir":    { lat: 33.9, lng: 74.9, name: "Jammu & Kashmir", emoji: "🏔️" },
-        "himachal-pradesh": { lat: 32.1, lng: 77.2, name: "Himachal Pradesh", emoji: "🌲" },
-        uttarakhand:        { lat: 30.3, lng: 79.2, name: "Uttarakhand", emoji: "🌿" },
-        ladakh:             { lat: 34.1, lng: 77.4, name: "Ladakh", emoji: "🏜️" },
+      const REGION_CENTROIDS: Record<string, { lat: number; lng: number }> = {
+        "jammu-kashmir":    { lat: 33.7, lng: 74.8 },
+        "himachal-pradesh": { lat: 31.8, lng: 77.1 },
+        ladakh:             { lat: 34.1, lng: 77.5 },
+        uttarakhand:        { lat: 30.2, lng: 79.2 },
       };
 
-      for (const region of himalayaAtlas) {
+      himalayaAtlas.forEach((region, idx) => {
         const centroid = REGION_CENTROIDS[region.id];
-        if (!centroid) continue;
+        if (!centroid) return;
         const accent = TERRITORY_ACCENT[region.id] ?? "#3B82F6";
         const count = region.subregions.reduce((a, s) => a + s.places.length, 0);
 
-        const wrap = document.createElement("div");
-        wrap.style.cssText =
-          "position:relative; display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none; z-index:20;";
-
-        const badge = document.createElement("div");
-        badge.style.cssText = `
-          display: flex; align-items: center; gap: 8px;
-          padding: 8px 14px;
-          border-radius: 9999px;
-          background: rgba(5, 9, 20, 0.92);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1.5px solid ${accent}66;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${accent}33;
-          transform: translateY(0) scale(1);
-          transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
-        `;
-
-        badge.innerHTML = `
-          <span style="font-size: 16px;">${region.emoji}</span>
-          <div style="display:flex; flex-direction:column; text-align:left;">
-            <span style="font-size: 12px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.02em;">${region.name}</span>
-            <span style="font-size: 9px; font-family: monospace; color: ${accent}; font-weight: 600;">${count} EXPEDITIONS · ${region.subregions.length} VALLEYS</span>
-          </div>
-          <div style="width: 20px; height: 20px; border-radius: 50%; background: ${accent}22; display: flex; align-items: center; justify-content: center; margin-left: 4px;">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </div>
-        `;
-
-        // Pulse beacon underneath badge
-        const beacon = document.createElement("div");
-        beacon.style.cssText = `
-          width: 8px; height: 8px; border-radius: 50%;
-          background: ${accent};
-          box-shadow: 0 0 16px ${accent}, 0 0 32px ${accent}88;
-          margin-top: 6px;
-        `;
-
-        wrap.appendChild(badge);
-        wrap.appendChild(beacon);
-
-        wrap.addEventListener("mouseenter", () => {
-          badge.style.transform = "translateY(-4px) scale(1.06)";
-          badge.style.borderColor = accent;
-          badge.style.boxShadow = `0 12px 40px rgba(0,0,0,0.85), 0 0 36px ${accent}66`;
-        });
-
-        wrap.addEventListener("mouseleave", () => {
-          badge.style.transform = "translateY(0) scale(1)";
-          badge.style.borderColor = `${accent}66`;
-          badge.style.boxShadow = `0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${accent}33`;
-        });
-
-        wrap.addEventListener("click", (e) => {
+        const el = buildStateMarkerEl(
+          region.name,
+          region.emoji,
+          idx,
+          accent,
+          count,
+          region.subregions.length
+        );
+        el.addEventListener("click", (e) => {
           e.stopPropagation();
           handleRegion(region.id);
         });
 
-        const marker = new mapboxgl.Marker({
-          element: wrap,
-          anchor: "bottom",
-          pitchAlignment: "map",
-          rotationAlignment: "map",
-        })
+        const marker = new mapboxgl.Marker({ element: el, anchor: "bottom" })
           .setLngLat([centroid.lng, centroid.lat])
           .addTo(map);
 
         markersRef.current.push(marker);
-      }
+      });
       return;
     }
 
-    // ── LEVEL 1 & 2: Regional & Subregional Detailed Trail View ─────────
-    // Only rendered when user has navigated into a territory or valley
+    // ── LEVEL 1: Territory Mode — Show Division/Subregion Pins (NO individual places yet!) ──
+    if (activeRegion && !activeSubRegionId && !searchQuery.trim()) {
+      const accent = TERRITORY_ACCENT[activeRegion.id] ?? "#3B82F6";
+
+      activeRegion.subregions.forEach((sub) => {
+        const camTarget = SUBREGION_CAM[sub.id];
+        let lat = camTarget ? camTarget[0] : 0;
+        let lng = camTarget ? camTarget[1] : 0;
+
+        if (!lat || !lng) {
+          const validPlaces = sub.places.filter((p) => p.coords && p.coords.length === 2);
+          if (validPlaces.length > 0) {
+            lat = validPlaces.reduce((sum, p) => sum + (p.coords ? p.coords[0] : 0), 0) / validPlaces.length;
+            lng = validPlaces.reduce((sum, p) => sum + (p.coords ? p.coords[1] : 0), 0) / validPlaces.length;
+          }
+        }
+        if (!lat || !lng) return;
+
+        const el = buildSubRegionMarkerEl(sub.name, sub.places.length, accent);
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          handleSubRegion(sub.id);
+        });
+
+        const marker = new mapboxgl.Marker({ element: el, anchor: "bottom" })
+          .setLngLat([lng, lat])
+          .addTo(map);
+
+        markersRef.current.push(marker);
+      });
+      return;
+    }
+
+    // ── LEVEL 2: Detailed Valley View — Exact Pahadi Trails Place Markers ─
     for (const place of scopedPlaces) {
       if (!place.coords || place.coords.length !== 2) continue;
       const [lat, lng] = place.coords;
@@ -526,23 +1018,33 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
       // Render GeoJSON trail if available
       const trekData = treks.find((t) => t.slug === place.id);
-      if (trekData?.pathCoords && trekData.pathCoords.length > 1) {
-        const sId = `source-${trekData.slug}`;
-        const lId = `layer-${trekData.slug}`;
-        const gId = `glow-${trekData.slug}`;
+      const pathCoords = place.pathCoords || trekData?.pathCoords;
+      if (pathCoords && pathCoords.length > 1) {
+        const sId = `source-${place.id}`;
+        const lId = `layer-${place.id}`;
+        const gId = `glow-${place.id}`;
+
+        // Defensive check: remove if already exists
+        if (map.getLayer(lId)) map.removeLayer(lId);
+        if (map.getLayer(gId)) map.removeLayer(gId);
+        if (map.getSource(sId)) map.removeSource(sId);
+
+        activeTrailIdsRef.current.add(place.id);
 
         map.addSource(sId, {
           type: "geojson",
+          lineMetrics: true,
           data: {
             type: "Feature",
             properties: { id: place.id, name: place.name },
             geometry: {
               type: "LineString",
-              coordinates: trekData.pathCoords.map(([la, ln]) => [ln, la]),
+              coordinates: pathCoords.map(([la, ln]) => [ln, la]),
             },
           },
         });
 
+        // Ambient ground glow
         map.addLayer({
           id: gId,
           type: "line",
@@ -550,20 +1052,33 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           layout: { "line-join": "round", "line-cap": "round" },
           paint: {
             "line-color": isSelected ? "#F59E0B" : placeAccent,
-            "line-width": isSelected ? 11 : 6,
-            "line-opacity": isSelected ? 0.6 : 0.25,
+            "line-width": isSelected ? 12 : 7,
+            "line-opacity": isSelected ? 0.7 : 0.3,
             "line-blur": 4,
           },
         });
 
+        // 4-stop altitude gradient path from valley to summit
         map.addLayer({
           id: lId,
           type: "line",
           source: sId,
           layout: { "line-join": "round", "line-cap": "round" },
           paint: {
-            "line-color": isSelected ? "#FDE047" : "#E2E8F0",
-            "line-width": isSelected ? 3.5 : 2.0,
+            "line-width": isSelected ? 4 : 2.5,
+            "line-gradient": [
+              "interpolate",
+              ["linear"],
+              ["line-progress"],
+              0.0,
+              "#06B6D4", // Cyan valley trailhead
+              0.45,
+              "#3B82F6", // Royal blue alpine meadows
+              0.75,
+              "#F59E0B", // High pass / ridge amber
+              1.0,
+              "#FDE047", // Glaciated summit crest
+            ],
             "line-opacity": 0.95,
           },
         });
@@ -573,86 +1088,35 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         routeListenersRef.current.push({ layerId: lId, fn });
       }
 
-      // Build Interactive Pin Marker with Crisp Himalayan Typography
-      const wrap = document.createElement("div");
-      wrap.style.cssText =
-        "position:relative; display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none; width: 24px; height: 24px; justify-content: center;";
-
-      // Pill label with altitude badge (positioned above pin)
-      const label = document.createElement("div");
-      label.innerHTML = `
-        <span style="font-weight:700; color:#F8FAFC;">${place.name}</span>
-        ${
-          place.elevation
-            ? `<span style="margin-left:4px; font-family:monospace; font-size:9px; color:${placeAccent}; opacity:0.9;">${place.elevation}</span>`
-            : ""
-        }
-      `;
-      label.style.cssText = `
-        position: absolute; bottom: 28px;
-        left: 50%; transform: translateX(-50%);
-        white-space: nowrap;
-        font-size: 11px;
-        letter-spacing: 0.02em;
-        padding: 4px 10px;
-        border-radius: 9999px;
-        background: rgba(5, 9, 20, 0.94);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid ${isSelected ? "#F59E0B" : "rgba(255,255,255,0.18)"};
-        box-shadow: 0 4px 16px rgba(0,0,0,0.65);
-        pointer-events: none;
-        opacity: ${isSelected ? "1" : "0"};
-        transition: opacity 160ms ease;
-        z-index: ${isSelected ? "50" : "10"};
-      `;
-
-      // Central Fixed Dot
-      const pinNode = document.createElement("div");
-      const dotColor = isSelected ? "#F59E0B" : placeAccent;
-      pinNode.style.cssText = `
-        width: ${isSelected ? "14px" : "10px"};
-        height: ${isSelected ? "14px" : "10px"};
-        border-radius: 50%;
-        background: ${dotColor};
-        border: 2px solid rgba(255,255,255,${isSelected ? "1" : "0.85"});
-        box-shadow: 0 0 ${isSelected ? "18px" : "8px"} ${dotColor},
-                    0 0 ${isSelected ? "36px" : "16px"} ${dotColor}88;
-        transition: transform 160ms ease, box-shadow 160ms ease;
-      `;
-
-      wrap.appendChild(label);
-      wrap.appendChild(pinNode);
-
-      wrap.addEventListener("mouseenter", () => {
-        label.style.opacity = "1";
-        pinNode.style.transform = "scale(1.35)";
-      });
-
-      wrap.addEventListener("mouseleave", () => {
-        if (!isSelected) {
-          label.style.opacity = "0";
-          pinNode.style.transform = "scale(1)";
-        }
-      });
-
-      wrap.addEventListener("click", (e) => {
+      // Build Place Marker (pure DOM element pinned directly at [lng, lat] with anchor: 'bottom')
+      const el = buildPlaceMarkerEl(place, isSelected);
+      el.addEventListener("click", (e) => {
         e.stopPropagation();
         handleSelectPlace(place);
       });
 
       const marker = new mapboxgl.Marker({
-        element: wrap,
-        anchor: "center",
-        pitchAlignment: "viewport",
-        rotationAlignment: "viewport",
+        element: el,
+        anchor: "bottom",
       })
         .setLngLat([lng, lat])
         .addTo(map);
 
       markersRef.current.push(marker);
     }
-  }, [mapLoaded, scopedPlaces, selectedPlaceId, treks, handleSelectPlace, activeRegionId, handleRegion]);
+  }, [
+    mapLoaded,
+    scopedPlaces,
+    selectedPlaceId,
+    treks,
+    handleSelectPlace,
+    activeRegionId,
+    activeSubRegionId,
+    activeRegion,
+    searchQuery,
+    handleRegion,
+    handleSubRegion,
+  ]);
 
   if (!mapboxToken) {
     return (
@@ -668,7 +1132,14 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
   }
 
   return (
-    <div className="relative w-full h-full min-h-[640px] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#03060d] select-none">
+    <div
+      ref={containerRef}
+      className={`map-canvas-container preserve-white-text relative w-full h-full min-h-[640px] overflow-hidden ${
+        isFullscreen
+          ? "fixed inset-0 z-[9999] rounded-none border-none shadow-none h-screen w-screen"
+          : "rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl"
+      } bg-[#03060d] select-none text-white`}
+    >
       {/* ── 3D Map Canvas ──────────────────────────────────────── */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
@@ -711,11 +1182,28 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               <ChevronRight className="w-3.5 h-3.5 text-white/30" />
               <button
                 onClick={() => handleSubRegion(activeSubRegion.id)}
-                className="font-bold text-white transition-colors truncate max-w-[100px] sm:max-w-none"
-                style={{ color: currentAccent }}
+                className={`transition-colors font-semibold truncate max-w-[100px] sm:max-w-none ${
+                  !selectedPlace
+                    ? "font-bold text-white underline underline-offset-4"
+                    : "text-white/70 hover:text-white"
+                }`}
+                style={{ color: !selectedPlace ? currentAccent : undefined }}
               >
                 {activeSubRegion.name}
               </button>
+            </>
+          )}
+
+          {selectedPlace && (
+            <>
+              <ChevronRight className="w-3.5 h-3.5 text-white/30" />
+              <span
+                className="font-bold text-white truncate max-w-[100px] sm:max-w-[150px]"
+                style={{ color: currentAccent }}
+                title={selectedPlace.name}
+              >
+                {selectedPlace.name}
+              </span>
             </>
           )}
 
@@ -732,28 +1220,51 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
         {/* Right: 3D Camera Controls & Quick Search */}
         <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2">
-          {/* 3D Orbit Motion Button */}
-          <button
-            onClick={toggleOrbit}
-            title={isOrbiting ? "Pause 3D Orbit" : "Start 3D Cinematic Orbit"}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold backdrop-blur-xl border transition-all shadow-xl ${
-              isOrbiting
-                ? "bg-primary text-white border-primary/40 shadow-[0_0_20px_rgba(59,130,246,0.6)]"
-                : "bg-[#050914]/90 text-white/80 hover:text-white border-white/12 hover:border-white/30"
-            }`}
-          >
-            {isOrbiting ? (
-              <>
-                <Pause className="w-3.5 h-3.5 text-white animate-pulse" />
-                <span className="hidden md:inline">Orbiting 3D</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-3.5 h-3.5 text-primary" />
-                <span className="hidden md:inline">3D Orbit</span>
-              </>
-            )}
-          </button>
+          {/* 3D Orbit & Rotation Control Cluster */}
+          <div className="flex items-center bg-[#050914]/90 backdrop-blur-xl border border-white/12 rounded-2xl shadow-xl p-0.5">
+            {/* Rotate CCW 45° */}
+            <button
+              onClick={handleRotateCCW}
+              title="Rotate Camera Anti-Clockwise 45°"
+              aria-label="Rotate Anti-Clockwise 45°"
+              className="px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Continuous Orbit Play/Pause */}
+            <button
+              onClick={toggleOrbit}
+              title={isOrbiting ? "Pause 3D Orbit" : "Start 3D Cinematic Orbit"}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs font-semibold transition-all ${
+                isOrbiting
+                  ? "bg-primary text-white shadow-[0_0_16px_rgba(59,130,246,0.6)]"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
+              }`}
+            >
+              {isOrbiting ? (
+                <>
+                  <Pause className="w-3.5 h-3.5 text-white animate-pulse" />
+                  <span className="hidden md:inline">Orbiting 3D</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-3.5 h-3.5 text-primary" />
+                  <span className="hidden md:inline">3D Orbit</span>
+                </>
+              )}
+            </button>
+
+            {/* Rotate CW 45° */}
+            <button
+              onClick={handleRotateCW}
+              title="Rotate Camera Clockwise 45°"
+              aria-label="Rotate Clockwise 45°"
+              className="px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+            >
+              <RotateCw className="w-3.5 h-3.5" />
+            </button>
+          </div>
 
           {/* Perspective Tilt Toggle */}
           <button
@@ -763,6 +1274,31 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           >
             <Eye className="w-3.5 h-3.5 text-amber-400" />
             <span className="hidden md:inline">Ridge View</span>
+          </button>
+
+          {/* Fullscreen Toggle Button */}
+          <button
+            onClick={toggleFullscreen}
+            title={isFullscreen ? "Exit Fullscreen (Esc or F)" : "Fullscreen Mode (Press F)"}
+            aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold backdrop-blur-xl border transition-all shadow-xl ${
+              isFullscreen
+                ? "bg-primary text-white border-primary/40 shadow-[0_0_20px_rgba(59,130,246,0.6)]"
+                : "bg-[#050914]/90 text-white/80 hover:text-white border-white/12 hover:border-white/30"
+            }`}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Exit</span>
+              </>
+            ) : (
+              <>
+                <Maximize2 className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden md:inline">Fullscreen</span>
+                <kbd className="hidden lg:inline text-[9px] font-mono px-1 py-0.5 rounded bg-white/10 text-white/60">F</kbd>
+              </>
+            )}
           </button>
 
           {/* Quick Search Input */}
@@ -818,6 +1354,69 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         })}
       </div>
 
+      {/* ── Reconnaissance Flight Telemetry HUD ───────────────────────── */}
+      {flyingState && (
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-40 pointer-events-none transition-all duration-300">
+          <div
+            className="flex items-center gap-3 px-4 py-2 rounded-full border shadow-2xl backdrop-blur-xl"
+            style={{
+              background: "rgba(5, 9, 20, 0.92)",
+              borderColor: `${currentAccent}66`,
+              boxShadow: `0 0 35px ${currentAccent}35, 0 10px 30px rgba(0,0,0,0.85)`,
+            }}
+          >
+            {/* Pulsing targeting radar beacon */}
+            <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
+              <span
+                className="absolute w-full h-full rounded-full animate-ping opacity-75"
+                style={{ background: currentAccent }}
+              />
+              <span
+                className="relative w-2 h-2 rounded-full"
+                style={{ background: "#FFFFFF", boxShadow: `0 0 8px ${currentAccent}` }}
+              />
+            </div>
+
+            {/* Destination telemetry info */}
+            <div className="flex flex-col text-left">
+              <div className="flex items-center gap-1.5 leading-none mb-0.5">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-white/50">
+                  {flyingState.category ?? "RECONNAISSANCE FLYBY"}
+                </span>
+                {flyingState.elevation && (
+                  <span
+                    className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded"
+                    style={{
+                      color: flyingState.accent ?? currentAccent,
+                      background: `${flyingState.accent ?? currentAccent}22`,
+                      border: `1px solid ${flyingState.accent ?? currentAccent}44`,
+                    }}
+                  >
+                    {flyingState.elevation}
+                  </span>
+                )}
+              </div>
+              <div className="text-xs font-bold text-white tracking-wide truncate max-w-[200px] sm:max-w-xs" style={{ color: "#FFFFFF" }}>
+                {flyingState.name}
+              </div>
+              {flyingState.subtitle && (
+                <div className="text-[10px] text-white/60 font-mono truncate max-w-[200px] sm:max-w-xs">
+                  {flyingState.subtitle}
+                </div>
+              )}
+            </div>
+
+            {/* Coordinates */}
+            {flyingState.coords && (
+              <div className="hidden sm:flex flex-col text-right pl-2.5 border-l border-white/15 font-mono text-[9px] text-white/60 leading-tight">
+                <span>{flyingState.coords[0].toFixed(3)}°N</span>
+                <span>{flyingState.coords[1].toFixed(3)}°E</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* ── Professional On-Screen 3D Control Console (Right Side) ──── */}
       <div className="absolute right-3 sm:right-4 top-24 z-20 flex flex-col gap-1.5 pointer-events-auto">
         <div className="flex flex-col bg-[#050914]/90 backdrop-blur-xl border border-white/15 rounded-2xl p-1 shadow-2xl">
@@ -837,14 +1436,24 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           >
             <Minus className="w-4 h-4" />
           </button>
+          {/* Fullscreen Button */}
+          <button
+            onClick={toggleFullscreen}
+            title={isFullscreen ? "Exit Fullscreen (Esc or F)" : "Fullscreen Mode (F)"}
+            aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
+          >
+            {isFullscreen ? <Minimize2 className="w-3.5 h-3.5 text-primary" /> : <Maximize2 className="w-3.5 h-3.5" />}
+          </button>
         </div>
 
-        {/* 3D Tilt & Orientation Block */}
+        {/* 3D Tilt, Orbit & Rotation Block */}
         <div className="flex flex-col bg-[#050914]/90 backdrop-blur-xl border border-white/15 rounded-2xl p-1 shadow-2xl">
           {/* Tilt Up */}
           <button
             onClick={handlePitchMore}
-            title="Tilt 3D Angle Up"
+            title="Tilt 3D Angle Up (Pitch Up)"
+            aria-label="Tilt 3D Angle Up"
             className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors text-[10px] font-mono font-bold"
           >
             3D↑
@@ -852,15 +1461,35 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           {/* Tilt Flat */}
           <button
             onClick={handlePitchLess}
-            title="Tilt 2D Overhead"
+            title="Tilt 2D Overhead (Pitch Down)"
+            aria-label="Tilt 2D Overhead"
             className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors text-[10px] font-mono font-bold border-t border-white/10"
           >
             2D↓
+          </button>
+          {/* Rotate Anti-Clockwise */}
+          <button
+            onClick={handleRotateCCW}
+            title="Rotate Anti-Clockwise 45°"
+            aria-label="Rotate Anti-Clockwise 45 degrees"
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+          </button>
+          {/* Rotate Clockwise */}
+          <button
+            onClick={handleRotateCW}
+            title="Rotate Clockwise 45°"
+            aria-label="Rotate Clockwise 45 degrees"
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
+          >
+            <RotateCw className="w-3.5 h-3.5" />
           </button>
           {/* Reset North Compass */}
           <button
             onClick={handleResetNorth}
             title="Reset North Compass & Tilt"
+            aria-label="Reset North Compass"
             className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
           >
             <NavigationIcon className="w-3.5 h-3.5 text-primary" />
@@ -912,10 +1541,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                       {totalPlaces} Places
                     </span>
                   </div>
-                  <h4 className="font-display font-bold text-sm sm:text-base text-white group-hover:text-white mb-0.5">
+                  <h4 className="font-display font-bold text-sm sm:text-base !text-white group-hover:!text-white mb-0.5" style={{ color: "#FFFFFF" }}>
                     {region.name}
                   </h4>
-                  <p className="text-[11px] text-white/50 line-clamp-1">
+                  <p className="text-[11px] !text-white/70 line-clamp-1" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
                     {region.subregions.length} Valleys · 3D Terrain
                   </p>
                   <div
@@ -932,17 +1561,34 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         </div>
       )}
 
-      {/* ── Level 1: Subregion / Valley Bottom Dock (When Region is Active) ── */}
+      {/* ── Level 1 & 2: Subregion / Valley Bottom Dock (When Region is Active) ── */}
       {activeRegion && !selectedPlaceId && (
         <div className="absolute bottom-5 inset-x-4 z-20 pointer-events-auto">
           <div className="max-w-4xl mx-auto flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-white/20">
-            <button
-              onClick={handleReset}
-              className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/60 hover:text-white bg-[#050914]/90 backdrop-blur-xl border border-white/12 transition-all"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>All Territories</span>
-            </button>
+            {activeSubRegionId ? (
+              <button
+                onClick={() => {
+                  setActiveSubRegionId(null);
+                  setSelectedPlaceId(null);
+                  const cam = TERRITORY_CAM[activeRegion.id] ?? [31.8, 77.1, 8.4, 72, 18];
+                  flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000);
+                }}
+                className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold !text-white bg-[#050914]/90 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all shadow-xl"
+                style={{ color: "#FFFFFF" }}
+              >
+                <ChevronLeft className="w-3.5 h-3.5 text-primary" />
+                <span style={{ color: "#FFFFFF" }}>All {activeRegion.name} Valleys</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleReset}
+                className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-medium !text-white/80 hover:!text-white bg-[#050914]/90 backdrop-blur-xl border border-white/12 transition-all shadow-xl"
+                style={{ color: "#FFFFFF" }}
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span style={{ color: "#FFFFFF" }}>All Territories</span>
+              </button>
+            )}
 
             {activeRegion.subregions.map((sub) => {
               const isCurrent = activeSubRegionId === sub.id;
@@ -952,20 +1598,22 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                   onClick={() => handleSubRegion(sub.id)}
                   className={`flex-shrink-0 flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     isCurrent
-                      ? "text-white shadow-lg"
-                      : "text-white/75 hover:text-white bg-[#050914]/85 backdrop-blur-xl border border-white/10"
+                      ? "!text-white shadow-lg"
+                      : "!text-white/80 hover:!text-white bg-[#050914]/85 backdrop-blur-xl border border-white/10"
                   }`}
                   style={{
                     background: isCurrent ? currentAccent : undefined,
-                    borderColor: isCurrent ? "rgba(255,255,255,0.3)" : undefined,
+                    borderColor: isCurrent ? "rgba(255,255,255,0.4)" : undefined,
                     boxShadow: isCurrent ? `0 0 25px ${currentAccent}66` : undefined,
+                    color: "#FFFFFF",
                   }}
                 >
-                  <span>{sub.name}</span>
+                  <span style={{ color: "#FFFFFF" }}>{sub.name}</span>
                   <span
-                    className={`font-mono text-[10px] px-1.5 py-0.2 rounded-full ${
-                      isCurrent ? "bg-black/30 text-white" : "bg-white/10 text-white/60"
+                    className={`font-mono text-[10px] px-1.5 py-0.5 rounded-full ${
+                      isCurrent ? "bg-black/40 text-white font-bold" : "bg-white/15 text-white/80"
                     }`}
+                    style={{ color: "#FFFFFF" }}
                   >
                     {sub.places.length}
                   </span>
@@ -985,25 +1633,38 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div>
-              <div className="text-xs font-bold text-white">
+              <div className="text-xs font-bold !text-white" style={{ color: "#FFFFFF" }}>
                 {activeSubRegion ? activeSubRegion.name : `${activeRegion.name} Valleys`}
               </div>
-              <div className="text-[10px] text-white/50 font-mono">
+              <div className="text-[10px] !text-white/60 font-mono" style={{ color: "rgba(255, 255, 255, 0.6)" }}>
                 {scopedPlaces.length} Destinations Available
               </div>
             </div>
             <div className="flex items-center gap-1">
               {activeSubRegion && (
                 <button
-                  onClick={() => setActiveSubRegionId(null)}
-                  className="text-[10px] font-mono text-white/50 hover:text-white px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors"
+                  onClick={() => {
+                    setActiveSubRegionId(null);
+                    setSelectedPlaceId(null);
+                    if (activeRegion) {
+                      const cam = TERRITORY_CAM[activeRegion.id] ?? [INIT_CAM.lat, INIT_CAM.lng, INIT_CAM.zoom, INIT_CAM.pitch, 0];
+                      flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000, {
+                        name: activeRegion.name,
+                        subtitle: `${activeRegion.subregions.length} Alpine Valleys`,
+                        category: "TERRITORY OVERVIEW",
+                        accent: TERRITORY_ACCENT[activeRegion.id] ?? "#3B82F6",
+                      });
+                    }
+                  }}
+                  className="text-[10px] font-mono !text-white/70 hover:!text-white px-2 py-1 rounded bg-white/10 hover:bg-white/20 transition-colors"
+                  style={{ color: "#FFFFFF" }}
                 >
                   All Valleys
                 </button>
               )}
               <button
                 onClick={() => setIsTerritoryDrawerOpen(false)}
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10"
+                className="w-6 h-6 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -1019,14 +1680,14 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             ) : (
               scopedPlaces.map((place) => (
                 <button
-                  key={place.id}
+                  key={`${place.id}-${place.name}`}
                   onClick={() => handleSelectPlace(place)}
                   className="w-full flex items-center justify-between p-2.5 rounded-xl text-left group transition-all border border-transparent hover:border-white/15 hover:bg-white/5"
                 >
                   <div className="min-w-0 pr-2">
                     <div className="flex items-center gap-1.5 mb-0.5">
                       <span className="text-xs">{place.emoji}</span>
-                      <span className="text-xs font-semibold text-white/90 group-hover:text-white truncate">
+                      <span className="text-xs font-semibold !text-white group-hover:!text-white truncate" style={{ color: "#FFFFFF" }}>
                         {place.name}
                       </span>
                     </div>
@@ -1045,118 +1706,146 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         </div>
       )}
 
-      {/* ── Level 3: Expedition Focus Capsule Briefing Card ───────────── */}
+      {/* ── Level 3: Expedition Focus Capsule Briefing Card (Sleek Floating Sidebar, Left-docked) ── */}
       {selectedPlace && selectedPlaceLocation && (
-        <div
-          className="absolute inset-x-0 bottom-0 z-30 p-4 sm:p-6"
-          style={{ background: "linear-gradient(to top, rgba(3,6,13,0.98) 75%, transparent)" }}
-        >
+        <div className="absolute bottom-5 left-3 sm:left-4 z-30 pointer-events-none w-[340px] sm:w-[360px] max-w-[calc(100vw-24px)]">
           <div
-            className="relative mx-auto max-w-xl rounded-2xl p-5 sm:p-6 overflow-hidden border"
+            className="pointer-events-auto relative w-full rounded-2xl p-4 sm:p-4.5 overflow-hidden border shadow-2xl transition-all"
             style={{
-              background: "rgba(7, 13, 26, 0.96)",
-              backdropFilter: "blur(32px)",
-              borderColor: `${currentAccent}55`,
-              boxShadow: `0 0 60px ${currentAccent}25, 0 20px 50px rgba(0,0,0,0.85)`,
+              background: "rgba(6, 11, 22, 0.94)",
+              backdropFilter: "blur(24px)",
+              borderColor: `${currentAccent}44`,
+              boxShadow: `0 16px 40px rgba(0,0,0,0.75), 0 0 24px ${currentAccent}20, inset 0 1px 0 rgba(255,255,255,0.1)`,
             }}
           >
-            {/* Top Atmospheric Radial Flare */}
+            {/* Top Atmospheric Accent Line */}
             <div
-              className="absolute top-0 inset-x-0 h-28 pointer-events-none"
+              className="absolute top-0 inset-x-0 h-1 pointer-events-none"
               style={{
-                background: `radial-gradient(ellipse at 50% 0%, ${currentAccent}25, transparent 75%)`,
+                background: `linear-gradient(to right, ${currentAccent}, ${currentAccent}44, transparent)`,
               }}
             />
 
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedPlaceId(null)}
-              className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all z-10"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            {/* Header: Subregion Pill, Territory Tag & Close / Back Button */}
+            <div className="flex items-center justify-between gap-2 mb-2 relative z-10">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span
+                  className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md flex-shrink-0"
+                  style={{
+                    color: currentAccent,
+                    background: `${currentAccent}18`,
+                    border: `1px solid ${currentAccent}35`,
+                  }}
+                >
+                  {selectedPlace.type}
+                </span>
+                <span className="text-[11px] text-white/50 font-mono truncate">
+                  {selectedPlaceLocation.subRegionName} · {selectedPlaceLocation.regionName}
+                </span>
+              </div>
 
-            {/* Subregion Pill & Territory Tag */}
-            <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span
-                className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                style={{
-                  color: currentAccent,
-                  background: `${currentAccent}18`,
-                  border: `1px solid ${currentAccent}35`,
+              {/* Chronological Back / Close Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClosePlace();
                 }}
+                title={`Back to ${activeSubRegion?.name ?? "Valley"} (Esc)`}
+                aria-label={`Back to ${activeSubRegion?.name ?? "Valley"}`}
+                className="w-6 h-6 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors flex-shrink-0 cursor-pointer"
               >
-                {selectedPlace.type}
-              </span>
-              <span className="text-[11px] text-white/50 font-mono">
-                {selectedPlaceLocation.subRegionName} · {selectedPlaceLocation.regionName}
-              </span>
+                <X className="w-3.5 h-3.5" />
+              </button>
             </div>
 
             {/* Entity Name */}
-            <h3 className="text-xl sm:text-2xl font-display font-bold text-white mb-2.5 relative z-10 leading-snug">
+            <h3
+              className="text-base sm:text-lg font-display font-bold !text-white mb-1.5 relative z-10 leading-snug truncate"
+              style={{ color: "#FFFFFF" }}
+              title={selectedPlace.name}
+            >
               {selectedPlace.name}
             </h3>
 
             {/* Overview Snippet */}
             {selectedPlace.overview && (
-              <p className="text-xs sm:text-sm text-white/65 line-clamp-2 mb-4 leading-relaxed relative z-10">
+              <p
+                className="text-xs !text-white/70 line-clamp-2 mb-3 leading-relaxed relative z-10"
+                style={{ color: "rgba(255, 255, 255, 0.72)" }}
+              >
                 {selectedPlace.overview}
               </p>
             )}
 
-            {/* Statistics Matrix */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5 relative z-10">
+            {/* Statistics Matrix (Compact 2x2 Grid) */}
+            <div className="grid grid-cols-2 gap-1.5 mb-3.5 relative z-10">
               {selectedPlace.elevation && (
-                <div className="p-2 rounded-xl bg-white/5 border border-white/8 text-center">
-                  <span className="block text-[9px] font-mono uppercase text-white/40">Altitude</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/8">
+                  <span className="text-[9px] font-mono uppercase !text-white/45">Alt</span>
+                  <span className="text-xs font-mono font-bold !text-white" style={{ color: "#FFFFFF" }}>
                     {selectedPlace.elevation}
                   </span>
                 </div>
               )}
               {selectedPlace.difficulty && (
-                <div className="p-2 rounded-xl bg-white/5 border border-white/8 text-center">
-                  <span className="block text-[9px] font-mono uppercase text-white/40">Grade</span>
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/8">
+                  <span className="text-[9px] font-mono uppercase !text-white/45">Grade</span>
                   <span className="text-xs font-mono font-bold" style={{ color: currentAccent }}>
                     {selectedPlace.difficulty}
                   </span>
                 </div>
               )}
               {selectedPlace.duration && (
-                <div className="p-2 rounded-xl bg-white/5 border border-white/8 text-center">
-                  <span className="block text-[9px] font-mono uppercase text-white/40">Duration</span>
-                  <span className="text-xs font-mono font-bold text-white">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/8">
+                  <span className="text-[9px] font-mono uppercase !text-white/45">Time</span>
+                  <span className="text-xs font-mono font-bold !text-white truncate max-w-[95px] text-right" style={{ color: "#FFFFFF" }}>
                     {selectedPlace.duration}
                   </span>
                 </div>
               )}
               {selectedPlace.bestSeason && (
-                <div className="p-2 rounded-xl bg-white/5 border border-white/8 text-center">
-                  <span className="block text-[9px] font-mono uppercase text-white/40">Season</span>
-                  <span className="text-xs font-mono font-bold text-white truncate">
+                <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/8">
+                  <span className="text-[9px] font-mono uppercase !text-white/45">Season</span>
+                  <span className="text-xs font-mono font-bold !text-white truncate max-w-[95px] text-right" style={{ color: "#FFFFFF" }}>
                     {selectedPlace.bestSeason}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Call to Action Button */}
-            <button
-              onClick={handleOpenPlace}
-              disabled={navigating}
-              className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold tracking-wide transition-all relative z-10 group"
-              style={{
-                background: currentAccent,
-                color: "#ffffff",
-                boxShadow: `0 4px 24px ${currentAccent}55`,
-              }}
-            >
-              <span>{navigating ? "Loading Expedition Guide…" : "Open Detailed Expedition Guide"}</span>
-              {!navigating && (
-                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              )}
-            </button>
+            {/* Action Row: Immediate Chronological Back + Open Guide */}
+            <div className="flex items-center gap-2 relative z-10">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClosePlace();
+                }}
+                className="flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors flex-shrink-0 cursor-pointer"
+                title={`Back to ${activeSubRegion?.name ?? "Valley"}`}
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span className="truncate max-w-[85px]">{activeSubRegion?.name ?? "Valley"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleOpenPlace}
+                disabled={navigating}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold tracking-wide transition-all group shadow-md cursor-pointer"
+                style={{
+                  background: currentAccent,
+                  color: "#FFFFFF",
+                  boxShadow: `0 4px 18px ${currentAccent}45`,
+                }}
+              >
+                <span>{navigating ? "Loading…" : "Open Guide"}</span>
+                {!navigating && (
+                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

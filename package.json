@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "validate:places": "tsx scripts/validate-places.ts"
+    "validate:places": "tsx scripts/validate-places.ts",
+    "process:gpx": "tsx scripts/process-gpx.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",

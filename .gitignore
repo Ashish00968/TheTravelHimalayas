@@ -10,3 +10,5 @@ Report.html
 .playwright-mcp
 info/
 scratch/
+data/gpx-raw/
+*.code-workspace

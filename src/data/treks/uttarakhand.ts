@@ -1,6 +1,95 @@
 import { Trek } from "../types";
+import { kedarnathPath, vasudharaFallsPath } from "../paths";
 
 export const uttarakhandTreks: Trek[] = [
+  {
+    slug: "kedarnath",
+    title: "Kedarnath Temple Trek",
+    region: "Garhwal",
+    difficulty: "Moderate",
+    duration: "2–3 Days",
+    distance: "16 km",
+    maxAltitude: "3,583 m",
+    bestSeason: "May to June, September to October",
+    coords: [30.736098, 79.070798],
+    pathCoords: kedarnathPath,
+    startPoint: "Gaurikund (1,982m)",
+    guideRatePerDay: 2000,
+    overview: "The most sacred mountain pilgrimage trek in Garhwal, ascending 16 km alongside the roaring Mandakini river from Gaurikund through Jungle Chatti, Bheembali, and Lincholi to the 8th-century stone temple of Kedarnath.",
+    routeDescription: "16 km ascent from Gaurikund basehead across the Mandakini footbridges, climbing continuously via paved mountain switchbacks to the high glacial bowl of Kedarnath beneath Mount Meru and Kedar Dome.",
+    itinerary: [
+      {
+        day: 1,
+        title: "Gaurikund to Kedarnath (3,583m)",
+        description: "Early 5:00 AM start from Gaurikund. Trek 16 km past Jungle Chatti and Lincholi to reach Kedarnath temple for evening aarti.",
+        elevationMeters: 3583,
+        distanceKm: 16
+      },
+      {
+        day: 2,
+        title: "Kedarnath Sanctum Darshan & Bhairavnath Ridge",
+        description: "Morning darshan at the ancient sanctum. Hike 500m up to Bhairavnath Temple overlooking the entire valley, then begin descent back to Gaurikund.",
+        elevationMeters: 1982,
+        distanceKm: 16
+      }
+    ],
+    packingList: [
+      "Sturdy trekking boots with ankle support",
+      "Warm down jacket and thermal innerwear",
+      "Rain poncho or waterproof jacket",
+      "Trekking poles for steep paved descents",
+      "Personal first-aid kit and hydration bottle"
+    ],
+    permits: "Mandatory biometric registration at registrationandtouristcare.uk.gov.in.",
+    faqs: [
+      {
+        question: "How long does it take to walk from Gaurikund to Kedarnath?",
+        answer: "The 16 km steep ascent takes between 6 to 8 hours depending on pace and fitness level."
+      }
+    ],
+    images: [],
+    description: "Iconic high-altitude pilgrimage trek to the sacred Jyotirlinga of Kedarnath (3,583m) at the base of Mount Kedarnath."
+  },
+  {
+    slug: "vasudhara-falls",
+    title: "Vasudhara Falls Trail",
+    region: "Garhwal",
+    difficulty: "Moderate",
+    duration: "1 Day",
+    distance: "12 km",
+    maxAltitude: "3,691 m",
+    bestSeason: "May to October",
+    coords: [30.783, 79.45],
+    pathCoords: vasudharaFallsPath,
+    startPoint: "Mana Village (3,200m)",
+    guideRatePerDay: 1800,
+    overview: "A dramatic 6 km alpine day hike from Mana—the last Indian village near the Indo-Tibetan border—along the Alaknanda river canyon to a vertical 122-meter (400 ft) glacial waterfall dropping from sheer granite cliffs.",
+    routeDescription: "Starts past Bheem Pul in Mana village, following a rocky moraine trail through the high barren valley of Alaknanda to the mist-shrouded base of Vasudhara Falls.",
+    itinerary: [
+      {
+        day: 1,
+        title: "Mana Village to Vasudhara Falls & Return",
+        description: "Depart Mana at 7:00 AM. Cross Bheem Pul and follow the glacial trail 6 km to Vasudhara Falls (3,691m). Spend time in the spray mist and return to Mana by afternoon.",
+        elevationMeters: 3691,
+        distanceKm: 12
+      }
+    ],
+    packingList: [
+      "Windproof shell jacket for fierce valley winds",
+      "Sturdy hiking shoes with solid lug traction",
+      "Hydration flask with minimum 2 liters water",
+      "Sun protection (sunglasses, hat, sunscreen)"
+    ],
+    permits: "No special inner line permit required up to Vasudhara Falls.",
+    faqs: [
+      {
+        question: "What is the trail condition to Vasudhara Falls?",
+        answer: "The trail is rocky and unpaved across glacial moraine, requiring good balance and footwear, but without technical climbing."
+      }
+    ],
+    images: [],
+    description: "Spectacular 400-foot glacial waterfall day hike from Mana Village in Chamoli Garhwal."
+  },
   {
     "slug": "nanda-devi-east-base-camp",
     "title": "Nanda Devi East Base Camp Trek",

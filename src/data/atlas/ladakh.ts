@@ -1,4 +1,5 @@
 import { HimalayaRegion } from "./types";
+import { khardungLaPath, lehPath, gurudwaraPatharSahibPath } from "../paths";
 
 export const ladakhRegion: HimalayaRegion =   {
     id: "ladakh",
@@ -49,8 +50,8 @@ export const ladakhRegion: HimalayaRegion =   {
             name: "Pangong Tso Lake",
             type: "lake",
             emoji: "🌊",
-            coords: [33.7500, 78.6500],
-            elevation: "4,225 m",
+            coords: [33.76, 78.63],
+            elevation: "4,350 m",
             bestSeason: "May to September (Jan-Feb for frozen lake)",
             difficulty: "Easy",
             duration: "2 Days",
@@ -61,12 +62,78 @@ export const ladakhRegion: HimalayaRegion =   {
             name: "Khardung La Pass",
             type: "road",
             emoji: "🏍️",
-            coords: [34.2800, 77.6000],
+            coords: [34.28, 77.60],
+            pathCoords: khardungLaPath,
             elevation: "5,359 m",
             bestSeason: "May to October",
             difficulty: "Easy",
             duration: "Day Excursion",
             overview: "The world-renowned gateway between the Indus Valley and Nubra, draped with thousands of fluttering Tibetan prayer flags."
+          },
+          {
+            id: "leh",
+            name: "Leh Heritage Town",
+            type: "spiritual",
+            emoji: "☸️",
+            coords: [34.15, 77.58],
+            pathCoords: lehPath,
+            elevation: "3,524 m",
+            bestSeason: "May to October",
+            difficulty: "Easy",
+            duration: "1–2 Days",
+            overview: "Leh is the ancient capital of the Himalayan kingdom of Ladakh. Dominated by the 17th-century nine-story Leh Palace and the hilltop Shanti Stupa, its labyrinthine old town bazaars, ancient mud-brick Tibetan buildings, and stupas sit beneath the towering snowbound crests of the Stok range.",
+            experience: "Listening to morning Buddhist chants echo across the Indus Valley from the sun-washed terrace of the Shanti Stupa.",
+            tips: [
+              "Mandatory 48-hour rest upon arrival by air for altitude acclimatization.",
+              "Climb to Shanti Stupa for sunset over the Stok Kangri massif."
+            ],
+            faqs: [
+              {
+                question: "Why is acclimatization in Leh necessary?",
+                answer: "Arriving in Leh (3,524m) directly from sea level poses immediate AMS risk; 48 hours of rest without strenuous activity is crucial."
+              }
+            ],
+            seoTitle: "Leh Heritage Town (3,524m) — Ladakh Capital",
+            seoDescription: "Complete guide to Leh town (3,524m) in Ladakh. Historic Leh Palace, Shanti Stupa, old bazaar walking trails, acclimatization advice, and travel tips.",
+            keywords: [
+              "Leh Ladakh",
+              "Leh altitude",
+              "Leh Palace",
+              "Shanti Stupa Leh",
+              "Leh acclimatization"
+            ]
+          },
+          {
+            id: "gurudwara-pathar-sahib",
+            name: "Gurudwara Pathar Sahib",
+            type: "spiritual",
+            emoji: "☬",
+            coords: [34.12, 77.26],
+            pathCoords: gurudwaraPatharSahibPath,
+            elevation: "3,500 m",
+            bestSeason: "May to October",
+            difficulty: "Easy",
+            duration: "Half Day",
+            overview: "Perched at 3,500m along the Srinagar-Leh highway 25 km west of Leh, Gurudwara Pathar Sahib is a sacred Sikh shrine venerating Guru Nanak Dev Ji miraculous visit in 1517. It houses the sacred unmovable boulder bearing the imprint of Guru Nanak back, preserved and lovingly maintained by the Indian Army.",
+            experience: "Sipping hot sweet langar chai in the mountain air as Sikh hymns blend with fluttering Himalayan prayer flags.",
+            tips: [
+              "Located directly on the route to Magnetic Hill and Sangam (confluence of Indus and Zanskar).",
+              "Hot tea, meals, and prasad are served around the clock in the community langar."
+            ],
+            faqs: [
+              {
+                question: "Who maintains Gurudwara Pathar Sahib?",
+                answer: "The Gurudwara is maintained with deep devotion and military discipline by the Indian Army regiments stationed in Ladakh."
+              }
+            ],
+            seoTitle: "Gurudwara Pathar Sahib (3,500m) Leh Guide",
+            seoDescription: "Discover Gurudwara Pathar Sahib (3,500m) on the Srinagar-Leh Highway in Ladakh. Guru Nanak sacred boulder, Army langar, Magnetic Hill route, and history.",
+            keywords: [
+              "Gurudwara Pathar Sahib",
+              "Pathar Sahib Leh",
+              "Guru Nanak in Ladakh",
+              "Pathar Sahib altitude"
+            ]
           },
           {
             id: "thiksey-monastery",

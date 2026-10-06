@@ -72,3 +72,37 @@ export interface Guide {
   relatedGuides: string[];
 }
 
+export type RouteSource = "dht-recorded" | "osm" | "permission";
+
+export interface RouteStats {
+  distanceKm: number;
+  gainM: number;
+  lossM: number;
+  minEleM: number;
+  maxEleM: number;
+  pointCount: number;
+}
+
+export interface RouteWaypoint {
+  name: string;
+  lat: number;
+  lng: number;
+  eleM?: number;
+  note?: string;
+}
+
+export interface RouteData {
+  placeId: string;
+  version: 1;
+  source: RouteSource;      // anything else fails validation
+  sourceNote?: string;      // e.g. "Recorded by Ashish, Garmin Fenix 7"
+  recordedOn: string;       // ISO date
+  verified: boolean;        // true only if DHT walked it
+  verifiedOn?: string;      // ISO date
+  license: string;          // e.g. "Recorded by DHT. Free to use with credit." or "ODbL"
+  stats: RouteStats;
+  line: { type: "LineString"; coordinates: [number, number, number][] }; // [lng, lat, eleM]
+  waypoints: RouteWaypoint[];
+}
+
+

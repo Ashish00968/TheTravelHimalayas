@@ -1,4 +1,5 @@
 import { HimalayaRegion } from "./types";
+import { kedarnathPath, vasudharaFallsPath } from "../paths";
 
 export const uttarakhandRegion: HimalayaRegion =   {
     id: "uttarakhand",
@@ -390,8 +391,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🏔️",
                                                 "coords": [
-                                                          30.5574,
-                                                          79.5658
+                                                          30.556247,
+                                                          79.554283
                                                 ],
                                                 "elevation": "1,890 m",
                                                 "bestSeason": "Year-round (Best: April to November)",
@@ -700,10 +701,11 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "day-hike",
                                                 "emoji": "💧",
                                                 "coords": [
-                                                          30.795,
-                                                          79.467
+                                                          30.783,
+                                                          79.45
                                                 ],
-                                                "elevation": "3,700 m",
+                                                "pathCoords": vasudharaFallsPath,
+                                                "elevation": "3,691 m",
                                                 "bestSeason": "May to October",
                                                 "difficulty": "Moderate",
                                                 "duration": "1 Day (from Mana)",
@@ -836,8 +838,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🌿",
                                                 "coords": [
-                                                          30.585,
-                                                          79.489
+                                                          30.537885,
+                                                          79.455306
                                                 ],
                                                 "elevation": "2,200 m",
                                                 "bestSeason": "Year-round (Best: March to November)",
@@ -973,9 +975,10 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🛕",
                                                 "coords": [
-                                                          30.735,
-                                                          79.066
+                                                          30.736098,
+                                                          79.070798
                                                 ],
+                                                "pathCoords": kedarnathPath,
                                                 "elevation": "3,583 m",
                                                 "bestSeason": "May to June, September to October",
                                                 "difficulty": "Moderate to Difficult",
@@ -1425,8 +1428,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🛕",
                                                 "coords": [
-                                                          30.9947,
-                                                          78.9398
+                                                          30.995051,
+                                                          78.939514
                                                 ],
                                                 "elevation": "3,100 m",
                                                 "bestSeason": "May to June, September to October",
@@ -1466,8 +1469,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🏛️",
                                                 "coords": [
-                                                          30.7268,
-                                                          78.4354
+                                                          30.729002,
+                                                          78.442464
                                                 ],
                                                 "elevation": "1,158 m",
                                                 "bestSeason": "Year-round",
@@ -1498,6 +1501,40 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                           "NIM mountaineering",
                                                           "Uttarkashi temples",
                                                           "Bhagirathi river town"
+                                                ]
+                                      },
+                                      {
+                                                "id": "barkot",
+                                                "name": "Barkot Gateway",
+                                                "type": "road",
+                                                "emoji": "🏞️",
+                                                "coords": [
+                                                          30.808933,
+                                                          78.208222
+                                                ],
+                                                "elevation": "1,220 m",
+                                                "bestSeason": "April to June, September to November",
+                                                "difficulty": "Easy",
+                                                "duration": "1–2 Days",
+                                                "overview": "Barkot is a scenic mountain town in Uttarkashi district situated along the banks of the Yamuna River. Surrounded by apple orchards and offering views of the Bandarpoonch peak, it serves as the primary staging hub and road base for pilgrims and trekkers journeying to Yamunotri.",
+                                                "experience": "Tranquil apple valley terraces overlooking the pristine upper Yamuna river.",
+                                                "tips": [
+                                                          "Ideal base for refueling and resting before the steep climb to Yamunotri.",
+                                                          "Sample fresh Himalayan apples during late autumn harvest."
+                                                ],
+                                                "faqs": [
+                                                          {
+                                                                    "question": "How far is Barkot from Yamunotri trailhead?",
+                                                                    "answer": "Barkot is approximately 45 km from Janki Chatti, the trailhead where the foot ascent to Yamunotri begins."
+                                                          }
+                                                ],
+                                                "seoTitle": "Barkot (1,220m) — Yamunotri Gateway",
+                                                "seoDescription": "Explore Barkot (1,220m) in Uttarkashi, Uttarakhand. Scenic Yamuna valley town, Bandarpoonch views, apple orchards, and primary base for Yamunotri Yatra.",
+                                                "keywords": [
+                                                          "Barkot Uttarakhand",
+                                                          "Barkot altitude",
+                                                          "Barkot to Yamunotri",
+                                                          "Yamunotri base town"
                                                 ]
                                       },
                                       {
@@ -1912,8 +1949,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "type": "spiritual",
                                                 "emoji": "🛕",
                                                 "coords": [
-                                                          31.013,
-                                                          78.46
+                                                          31.000245,
+                                                          78.463092
                                                 ],
                                                 "elevation": "3,291 m",
                                                 "bestSeason": "May to June, September to October",

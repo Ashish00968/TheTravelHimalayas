@@ -1,4 +1,5 @@
 import { HimalayaRegion, PlaceType } from "./types";
+import { rohtangPassPath, prasharLakePath, rewalsarLakePath, jispaPath, sissuPath, kalpaPath, chitkulPath } from "../paths";
 import { treks } from "../treks";
 import { peaks } from "../peaks";
 
@@ -406,8 +407,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Sethan Village — Hampta Valley",
             type: "scenic",
             emoji: "🛖",
-            coords: [32.2240, 77.2510],
-            elevation: "2,700 m",
+            coords: [32.2349, 77.2223],
+            elevation: "2,750 m",
             bestSeason: "Year-round (Igloo season: Jan–March; Trekking: May–Oct)",
             difficulty: "Easy",
             duration: "1–2 Days",
@@ -562,7 +563,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Rohtang Pass",
             type: "road",
             emoji: "🏔️",
-            coords: [32.3716, 77.2466],
+            coords: [32.37, 77.25],
+            pathCoords: rohtangPassPath,
             elevation: "3,978 m",
             bestSeason: "May to October",
             difficulty: "Moderate",
@@ -886,8 +888,9 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Sissu (North Portal)",
             type: "scenic",
             emoji: "🌊",
-            coords: [32.4700, 77.1200],
-            elevation: "3,120 m",
+            coords: [32.43, 77.24],
+            pathCoords: sissuPath,
+            elevation: "3,100 m",
             bestSeason: "Year-round via Atal Tunnel (Best: May to Oct, Snow in Jan–March)",
             difficulty: "Easy",
             duration: "Day Trip from Manali",
@@ -955,7 +958,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Prashar Lake & Pagoda Temple",
             type: "lake",
             emoji: "🌊",
-            coords: [31.7547, 77.1017],
+            coords: [31.77, 77.06],
+            pathCoords: prasharLakePath,
             elevation: "2,730 m",
             bestSeason: "Year-round (Snow: Dec–Mar; Green: Apr–Nov)",
             difficulty: "Easy to Moderate",
@@ -987,7 +991,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Rewalsar Lake (Tso Pema)",
             type: "spiritual",
             emoji: "🪷",
-            coords: [31.6328, 76.8333],
+            coords: [31.64, 76.83],
+            pathCoords: rewalsarLakePath,
             elevation: "1,360 m",
             bestSeason: "September to April",
             difficulty: "Easy",
@@ -1137,16 +1142,37 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             experience: "Standing on the knife-edge pass seeing emerald green on one side and stark desert mountains on the other."
           },
           {
-            id: "sissu",
-            name: "Sissu & Lahaul Valley",
+            id: "jispa",
+            name: "Jispa & Bhaga Riverside",
             type: "scenic",
             emoji: "🌊",
-            coords: [32.4700, 77.1200],
-            elevation: "3,120 m",
-            bestSeason: "Year-round via Atal Tunnel",
+            coords: [32.65, 77.05],
+            pathCoords: jispaPath,
+            elevation: "3,200 m",
+            bestSeason: "May to October",
             difficulty: "Easy",
             duration: "1–2 Days",
-            overview: "Located right across the north portal of Atal Tunnel, Sissu is famous for its thunderous glacial waterfall, poplars, and the turquoise waters of the Chandra River."
+            overview: "Jispa is a serene village and riverside encampment on the banks of the turquoise Bhaga River in Lahaul Valley at 3,200 meters. Surrounded by towering scree mountains and willow groves, it is a favored acclimatization stop on the Manali-Leh Highway before ascending Baralacha La.",
+            experience: "Listening to the rushing Bhaga River against smooth river rocks under an expanse of crystal clear Himalayan stars.",
+            tips: [
+              "Camp along the riverbanks for an unforgettable overnight wilderness stay.",
+              "Essential night halt to acclimatize before tackling higher passes toward Leh."
+            ],
+            faqs: [
+              {
+                question: "What is Jispa famous for?",
+                answer: "Jispa is famous for its riverside campgrounds on the Bhaga River, Tibetan monastery, and tranquil Lahauli village life."
+              }
+            ],
+            seoTitle: "Jispa (3,200m) — Bhaga Riverside Camping",
+            seoDescription: "Complete travel guide to Jispa (3,200m) in Lahaul Valley. Riverside camping on the Bhaga River, Manali-Leh highway stop, monasteries, and season advice.",
+            keywords: [
+              "Jispa Lahaul",
+              "Jispa camping",
+              "Jispa altitude",
+              "Manali to Leh Jispa",
+              "Bhaga river Jispa"
+            ]
           },
           {
             id: "kaza-spiti",
@@ -1380,24 +1406,66 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Chitkul & Baspa Valley",
             type: "scenic",
             emoji: "🏡",
-            coords: [31.3500, 78.4300],
+            coords: [31.36, 78.43],
+            pathCoords: chitkulPath,
             elevation: "3,450 m",
             bestSeason: "April to October",
             difficulty: "Easy",
             duration: "2 Days",
-            overview: "Chitkul is celebrated as the last inhabited village on the old Indo-Tibetan trade route. Located along the Baspa River, it features classic Kinnauri wood-and-stone architecture."
+            overview: "Chitkul is celebrated as the last inhabited village near the Indo-Tibet border in the picturesque Baspa Valley of Kinnaur. Sited on the banks of the roaring Baspa River amidst snow peaks, it features ancient slate-roofed Kinnauri wood-and-stone houses, potato fields, and the 500-year-old Mathi Devi temple.",
+            experience: "Standing by the icy glacial rush of the Baspa River looking towards the forbidden ridges of Tibet under a sky of pure sapphire.",
+            tips: [
+              "Visit the 500-year-old wooden Mathi Temple in the center of the village.",
+              "Try hot tea at the famous 'Hindustan ka Aakhri Dhaba' on the village outskirts."
+            ],
+            faqs: [
+              {
+                question: "Is Chitkul the last village on the border?",
+                answer: "Yes, Chitkul is the last civilian inhabited village along the old Hindustan-Tibet trade route before the ITBP border outpost."
+              }
+            ],
+            seoTitle: "Chitkul (3,450m) — Last Village of India",
+            seoDescription: "Complete travel guide to Chitkul (3,450m) in Kinnaur, Himachal Pradesh. The last Indian village, Baspa river banks, Mathi Devi temple, and route tips.",
+            keywords: [
+              "Chitkul Kinnaur",
+              "Chitkul altitude",
+              "last Indian village Chitkul",
+              "Baspa valley",
+              "Mathi temple Chitkul"
+            ]
           },
           {
             id: "kalpa",
             name: "Kalpa & Roghi Cliff",
             type: "scenic",
             emoji: "🍎",
-            coords: [31.5300, 78.2500],
+            coords: [31.54, 78.26],
+            pathCoords: kalpaPath,
             elevation: "2,960 m",
             bestSeason: "April to November",
             difficulty: "Easy",
             duration: "1–2 Days",
-            overview: "Kalpa sits high above the roaring Sutlej River amidst apple orchards, offering front-row views of the holy Kinner Kailash peak catching first morning light."
+            overview: "Kalpa is a heritage Kinnauri village perched high above the Sutlej River valley amidst sprawling apple orchards. Renowned for its unparalleled panoramic views of the sacred Kinner Kailash massif (6,050m), the village features traditional timber-and-slate temples, the Buddhist Hu-Bu-Lan-Kar gompa, and the dramatic sheer drop of Roghi Suicide Point.",
+            experience: "Waking at dawn to watch the 6,050-meter summit of Kinner Kailash ignite in breathtaking shades of crimson, gold, and pink.",
+            tips: [
+              "Visit the Roghi cliff edge (Suicide Point) 4 km past the village for sheer vertical canyon drops.",
+              "Peak apple harvest season runs from late August through October."
+            ],
+            faqs: [
+              {
+                question: "What is the best time to see Kinner Kailash from Kalpa?",
+                answer: "Clear October and November mornings offer the sharpest, unobstructed sunrise vistas of the entire Kinner Kailash range."
+              }
+            ],
+            seoTitle: "Kalpa (2,960m) — Kinner Kailash Views",
+            seoDescription: "Essential guide to Kalpa village (2,960m) in Kinnaur. Front-row sunrise views of Kinner Kailash, apple orchards, Roghi cliff, temples, and season advice.",
+            keywords: [
+              "Kalpa Kinnaur",
+              "Kalpa altitude",
+              "Kinner Kailash view Kalpa",
+              "Roghi suicide point",
+              "Kalpa apple season"
+            ]
           },
           {
             id: "sangla-kamru-fort",

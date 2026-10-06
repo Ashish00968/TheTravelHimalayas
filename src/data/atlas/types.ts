@@ -18,6 +18,7 @@ export interface HimalayaPlace {
   image?: string;
   heroImage?: string;
   coords?: [number, number];
+  pathCoords?: [number, number][];
   elevation?: string;
   bestSeason?: string;
   difficulty?: string;

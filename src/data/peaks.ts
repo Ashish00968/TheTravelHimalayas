@@ -7,7 +7,7 @@ export const peaks: Peak[] = [
     region: "Kullu-Manali",
     difficulty: "Moderate",
     height: 5289,
-    coords: [32.3900, 77.1000],
+    coords: [32.39555, 77.10209],
     expeditionSeason: "May to June, September to October",
     baseCamp: "Lady Leg Base Camp (4200m)",
     overview:
@@ -66,7 +66,7 @@ export const peaks: Peak[] = [
     region: "Kullu-Manali",
     difficulty: "Challenging",
     height: 5982,
-    coords: [32.3450, 77.0370],
+    coords: [32.34179, 77.04082],
     expeditionSeason: "May to June, September to October",
     baseCamp: "Beas Kund Base Camp (3700m)",
     overview:
@@ -121,7 +121,7 @@ export const peaks: Peak[] = [
     region: "Kullu-Manali",
     difficulty: "Challenging",
     height: 6001,
-    coords: [32.1960, 77.3850],
+    coords: [32.19487, 77.38289],
     expeditionSeason: "May to June, September to October",
     baseCamp: "Jagatsukh Base Camp (3900m)",
     overview:
@@ -177,7 +177,7 @@ export const peaks: Peak[] = [
     region: "Kullu-Manali",
     difficulty: "Challenging",
     height: 6221,
-    coords: [32.2130, 77.4060],
+    coords: [32.21340, 77.39693],
     expeditionSeason: "May to June, September to October",
     baseCamp: "Duhangan Col Base Camp (4200m)",
     overview:

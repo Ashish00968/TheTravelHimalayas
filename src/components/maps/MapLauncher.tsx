@@ -20,7 +20,7 @@ export function MapLauncher({ treks }: MapLauncherProps) {
 
   if (isMapActive) {
     return (
-      <div className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-surface">
+      <div className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] relative">
         <GlobalMap treks={treks} initialFocusId={focusParam} />
       </div>
     );

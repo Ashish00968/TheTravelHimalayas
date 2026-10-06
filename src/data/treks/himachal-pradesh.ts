@@ -10,7 +10,7 @@ export const himachalTreks: Trek[] = [
     distance: "14 km",
     maxAltitude: "3,700 m",
     bestSeason: "May to October",
-    coords: [32.3580, 77.1380],
+    coords: [32.3664, 77.0855],
     pathCoords: [
       [32.3150, 77.1580], // Solang
       [32.3250, 77.1550],
@@ -119,7 +119,7 @@ export const himachalTreks: Trek[] = [
     distance: "16 km round-trip",
     maxAltitude: "4,261 m",
     bestSeason: "May to October",
-    coords: [32.3547, 77.1939],
+    coords: [32.35386, 77.19106],
     pathCoords: [
       [32.3207084, 77.153156],
       [32.3213709, 77.1544826],
@@ -154,9 +154,7 @@ export const himachalTreks: Trek[] = [
       [32.3515541, 77.1880191],
       [32.3523286, 77.1895698],
       [32.3532101, 77.1905993],
-      [32.3539401, 77.1906891],
-      [32.3547395, 77.1916726],
-      [32.3547474, 77.1938936],
+      [32.35386, 77.19106],
     ],
     startPoint: "Solang Village / Buruwa (2,480m)",
     guideRatePerDay: 2500,
@@ -356,7 +354,7 @@ export const himachalTreks: Trek[] = [
     distance: "22 km",
     maxAltitude: "4,300 m",
     bestSeason: "May to June, September to October",
-    coords: [32.2240, 77.2510],
+    coords: [32.2933, 77.2425],
     pathCoords: [
       [32.3150, 77.1950], // Gulaba Roadhead (3,100m)
       [32.2850, 77.2180], // Jonker Thatch (3,350m)

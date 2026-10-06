@@ -339,11 +339,19 @@
   button.bg-primary, button.bg-primary *,
   a.bg-primary, a.bg-primary *,
   .bg-black, .bg-black *,
+  [class*="bg-black/"], [class*="bg-black/"] *,
+  [class*="bg-black"], [class*="bg-black"] *,
+  [class*="bg-slate-950"], [class*="bg-slate-950"] *,
+  [class*="bg-slate-900"], [class*="bg-slate-900"] *,
   .bg-slate-950, .bg-slate-950 *,
   :root:not(.dark) .dark-photo-card,
   :root:not(.dark) .dark-photo-card *,
   :root:not(.dark) .preserve-white-text,
   :root:not(.dark) .preserve-white-text *,
+  :root:not(.dark) .map-canvas-container,
+  :root:not(.dark) .map-canvas-container *,
+  :root:not(.dark) .mapboxgl-marker,
+  :root:not(.dark) .mapboxgl-marker *,
   :root:not(.dark) .hero-dark-overlay,
   :root:not(.dark) .hero-dark-overlay *,
   :root:not(.dark) .preserve-white-text h1,
@@ -352,6 +360,12 @@
   :root:not(.dark) .preserve-white-text h4,
   :root:not(.dark) .preserve-white-text p,
   :root:not(.dark) .preserve-white-text span,
+  :root:not(.dark) .map-canvas-container h1,
+  :root:not(.dark) .map-canvas-container h2,
+  :root:not(.dark) .map-canvas-container h3,
+  :root:not(.dark) .map-canvas-container h4,
+  :root:not(.dark) .map-canvas-container p,
+  :root:not(.dark) .map-canvas-container span,
   :root:not(.dark) .dark-photo-card h1,
   :root:not(.dark) .dark-photo-card h2,
   :root:not(.dark) .dark-photo-card h3,
@@ -360,8 +374,14 @@
   :root:not(.dark) .dark-photo-card span {
     color: #FFFFFF !important;
   }
+  :root:not(.dark) [class*="bg-black/"] .text-white\/90,
+  :root:not(.dark) [class*="bg-black/"] span,
+  :root:not(.dark) [class*="bg-black"] .text-white\/90,
+  :root:not(.dark) [class*="bg-black"] span,
+  :root:not(.dark) [class*="bg-slate-950"] .text-white\/90,
+  :root:not(.dark) [class*="bg-slate-950"] span,
   :root:not(.dark) .preserve-white-text .text-white\/90, :root:not(.dark) .dark-photo-card .text-white\/90, :root:not(.dark) .hero-dark-overlay .text-white\/90 {
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
   }
   :root:not(.dark) .preserve-white-text .text-white\/85, :root:not(.dark) .dark-photo-card .text-white\/85, :root:not(.dark) .hero-dark-overlay .text-white\/85 {
     color: rgba(255, 255, 255, 0.85) !important;
@@ -491,5 +511,23 @@
     -webkit-appearance: auto !important;
   }
 }
+
+/* ── 3D Mapbox State Marker Float Animation ─────────────────────── */
+@keyframes stateMarkerFloat {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 8px 24px rgba(232, 201, 122, 0.6));
+  }
+  50% {
+    transform: translateY(-8px);
+    filter: drop-shadow(0 18px 36px rgba(232, 201, 122, 0.9));
+  }
+}
+
+.state-marker-float {
+  animation: stateMarkerFloat 2.4s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
 
 

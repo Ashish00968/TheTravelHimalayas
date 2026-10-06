@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useActiveRoutePoint, setActiveRoutePoint } from "@/lib/route-store";
 
 interface ItineraryDay {
   day: number;
@@ -13,6 +14,7 @@ interface ItineraryDay {
 export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
   const [hoveredDay, setHoveredDay] = useState<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const activeRoutePoint = useActiveRoutePoint();
 
   // Filter out days without elevation
   const points = itinerary.filter((d) => d.elevationMeters !== undefined);
@@ -122,8 +124,21 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
               return (
                 <g 
                   key={p.day}
-                  onMouseEnter={() => setHoveredDay(p.day)}
-                  onMouseLeave={() => setHoveredDay(null)}
+                  onMouseEnter={() => {
+                    setHoveredDay(p.day);
+                    setActiveRoutePoint({
+                      progress: i / (points.length - 1),
+                      distanceKm: p.distanceKm || 0,
+                      elevationM: p.elevationMeters || 0,
+                      lat: 0,
+                      lng: 0,
+                      label: p.title,
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredDay(null);
+                    setActiveRoutePoint(null);
+                  }}
                   className="cursor-pointer"
                 >
                   {/* Invisible larger circle for easier hovering */}
@@ -204,6 +219,52 @@ export function ElevationProfile({ itinerary }: { itinerary: ItineraryDay[] }) {
                 </g>
               );
             })}
+
+            {/* Synchronized 3D Route Flyover Cursor Line */}
+            {activeRoutePoint && hoveredDay === null && (
+              <g className="transition-all duration-75">
+                <line
+                  x1={50 + activeRoutePoint.progress * (width - 100)}
+                  y1={50}
+                  x2={50 + activeRoutePoint.progress * (width - 100)}
+                  y2={height - 50}
+                  stroke="#00E5FF"
+                  strokeWidth="2"
+                  strokeDasharray="4 4"
+                  className="animate-pulse"
+                />
+                <circle
+                  cx={50 + activeRoutePoint.progress * (width - 100)}
+                  cy={getY(activeRoutePoint.elevationM)}
+                  r="6"
+                  fill="#00E5FF"
+                  stroke="#FFFFFF"
+                  strokeWidth="2"
+                  className="shadow-lg shadow-cyan-500/50"
+                />
+                <rect
+                  x={50 + activeRoutePoint.progress * (width - 100) - 45}
+                  y={getY(activeRoutePoint.elevationM) - 34}
+                  width="90"
+                  height="24"
+                  rx="6"
+                  fill="#030712"
+                  stroke="#00E5FF"
+                  strokeWidth="1"
+                />
+                <text
+                  x={50 + activeRoutePoint.progress * (width - 100)}
+                  y={getY(activeRoutePoint.elevationM) - 18}
+                  fill="#00E5FF"
+                  fontSize="11"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                  fontFamily="monospace"
+                >
+                  {activeRoutePoint.elevationM}m
+                </text>
+              </g>
+            )}
           </svg>
         </div>
       </div>

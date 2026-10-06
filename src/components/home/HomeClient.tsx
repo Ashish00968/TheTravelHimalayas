@@ -366,7 +366,7 @@ function MobileHero() {
             </div>
 
             {/* Territory Micro-Pill Dock */}
-            <div className="grid grid-cols-2 gap-1.5 w-full max-w-[310px] mb-2.5">
+            <div className="grid grid-cols-2 gap-1.5 w-full max-w-[310px]">
               {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
                 <Link
                   key={id}
@@ -379,36 +379,13 @@ function MobileHero() {
                 </Link>
               ))}
             </div>
-
-            {/* Minimal Metrics Ticker */}
-            <div className="flex items-center justify-around py-2 px-3 rounded-2xl border border-white/20 bg-slate-950/80 dark:bg-[#0A1122]/90 backdrop-blur-xl shadow-lg max-w-xs mx-auto w-full text-center">
-              <div>
-                <span className="font-display font-extrabold text-xs text-blue-400 block">59</span>
-                <span className="text-[8.5px] font-mono uppercase tracking-wider text-slate-200">Trails</span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div>
-                <span className="font-display font-extrabold text-xs text-amber-400 block">4</span>
-                <span className="text-[8.5px] font-mono uppercase tracking-wider text-slate-200">Territories</span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div>
-                <span className="font-display font-extrabold text-xs text-purple-400 block">7,816m</span>
-                <span className="text-[8.5px] font-mono uppercase tracking-wider text-slate-200">Ceiling</span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div>
-                <span className="font-display font-extrabold text-xs text-teal-400 block">100%</span>
-                <span className="text-[8.5px] font-mono uppercase tracking-wider text-slate-200">Free</span>
-              </div>
-            </div>
           </motion.div>
         </motion.div>
 
-        {/* Layer 5: Feathered Edge Melt at Bottom (z-[25]) */}
+        {/* Layer 5: Feathered Edge Melt at Bottom (z-[25]) — Dark mode only; zero milky fade in light mode */}
         <motion.div
           style={{ opacity: bottomMeltOpacity }}
-          className="absolute inset-x-0 bottom-0 h-32 pointer-events-none z-[25] bg-gradient-to-t from-background via-background/75 to-transparent transition-colors duration-500"
+          className="hidden dark:block absolute inset-x-0 bottom-0 h-32 pointer-events-none z-[25] bg-gradient-to-t from-background via-background/75 to-transparent transition-colors duration-500"
         />
 
         {/* Layer 6: Scroll Indicator Hint (z-30) */}
@@ -632,7 +609,7 @@ function DesktopHero() {
             </div>
 
             {/* Invisible spacer for Details so height is identical */}
-            <div className="w-full max-w-[840px] mx-auto mt-6 sm:mt-8 md:mt-10 invisible select-none h-44" aria-hidden="true" />
+            <div className="w-full max-w-[840px] mx-auto mt-6 sm:mt-8 md:mt-10 invisible select-none h-32 sm:h-36" aria-hidden="true" />
           </div>
         </motion.div>
 
@@ -758,7 +735,7 @@ function DesktopHero() {
             </div>
 
             {/* Territory Micro-Pill Quick Dock */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
                 <motion.div key={id} whileHover={{ scale: 1.06, y: -2 }} whileTap={{ scale: 0.96 }}>
                   <Link
@@ -772,44 +749,13 @@ function DesktopHero() {
                 </motion.div>
               ))}
             </div>
-
-            {/* Sleek Minimal Stats Bar */}
-            <div className="flex flex-wrap items-center justify-center gap-6 px-7 py-2.5 rounded-full glass-capsule border border-white/15 bg-white/[0.05] dark:bg-[#0A1122]/60 backdrop-blur-xl shadow-lg">
-              <div className="flex items-center gap-2.5">
-                <span className="font-display font-extrabold text-base text-blue-400">59</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
-                  Mapped Trails
-                </span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div className="flex items-center gap-2.5">
-                <span className="font-display font-extrabold text-base text-amber-400">4</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
-                  Territories
-                </span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div className="flex items-center gap-2.5">
-                <span className="font-display font-extrabold text-base text-purple-400">7,816m</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
-                  Highest Peak
-                </span>
-              </div>
-              <span className="w-px h-4 bg-white/20" />
-              <div className="flex items-center gap-2.5">
-                <span className="font-display font-extrabold text-base text-teal-400">100%</span>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-200 font-semibold">
-                  Free Access
-                </span>
-              </div>
-            </div>
           </motion.div>
         </motion.div>
 
-        {/* Generous Edge Melt — Scroll-driven: zero fade at start, feathers smoothly as user scrolls towards bottom */}
+        {/* Edge Melt — Scroll-driven: Dark mode only; zero milky fade in light mode so mountain panorama remains pristine */}
         <motion.div
           style={{ opacity: bottomMeltOpacity }}
-          className="absolute inset-x-0 bottom-0 h-44 sm:h-64 pointer-events-none z-[25] bg-gradient-to-t from-background via-background/70 to-transparent transition-colors duration-500"
+          className="hidden dark:block absolute inset-x-0 bottom-0 h-44 sm:h-64 pointer-events-none z-[25] bg-gradient-to-t from-background via-background/70 to-transparent transition-colors duration-500"
         />
 
         {/* Scroll Down Hint (Fades out when scroll starts) */}
@@ -853,7 +799,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
   return (
     <section
       id="territories"
-      className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300"
+      className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300 shadow-[0_-16px_40px_rgba(15,23,42,0.06)] dark:shadow-none"
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* Section Heading */}
@@ -1585,7 +1531,7 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                         prefetch={false}
                         className="group rounded-2xl overflow-hidden bg-card/90 dark:bg-[#090e1a]/95 backdrop-blur-xl flex flex-col justify-between block border border-border/70 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/10"
                       >
-                        <div className="relative h-20 sm:h-24 md:h-26 w-full overflow-hidden shrink-0">
+                        <div className="relative h-20 sm:h-24 md:h-26 w-full overflow-hidden shrink-0 dark-photo-card preserve-white-text">
                           {trek.heroImage ? (
                             <Image
                               src={trek.heroImage}
@@ -1604,17 +1550,17 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                           <div className="absolute inset-0 bg-gradient-to-t from-card dark:from-[#090e1a] via-transparent to-black/30" />
 
                           <div
-                            className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[8px] sm:text-[8.5px] font-mono text-white/90 font-bold uppercase tracking-wider shadow-sm"
+                            className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-slate-950/85 dark:bg-black/75 backdrop-blur-md border border-white/20 text-[8px] sm:text-[8.5px] font-mono !text-white font-bold uppercase tracking-wider shadow-sm"
                             style={{ transform: "translateZ(15px)" }}
                           >
                             {trek.region}
                           </div>
 
                           <div
-                            className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-[8px] sm:text-[8.5px] font-mono font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${
+                            className={`absolute top-2 right-2 px-2.5 py-0.5 rounded-full text-[8px] sm:text-[8.5px] font-mono font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${
                               trek.difficulty.toLowerCase().includes("easy")
-                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
-                                : "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                                ? "bg-slate-950/80 text-emerald-400 border-emerald-500/40"
+                                : "bg-slate-950/80 text-amber-400 border-amber-500/40"
                             }`}
                             style={{ transform: "translateZ(15px)" }}
                           >

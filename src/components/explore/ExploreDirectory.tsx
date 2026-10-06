@@ -285,7 +285,7 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
 
             return (
               <Link
-                key={place.id}
+                key={place.href || `${place.regionName}-${place.subRegionName}-${place.id}`}
                 href={place.href}
                 className="group relative rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden glass-museum-card shadow-lg border-t-2"
                 style={{
