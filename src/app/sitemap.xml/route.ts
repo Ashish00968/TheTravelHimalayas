@@ -36,6 +36,23 @@ const PATALSU_PLATE_CAPTIONS: Record<string, string> = {
   "15SunsetHanumanTibba": "Alpenglow on Hanuman Tibba — setting October sun setting the west face of Hanuman Tibba ablaze in deep golden and crimson alpenglow",
 };
 
+// Storyline dispatch plate captions for Jogni Falls / Jogini Waterfall
+const JOGNI_PLATE_CAPTIONS: Record<string, string> = {
+  "1TrekkingViaVashishtboardswithmessage": "Vashisht Village Trailhead & Guidance Signboards — trail departure from Vashisht temple alleyways leading toward Jogni Waterfall",
+  "2boardwithmessage_behavelikeanimalsDoNotLitter": "Rustic Mountain Stewardship Message Board — 'Behave like animals, do not litter' Pahadi environmental reminder in pine woods",
+  "3firstViewofJogniFalls": "First Glimpse of Jogni Falls from Forest Trail — opening view of the cascading cataract through towering deodar canopy",
+  "4Fallsbelowjognifallswithmevisible": "Approaching Lower Cascade Boulder Streams — hiker on alpine path alongside roaring glacial runoff below Jogni Falls",
+  "5bottomofthefallsbelowjognifalls": "Lower Tiered Waterfall Pool — glacial meltwater cascading violently over mossy granite rocks and pool",
+  "6viewoftheValleyfromfalls": "Panoramic Kullu Valley View from Jogni Trail — sweeping vista of the Beas Valley and distant Pir Panjal snow crests",
+  "7MajesticViewofJogniFalls": "The Grand 150-Foot Upper Jogni Falls Plunge — majestic vertical water cataract crashing into the natural amphitheater",
+  "8Clooserlook": "Glacial Cataract & Sheer Granite Cliff Face — closer view of roaring water plunge and geological rock formations",
+  "9manstandingwithjognifalls": "Standing in the Amphitheater of Jogni Waterfall — hiker dwarfed by the sheer scale of the 150-ft falling water",
+  "10jognifallswithme": "Sub-alpine Spray Zone at Base Pool — standing in the refreshing glacial mist below Upper Jogni Falls",
+  "11sittingwithJognifalls": "Contemplation by the Roaring Cataract — resting on granite boulders facing the sacred Jogini deity waterfall",
+  "12Jognifalls": "Crystal Plunge Pool & Falling Veil — pristine mountain stream flowing out from the base of Upper Jogni Falls",
+  "13Viewofthesnowmountainpeaksfromjognifalls": "Snow-Capped Pir Panjal Peaks from Waterfall Ridge — panoramic vista of snow-draped Himalayan mountains across the valley",
+};
+
 interface ImageNode {
   loc: string;
   title: string;
@@ -145,6 +162,13 @@ export async function GET(): Promise<Response> {
 
           if (place.id === "patalsu-peak") {
             for (const [key, val] of Object.entries(PATALSU_PLATE_CAPTIONS)) {
+              if (rawUrl.includes(key)) {
+                caption = `${place.name} — ${val}`;
+                break;
+              }
+            }
+          } else if (place.id === "jogni-falls") {
+            for (const [key, val] of Object.entries(JOGNI_PLATE_CAPTIONS)) {
               if (rawUrl.includes(key)) {
                 caption = `${place.name} — ${val}`;
                 break;
