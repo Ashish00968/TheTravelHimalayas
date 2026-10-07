@@ -1016,9 +1016,13 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       const loc = placeLocationIndex.get(place.id);
       const placeAccent = loc ? TERRITORY_ACCENT[loc.regionId] ?? "#3B82F6" : "#3B82F6";
 
-      // Render GeoJSON trail if available
-      const trekData = treks.find((t) => t.slug === place.id);
-      const pathCoords = place.pathCoords || trekData?.pathCoords;
+      // Render GeoJSON trail ONLY for authentic trails, treks, peaks, or hikes
+      const isTrailOrPeak =
+        place.type === "trek" ||
+        place.type === "peak" ||
+        place.type === "day-hike";
+      const trekData = isTrailOrPeak ? treks.find((t) => t.slug === place.id) : undefined;
+      const pathCoords = isTrailOrPeak ? (place.pathCoords || trekData?.pathCoords) : undefined;
       if (pathCoords && pathCoords.length > 1) {
         const sId = `source-${place.id}`;
         const lId = `layer-${place.id}`;

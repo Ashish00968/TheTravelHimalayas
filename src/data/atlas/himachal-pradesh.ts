@@ -1,5 +1,4 @@
 import { HimalayaRegion, PlaceType } from "./types";
-import { rohtangPassPath, prasharLakePath, rewalsarLakePath, jispaPath, sissuPath, kalpaPath, chitkulPath } from "../paths";
 import { treks } from "../treks";
 import { peaks } from "../peaks";
 
@@ -564,7 +563,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "road",
             emoji: "🏔️",
             coords: [32.37, 77.25],
-            pathCoords: rohtangPassPath,
             elevation: "3,978 m",
             bestSeason: "May to October",
             difficulty: "Moderate",
@@ -889,7 +887,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "scenic",
             emoji: "🌊",
             coords: [32.43, 77.24],
-            pathCoords: sissuPath,
             elevation: "3,100 m",
             bestSeason: "Year-round via Atal Tunnel (Best: May to Oct, Snow in Jan–March)",
             difficulty: "Easy",
@@ -959,7 +956,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "lake",
             emoji: "🌊",
             coords: [31.77, 77.06],
-            pathCoords: prasharLakePath,
             elevation: "2,730 m",
             bestSeason: "Year-round (Snow: Dec–Mar; Green: Apr–Nov)",
             difficulty: "Easy to Moderate",
@@ -992,7 +988,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "spiritual",
             emoji: "🪷",
             coords: [31.64, 76.83],
-            pathCoords: rewalsarLakePath,
             elevation: "1,360 m",
             bestSeason: "September to April",
             difficulty: "Easy",
@@ -1147,7 +1142,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "scenic",
             emoji: "🌊",
             coords: [32.65, 77.05],
-            pathCoords: jispaPath,
             elevation: "3,200 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -1407,7 +1401,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "scenic",
             emoji: "🏡",
             coords: [31.36, 78.43],
-            pathCoords: chitkulPath,
             elevation: "3,450 m",
             bestSeason: "April to October",
             difficulty: "Easy",
@@ -1440,7 +1433,6 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             type: "scenic",
             emoji: "🍎",
             coords: [31.54, 78.26],
-            pathCoords: kalpaPath,
             elevation: "2,960 m",
             bestSeason: "April to November",
             difficulty: "Easy",

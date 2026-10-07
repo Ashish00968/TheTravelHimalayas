@@ -1,5 +1,4 @@
 import { HimalayaRegion } from "./types";
-import { khardungLaPath, lehPath, gurudwaraPatharSahibPath } from "../paths";
 
 export const ladakhRegion: HimalayaRegion =   {
     id: "ladakh",
@@ -63,7 +62,6 @@ export const ladakhRegion: HimalayaRegion =   {
             type: "road",
             emoji: "🏍️",
             coords: [34.28, 77.60],
-            pathCoords: khardungLaPath,
             elevation: "5,359 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -76,7 +74,6 @@ export const ladakhRegion: HimalayaRegion =   {
             type: "spiritual",
             emoji: "☸️",
             coords: [34.15, 77.58],
-            pathCoords: lehPath,
             elevation: "3,524 m",
             bestSeason: "May to October",
             difficulty: "Easy",
@@ -109,7 +106,6 @@ export const ladakhRegion: HimalayaRegion =   {
             type: "spiritual",
             emoji: "☬",
             coords: [34.12, 77.26],
-            pathCoords: gurudwaraPatharSahibPath,
             elevation: "3,500 m",
             bestSeason: "May to October",
             difficulty: "Easy",
