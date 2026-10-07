@@ -727,7 +727,7 @@ function DesktopHero() {
               </Link>
               <Link
                 href="/map"
-                className="px-7 py-3.5 rounded-full glass-capsule hover:bg-white/10 text-white font-display font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-white/20 hover:border-white/40 active:scale-[0.98]"
+                className="px-7 py-3.5 rounded-full glass-capsule hover:bg-foreground/[0.06] text-foreground font-display font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-foreground/15 hover:border-foreground/30 active:scale-[0.98]"
               >
                 <Map className="w-4 h-4 text-primary" />
                 <span>Launch 3D Atlas</span>
@@ -740,7 +740,7 @@ function DesktopHero() {
                 <motion.div key={id} whileHover={{ scale: 1.06, y: -2 }} whileTap={{ scale: 0.96 }}>
                   <Link
                     href={`/explore/${id}`}
-                    className="px-4 py-2 rounded-full text-xs font-mono font-medium tracking-wide glass-capsule transition-all flex items-center gap-2 shadow-sm border border-white/15 text-white/90 hover:text-white"
+                    className="px-4 py-2 rounded-full text-xs font-mono font-medium tracking-wide glass-capsule transition-all flex items-center gap-2 shadow-sm border border-foreground/10 text-foreground/85 hover:text-foreground hover:bg-foreground/[0.04]"
                     style={{ borderLeft: `3px solid ${t.accent}` }}
                   >
                     <span>{t.emoji}</span>

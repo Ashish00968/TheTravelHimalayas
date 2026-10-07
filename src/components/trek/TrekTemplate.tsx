@@ -33,22 +33,27 @@ export function TrekTemplate({
 }: TrekTemplateProps) {
   const trek = place.trekData;
   const isPatalsu = place.id === "patalsu-peak";
+  const isJogni = place.id === "jogni-falls";
 
   // Best available authentic photography (strictly no repeating territory fallback)
   const heroImage = isPatalsu
     ? "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/10abovetheTreelineViewOfDhauladharRanges.jpg"
+    : isJogni
+    ? "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/7MajesticViewofJogniFalls.jpg"
     : (place.heroImage || trek?.heroImage || (place.images && place.images.length > 0 ? place.images[0] : undefined));
 
   const endingImage = isPatalsu
     ? "https://res.cloudinary.com/dehriwm1o/image/upload/q_auto,f_auto/15SunsetHanumanTibba.jpg"
+    : isJogni
+    ? "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/13ViewOfSnowCappedMountains.jpg"
     : (place.images && place.images.length > 1 ? place.images[1] : undefined);
 
-  const maxAltitudeVal = place.elevation || trek?.maxAltitude || (isPatalsu ? "4,261 m" : "Alpine Zone");
-  const durationVal = place.duration || trek?.duration || (isPatalsu ? "2–3 Days or 1-Day Push" : "Multi-Day");
-  const distanceVal = place.distance || trek?.distance || (isPatalsu ? "16 km Loop" : "Mountain Trail");
-  const difficultyVal = place.difficulty || trek?.difficulty || "Moderate";
-  const startPointVal = trek?.startPoint || (isPatalsu ? "Solang Village (2,480m)" : "Base Trailhead");
-  const bestSeasonVal = place.bestSeason || trek?.bestSeason || "May to October";
+  const maxAltitudeVal = place.elevation || trek?.maxAltitude || (isPatalsu ? "4,261 m" : isJogni ? "2,280 m" : "Alpine Zone");
+  const durationVal = place.duration || trek?.duration || (isPatalsu ? "2–3 Days or 1-Day Push" : isJogni ? "Half Day (2–3 Hours)" : "Multi-Day");
+  const distanceVal = place.distance || trek?.distance || (isPatalsu ? "16 km Loop" : isJogni ? "3.2 km round-trip" : "Mountain Trail");
+  const difficultyVal = place.difficulty || trek?.difficulty || (isJogni ? "Easy" : "Moderate");
+  const startPointVal = trek?.startPoint || (isPatalsu ? "Solang Village (2,480m)" : isJogni ? "Vashisht Village (2,050m)" : "Base Trailhead");
+  const bestSeasonVal = place.bestSeason || trek?.bestSeason || (isJogni ? "March to November" : "May to October");
   const itinerary = trek?.itinerary || place.itinerary || [];
   const faqs = trek?.faqs || place.faqs || [];
   const packingList = trek?.packingList || place.packingList || [];
@@ -100,6 +105,8 @@ export function TrekTemplate({
         stateSlug={state}
         subRegionName={subRegion.name}
         isPatalsu={isPatalsu}
+        isJogni={isJogni}
+        breadcrumbItems={breadcrumbItems}
       />
 
       {/* 5. THE TRAIL: HIKER'S DISPATCH & CHRONOLOGICAL PHOTO STORY */}
@@ -109,6 +116,7 @@ export function TrekTemplate({
         subRegionName={subRegion.name}
         stateSlug={state}
         isPatalsu={isPatalsu}
+        isJogni={isJogni}
       />
 
       {/* 6. ROUTE & GEOSPATIAL TRAILHEAD */}
@@ -124,6 +132,7 @@ export function TrekTemplate({
         subRegionName={subRegion.name}
         stateSlug={state}
         isPatalsu={isPatalsu}
+        isJogni={isJogni}
       />
 
       {/* 7. ELEVATION & ALTITUDE PROFILE */}

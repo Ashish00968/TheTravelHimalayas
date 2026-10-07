@@ -265,16 +265,18 @@ export default function RouteMap3D({
         },
       });
 
-      // 6. Trailhead Marker (Solang)
+      const isJogni = routeData.placeId === "jogni-falls";
+
+      // 6. Trailhead Marker
       const startCoord = coordinates[0];
       const startEl = document.createElement("div");
       startEl.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-emerald-400 text-white text-xs font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
-      startEl.innerHTML = `<span>🟢</span><span>${isPatalsu ? "Solang Trailhead (2,480m)" : "Trailhead"}</span>`;
+      startEl.innerHTML = `<span>🟢</span><span>${isPatalsu ? "Solang Trailhead (2,480m)" : isJogni ? "Vashisht Trailhead (2,050m)" : "Trailhead"}</span>`;
       new mapboxgl.Marker({ element: startEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
         .setLngLat([startCoord[0], startCoord[1]])
         .addTo(map);
 
-      // 7. Intermediate Camp Marker (Shagadugh) if Patalsu
+      // 7. Intermediate Camp / Cascade Marker
       if (isPatalsu && coordinates.length > 500) {
         const midCoord = coordinates[Math.floor(coordinates.length * 0.45)];
         const midEl = document.createElement("div");
@@ -283,9 +285,17 @@ export default function RouteMap3D({
         new mapboxgl.Marker({ element: midEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
           .setLngLat([midCoord[0], midCoord[1]])
           .addTo(map);
+      } else if (isJogni) {
+        const midCoord = coordinates[Math.floor(coordinates.length * 0.6)];
+        const midEl = document.createElement("div");
+        midEl.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-cyan-400 text-white text-[11px] font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
+        midEl.innerHTML = `<span>🌊</span><span>Lower Cascades (2,180m)</span>`;
+        new mapboxgl.Marker({ element: midEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
+          .setLngLat([midCoord[0], midCoord[1]])
+          .addTo(map);
       }
 
-      // 8. Summit Marker (Patalsu Peak apex [77.19106, 32.35386])
+      // 8. Summit / Destination Marker
       const summitCoord: [number, number] = isPatalsu
         ? [77.19106, 32.35386]
         : (() => {
@@ -293,7 +303,7 @@ export default function RouteMap3D({
             return [maxPt[0], maxPt[1]];
           })();
 
-      // Add native GPU-clamped 3D terrain beacon on the summit
+      // Add native GPU-clamped 3D terrain beacon on the summit / waterfall
       map.addSource("summit-apex-beacon", {
         type: "geojson",
         data: {
@@ -334,7 +344,7 @@ export default function RouteMap3D({
       summitEl.className = "flex flex-col items-center cursor-pointer group pointer-events-auto select-none";
       summitEl.innerHTML = `
         <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/95 border border-cyan-400 text-white text-xs font-mono font-bold shadow-2xl backdrop-blur-md hover:scale-105 transition-transform animate-pulse">
-          <span>🚩</span><span>${isPatalsu ? "Patalsu Summit (4,261m)" : "Summit Crest"}</span>
+          <span>${isJogni ? "🌊" : "🚩"}</span><span>${isPatalsu ? "Patalsu Summit (4,261m)" : isJogni ? "Jogni Falls (2,280m)" : `${placeName} (${maxAltitude})`}</span>
         </div>
         <div style="width: 2px; height: 10px; background: linear-gradient(to bottom, #22d3ee, #06b6d4);"></div>
         <div style="width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 6px solid #22d3ee; filter: drop-shadow(0 0 4px #06b6d4);"></div>
@@ -358,7 +368,7 @@ export default function RouteMap3D({
       map.remove();
       mapRef.current = null;
     };
-  }, [isMapActive, mapboxToken, bounds, coordinates, isPatalsu]);
+  }, [isMapActive, mapboxToken, bounds, coordinates, isPatalsu, maxAltitude, placeName, routeData.placeId]);
 
   // Synchronize marker when elevation profile or route store is hovered
   useEffect(() => {

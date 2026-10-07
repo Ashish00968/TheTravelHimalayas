@@ -46,6 +46,7 @@ export async function generateMetadata({
   const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike");
 
   const isPatalsu = placeId === "patalsu-peak";
+  const isJogni = placeId === "jogni-falls";
 
   const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);
   const durationStr = place.duration || place.trekData?.duration;
@@ -56,6 +57,8 @@ export async function generateMetadata({
     pageTitle = place.seoTitle;
   } else if (isPatalsu) {
     pageTitle = "Patalsu Peak Trek (4,261m) Manali — Route, Height, Best Season & Cost";
+  } else if (isJogni) {
+    pageTitle = "Jogni Falls Trek (2,280m) Vashisht, Manali — Route, Map & Photo Story";
   } else if (isExpedition) {
     const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
@@ -82,6 +85,8 @@ export async function generateMetadata({
 
   if (isPatalsu) {
     description = "Complete guide to Patalsu Peak Trek (4,261m / 13,980 ft) in Manali. Discover height, distance from Solang Valley (16km), best season, cost, snow conditions, and the 1-day speed hike route.";
+  } else if (isJogni) {
+    description = "Complete trail guide to Jogni Falls (Jogini Waterfall, 2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, timings, and insider tips.";
   }
 
   const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
@@ -109,7 +114,42 @@ export async function generateMetadata({
     "mount patalsu",
   ];
 
-  const keywords = place.keywords || (isPatalsu ? patalsuKeywords : [
+  const jogniKeywords = [
+    "jogni falls",
+    "jogini waterfall",
+    "jogini falls",
+    "jogini waterfall manali",
+    "jogni falls manali",
+    "jogni falls trek",
+    "jogini falls trek",
+    "manali jogni falls",
+    "jogni falls in winter",
+    "jogini waterfall in winter",
+    "jogni falls trek distance",
+    "jogini waterfall trek distance",
+    "jogini waterfall distance from manali",
+    "jogini falls altitude",
+    "jogini waterfall height",
+    "jogini waterfall location",
+    "jogini falls timings",
+    "how to reach jogini waterfall from manali",
+    "how long is jogini falls trek",
+    "why is jogini waterfall famous",
+    "is jogini waterfall open now",
+    "jogni falls manali latest",
+    "jogni falls vashisht",
+    "vashisht to jogni waterfall",
+    "lower jogini falls",
+    "upper jogini falls",
+    "jogini falls photos",
+    "jogni falls photo story",
+    "best day hikes in manali",
+    "jogini mata temple manali",
+    "vashisht village day hike",
+    "manali waterfall trek",
+  ];
+
+  const keywords = place.keywords || (isPatalsu ? patalsuKeywords : isJogni ? jogniKeywords : [
     `${place.name} trek`,
     `${place.name} itinerary`,
     `${place.name} difficulty`,

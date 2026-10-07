@@ -111,6 +111,138 @@ export const himachalTreks: Trek[] = [
     description: "A peaceful forest walk leading to a stunning alpine meadow with panoramic Himalayan views, perfect for a half-day escape from Manali."
   },
   {
+    slug: "jogni-falls",
+    title: "Jogni Falls Trek",
+    region: "Kullu-Manali",
+    difficulty: "Easy",
+    duration: "Half Day (2–3 Hours)",
+    distance: "3.2 km round-trip",
+    maxAltitude: "2,280 m",
+    bestSeason: "March to November",
+    coords: [32.2723, 77.1886],
+    pathCoords: [
+      [32.266463, 77.184504],
+      [32.266814, 77.185225],
+      [32.267541, 77.186774],
+      [32.267682, 77.186743],
+      [32.268057, 77.186805],
+      [32.268197, 77.186698],
+      [32.268411, 77.186444],
+      [32.268732, 77.186309],
+      [32.269369, 77.186519],
+      [32.270071, 77.186418],
+      [32.270245, 77.186449],
+      [32.270477, 77.186182],
+      [32.271151, 77.186474],
+      [32.271528, 77.186699],
+      [32.271842, 77.187115],
+      [32.272066, 77.187308],
+      [32.27237, 77.187383],
+      [32.27244, 77.186979],
+      [32.272635, 77.186819],
+      [32.272842, 77.186577],
+      [32.273101, 77.186479],
+      [32.273436, 77.18647],
+      [32.273939, 77.186627],
+      [32.274191, 77.186842],
+      [32.274588, 77.187493],
+      [32.274884, 77.187775],
+      [32.27524, 77.188618],
+      [32.275748, 77.187992],
+      [32.275907, 77.187067],
+      [32.275967, 77.18614],
+      [32.27648, 77.186255],
+      [32.276925, 77.186478],
+      [32.276796, 77.187117],
+      [32.276946, 77.18778],
+      [32.276803, 77.189029],
+      [32.276334, 77.18988],
+      [32.275032, 77.190588],
+    ],
+    startPoint: "Vashisht Village (2,050m)",
+    guideRatePerDay: 1200,
+    overview: "Jogni Falls (Jogini Waterfall) is a sacred 150-foot cascading cataract plunging down sheer granite cliffs in the Kullu Valley above Vashisht village, approximately 4 km from Manali. Revered by local villagers as the sacred dwelling of the village Joginis (protective female deities), the trail departs from Vashisht temple square and ascends gently through fragrant deodar woods, ancient pine forests, and terraced apple orchards.\n\nThe trail features two distinct stages: the lower tiered cascades and boulder streams where glacial waters rush violently over smooth rocks, followed by a steeper dirt trail winding through tree roots and crags up to the grand upper amphitheater. Here, the full vertical plunge crashes into a crystalline plunge pool, drenching hikers in invigorating glacial spray while framing sweeping vistas of the Beas Valley and snow-draped Pir Panjal crests.",
+    routeDescription: "Depart Vashisht village on foot after parking near the temple square. The trail heads north past traditional wooden houses and backpacker cafes before entering apple orchards and tall deodar pines. Keep an eye out for rustic wooden message boards reminding visitors to respect the mountain and avoid littering. Cross small mountain streams as the sound of roaring water amplifies.\n\nAt roughly 1.2 km, you reach the lower cascade pools. While many casual visitors mistake this for the end, continue along the steep dirt path ascending through granite rocks and pine roots on the left bank. A short, invigorating 15-minute climb brings you directly into the natural rock amphitheater at the base of the roaring 150-foot Upper Jogni Waterfall.",
+    itinerary: [
+      {
+        day: 1,
+        title: "Vashisht Village (2,050m) to Upper Jogni Falls (2,280m) & Return",
+        description: "Park scooty or vehicle at Vashisht village. Stroll past the ancient Vashistha temple and ascend the stone alleyways into tranquil pine woods and apple orchards. Pass the rustic local message boards ('Behave like animals, do not litter') and hike alongside clear runoff streams. Arrive at the lower cascade pools (2,180m) to admire the gushing boulder streams. Climb the steeper upper trail to reach the roaring 150-foot Upper Jogni Waterfall amphitheater (2,280m). Soak in the cool glacial mist and panoramic views of the Kullu Valley and snow-clad Pir Panjal peaks before descending back to Vashisht for a relaxing warm sulfur bath.",
+        elevationMeters: 2280,
+        distanceKm: 3.2
+      }
+    ],
+    packingList: [
+      "Comfortable trail walking shoes or lightweight hiking boots with good wet grip",
+      "Light windbreaker or rain jacket (waterfall spray is intense near the upper pool)",
+      "Small 15–20L daypack",
+      "1 to 1.5 liters of drinking water",
+      "Camera or phone in a water-resistant pouch",
+      "Sun hat, sunglasses, and eco-friendly sunscreen",
+      "Small trash bag to pack all personal waste back to Vashisht"
+    ],
+    permits: "No permits or forest fees required for the Jogni Falls hike.",
+    faqs: [
+      {
+        question: "How long is Jogini Falls Trek?",
+        answer: "The Jogini Falls trek from Vashisht village is approximately 3.2 km round-trip (1.6 km each way). It takes about 45 to 60 minutes of gentle-to-moderate uphill walking to reach the Upper Waterfall amphitheater, and 30 to 45 minutes to descend back to Vashisht. If walking all the way from Manali Mall Road, the total distance is roughly 9 km round-trip, taking 3.5 to 4 hours."
+      },
+      {
+        question: "How to reach Jogini Waterfall from Manali?",
+        answer: "From Manali Mall Road or the main bus stand, drive across the Beas River bridge to Vashisht Village (approximately 3.5 to 4 km; 15 minutes by auto-rickshaw or taxi, typically costing ₹150–₹250). Park your vehicle at the Vashisht public parking grounds near the ancient Vashistha temple, and begin walking along the pedestrian village lanes and apple orchards into the pine woods."
+      },
+      {
+        question: "Why is Jogini Waterfall famous?",
+        answer: "Jogini Waterfall is renowned for its spectacular 150-foot cascading plunge down sheer granite rock, fragrant pine and deodar forests, and deep spiritual heritage. It is revered by local Pahadi villagers as the sacred sanctuary of the village Joginis (female protective spirits). Trekkers also love combining the morning hike with an invigorating dip in the natural hot sulfur baths at Vashisht."
+      },
+      {
+        question: "Is Jogini Waterfall open now?",
+        answer: "Yes, Jogini Waterfall is open daily from sunrise to sunset (recommended visiting hours are 6:00 AM to 6:00 PM). As an open natural mountain trail, there are no gates or entry tickets. However, hiking after dusk is strongly discouraged due to darkness and rough forest terrain. The trail is open year-round, though extra caution is advised during monsoon rains (July–August) and winter snow (January–February)."
+      },
+      {
+        question: "What is the Jogini Waterfall trek distance and altitude?",
+        answer: "The trek covers 3.2 km round-trip starting from Vashisht village at 2,050 meters (6,725 ft) and climbing to the Upper Jogini Waterfall basin at 2,280 meters (7,480 ft), representing a total vertical elevation gain of +230 meters."
+      },
+      {
+        question: "Can you visit Jogni Falls in winter?",
+        answer: "Yes, Jogni Falls can be visited during winter (December to February). The surrounding pine canopy and upper rock ledges are often draped in pristine white snow, and the waterfall forms sparkling ice stalactites and frozen columns. Hikers should wear insulated waterproof boots with good grip or microspikes, as shaded rock sections and frozen stream spray can become slippery."
+      },
+      {
+        question: "What are the timings and entry fee for Jogini Waterfall?",
+        answer: "There is no entry fee or permit required for Jogini Waterfall—it is 100% free for all visitors. The recommended visiting hours are 6:00 AM to 6:00 PM during daylight hours to ensure safe footing along the mountain paths."
+      },
+      {
+        question: "What is the difference between Lower and Upper Jogini Falls?",
+        answer: "The Lower Falls (reached at ~1.2 km) feature wide, violent glacial meltwater cascades gushing over huge granite boulders with crystal-clear stream pools beneath the tree canopy. The Upper Falls (a further 15-minute steep climb) is the majestic main event: an unobstructed 150-foot sheer vertical cataract plunging into a natural rock amphitheater with billowing glacial spray."
+      },
+      {
+        question: "Can you swim in Jogini Waterfall?",
+        answer: "Wading into the shallow lower streams is common during summer months, but swimming directly beneath the roaring Upper Waterfall pool is strongly discouraged and culturally sensitive. The upper plunge pool is fed by near-freezing snowmelt with strong undertows, and the waters are considered sacred by the local villagers."
+      },
+      {
+        question: "Where should I park for the Jogni Falls trek?",
+        answer: "You can park two-wheelers (scooties/bikes) and cars at the designated public parking area at the entrance of Vashisht village near the temple square. The trail begins directly on foot from where vehicular traffic ends."
+      }
+    ],
+    images: [
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/1TrekkingViaVashishtboardswithmessage.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/2boardwithmessage_behavelikeanimalsDoNotLitter.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/3firstViewofJogniFalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/4Fallsbelowjognifallswithmevisible.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/5bottomofthefallsbelowjognifalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/6viewoftheValleyfromfalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/7MajesticViewofJogniFalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/8Clooserlook.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/9manstandingwithjognifalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/10jognifallswithme.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/11sittingwithJognifalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/12Jognifalls.jpg",
+      "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/13ViewOfSnowCappedMountains.jpg"
+    ],
+    heroImage: "https://res.cloudinary.com/dehriwm1o/image/upload/v1791356859/7MajesticViewofJogniFalls.jpg",
+    description: "A sacred 150-foot waterfall cascading through deodar pines and apple orchards above Vashisht village. An easy 3.2 km round-trip hike offering lower cascade pools, roaring upper plunge amphitheater, and panoramic views over Kullu Valley."
+  },
+  {
     slug: "patalsu-peak",
     title: "Patalsu Peak Trek",
     region: "Kullu-Manali",

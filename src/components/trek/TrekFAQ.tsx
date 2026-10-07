@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 interface FAQItem {
@@ -27,11 +27,33 @@ export function TrekFAQ({
   faqs,
   stateSlug,
 }: TrekFAQProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndices, setOpenIndices] = useState<Set<number>>(() => new Set());
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6" };
 
   if (!faqs || faqs.length === 0) return null;
+
+  const isAllOpen = openIndices.size === faqs.length;
+
+  const toggleAll = () => {
+    if (isAllOpen) {
+      setOpenIndices(new Set());
+    } else {
+      setOpenIndices(new Set(faqs.map((_, i) => i)));
+    }
+  };
+
+  const toggleIndex = (idx: number) => {
+    setOpenIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) {
+        next.delete(idx);
+      } else {
+        next.add(idx);
+      }
+      return next;
+    });
+  };
 
   return (
     <motion.section 
@@ -54,7 +76,7 @@ export function TrekFAQ({
         <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10" />
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
         <div>
           <h2 
             id="faq-heading"
@@ -63,20 +85,42 @@ export function TrekFAQ({
             Frequently Asked Questions
           </h2>
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
-            Clear answers regarding difficulty, costs, height, duration, water, speed hiking, and seasonal snow conditions for {title}.
+            Clear answers regarding distance, altitude, how to reach, opening hours, winter conditions, and permits for {title}.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400">
-          <HelpCircle className="w-3.5 h-3.5" style={{ color: style.accent }} />
-          <span>{faqs.length} Answers</span>
+        {/* Global Expand All / Compress All Control & Counter */}
+        <div className="flex items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold transition-all bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white border border-slate-200/80 dark:border-white/10 shadow-sm cursor-pointer min-h-[40px]"
+            aria-label={isAllOpen ? "Compress all FAQ answers" : "Expand all FAQ answers"}
+          >
+            {isAllOpen ? (
+              <>
+                <ChevronUp className="w-3.5 h-3.5" style={{ color: style.accent }} />
+                <span>Compress All ({faqs.length})</span>
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-3.5 h-3.5" style={{ color: style.accent }} />
+                <span>Expand All ({faqs.length})</span>
+              </>
+            )}
+          </button>
+
+          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
+            <HelpCircle className="w-3.5 h-3.5" style={{ color: style.accent }} />
+            <span>{openIndices.size > 0 ? `${openIndices.size}/${faqs.length} Open` : `${faqs.length} Q&As`}</span>
+          </div>
         </div>
       </div>
 
       {/* Accordions */}
-      <div className="space-y-3.5 sm:space-y-4">
+      <div className="space-y-3 sm:space-y-3.5">
         {faqs.map((faq, idx) => {
-          const isOpen = openIndex === idx;
+          const isOpen = openIndices.has(idx);
           return (
             <motion.div
               key={idx}
@@ -85,11 +129,12 @@ export function TrekFAQ({
               style={isOpen ? { borderColor: `${style.accent}40` } : undefined}
             >
               <button
-                onClick={() => setOpenIndex(isOpen ? null : idx)}
-                className="w-full text-left p-5 sm:p-7 flex items-center justify-between gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] min-h-[44px]"
+                type="button"
+                onClick={() => toggleIndex(idx)}
+                className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] min-h-[44px] cursor-pointer"
                 aria-expanded={isOpen}
               >
-                <h3 className="font-display font-bold text-base sm:text-xl text-slate-900 dark:text-white pr-4 leading-snug">
+                <h3 className="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white pr-4 leading-snug">
                   {faq.question}
                 </h3>
                 <div 
@@ -109,7 +154,7 @@ export function TrekFAQ({
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-5 sm:px-7 sm:pb-7 text-slate-700 dark:text-slate-300 font-light text-sm sm:text-base leading-relaxed border-t border-slate-200/80 dark:border-white/5 pt-4">
+                    <div className="px-5 pb-5 sm:px-6 sm:pb-6 text-slate-700 dark:text-slate-300 font-light text-sm sm:text-base leading-relaxed border-t border-slate-200/80 dark:border-white/5 pt-4">
                       <p>{faq.answer}</p>
                     </div>
                   </motion.div>

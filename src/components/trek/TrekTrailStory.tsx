@@ -22,6 +22,7 @@ interface TrekTrailStoryProps {
   subRegionName: string;
   stateSlug: string;
   isPatalsu?: boolean;
+  isJogni?: boolean;
 }
 
 const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string }> = {
@@ -31,13 +32,15 @@ const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string }> = {
   uttarakhand:        { accent: "#0D9488", glow: "rgba(13,148,136,0.25)" },
 };
 
-// Detailed field notes and captions for the 12 authentic Patalsu plates
+// Detailed field notes and captions for authentic trail plates
 interface PlateMeta {
   stage: string;
   title: string;
   altitude: string;
   caption: string;
   personalNote?: string;
+  seoAlt?: string;
+  recommendedFileName?: string;
 }
 
 const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
@@ -47,6 +50,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "2,480m",
     caption: "A clear morning view looking up at the 4,261m pyramid of Patalsu Peak from Burwa Village before heading toward the Solang trailhead.",
     personalNote: "Standing at Burwa Village looking up at the mountain, you realize the scale of the +1,781 vertical meters ahead. There are no shortcuts.",
+    seoAlt: "Patalsu Peak Trek Manali (4,261m) — Morning View of Pyramid Summit from Burwa Village Trailhead (2,480m)",
+    recommendedFileName: "patalsu-peak-manali-burwa-village-trailhead-view.jpg",
   },
   "4GoingtoSolangVillage": {
     stage: "Stage 01 • The Valley Floor",
@@ -54,6 +59,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "2,480m",
     caption: "Looking across from Solang Valley toward Solang Village nestled on the mountainside as you cross the stream on the way to the trail start.",
     personalNote: "Going to Solang Village — crossing the valley bridge as the traditional stone settlement comes into view.",
+    seoAlt: "Solang Valley to Solang Village Trail Crossing on Patalsu Peak Hike Manali (2,480m)",
+    recommendedFileName: "solang-valley-to-solang-village-trailhead-manali.jpg",
   },
   "6SolangVillage": {
     stage: "Stage 01 • The Valley Floor",
@@ -61,12 +68,16 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "2,500m",
     caption: "Ancient Solang Village with its characteristic timber-framed stone homes, slate roofs, and apple orchards where the trail begins.",
     personalNote: "The village is peaceful and quiet in early morning. Locals are heading out with their livestock as you take the trail upward.",
+    seoAlt: "Traditional Himalayan Timber and Stone Architecture in Solang Village Trailhead (2,500m)",
+    recommendedFileName: "traditional-timber-stone-hamlet-solang-village.jpg",
   },
   "7trekStart": {
     stage: "Stage 02 • Into the Ancient Woods",
     title: "Entering the Cedar Forest",
     altitude: "2,550m",
     caption: "Stepping off the stone village lanes onto the dirt trail that plunges into dense deodar, pine, and birch woodland.",
+    seoAlt: "Patalsu Peak Trek Trailhead Entering Dense Deodar and Cedar Forest above Solang (2,550m)",
+    recommendedFileName: "patalsu-peak-entering-cedar-forest-trailhead.jpg",
   },
   "8intotheforestsectionCattleGrazing": {
     stage: "Stage 02 • Into the Ancient Woods",
@@ -74,6 +85,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "2,850m",
     caption: "Tall cedars give way to sun-dappled glades where mountain cattle graze quietly in the morning light.",
     personalNote: "The forest climb is steady and cool under the canopy, but the gradient never really lets up.",
+    seoAlt: "Alpine Deodar Forest Glade with Grazing Mountain Cattle on Patalsu Peak Trail (2,850m)",
+    recommendedFileName: "alpine-deodar-forest-glade-patalsu-trail.jpg",
   },
   "9_1doghiking": {
     stage: "Stage 02 • Into the Ancient Woods",
@@ -81,6 +94,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "3,100m",
     caption: "A friendly local Himalayan sheepdog who joined our climb from the village and faithfully navigated the entire route with us.",
     personalNote: "He appeared near the edge of the forest and stayed with us through the high meadow and onto the ridge. A true mountain spirit.",
+    seoAlt: "Local Himalayan Sheepdog Guiding Hiker on Patalsu Peak Forest Trail (3,100m)",
+    recommendedFileName: "himalayan-sheepdog-guide-patalsu-forest-climb.jpg",
   },
   "10abovetheTreelineViewOfDhauladharRanges": {
     stage: "Stage 03 • Breaking the Timberline",
@@ -88,12 +103,16 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "3,250m",
     caption: "Emerging into the high alpine meadow of Shagadugh. The forest abruptly ends, revealing the vast, sweeping panorama of the Dhauladhar ranges.",
     personalNote: "This is the moment the whole climb changes. The trees fall away, the wind picks up, and you see the mountain spine ahead.",
+    seoAlt: "Shagadugh Alpine Meadow Panorama of Dhauladhar Range above Timberline on Patalsu Peak (3,250m)",
+    recommendedFileName: "shagadugh-alpine-meadow-timberline-dhauladhar-view.jpg",
   },
   "11IntoRidgeline": {
     stage: "Stage 03 • Breaking the Timberline",
     title: "Ascending the Open Arête",
     altitude: "3,650m",
     caption: "The trail steepens dramatically across golden autumn grass slopes, transitioning steadily into rocky switchbacks along the mountain spine.",
+    seoAlt: "Patalsu Mountain Ridge Arête Switchbacks above 3600m Overlooking Solang (3,650m)",
+    recommendedFileName: "patalsu-mountain-ridge-arete-switchbacks.jpg",
   },
   "13ViewOfHanumanTibba": {
     stage: "Stage 04 • The Colossus & The Scree",
@@ -101,6 +120,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "3,850m",
     caption: "Directly across the western abyss of Solang, the immense glaciated pyramid of Hanuman Tibba reveals its colossal sheer walls and hanging seracs.",
     personalNote: "You are climbing Patalsu, but your eyes keep getting pulled to Hanuman Tibba. It feels so close you could almost touch the ice.",
+    seoAlt: "Massive Glaciated West Face of Hanuman Tibba (5,982m) from Patalsu Peak Scree Ridge (3,850m)",
+    recommendedFileName: "hanuman-tibba-5982m-view-from-patalsu-ridge.jpg",
   },
   "12FinalRidge": {
     stage: "Stage 04 • The Colossus & The Scree",
@@ -108,6 +129,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "4,050m",
     caption: "The final 200m vertical push is an exposed knife-edge of loose shale and wind-scoured scree where deliberate, disciplined footing is mandatory.",
     personalNote: "This was the most exhausting section. Two steps forward, half a step sliding back in the loose scree with cold autumn wind howling.",
+    seoAlt: "Knife-Edge Summit Scree Ridge Push on Patalsu Peak Manali (4,050m)",
+    recommendedFileName: "patalsu-peak-knife-edge-summit-scree-ridge.jpg",
   },
   "14SummitSelfie": {
     stage: "Stage 05 • The Summit & Golden Hour",
@@ -115,6 +138,8 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "4,261m",
     caption: "Standing on the pinnacle of Patalsu Peak with prayer flags fluttering in the freezing wind, rewarded with an unobstructed 360° Himalayan amphitheater.",
     personalNote: "Reaching the summit cairn after hours of non-stop climbing was pure euphoria. The silence up here, looking over Pir Panjal and Lahaul, is absolute.",
+    seoAlt: "Patalsu Peak Summit Pinnacle (4,261m) Cairn and Prayer Flags with 360 Panorama",
+    recommendedFileName: "patalsu-peak-summit-pinnacle-4261m-cairn.jpg",
   },
   "15SunsetHanumanTibba": {
     stage: "Stage 05 • The Summit & Golden Hour",
@@ -122,6 +147,128 @@ const PHOTO_STORY_DATA: Record<string, PlateMeta> = {
     altitude: "3,400m",
     caption: "On the long descent back down the mountain, the setting October sun set the west face of Hanuman Tibba ablaze in deep golden and crimson alpenglow.",
     personalNote: "After 12 continuous hours on the mountain, watching this sunset while descending toward the valley made every single grueling step worth it.",
+    seoAlt: "Golden Sunset Alpenglow on Hanuman Tibba Glacier during Patalsu Peak Descent (3,400m)",
+    recommendedFileName: "sunset-alpenglow-hanuman-tibba-patalsu-descent.jpg",
+  },
+};
+
+const JOGNI_PHOTO_STORY_DATA: Record<string, PlateMeta> = {
+  "1TrekkingViaVashishtboardswithmessage": {
+    stage: "Stage 01 • The Village Trailhead",
+    title: "Trailhead via Vashisht Village",
+    altitude: "2,050m",
+    caption: "Parked the scooty at Vashisht near the temple square. The trail begins through rustic village alleys, cozy backpacker cafés, and wooden signs pointing up into the pine forest.",
+    personalNote: "Starting the morning hike from Vashisht. Winding through the village paths, the scent of woodsmoke and deodar pines fills the crisp morning air.",
+    seoAlt: "Jogini Waterfall Manali Trailhead at Vashisht Village (2,050m) — Rustic Signs and Deodar Forest",
+    recommendedFileName: "vashisht-village-trailhead-jogini-waterfall-manali.jpg",
+  },
+  "2boardwithmessage_behavelikeanimalsDoNotLitter": {
+    stage: "Stage 01 • The Village Trailhead",
+    title: "Mountain Wisdom: 'Behave Like Animals'",
+    altitude: "2,085m",
+    caption: "A rustic hand-painted wooden sign pinned to a tree along the path: 'Behave like animals, do not litter.' Simple, profound mountain ethics.",
+    personalNote: "The signs along the forest path remind every hiker of what matters: leave no trace and respect the sacred silence of the valley.",
+    seoAlt: "Eco-Trail Message Board on Jogini Falls Trek Manali — 'Behave Like Animals Do Not Litter' (2,085m)",
+    recommendedFileName: "eco-trail-message-board-jogini-waterfall-trek.jpg",
+  },
+  "3firstViewofJogniFalls": {
+    stage: "Stage 02 • Breaking Through the Woods",
+    title: "First Glimpse of the Waterfall",
+    altitude: "2,130m",
+    caption: "Emerging through apple orchards and pine branches to catch the very first view of Jogni Falls glinting against the sheer granite cliffs across the gorge.",
+    personalNote: "You catch the first white ribbon cascading on the distant cliffs. It looks close, but there is still plenty of climbing ahead.",
+    seoAlt: "First Glimpse of Jogni Falls Cascading Across Granite Cliffs Through Pine Woods, Manali (2,130m)",
+    recommendedFileName: "first-view-jogini-waterfall-granite-cliffs.jpg",
+  },
+  "4Fallsbelowjognifallswithmevisible": {
+    stage: "Stage 02 • Breaking Through the Woods",
+    title: "Lower Cascades & Stream Crossings",
+    altitude: "2,170m",
+    caption: "Approaching the lower tiered cascades. Glacial meltwater gushes violently over moss-covered granite boulders, creating crystal pools beneath the canopy.",
+    personalNote: "At the lower falls, many casual visitors think this is the destination. But the true, majestic upper fall requires climbing higher along the forest ridge.",
+    seoAlt: "Lower Cascades and Glacial Meltwater Stream on Jogni Waterfall Trek, Vashisht (2,170m)",
+    recommendedFileName: "lower-cascades-stream-crossing-jogni-falls.jpg",
+  },
+  "5bottomofthefallsbelowjognifalls": {
+    stage: "Stage 03 • Rushing Glacial Waters",
+    title: "Lower Plunge Pools & Granite Boulders",
+    altitude: "2,190m",
+    caption: "Standing directly beside the torrential lower cascade. Ice-cold glacial water froths into turbulent white foam before tumbling down toward the Beas River.",
+    personalNote: "The air temperature drops noticeably by the water. You can touch the freezing Himalayan runoff straight from the high snowfields.",
+    seoAlt: "Torrential Glacial Boulders and Lower Plunge Pools of Jogini Waterfall Manali (2,190m)",
+    recommendedFileName: "lower-plunge-pool-granite-boulders-jogini-falls.jpg",
+  },
+  "6viewoftheValleyfromfalls": {
+    stage: "Stage 03 • The Ridge Traverse",
+    title: "Sweeping Panorama of Kullu Valley",
+    altitude: "2,210m",
+    caption: "Looking back across the valley from the ascending trail. The expansive Beas river basin, tiered apple orchards, and pine-blanketed ridgelines stretch below.",
+    personalNote: "Every step uphill gives you a grander perspective of the Manali valley. The highway and town fade into a quiet miniature landscape.",
+    seoAlt: "Panoramic View of Kullu Beas Valley and Apple Orchards from Jogini Waterfall Trail (2,210m)",
+    recommendedFileName: "kullu-valley-beas-river-view-jogini-trail.jpg",
+  },
+  "7MajesticViewofJogniFalls": {
+    stage: "Stage 04 • The Grand Amphitheater",
+    title: "The Majestic Upper Plunge",
+    altitude: "2,240m",
+    caption: "Rounding the final cliffside switchback to reveal the full 150-foot vertical cataract of Upper Jogni Falls crashing into its sacred emerald basin.",
+    personalNote: "This is the moment of awe. The thunderous roar fills the entire natural rock amphitheater, sending clouds of glacial mist into the sky.",
+    seoAlt: "Upper Jogini Waterfall Manali — 150-Foot Majestic Vertical Plunge and Glacial Amphitheater (2,240m)",
+    recommendedFileName: "upper-jogini-waterfall-150ft-cascade-manali.jpg",
+  },
+  "8Clooserlook": {
+    stage: "Stage 04 • The Grand Amphitheater",
+    title: "Up Close with the Rushing Torrent",
+    altitude: "2,255m",
+    caption: "A closer view of the roaring torrent slicing through ancient Himalayan rock. The water velocity creates dramatic misty air currents.",
+    personalNote: "Moving in close, the raw hydraulic power of the waterfall reverberates in your chest. The rocks around the base are slippery with cold mist.",
+    seoAlt: "Close-Up of Roaring Glacier Torrent at Upper Jogni Falls Amphitheater, Vashisht (2,255m)",
+    recommendedFileName: "roaring-glacial-torrent-jogini-falls-close-up.jpg",
+  },
+  "9manstandingwithjognifalls": {
+    stage: "Stage 04 • The Grand Amphitheater",
+    title: "Humbled by Nature's Scale",
+    altitude: "2,265m",
+    caption: "Standing before the towering cliff face. The immense scale of the rock amphitheater and the crashing water dwarfs everything in comparison.",
+    personalNote: "A humbling reminder of the sheer verticality of Himachal's topography. You feel tiny standing next to centuries-old granite walls.",
+    seoAlt: "Trekker Standing Before Towering Granite Rock Cliffs at Jogini Waterfall Manali (2,265m)",
+    recommendedFileName: "granite-cliffs-scale-jogini-waterfall-manali.jpg",
+  },
+  "10jognifallswithme": {
+    stage: "Stage 05 • Immersion in Glacial Spray",
+    title: "Standing in the Mountain Mist",
+    altitude: "2,275m",
+    caption: "Facing the roaring cataract head-on as freezing mist drenches clothes and face. An invigorating alpine baptism high above Vashisht.",
+    personalNote: "Drenched in glacial spray, cold wind whipping around the rocks. The feeling of pure vitality is unmatched.",
+    seoAlt: "Experiencing Freezing Glacial Spray and Mountain Mist at Upper Jogni Falls, Manali (2,275m)",
+    recommendedFileName: "glacial-spray-mist-upper-jogini-falls.jpg",
+  },
+  "11sittingwithJognifalls": {
+    stage: "Stage 05 • Solitude & Reflection",
+    title: "Quiet Reflection Beside Sacred Waters",
+    altitude: "2,280m",
+    caption: "Resting peacefully on the smooth sun-warmed rocks beside the falls. The roaring water becomes a meditative white noise against the alpine stillness.",
+    personalNote: "Sitting still by the falls after the steep climb. The local Pahadi belief that these waters are guarded by village Joginis feels palpable here.",
+    seoAlt: "Resting Beside Sacred Waters and Granite Boulders at Jogini Mata Falls, Manali (2,280m)",
+    recommendedFileName: "sacred-jogini-mata-waterfall-pool-vashisht.jpg",
+  },
+  "12Jognifalls": {
+    stage: "Stage 05 • Sacred Portrait",
+    title: "The Sacred Portrait of Jogni",
+    altitude: "2,280m",
+    caption: "Full vertical portrait of Jogni Falls in pure midday daylight. Pristine snowmelt cascading from the high mountain rim into the deodar gorge.",
+    personalNote: "A timeless portrait of one of Kullu Valley's most sacred and picturesque natural wonders.",
+    seoAlt: "Full Vertical Portrait of Jogini Waterfall (2,280m) Cascading Down Kullu Gorge, Manali",
+    recommendedFileName: "jogini-falls-full-vertical-cascade-manali.jpg",
+  },
+  "13ViewOfSnowCappedMountains": {
+    stage: "Stage 06 • The Himalayan Horizon",
+    title: "Gazing Across Snow-Capped Pir Panjal Peaks",
+    altitude: "2,280m",
+    caption: "Looking out from the high waterfall terrace across the canyon to the snow-blanketed ridges and serrated crests of the Pir Panjal range.",
+    personalNote: "Beyond the waterfall, the horizon opens into endless glaciated peaks. The perfect Himalayan reward for a morning well spent.",
+    seoAlt: "Snow-Capped Pir Panjal Mountain Peaks Viewed from High Terrace of Jogini Falls Manali (2,280m)",
+    recommendedFileName: "snow-capped-pir-panjal-peaks-view-jogini-falls.jpg",
   },
 };
 
@@ -131,6 +278,7 @@ export function TrekTrailStory({
   subRegionName,
   stateSlug,
   isPatalsu = false,
+  isJogni = false,
 }: TrekTrailStoryProps) {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -182,6 +330,13 @@ export function TrekTrailStory({
           break;
         }
       }
+    } else if (isJogni) {
+      for (const [key, val] of Object.entries(JOGNI_PHOTO_STORY_DATA)) {
+        if (src.includes(key)) {
+          meta = val;
+          break;
+        }
+      }
     }
     return meta;
   };
@@ -212,6 +367,8 @@ export function TrekTrailStory({
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             {isPatalsu
               ? "A first-hand visual chronicle and field observations from Solang Village to the 4,261m crest."
+              : isJogni
+              ? "A first-hand visual chronicle and field observations from Vashisht Village to the 2,280m Upper Jogni Waterfall."
               : `Photographic plates and visual observations along the ${title} route in ${subRegionName}.`}
           </p>
         </div>
@@ -222,8 +379,8 @@ export function TrekTrailStory({
         </div>
       </div>
 
-      {/* Author Byline & Expedition Profile Card (Strictly Patalsu) */}
-      {isPatalsu && (
+      {/* Author Byline & Expedition Profile Card */}
+      {(isPatalsu || isJogni) && (
         <>
           <motion.div 
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
@@ -255,25 +412,37 @@ export function TrekTrailStory({
                   </Link>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-foreground/60 font-mono">
-                  October Autumn Ascent &bull; 1-Day Alpine Speed-Hike (12–13 Hours Continuous)
+                  {isPatalsu
+                    ? "October Autumn Ascent • 1-Day Alpine Speed-Hike (12–13 Hours Continuous)"
+                    : "Authentic Ground Hike • Vashisht Village to Upper Jogni Amphitheater (2,280m)"}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 sm:gap-4 text-xs font-mono text-slate-700 dark:text-foreground/75 border-t sm:border-t-0 sm:border-l border-slate-200/80 dark:border-foreground/[0.08] pt-4 sm:pt-0 sm:pl-6">
               <div>
-                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">Elevation Gain</span>
-                <strong className="text-slate-900 dark:text-foreground text-sm">+1,781 m</strong>
+                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">
+                  {isPatalsu ? "Elevation Gain" : "Vertical Gain"}
+                </span>
+                <strong className="text-slate-900 dark:text-foreground text-sm">
+                  {isPatalsu ? "+1,781 m" : "+230 m"}
+                </strong>
               </div>
               <div className="w-px h-8 bg-slate-200/80 dark:bg-foreground/[0.08]" />
               <div>
-                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">Total Time</span>
-                <strong className="text-slate-900 dark:text-foreground text-sm">12–13 Hours</strong>
+                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">
+                  {isPatalsu ? "Total Time" : "Trail Duration"}
+                </span>
+                <strong className="text-slate-900 dark:text-foreground text-sm">
+                  {isPatalsu ? "12–13 Hours" : "2–3 Hours"}
+                </strong>
               </div>
               <div className="w-px h-8 bg-slate-200/80 dark:bg-foreground/[0.08]" />
               <div>
-                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">Trail Season</span>
-                <strong className="text-slate-900 dark:text-foreground text-sm">October</strong>
+                <span className="block text-[10px] uppercase text-slate-400 dark:text-foreground/40 font-bold">Trailhead</span>
+                <strong className="text-slate-900 dark:text-foreground text-sm">
+                  {isPatalsu ? "Solang (2,480m)" : "Vashisht (2,050m)"}
+                </strong>
               </div>
             </div>
           </motion.div>
@@ -294,14 +463,21 @@ export function TrekTrailStory({
               From the Hiker
             </span>
             <blockquote className="font-serif italic text-base sm:text-lg text-slate-800 dark:text-foreground/90 leading-relaxed mb-4">
-              &ldquo;I did Patalsu as a continuous 12 to 13-hour single-day speed-hike in October with only minimal breaks. Conquering the +1,781m vertical gain in one push is an incredible test of mountain endurance, but for most trekkers, I strongly recommend doing this as a 2 to 3-day trek. Camping at Shagadugh gives your body time to acclimatize and lets you truly experience the peaceful forest before tackling the relentless loose scree on the summit ridge.&rdquo;
+              {isPatalsu ? (
+                <>&ldquo;I did Patalsu as a continuous 12 to 13-hour single-day speed-hike in October with only minimal breaks. Conquering the +1,781m vertical gain in one push is an incredible test of mountain endurance, but for most trekkers, I strongly recommend doing this as a 2 to 3-day trek. Camping at Shagadugh gives your body time to acclimatize and lets you truly experience the peaceful forest before tackling the relentless loose scree on the summit ridge.&rdquo;</>
+              ) : (
+                <>&ldquo;I parked my scooty at Vashisht village and started on foot past the cafes and temples into the deodar woods and apple orchards. You pass these wonderful quirky wooden signboards, cross small streams, and soon catch sight of the water plunging from high cliffs. Many people stop at the lower boulder pools thinking they’ve arrived, but that’s only the warm-up. Continuing higher along the steep dirt path brings you directly beneath the majestic 150-foot upper plunge of Jogni Falls. The glacial spray on your face and the views over the snow-capped Pir Panjal peaks are unforgettable.&rdquo;</>
+              )}
             </blockquote>
             <span className="text-xs font-mono text-slate-500 dark:text-foreground/50">
-              — Ashish, October Mountain Climb
+              {isPatalsu ? "— Ashish, October Mountain Climb" : "— Ashish, Field Hike from Vashisht"}
             </span>
           </motion.div>
+        </>
+      )}
 
-          {/* Critical Water Warning Callout */}
+      {/* Critical Water Warning Callout (Strictly Patalsu) */}
+      {isPatalsu && (
           <motion.div 
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -319,7 +495,6 @@ export function TrekTrailStory({
               </p>
             </div>
           </motion.div>
-        </>
       )}
 
       {/* Chronological 12-Plate Photo Journey */}
@@ -355,7 +530,7 @@ export function TrekTrailStory({
               >
                 <Image
                   src={src}
-                  alt={`${title} — ${meta.title}: ${meta.caption}`}
+                  alt={meta.seoAlt || `${title} — ${meta.title}: ${meta.caption}`}
                   fill
                   loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 66vw"
@@ -475,7 +650,7 @@ export function TrekTrailStory({
               <div className="relative aspect-[16/10] sm:aspect-[21/11] w-full max-h-[60vh] sm:max-h-[65vh] overflow-hidden bg-black">
                 <Image
                   src={images[activePhotoIndex]}
-                  alt={`${title} — ${getMeta(images[activePhotoIndex], activePhotoIndex).title}: ${getMeta(images[activePhotoIndex], activePhotoIndex).caption}`}
+                  alt={getMeta(images[activePhotoIndex], activePhotoIndex).seoAlt || `${title} — ${getMeta(images[activePhotoIndex], activePhotoIndex).title}: ${getMeta(images[activePhotoIndex], activePhotoIndex).caption}`}
                   fill
                   sizes="100vw"
                   className="object-contain"

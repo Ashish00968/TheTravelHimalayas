@@ -107,7 +107,7 @@ export function Logo({
     return (
       <Link 
         href={href} 
-        className="inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 rounded-xl" 
+        className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 rounded-xl" 
         aria-label="Discover Himalayan Trails Home"
       >
         {content}

@@ -331,11 +331,15 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             const isDayHike =
               (t.duration.toLowerCase().includes("1 day") && !t.duration.toLowerCase().includes("3 day")) ||
               t.duration.toLowerCase().includes("hour") ||
-              t.slug === "lamadugh";
+              t.slug === "lamadugh" ||
+              t.slug === "jogni-falls";
 
             const isPatalsu = t.slug === "patalsu-peak";
+            const isJogni = t.slug === "jogni-falls";
             const experience = isPatalsu
               ? "I did Patalsu as a continuous 12 to 13-hour single-day speed-hike in October with only minimal breaks. Conquering the +1,781m vertical gain in one push is an incredible test of mountain endurance, but for most trekkers, I strongly recommend doing this as a 2 to 3-day trek. Camping at Shagadugh gives your body time to acclimatize and lets you truly experience the peaceful forest before tackling the relentless loose scree on the summit ridge."
+              : isJogni
+              ? "Parked the scooty at Vashisht village and set out on foot. Winding past the cozy backpacker cafés and ancient wooden shrines, the trail quickly opens into apple orchards and pine woods. First come quirky trail signs reminding visitors to leave no trace, followed by the distant murmur of water. Before reaching the main cascade, lower tiered falls and crystal streams rush over mossy boulders. Continuing upward along the steep dirt path brings you directly beneath the roaring 150-foot plunge of Jogni Falls, where glacial mist cools the air and snow-capped Himalayan peaks frame the distant horizon."
               : undefined;
 
             const tips = isPatalsu
@@ -346,14 +350,23 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                   "Scree Footing & Poles: The final 200m vertical ascent traverses narrow, wind-swept loose scree and fractured shale. Sturdy boots with deep traction lugs and trekking poles are non-negotiable for balance.",
                   "Wind Protection: Even during clear October weather, winds on the exposed 4,200m ridge are bitterly cold. Carry a windproof shell jacket, warm beanie, and thermal gloves."
                 ]
+              : isJogni
+              ? [
+                  "Park your scooty at Vashisht near the temple square and start early to catch soft morning light.",
+                  "Take a moment to read the rustic local signboards along the pine paths—and pack all your trash out.",
+                  "Don't rush past the lower cascade pools; they offer wonderful quiet viewpoints and cold glacial water.",
+                  "The trail past the lower falls climbs steeply over tree roots and rocks to the upper amphitheater—it is well worth the sweat.",
+                  "Carry a light windbreaker or rain shell; the spray mist near the base of the upper waterfall is intense."
+                ]
               : undefined;
 
             return {
               id: t.slug,
               name: t.title,
               type: (isDayHike ? "day-hike" : "trek") as PlaceType,
-              emoji: isDayHike ? "🚶" : (isPatalsu ? "⛰️" : "🥾"),
+              emoji: isJogni ? "🌊" : (isDayHike ? "🚶" : (isPatalsu ? "⛰️" : "🥾")),
               coords: t.coords,
+              pathCoords: t.pathCoords,
               elevation: t.maxAltitude,
               bestSeason: t.bestSeason,
               difficulty: t.difficulty,
@@ -369,6 +382,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
               heroImage: t.heroImage,
               images: t.images || [],
               trekData: t,
+              seoTitle: isJogni ? "Jogni Falls Trek (2,280m) Vashisht, Manali — Route & Guide" : undefined,
+              seoDescription: isJogni ? "Complete guide to Jogni Falls (2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, and trail tips." : undefined,
             };
           }),
           ...peaks.map((p) => ({

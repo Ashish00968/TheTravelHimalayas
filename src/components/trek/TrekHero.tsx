@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { ChevronDown, MapPin, ArrowLeft } from "lucide-react";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 interface TrekHeroProps {
   title: string;
@@ -20,7 +19,7 @@ interface TrekHeroProps {
   heroImage?: string;
   subtitle?: string;
   isPatalsu?: boolean;
-  breadcrumbItems: { label: string; href: string }[];
+  breadcrumbItems?: { label: string; href: string }[];
 }
 
 const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string; text: string }> = {
@@ -43,7 +42,6 @@ export function TrekHero({
   heroImage,
   subtitle,
   isPatalsu,
-  breadcrumbItems,
 }: TrekHeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -139,24 +137,20 @@ export function TrekHero({
         </div>
       )}
 
-      {/* Top Bar: Minimalist Breadcrumb & Back Link */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-20 sm:pt-28 max-w-7xl">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link
-            href={`/explore/${stateSlug}/${divisionSlug}`}
-            className="inline-flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-widest text-white/80 hover:text-white transition-colors bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 min-h-[44px]"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to {subRegionName}</span>
-          </Link>
-        </div>
+      {/* Top Bar: Minimalist Back Link Moved Up */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 max-w-7xl flex justify-end">
+        <Link
+          href={`/explore/${stateSlug}/${divisionSlug}`}
+          className="inline-flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-widest text-white/80 hover:text-white transition-colors bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 min-h-[44px] shadow-lg hover:border-white/25"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to {subRegionName}</span>
+        </Link>
       </div>
 
-      {/* Center / Lower: Dominant Editorial Typography */}
+      {/* Center: Dominant Editorial Typography */}
       <motion.div
-        className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl pb-12 sm:pb-16 my-auto"
+        className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl my-auto py-6 sm:py-10"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         {/* Territory & Valley Marker */}
@@ -182,11 +176,14 @@ export function TrekHero({
           initial={shouldReduceMotion ? false : { opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-white/85 font-light text-base sm:text-xl md:text-2xl max-w-2xl mb-6 leading-snug drop-shadow-md"
+          className="text-white/85 font-light text-base sm:text-xl md:text-2xl max-w-2xl leading-snug drop-shadow-md"
         >
           {subtitle || fallbackSubtitle}
         </motion.p>
+      </motion.div>
 
+      {/* Bottom Bar: Telemetry Badges & Explore Link Anchored at Base */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl pb-8 pt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
         {/* Editorial Trail Badge & Quick Metadata Strip */}
         <motion.div 
           initial={shouldReduceMotion ? false : { opacity: 0, y: 15 }}
@@ -232,19 +229,13 @@ export function TrekHero({
             )}
           </div>
         </motion.div>
-      </motion.div>
 
-      {/* Bottom Scroll Indicator */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl pb-8 flex justify-between items-end text-xs font-mono text-white/50">
-        <div className="hidden sm:block tracking-widest uppercase text-[10px]">
-          Alpine Field Guide &bull; Authentic Story
-        </div>
-
+        {/* Scroll Indicator */}
         <a
           href="#overview"
-          className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors group cursor-pointer"
+          className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors group cursor-pointer self-start md:self-auto shrink-0"
         >
-          <span className="text-[11px] uppercase tracking-widest font-semibold">Explore the Trail</span>
+          <span className="text-[11px] uppercase tracking-widest font-semibold font-mono">Explore the Trail</span>
           <ChevronDown className="w-4 h-4 animate-bounce group-hover:translate-y-0.5 transition-transform" />
         </a>
       </div>

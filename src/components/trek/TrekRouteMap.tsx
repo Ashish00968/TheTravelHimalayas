@@ -38,6 +38,7 @@ interface TrekRouteMapProps {
   subRegionName: string;
   stateSlug: string;
   isPatalsu?: boolean;
+  isJogni?: boolean;
 }
 
 const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string }> = {
@@ -59,13 +60,14 @@ export function TrekRouteMap({
   subRegionName,
   stateSlug,
   isPatalsu = false,
+  isJogni = false,
 }: TrekRouteMapProps) {
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.2)" };
 
   const waypointCount = pathCoords?.length || 0;
   const hasCoordinates = Boolean(coords && coords[0] !== 0);
-  const routeData = isPatalsu ? getRouteData(slug) : null;
+  const routeData = getRouteData(slug);
 
   return (
     <motion.section 
@@ -97,7 +99,7 @@ export function TrekRouteMap({
             The Route
           </h2>
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
-            Trailhead coordinates, navigation milestones, and geospatial profile connecting {startPoint} to the summit crest.
+            Trailhead coordinates, navigation milestones, and geospatial profile connecting {startPoint} to the {isJogni ? "waterfall amphitheater" : "summit crest"}.
           </p>
         </div>
 
@@ -135,11 +137,13 @@ export function TrekRouteMap({
           <p className="text-slate-600 dark:text-slate-300 text-xs font-light">
             {isPatalsu
               ? `${subRegionName}, ${regionName} • Trailhead Access (14 km from Manali)`
+              : isJogni
+              ? `${subRegionName}, ${regionName} • Trailhead Access (3 km from Manali)`
               : `${subRegionName}, ${regionName} • Trailhead Access`}
           </p>
         </motion.div>
 
-        {/* Milestone 2: Summit Crest */}
+        {/* Milestone 2: Summit Crest / Destination */}
         <motion.div 
           whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
           transition={{ duration: 0.2 }}
@@ -147,7 +151,7 @@ export function TrekRouteMap({
         >
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-mono text-[11px] uppercase tracking-wider mb-2">
             <Compass className="w-3.5 h-3.5" style={{ color: style.accent }} />
-            <span>Summit Crest</span>
+            <span>{isJogni ? "Waterfall Amphitheater" : "Summit Crest"}</span>
           </div>
           <h3 className="font-display font-bold text-lg text-slate-900 dark:text-white mb-1">
             {title} ({maxAltitude})
@@ -155,6 +159,8 @@ export function TrekRouteMap({
           <p className="text-slate-600 dark:text-slate-300 text-xs font-light">
             {isPatalsu
               ? "360° vistas of Pir Panjal, Dhauladhar & Hanuman Tibba"
+              : isJogni
+              ? "150-ft sacred cascading plunge overlooking Beas Valley & Pir Panjal"
               : `Panoramic vistas from ${title} across ${subRegionName}`}
           </p>
         </motion.div>
