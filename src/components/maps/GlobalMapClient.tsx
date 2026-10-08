@@ -35,6 +35,7 @@ import {
   PlaceLocation,
   placeLocationIndex,
 } from "@/data/atlas";
+import { getRouteData } from "@/data/routes";
 
 interface GlobalMapClientProps {
   treks: Trek[];
@@ -1016,14 +1017,22 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       const loc = placeLocationIndex.get(place.id);
       const placeAccent = loc ? TERRITORY_ACCENT[loc.regionId] ?? "#3B82F6" : "#3B82F6";
 
-      // Render GeoJSON trail ONLY for authentic trails, treks, peaks, or hikes
-      const isTrailOrPeak =
-        place.type === "trek" ||
-        place.type === "peak" ||
-        place.type === "day-hike";
-      const trekData = isTrailOrPeak ? treks.find((t) => t.slug === place.id) : undefined;
-      const pathCoords = isTrailOrPeak ? (place.pathCoords || trekData?.pathCoords) : undefined;
-      if (pathCoords && pathCoords.length > 1) {
+      // STRICT AUTHENTICITY GATE: Render GeoJSON trail lines ONLY for authentic, field-verified routes (currently Patalsu Peak & Jogni Falls)
+      const verifiedRoute = getRouteData(place.id);
+      const isAuthentic = Boolean(
+        (verifiedRoute && verifiedRoute.verified) ||
+        place.id === "patalsu-peak" ||
+        place.id === "jogni-falls"
+      );
+
+      // Prefer high-precision GPS coordinates from verified route data, fallback to authentic pathCoords
+      const routeLineCoordinates: [number, number][] | undefined = isAuthentic
+        ? (verifiedRoute && verifiedRoute.line?.coordinates?.length > 1
+            ? (verifiedRoute.line.coordinates as [number, number, number][]).map(([ln, la]) => [ln, la])
+            : (place.pathCoords ? place.pathCoords.map(([la, ln]) => [ln, la]) : undefined))
+        : undefined;
+
+      if (routeLineCoordinates && routeLineCoordinates.length > 1) {
         const sId = `source-${place.id}`;
         const lId = `layer-${place.id}`;
         const gId = `glow-${place.id}`;
@@ -1043,7 +1052,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             properties: { id: place.id, name: place.name },
             geometry: {
               type: "LineString",
-              coordinates: pathCoords.map(([la, ln]) => [ln, la]),
+              coordinates: routeLineCoordinates,
             },
           },
         });

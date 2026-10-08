@@ -11,13 +11,6 @@ export const himachalTreks: Trek[] = [
     maxAltitude: "3,700 m",
     bestSeason: "May to October",
     coords: [32.3664, 77.0855],
-    pathCoords: [
-      [32.3150, 77.1580], // Solang
-      [32.3250, 77.1550],
-      [32.3350, 77.1500],
-      [32.3450, 77.1450],
-      [32.3580, 77.1380]  // Beas Kund
-    ],
     startPoint: "Dhundi / Solang Valley",
     guideRatePerDay: 2000,
     overview: "Beas Kund is the glacial lake believed to be the origin of the River Beas, one of the five rivers of Punjab. Nestled at the foot of the Beas Kund glacier beneath the towering Friendship Peak and Shitidhar, this trek offers a perfect introduction to Himalayan trekking with minimal duration and maximum scenic payoff.",
@@ -79,12 +72,6 @@ export const himachalTreks: Trek[] = [
     maxAltitude: "3,300 m",
     bestSeason: "April to November",
     coords: [32.2530, 77.1680],
-    pathCoords: [
-      [32.2470, 77.1830], // Hadimba Temple Trailhead (2,050m)
-      [32.2510, 77.1770], // Deodar Canopy Crest (2,450m)
-      [32.2540, 77.1710], // Oak & Birch Transitional Ridge (2,900m)
-      [32.2530, 77.1680], // Lamadugh Alpine Meadow (3,300m)
-    ],
     startPoint: "Hadimba Temple, Old Manali",
     overview: "Lamadugh is a serene meadow nestled in the dense deodar and oak forests above Manali. The trail offers a gentle ascent through shaded woodland paths, opening up to a vast alpine clearing at around 3,300 meters.",
     routeDescription: "The hike begins from the Manali Sanctuary gate near the Hadimba Temple complex. Follow the well-marked forest trail that winds uphill through thick deodar forest.",
@@ -393,14 +380,6 @@ export const himachalTreks: Trek[] = [
     maxAltitude: "4,270 m",
     bestSeason: "June to September",
     coords: [32.2800, 77.3490], // Hampta Pass itself
-    pathCoords: [
-      [32.2600, 77.2100], // Jobra
-      [32.2650, 77.2500], // Chika
-      [32.2700, 77.3000], // Balu Ka Ghera
-      [32.2800, 77.3490], // Hampta Pass
-      [32.2900, 77.3800], // Shea Goru
-      [32.3200, 77.4100]  // Chatru
-    ],
     startPoint: "Jobra, near Prini",
     guideRatePerDay: 2500,
     overview: "Hampta Pass is one of the most dramatic crossovers in the Indian Himalayas — a route that transforms from lush green Kullu Valley on one side to the stark, lunar landscape of the Lahaul Valley on the other. The contrast in terrain and vegetation over just 26 km is staggering, making this one of the most visually rewarding moderate treks in Himachal Pradesh.",
@@ -487,13 +466,6 @@ export const himachalTreks: Trek[] = [
     maxAltitude: "4,300 m",
     bestSeason: "May to June, September to October",
     coords: [32.2933, 77.2425],
-    pathCoords: [
-      [32.3150, 77.1950], // Gulaba Roadhead (3,100m)
-      [32.2850, 77.2180], // Jonker Thatch (3,350m)
-      [32.2580, 77.2340], // Rola Kholi Campsite (3,500m)
-      [32.2410, 77.2420], // Pandu Ropa Ridge (3,900m)
-      [32.2240, 77.2510], // Bhrigu Sacred Glacial Tarn (4,300m)
-    ],
     startPoint: "Gulaba, Rohtang Road",
     guideRatePerDay: 2000,
     overview: "Bhrigu Lake is a stunning high-altitude lake at 4,300 meters on the edge of the Rohtang plateau. Named after the sage Bhrigu, the lake remains frozen for much of the year and is surrounded by vast rolling meadows that explode with wildflowers in early summer. It is considered one of the most accessible high-altitude alpine lakes near Manali.",
@@ -558,13 +530,6 @@ export const himachalTreks: Trek[] = [
     maxAltitude: "3,660 m",
     bestSeason: "May to October",
     coords: [32.1030, 77.1510],
-    pathCoords: [
-      [32.1480, 77.1660], // Naggar Castle Trailhead (1,760m)
-      [32.1520, 77.1780], // Rumsu Village (2,400m)
-      [32.1380, 77.1890], // Stelling Alpine Clearing (3,100m)
-      [32.1220, 77.2150], // Chandrakhani High Pass (3,660m)
-      [32.1030, 77.2510], // Malana Gorge Descent & Village (2,650m)
-    ],
     startPoint: "Naggar Castle, Naggar",
 
     guideRatePerDay: 2500,

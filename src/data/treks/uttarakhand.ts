@@ -1,5 +1,4 @@
 import { Trek } from "../types";
-import { kedarnathPath, vasudharaFallsPath } from "../paths";
 
 export const uttarakhandTreks: Trek[] = [
   {
@@ -12,7 +11,6 @@ export const uttarakhandTreks: Trek[] = [
     maxAltitude: "3,583 m",
     bestSeason: "May to June, September to October",
     coords: [30.736098, 79.070798],
-    pathCoords: kedarnathPath,
     startPoint: "Gaurikund (1,982m)",
     guideRatePerDay: 2000,
     overview: "The most sacred mountain pilgrimage trek in Garhwal, ascending 16 km alongside the roaring Mandakini river from Gaurikund through Jungle Chatti, Bheembali, and Lincholi to the 8th-century stone temple of Kedarnath.",
@@ -60,7 +58,6 @@ export const uttarakhandTreks: Trek[] = [
     maxAltitude: "3,691 m",
     bestSeason: "May to October",
     coords: [30.783, 79.45],
-    pathCoords: vasudharaFallsPath,
     startPoint: "Mana Village (3,200m)",
     guideRatePerDay: 1800,
     overview: "A dramatic 6 km alpine day hike from Mana—the last Indian village near the Indo-Tibetan border—along the Alaknanda river canyon to a vertical 122-meter (400 ft) glacial waterfall dropping from sheer granite cliffs.",
@@ -102,32 +99,6 @@ export const uttarakhandTreks: Trek[] = [
     "coords": [
       30.4,
       80.05
-    ],
-    "pathCoords": [
-      [
-        30.06,
-        80.23
-      ],
-      [
-        30.15,
-        80.18
-      ],
-      [
-        30.25,
-        80.12
-      ],
-      [
-        30.33,
-        80.08
-      ],
-      [
-        30.37,
-        80.06
-      ],
-      [
-        30.4,
-        80.05
-      ]
     ],
     "startPoint": "Munsiyari / Lilam",
     "guideRatePerDay": 2200,
@@ -214,28 +185,6 @@ export const uttarakhandTreks: Trek[] = [
       30.21,
       80.45
     ],
-    "pathCoords": [
-      [
-        29.85,
-        80.53
-      ],
-      [
-        30.05,
-        80.52
-      ],
-      [
-        30.12,
-        80.5
-      ],
-      [
-        30.18,
-        80.48
-      ],
-      [
-        30.21,
-        80.45
-      ]
-    ],
     "startPoint": "Dar / Dharchula",
     "guideRatePerDay": 2000,
     "overview": "Glacial trek through the remote Darma Valley to the vast moraine base of the five towering snow peaks of Panchachuli (6,334m–6,904m).",
@@ -314,28 +263,6 @@ export const uttarakhandTreks: Trek[] = [
       30.264,
       79.732
     ],
-    "pathCoords": [
-      [
-        30.11,
-        79.58
-      ],
-      [
-        30.15,
-        79.62
-      ],
-      [
-        30.19,
-        79.66
-      ],
-      [
-        30.22,
-        79.69
-      ],
-      [
-        30.264,
-        79.732
-      ]
-    ],
     "startPoint": "Lohajung / Wan",
     "guideRatePerDay": 2000,
     "overview": "Legendary high-altitude trek from Lohajung through Ali and Bedni Bugyals to the glaciated skeleton lake of Roopkund beneath Mount Trishul (7,120m).",
@@ -413,28 +340,6 @@ export const uttarakhandTreks: Trek[] = [
     "coords": [
       30.745,
       79.355
-    ],
-    "pathCoords": [
-      [
-        30.7719,
-        79.4975
-      ],
-      [
-        30.76,
-        79.45
-      ],
-      [
-        30.755,
-        79.41
-      ],
-      [
-        30.75,
-        79.38
-      ],
-      [
-        30.745,
-        79.355
-      ]
     ],
     "startPoint": "Mana Village / Badrinath",
     "guideRatePerDay": 2500,

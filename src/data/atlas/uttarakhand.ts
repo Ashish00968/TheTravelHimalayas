@@ -1,5 +1,4 @@
 import { HimalayaRegion } from "./types";
-import { kedarnathPath, vasudharaFallsPath } from "../paths";
 
 export const uttarakhandRegion: HimalayaRegion =   {
     id: "uttarakhand",
@@ -704,7 +703,6 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                           30.783,
                                                           79.45
                                                 ],
-                                                "pathCoords": vasudharaFallsPath,
                                                 "elevation": "3,691 m",
                                                 "bestSeason": "May to October",
                                                 "difficulty": "Moderate",
@@ -978,7 +976,6 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                           30.736098,
                                                           79.070798
                                                 ],
-                                                "pathCoords": kedarnathPath,
                                                 "elevation": "3,583 m",
                                                 "bestSeason": "May to June, September to October",
                                                 "difficulty": "Moderate to Difficult",

@@ -269,7 +269,7 @@ export function TrekRouteMap({
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl sm:rounded-2xl bg-primary hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 flex-shrink-0 min-h-[44px]"
             >
               <Download className="w-4 h-4" />
-              <span>Download GPX (95 KB)</span>
+              <span>Download GPX ({slug === "jogni-falls" ? "6 KB" : "95 KB"})</span>
             </a>
           </div>
 
@@ -280,8 +280,9 @@ export function TrekRouteMap({
                 <span>Ground Verification Record</span>
               </div>
               <p className="text-slate-600 dark:text-white/60 leading-relaxed font-sans text-xs">
-                Verified on 16 July 2020 • Recorded with Strava GPS / Phone by Ashish.
-                All personal biometric timestamps and heart-rate telemetry have been completely stripped for clean, lightweight offline navigation.
+                {slug === "jogni-falls"
+                  ? "Verified on 06 October 2026 • Recorded with GPS by Ashish. Authentic forest and waterfall approach trace from Vashisht village. Lightweight offline navigation."
+                  : "Verified on 16 July 2020 • Recorded with Strava GPS / Phone by Ashish. All personal biometric timestamps and heart-rate telemetry have been completely stripped for clean, lightweight offline navigation."}
               </p>
             </div>
 
