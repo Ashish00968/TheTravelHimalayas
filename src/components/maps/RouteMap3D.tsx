@@ -404,20 +404,33 @@ export default function RouteMap3D({
       if (mapRef.current) {
         // Dynamic progressive trail reveal behind camera
         try {
-          const pSafe = Math.max(0.001, Math.min(0.999, p));
-          mapRef.current.setPaintProperty("trail-route-line", "line-gradient", [
-            "interpolate",
-            ["linear"],
-            ["line-progress"],
-            0,
-            "#00E5FF",
-            pSafe,
-            "#00E5FF",
-            Math.min(1, pSafe + 0.006),
-            "rgba(0, 229, 255, 0.2)",
-            1,
-            "rgba(0, 229, 255, 0.2)",
-          ]);
+          if (p >= 0.99) {
+            mapRef.current.setPaintProperty("trail-route-line", "line-gradient", [
+              "interpolate",
+              ["linear"],
+              ["line-progress"],
+              0,
+              "#00E5FF",
+              1,
+              "#00E5FF",
+            ]);
+          } else {
+            const pSafe = Math.max(0.001, Math.min(0.98, p));
+            const pTransition = pSafe + 0.006;
+            mapRef.current.setPaintProperty("trail-route-line", "line-gradient", [
+              "interpolate",
+              ["linear"],
+              ["line-progress"],
+              0,
+              "#00E5FF",
+              pSafe,
+              "#00E5FF",
+              pTransition,
+              "rgba(0, 229, 255, 0.2)",
+              1,
+              "rgba(0, 229, 255, 0.2)",
+            ]);
+          }
         } catch {
           // Fallback if style updating
         }
@@ -494,10 +507,14 @@ export default function RouteMap3D({
           "interpolate",
           ["linear"],
           ["line-progress"],
-          0,
-          "#00E5FF",
-          1,
-          "#00E5FF",
+          0.0,
+          "#06B6D4",
+          0.45,
+          "#3B82F6",
+          0.75,
+          "#F59E0B",
+          1.0,
+          "#FDE047",
         ]);
       } catch {}
 
