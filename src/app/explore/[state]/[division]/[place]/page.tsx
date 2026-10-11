@@ -47,6 +47,7 @@ export async function generateMetadata({
 
   const isPatalsu = placeId === "patalsu-peak";
   const isJogni = placeId === "jogni-falls";
+  const isBeasKund = placeId === "beas-kund";
 
   const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);
   const durationStr = place.duration || place.trekData?.duration;
@@ -59,6 +60,8 @@ export async function generateMetadata({
     pageTitle = "Patalsu Peak Trek (4,261m) Manali — Route, Height, Best Season & Cost";
   } else if (isJogni) {
     pageTitle = "Jogni Falls Trek (2,280m) Vashisht, Manali — Route, Map & Photo Story";
+  } else if (isBeasKund) {
+    pageTitle = "Beas Kund Trek (3,700m) Manali — Route, Height & Cost | DHT";
   } else if (isExpedition) {
     const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
@@ -87,6 +90,8 @@ export async function generateMetadata({
     description = "Complete guide to Patalsu Peak Trek (4,261m / 13,980 ft) in Manali. Discover height, distance from Solang Valley (16km), best season, cost, snow conditions, and the 1-day speed hike route.";
   } else if (isJogni) {
     description = "Complete trail guide to Jogni Falls (Jogini Waterfall, 2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, timings, and insider tips.";
+  } else if (isBeasKund) {
+    description = "Complete guide to Beas Kund Trek (3,700m / 12,139 ft) in Manali. 15.5km trail from Dhundi, glacial source of Beas River, weather, cost, and GPS route.";
   }
 
   const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
@@ -149,7 +154,38 @@ export async function generateMetadata({
     "manali waterfall trek",
   ];
 
-  const keywords = place.keywords || (isPatalsu ? patalsuKeywords : isJogni ? jogniKeywords : [
+  const beasKundKeywords = [
+    "beas kund trek",
+    "vyas kund trek",
+    "beas kund trek manali",
+    "beas kund height",
+    "beas kund altitude",
+    "beas kund trek distance",
+    "beas kund trek from manali",
+    "dhundi to beas kund distance",
+    "solang valley to beas kund trek",
+    "how to reach beas kund from manali",
+    "manali to dhundi taxi fare",
+    "beas kund altitude in feet",
+    "beas kund elevation gain",
+    "peaks visible from beas kund",
+    "beas kund trek in may",
+    "beas kund trek in june",
+    "beas kund trek in october",
+    "beas kund in winter",
+    "beas kund trek in december",
+    "beas kund solo trek",
+    "beas kund trek without guide",
+    "beas kund trek camping",
+    "bakarthach meadow",
+    "beas kund lake",
+    "why is beas kund famous",
+    "sage vyas beas kund history",
+    "lady leg ridge beas kund",
+    "beas river origin",
+  ];
+
+  const keywords = place.keywords || (isPatalsu ? patalsuKeywords : isJogni ? jogniKeywords : isBeasKund ? beasKundKeywords : [
     `${place.name} trek`,
     `${place.name} itinerary`,
     `${place.name} difficulty`,
@@ -212,6 +248,8 @@ export default async function PlacePage({
   // Type 3: Expeditions (Mountaineering peaks, climbing summits, 6000m+ giants) -> ExpeditionTemplate
   const isExpedition = Boolean(place.peakData || place.type === "peak");
   const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike");
+  const isBeasKund = placeId === "beas-kund";
+  const isJogni = placeId === "jogni-falls";
 
   const schemas: Record<string, unknown>[] = [];
 
@@ -246,6 +284,7 @@ export default async function PlacePage({
         coords: placeCoords,
         subRegionName: subRegion.name,
         regionName: region.name,
+        alternateName: isBeasKund ? "Vyas Kund Lake Trek" : isJogni ? "Jogini Waterfall" : undefined,
       })
     );
   } else if (isExpedition) {

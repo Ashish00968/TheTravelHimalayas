@@ -5,54 +5,84 @@ export const himachalTreks: Trek[] = [
     slug: "beas-kund",
     title: "Beas Kund Trek",
     region: "Kullu-Manali",
-    difficulty: "Easy",
-    duration: "3 Days",
-    distance: "14 km",
+    difficulty: "Moderate",
+    duration: "2–3 Days (or 1-Day Ultra Push)",
+    distance: "15.5 km round-trip",
     maxAltitude: "3,700 m",
-    bestSeason: "May to October",
-    coords: [32.3664, 77.0855],
-    startPoint: "Dhundi / Solang Valley",
-    guideRatePerDay: 2000,
-    overview: "Beas Kund is the glacial lake believed to be the origin of the River Beas, one of the five rivers of Punjab. Nestled at the foot of the Beas Kund glacier beneath the towering Friendship Peak and Shitidhar, this trek offers a perfect introduction to Himalayan trekking with minimal duration and maximum scenic payoff.",
-    routeDescription: "The trek starts from Solang Valley (or Dhundi during peak season when the road is open further). The initial trail winds through boulder fields and grassy slopes above the treeline.",
+    bestSeason: "May to June, September to October",
+    coords: [32.3556, 77.1306],
+    startPoint: "Dhundi Bridge Checkpoint (2,840m)",
+    guideRatePerDay: 2200,
+    overview: "Beas Kund (also revered as Vyas Kund) is the sacred high-altitude glacial tarn (3,700m / 12,139 ft) from which the River Beas (ancient Vipasha) originates. Nestled directly beneath the colossal amphitheater of Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak (5,345m), and the jagged pyramid of Hanuman Tibba (5,982m), it represents one of the most scenic and rewarding alpine treks in the Upper Solang Valley of Manali.\n\nThe 15.5 km round-trip trail begins at the Dhundi Bridge checkpoint (2,840m) on the roaring headwaters of the Beas, climbing through ancient silver birch (Bhojpatra) and deodar woodlands to the broad glacial floodplain of Bakarthach (3,300m). Beyond the shepherd meadows, the trail ascends steeply over rugged terminal moraines, granite boulder fields, and hanging glacier ridges to reveal the serene, turquoise tarn cradled at 3,700 meters.",
+    routeDescription: "The trek officially begins at Dhundi Bridge (2,840m), accessible via paved road 8 km past Solang Valley. Following the right bank of the roaring Beas River, the trail winds gently through Bhoj Patra silver birch groves for 4.5 km to the alpine pastures of Bakarthach (3,300m), a traditional Gaddi shepherd grazing ground.\n\nFrom Bakarthach, the route crosses the glacial stream and ascends relentlessly across steep lateral and terminal moraines. Trekkers navigate a labyrinth of granite boulder fields marked by stone cairns—water flows sub-surface here, so carrying 2 liters from camp is essential. Cresting the final moraine ridge reveals the tranquil emerald waters of Beas Kund at 3,700m, framed by hanging seracs and glaciers. Seasoned climbers can extend the trek +1.5 km up the arête to Lady Leg ridge (3,893m) for birds-eye views of the Shitidhar icefall.",
     itinerary: [
       {
         day: 1,
-        title: "Solang Valley to Bakarthach",
-        description: "Drive from Manali to Solang Valley/Dhundi (2,800 m). Begin trekking uphill through rocky terrain and sparse shrubs. Cross a few small streams and climb steadily to reach Bakarthach (3,240 m) — a flat, grassy meadow with commanding views of Hanuman Tibba and Seven Sisters peaks.",
-        elevationMeters: 3240,
-        distanceKm: 5
+        title: "Dhundi Trailhead (2,840m) to Bakarthach Alpine Meadow (3,300m)",
+        description: "Drive from Manali via Solang Valley to the Dhundi Bridge checkpoint (20 km / 45 mins). Begin trekking on foot along the right bank of the rushing Beas River through deodar, fir, and silver birch (Bhojpatra) groves. Cross clear side-streams and climb steadily past Bhoj Patra to reach the vast glacial meadows of Bakarthach (3,300m). Pitch camp on the grassy floodplain with sweeping views of Indrasan (6,221m) and Deo Tibba (6,001m) to the southeast.",
+        elevationMeters: 3300,
+        distanceKm: 4.5
       },
       {
         day: 2,
-        title: "Bakarthach to Beas Kund and back",
-        description: "Trek uphill through moraine and boulder fields toward the glacier. Reach Beas Kund (3,700 m), the sacred glacial source of River Beas, surrounded by massive peaks including Friendship Peak, Shitidhar, and Ladakhi. Explore the area and return to Bakarthach for the night.",
+        title: "Bakarthach to Beas Kund Tarn (3,700m) & Descent to Dhundi",
+        description: "Early morning alpine start. Cross the Bakarthach stream and begin a steep ascent over lateral moraines into a labyrinth of giant granite boulders. Follow stone cairns carefully through the moraine corridor where surface water vanishes sub-surface. Crest the final ridge into the amphitheater of Beas Kund (3,700m), cradled beneath Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak (5,345m), and Hanuman Tibba (5,982m). Spend time at the sacred tarn before descending the moraine back to Bakarthach, packing camp, and continuing down to Dhundi roadhead for vehicle pickup back to Manali.",
         elevationMeters: 3700,
-        distanceKm: 4
+        distanceKm: 11
       },
       {
         day: 3,
-        title: "Bakarthach to Solang Valley, drive to Manali",
-        description: "Descend back along the same trail to Solang Valley. The return is quicker and offers different perspectives of the valley below. Drive back to Manali by afternoon, completing this short but spectacular trek.",
-        elevationMeters: 2800,
-        distanceKm: 5
+        title: "Relaxed 3-Day Option & Lady Leg Ridge (3,893m) / 1-Day Ultra Push Alternative",
+        description: "For a relaxed 3-day itinerary, Day 2 is dedicated to exploring Beas Kund and ascending Lady Leg ridge (3,893m) with an overnight at Bakarthach, followed by a leisurely 4.5 km descent to Dhundi on Day 3. Alternatively, acclimatized trail runners and fit endurance hikers can complete the entire 15.5 km round-trip (+860m gain) as an 8 to 9-hour single-day ultra push from Dhundi starting before 6:00 AM.",
+        elevationMeters: 3893,
+        distanceKm: 4.5
       }
     ],
     packingList: [
-      "30-40L daypack or backpack",
-      "Sturdy trekking shoes with good grip",
-      "Warm fleece jacket and windproof layer",
-      "Rain poncho or waterproof jacket",
-      "Water bottle (2 liters minimum)",
-      "Energy snacks: trail mix, chocolate, dry fruits",
-      "Sunglasses and sunscreen",
-      "Basic first aid kit"
+      "Sturdy high-traction trekking boots with solid ankle support for loose moraine boulders",
+      "Trekking poles with rubber/carbide tips (essential for navigating loose shale and moraine descent)",
+      "2 to 3-layer clothing system: thermal base layer, warm fleece or down jacket, and windproof shell",
+      "Waterproof rain poncho or Gore-Tex jacket (weather changes rapidly in upper Solang basin)",
+      "Reusable water bottles or hydration bladder (carry at least 2 liters from Bakarthach onwards)",
+      "UV400 Category 3/4 sunglasses, high-SPF sunscreen, and wide-brim sun hat for glacial reflection",
+      "Headlamp with spare batteries (mandatory for pre-dawn starts or delays on the boulder field)",
+      "Personal medical kit including Diamox (for AMS prevention), blister pads, rehydration salts, and bandages",
+      "Warm fleece beanie, buff/neck gaiter, and windproof thermal gloves for sub-zero summit breezes",
+      "Trash bag to pack out 100% of personal non-biodegradable waste (Leave No Trace mountain ethics)"
     ],
-    permits: "No permits are required for the Beas Kund trek.",
+    permits: "No forest entry permits are required for Indian or foreign nationals trekking to Beas Kund. Note: Non-Himachal private vehicles driving past Palchan toward Dhundi / Solang / Atal Tunnel South Portal may require an online Green Tax / Solang transit token during peak tourist summer windows (May–June). Commercial film crews or large expedition teams require formal permission from the Himachal Pradesh Forest Department.",
     faqs: [
       {
-        question: "Is Beas Kund trek good for beginners?",
-        answer: "Absolutely. Beas Kund is one of the best beginner treks near Manali. The short duration (3 days), moderate altitude, and well-marked trail make it perfect for first-timers."
+        question: "How long is the Beas Kund Trek?",
+        answer: "The Beas Kund Trek covers a total distance of 15.5 kilometers round-trip when starting from the Dhundi roadhead. Most trekkers complete the route over 2 to 3 days with an overnight camp at Bakarthach, while fit endurance hikers can complete it in 8 to 9 hours."
+      },
+      {
+        question: "What is the height and altitude of Beas Kund?",
+        answer: "Beas Kund sits at an elevation of 3,700 meters (12,139 feet) above sea level in the upper Solang Valley. The surrounding vantage point of Lady Leg ridge rises further to 3,893 meters (12,772 feet), offering direct views of the Shitidhar and Friendship glaciers."
+      },
+      {
+        question: "How difficult is the Beas Kund Trek?",
+        answer: "The Beas Kund Trek is rated moderate. While the 4.5 km trail from Dhundi to Bakarthach meadow is a gentle gradient, the final 3 km ascent across the steep terminal moraine and loose boulder field demands careful footing, balance, and solid cardiovascular endurance above 3,500 meters."
+      },
+      {
+        question: "Can Beas Kund Trek be done in one day?",
+        answer: "Yes, Beas Kund can be completed as a single-day alpine speed hike from Dhundi by fit, acclimatized trail runners. The 15.5 km round-trip with +860 meters vertical gain requires 7 to 9 hours continuous walking. Trekkers must start by 6:00 AM to clear the moraine before afternoon weather shifts."
+      },
+      {
+        question: "What is the best time to visit Beas Kund?",
+        answer: "The best months for Beas Kund are May to June and September to October. May and June feature crisp snowfields and blooming alpine meadows, while September and October offer the most stable weather, dry rock scrambling on the moraine, and crystal-clear panoramas of Hanuman Tibba and Friendship Peak."
+      },
+      {
+        question: "Can you do Beas Kund Trek in winter (December to February)?",
+        answer: "Trekking to the 3,700m Beas Kund lake is generally inaccessible in mid-winter due to heavy snowfall, hidden boulder crevices, and severe avalanche danger across the upper moraine. However, winter snowshoeing hikes up to Dhundi or lower Bakarthach meadow (3,200m) remain feasible with proper winter gear."
+      },
+      {
+        question: "Why is Beas Kund considered sacred?",
+        answer: "Beas Kund is revered as the spiritual birthplace of the Beas River (ancient Vipasha). According to local Pahadi heritage and Hindu epics, the sage Maharishi Vyasa—the legendary composer of the Mahabharata—bathed and performed rigorous penance on the shores of this tranquil high-altitude lake."
+      },
+      {
+        question: "What peaks can you see from Beas Kund?",
+        answer: "From the Beas Kund basin, trekkers are encircled by a monumental amphitheater of peaks: Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak (5,345m), and the colossal pyramid of Hanuman Tibba (5,982m). Looking down the valley reveals distant vistas of Deo Tibba (6,001m) and Indrasan (6,221m)."
       }
     ],
     heroImage: "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -60,7 +90,7 @@ export const himachalTreks: Trek[] = [
       "https://images.pexels.com/photos/18979387/pexels-photo-18979387.jpeg?auto=compress&cs=tinysrgb&w=1600",
       "https://images.pexels.com/photos/18979386/pexels-photo-18979386.jpeg?auto=compress&cs=tinysrgb&w=1600",
     ],
-    description: "A short and rewarding trek to the glacial source of River Beas, offering dramatic views of Friendship Peak and surrounding glaciers — perfect for beginners."
+    description: "A 15.5 km high-altitude glacial trek to the sacred origin of the River Beas at 3,700m beneath Friendship Peak and Hanuman Tibba in Manali. Features birch forests, shepherd meadows at Bakarthach, and terminal moraine scrambling."
   },
   {
     slug: "lamadugh",

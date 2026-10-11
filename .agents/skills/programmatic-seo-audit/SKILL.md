@@ -142,3 +142,39 @@ To capture dominant organic rankings across low-competition long-tail queries an
   3. **Attraction**: "Why is [entity] famous?", "Is it open now?", "Entry fees and permits"
   4. **Safety & Terrain**: "Is it safe for beginners?", "Difference between Lower and Upper..."
 
+---
+
+## 6. Single-Entity SEO Research & Upgrade Workflow (Agent Playbook)
+
+When executing an SEO audit or content upgrade for a specific trek, peak, or destination (e.g. Phase 6 Money Pages in `info/GROWTH_TASKS.md`), follow this deterministic 5-step procedure:
+
+### Step 1: Target Entity & GSC Query Assessment
+- Inspect live Google Search Console impressions and queries for the target URL.
+- Identify "striking distance" queries (positions 8–25) and verify both primary and secondary phonetic/regional variants.
+
+### Step 2: Competitor Search Intent & Content Gap Analysis
+- Search the primary keyword and inspect 3–5 ranking competitor pages (commercial agencies like Indiahikes/TTH/Thrillophilia, and editorial guides).
+- Identify what commercial agencies omit:
+  - Independent/self-supported logistics (tent pitching spots, water availability cutoffs, local taxi rates).
+  - Accurate high-altitude physiology (AMS thresholds, rapid descent corridors).
+  - Clean, downloadable WGS 84 GPX tracks and 3D satellite visualization.
+
+### Step 3: Verbatim PAA Harvesting & Snippet Formulation
+- Extract 5–8 high-intent "People Also Ask" questions directly from Google SERP.
+- Write direct answers (40–60 words) placing the conclusive answer in sentence 1 to capture Google Featured Snippets and AI Overviews (Gemini, ChatGPT, Perplexity).
+
+### Step 4: High-Altitude E-E-A-T Field Intelligence
+- Enforce ground-truth trail markers:
+  - Specific water warning cutoffs (e.g. "Last running stream at Km 3.2").
+  - Mobile network coverage boundaries (Airtel/Jio dead zones).
+  - Trailhead transit nuances and parking availability.
+  - Zero placeholder text: Never output generic tokens such as `"Base Trailhead"` or `"Mid-Elevation Stage"`.
+
+### Step 5: Technical Schema, Metadata & Validation Gate
+- Format title according to the strict formula (<60 chars):
+  `[Entity Name] ({Altitude}m) — Route, Height, Best Season & Cost | Discover Himalayan Trails`
+- Meta description (135–155 chars) containing altitude, distance, season, and terrain highlights.
+- Pre-render JSON-LD structured data (`TouristTrip` or `Mountain` + `BreadcrumbList` + `FAQPage`).
+- Verify data changes pass `npm run validate:places`, `npx tsc --noEmit`, and `npm run lint`.
+
+

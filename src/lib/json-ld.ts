@@ -48,6 +48,7 @@ export interface TouristTripOptions {
   coords?: [number, number];
   subRegionName?: string;
   regionName?: string;
+  alternateName?: string;
 }
 
 /** Rich TouristTrip Schema: day-by-day itineraries, geo coordinates, provider, and difficulty */
@@ -62,6 +63,7 @@ export function buildTouristTripJsonLd(item: Trek | DayHike, options?: TouristTr
     "@context": "https://schema.org",
     "@type": "TouristTrip",
     name: item.title,
+    ...(options?.alternateName ? { alternateName: options.alternateName } : {}),
     description: item.overview || item.description,
     url: canonicalUrl,
     image: heroImage,

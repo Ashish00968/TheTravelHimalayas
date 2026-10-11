@@ -14,6 +14,7 @@ interface TrekAboutProps {
   subRegionName?: string;
   isPatalsu?: boolean;
   isJogni?: boolean;
+  isBeasKund?: boolean;
   breadcrumbItems?: { label: string; href: string }[];
 }
 
@@ -33,6 +34,7 @@ export function TrekAbout({
   subRegionName,
   isPatalsu = false,
   isJogni = false,
+  isBeasKund = false,
   breadcrumbItems,
 }: TrekAboutProps) {
   const [showFullDossier, setShowFullDossier] = useState(false);
@@ -49,9 +51,11 @@ export function TrekAbout({
     ? "A sacred 150-foot cascading cataract plunging down sheer granite cliffs in the Kullu Valley above Vashisht village, 4 km from Manali. Revered as the sanctuary of village Jogini deities, the 3.2 km trail ascends through fragrant deodar woods and apple orchards to an alpine amphitheater drenched in roaring glacial spray."
     : isPatalsu
     ? "Rising directly above Solang Valley, Patalsu Peak (4,261m) is Manali’s premier non-technical 4,000-meter trekking peak. The relentless +1,781m vertical ascent climbs through ancient deodar woods and Shagadugh meadows before tackling the wind-scoured scree ridge opposite Hanuman Tibba."
+    : isBeasKund
+    ? "The sacred high-altitude glacial tarn (3,700m / 12,139 ft) from which the River Beas originates, nestled directly beneath the colossal amphitheater of Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak (5,345m), and Hanuman Tibba (5,982m). The 15.5 km alpine route climbs from Dhundi roadhead through silver birch woods, shepherd pastures at Bakarthach, and high terminal moraines."
     : paragraphs[0] || overview;
 
-  const extendedLore = isJogni || isPatalsu ? paragraphs : paragraphs.slice(1);
+  const extendedLore = isJogni || isPatalsu || isBeasKund ? paragraphs : paragraphs.slice(1);
 
   // Key highlights tags
   const highlights = isJogni
@@ -69,6 +73,14 @@ export function TrekAbout({
         { label: "Ancient Solang Forests", icon: "🌲" },
         { label: "Hanuman Tibba Face Views", icon: "🧊" },
         { label: "1-Day Ultra Speed Hike", icon: "⚡" },
+      ]
+    : isBeasKund
+    ? [
+        { label: "3,700m Glacial Tarn", icon: "💎" },
+        { label: "River Beas Origin", icon: "🕉️" },
+        { label: "Bakarthach Meadow (3,300m)", icon: "🌿" },
+        { label: "Friendship Peak & Shitidhar", icon: "🏔️" },
+        { label: "Hanuman Tibba Pyramid", icon: "🧊" },
       ]
     : [
         { label: "Alpine Wilderness", icon: "⛰️" },
@@ -266,6 +278,50 @@ export function TrekAbout({
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
                 The final 1,000m climb traverses narrow wind-blasted shale and loose rock directly opposite the colossal face of Hanuman Tibba (5,982m).
+              </p>
+            </motion.div>
+          </>
+        ) : isBeasKund ? (
+          <>
+            <motion.div 
+              whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
+              transition={{ duration: 0.2 }}
+              className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
+            >
+              <div className="flex items-center gap-2.5 mb-2.5">
+                <Trees className="w-4 h-4" style={{ color: style.accent }} />
+                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Bhoj Patra Birch Woods (3,150m)</h3>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                Riverside ascent from Dhundi along roaring headwaters of the Beas through fragrant deodar, fir, and silver birch groves.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
+              transition={{ duration: 0.2 }}
+              className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
+            >
+              <div className="flex items-center gap-2.5 mb-2.5">
+                <Mountain className="w-4 h-4" style={{ color: style.accent }} />
+                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Bakarthach Meadow (3,300m)</h3>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                Vast alpine floodplain and shepherd campsite offering clean spring water and sweeping panoramas of Indrasan and Deo Tibba.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
+              transition={{ duration: 0.2 }}
+              className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
+            >
+              <div className="flex items-center gap-2.5 mb-2.5">
+                <ShieldAlert className="w-4 h-4" style={{ color: style.accent }} />
+                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Terminal Moraine Boulder Field</h3>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                Steep scramble over giant granite boulders guided by stone cairns, where surface water vanishes sub-surface beneath glacial debris.
               </p>
             </motion.div>
           </>

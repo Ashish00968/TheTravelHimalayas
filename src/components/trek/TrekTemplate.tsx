@@ -34,6 +34,7 @@ export function TrekTemplate({
   const trek = place.trekData;
   const isPatalsu = place.id === "patalsu-peak";
   const isJogni = place.id === "jogni-falls";
+  const isBeasKund = place.id === "beas-kund";
 
   // Best available authentic photography (strictly no repeating territory fallback)
   const heroImage = isPatalsu
@@ -106,6 +107,7 @@ export function TrekTemplate({
         subRegionName={subRegion.name}
         isPatalsu={isPatalsu}
         isJogni={isJogni}
+        isBeasKund={isBeasKund}
         breadcrumbItems={breadcrumbItems}
       />
 

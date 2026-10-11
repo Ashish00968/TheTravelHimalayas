@@ -8,7 +8,9 @@ export const himachalPradeshRegion: HimalayaRegion =   {
     emoji: "🌲",
     cardDesc: "The Abode of Snow — pine-clad Kullu trails, raw Trans-Himalayan Spiti deserts, mystical Kinnaur valleys, and high Dhauladhar Kangra ridges.",
     image: "https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1000/v1777221149/himachalMain.jpg",
+    //Subregions Array
         subregions: [
+      //chamba
       {
         id: "chamba",
         name: "Chamba",
@@ -187,6 +189,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           }
         ]
       },
+      //kangra
       {
         id: "kangra",
         name: "Kangra",
@@ -320,6 +323,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           }
         ]
       },
+      //kullu
       {
         id: "kullu",
         name: "Kullu & Manali",
@@ -336,10 +340,13 @@ export const himachalPradeshRegion: HimalayaRegion =   {
 
             const isPatalsu = t.slug === "patalsu-peak";
             const isJogni = t.slug === "jogni-falls";
+            const isBeasKund = t.slug === "beas-kund";
             const experience = isPatalsu
               ? "I did Patalsu as a continuous 12 to 13-hour single-day speed-hike in October with only minimal breaks. Conquering the +1,781m vertical gain in one push is an incredible test of mountain endurance, but for most trekkers, I strongly recommend doing this as a 2 to 3-day trek. Camping at Shagadugh gives your body time to acclimatize and lets you truly experience the peaceful forest before tackling the relentless loose scree on the summit ridge."
               : isJogni
               ? "Parked the scooty at Vashisht village and set out on foot. Winding past the cozy backpacker cafés and ancient wooden shrines, the trail quickly opens into apple orchards and pine woods. First come quirky trail signs reminding visitors to leave no trace, followed by the distant murmur of water. Before reaching the main cascade, lower tiered falls and crystal streams rush over mossy boulders. Continuing upward along the steep dirt path brings you directly beneath the roaring 150-foot plunge of Jogni Falls, where glacial mist cools the air and snow-capped Himalayan peaks frame the distant horizon."
+              : isBeasKund
+              ? "Trekking past the Dhundi checkpoint, the trail quickly leaves the roadhead behind and follows the roaring headwaters of the Beas through ancient birch woods. Emerging onto the vast glacial floodplain of Bakarthach, you are greeted by grazing Gaddi sheep and panoramic views of Indrasan. The real test comes on the terminal moraine—scrambling over thousands of massive granite boulders guided only by stone cairns. Breaking over the final crest to behold the turquoise glacial tarn of Beas Kund, cradled directly beneath the towering amphitheater of Friendship Peak, Shitidhar, and Hanuman Tibba, is an unforgettable Himalayan moment."
               : undefined;
 
             const tips = isPatalsu
@@ -357,6 +364,14 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                   "Don't rush past the lower cascade pools; they offer wonderful quiet viewpoints and cold glacial water.",
                   "The trail past the lower falls climbs steeply over tree roots and rocks to the upper amphitheater—it is well worth the sweat.",
                   "Carry a light windbreaker or rain shell; the spray mist near the base of the upper waterfall is intense."
+                ]
+              : isBeasKund
+              ? [
+                  "Water Warning: Natural running streams vanish beneath the terminal moraine past Bakarthach. You must carry at least 2 Liters of drinking water per person from camp before starting the final boulder ascent.",
+                  "Trailhead Logistics: The foot trail officially starts at Dhundi Bridge Checkpoint (2,840m), 8 km past Solang Valley via paved road. Cabs from Manali Mall Road cost ₹1,500–₹2,200 one-way.",
+                  "Boulder Moraine Navigation: Pay close attention to stone cairns (stacked rock markers) across the boulder field above 3,400m to avoid dead-ending at unstable scree slopes or cliff drop-offs.",
+                  "Altitude & Acclimatization: Beas Kund sits at 3,700m (12,139 ft). Pacing is critical above Bakarthach (3,300m); stay hydrated and watch for early AMS symptoms like headache or nausea.",
+                  "Alpine Timing: If attempting as a 1-day speed hike from Dhundi, depart by 6:00 AM to summit and clear the boulder field before afternoon mountain storms and descending cloud cover."
                 ]
               : undefined;
 
@@ -382,8 +397,16 @@ export const himachalPradeshRegion: HimalayaRegion =   {
               heroImage: t.heroImage,
               images: t.images || [],
               trekData: t,
-              seoTitle: isJogni ? "Jogni Falls Trek (2,280m) Vashisht, Manali — Route & Guide" : undefined,
-              seoDescription: isJogni ? "Complete guide to Jogni Falls (2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, and trail tips." : undefined,
+              seoTitle: isJogni
+                ? "Jogni Falls Trek (2,280m) Vashisht, Manali — Route & Guide"
+                : isBeasKund
+                ? "Beas Kund Trek (3,700m) Manali — Route, Height & Cost | DHT"
+                : undefined,
+              seoDescription: isJogni
+                ? "Complete guide to Jogni Falls (2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, and trail tips."
+                : isBeasKund
+                ? "Complete guide to Beas Kund Trek (3,700m / 12,139 ft) in Manali. 15.5km trail from Dhundi, glacial source of Beas River, weather, cost, and GPS route."
+                : undefined,
             };
           }),
           ...peaks.map((p) => ({
@@ -958,6 +981,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           }
         ]
       },
+      //mandi
       {
         id: "mandi",
         name: "Mandi",
@@ -1104,6 +1128,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           }
         ]
       },
+      //lahaulSpiti
       {
         id: "lahaul-spiti",
         name: "Lahaul & Spiti",
@@ -1392,6 +1417,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           }
         ]
       },
+      //kinnaur
       {
         id: "kinnaur",
         name: "Kinnaur",
