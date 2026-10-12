@@ -2,9 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import { Map, ArrowRight, Compass } from "lucide-react";
+import { Map, ArrowRight } from "lucide-react";
 import { Peak } from "@/data/types";
 import { HimalayaPlace } from "@/data/atlas";
+import { TopoMiniMap } from "@/components/maps/TopoMiniMap";
 
 interface ExpeditionMapContextProps {
   place: HimalayaPlace;
@@ -34,6 +35,7 @@ export function ExpeditionMapContext({
 
   return (
     <section id="expedition-map" className="scroll-mt-24 space-y-6" aria-labelledby="expedition-map-heading">
+      {/* Category Marker */}
       <div className="flex items-center gap-3">
         <span
           className="text-xs font-mono font-bold uppercase tracking-[0.25em]"
@@ -44,54 +46,46 @@ export function ExpeditionMapContext({
         <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10" />
       </div>
 
-      <div className="relative rounded-3xl p-6 sm:p-10 bg-gradient-to-br from-slate-900 via-[#0C1017] to-[#07090E] text-white border border-white/15 shadow-2xl overflow-hidden group dark-photo-card preserve-white-text">
-        {/* Subtle Map Grid Motif */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#3B82F6_1px,transparent_1px)] [background-size:24px_24px]" />
-        <div className="absolute -right-16 -bottom-16 w-80 h-80 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: style.glow }} />
-
-        <div className="relative z-10 max-w-2xl space-y-5">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-mono font-semibold text-white">
-              <Compass className="w-3.5 h-3.5" style={{ color: style.accent }} />
-              High-Precision 3D Digital Elevation Mesh
-            </span>
-            {coords && coords[0] !== 0 && (
-              <span className="text-xs font-mono text-slate-400">
-                {coords[0].toFixed(4)}°N, {coords[1].toFixed(4)}°E
-              </span>
-            )}
-            <span className="text-xs font-mono text-sky-300 font-bold">
-              {heightMeters.toLocaleString("en-IN")}m Summit
-            </span>
-          </div>
-
-          <h3
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
+        <div>
+          <h2
             id="expedition-map-heading"
-            className="font-display font-bold text-2xl sm:text-4xl text-white tracking-tight leading-snug"
+            className="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white tracking-tight leading-snug"
           >
-            Explore the Mountain in 3D
-          </h3>
-
-          <p className="text-slate-300 font-light text-sm sm:text-base leading-relaxed">
-            Examine {peak.title}&apos;s glaciated valleys, lateral moraines, bergschrund crossings, and exposed summit arêtes in full 3D satellite mesh exploration.
+            3D Elevation &amp; Topographic Profile
+          </h2>
+          <p className="text-slate-600 dark:text-slate-300 font-light text-sm sm:text-base leading-relaxed max-w-2xl mt-1">
+            Examine {peak.title}&apos;s glaciated valleys, lateral moraines, and summit arêtes in interactive cartography and 3D satellite mesh.
           </p>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <Link
-              href={`/map?focus=${place.id}`}
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-lg min-h-[44px] group/btn"
-            >
-              <Map className="w-4 h-4 text-slate-950" />
-              <span>Launch 3D Mountain Mesh</span>
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-            </Link>
-
-            <span className="text-xs font-mono text-slate-400 self-center">
-              Direct O(1) geospatial camera focus
-            </span>
-          </div>
         </div>
+
+        <Link
+          href={`/map?focus=${place.id}`}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex-shrink-0 shadow-xs"
+          style={{
+            borderColor: `${style.accent}40`,
+            color: style.accent,
+            backgroundColor: `${style.accent}12`,
+          }}
+        >
+          <Map className="w-3.5 h-3.5" />
+          <span>Full 3D Atlas</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
+
+      {/* Universal Topographic Mini-Map with On-Demand 3D Satellite Mesh */}
+      <TopoMiniMap
+        placeName={peak.title}
+        placeSlug={place.id}
+        coords={coords}
+        startPoint={peak.baseCamp || `${peak.title} Base Camp`}
+        maxAltitude={`${heightMeters.toLocaleString("en-IN")} m`}
+        distance="Alpine Traversal"
+        accentColor={style.accent}
+        stateSlug={stateSlug}
+        bestSeason={peak.expeditionSeason}
+      />
     </section>
   );
 }

@@ -6655,5 +6655,47 @@
       ]
     ]
   },
-  "waypoints": []
+  "waypoints": [
+    {
+      "name": "Solang Village Trailhead",
+      "lat": 32.316042,
+      "lng": 77.157328,
+      "eleM": 2452,
+      "type": "trailhead",
+      "note": "Roadhead entry in Solang Village. Forest trail begins through deodar woodlands."
+    },
+    {
+      "name": "Deodar Forest Stream",
+      "lat": 32.3245,
+      "lng": 77.1652,
+      "eleM": 2840,
+      "type": "water",
+      "note": "Fresh mountain brook under dense cedar canopy. Last reliable flowing water before ridge."
+    },
+    {
+      "name": "Shagadugh Meadow Base Camp",
+      "lat": 32.3338,
+      "lng": 77.1746,
+      "eleM": 3250,
+      "type": "camp",
+      "note": "Lush alpine meadow campsite. Panoramic views of Hanuman Tibba and Friendship Peak."
+    },
+    {
+      "name": "Upper Moraine Scree Couloir",
+      "lat": 32.3452,
+      "lng": 77.1834,
+      "eleM": 3820,
+      "type": "warning",
+      "cautionNotice": "Steep 35° loose scree and boulder gully. Maintain safe spacing to avoid rockfall.",
+      "note": "Exposed high-angle moraine traverse."
+    },
+    {
+      "name": "Patalsu Peak Apex Cairn",
+      "lat": 32.35386,
+      "lng": 77.19106,
+      "eleM": 4261,
+      "type": "summit",
+      "note": "Summit crest adorned with prayer flags. 360° panorama of Pir Panjal and Dhauladhar."
+    }
+  ]
 }

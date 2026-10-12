@@ -662,6 +662,420 @@
   }
 }
 
+/* Hide dedicated print dossier on screen */
+#alpine-field-dossier-print-container {
+  display: none;
+}
+
+/* ── Dedicated Alpine Field Dossier Print Engine (A4 2-Page Standard) ── */
+@media print {
+  body.dossier-print-mode {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding-top: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.dossier-print-mode > *:not(#alpine-field-dossier-print-container) {
+    display: none !important;
+  }
+
+  body.dossier-print-mode #alpine-field-dossier-print-container {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    visibility: visible !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  .dossier-sheet {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #000000;
+    font-size: 8.5pt;
+    line-height: 1.3;
+    background: #ffffff;
+  }
+
+  .dossier-page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  /* Header Box */
+  .dossier-header-box {
+    border: 1.5px solid #000000;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: #ffffff;
+  }
+
+  .dossier-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .dossier-masthead {
+    font-family: monospace;
+    font-size: 7.5pt;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #374151;
+    text-transform: uppercase;
+  }
+
+  .dossier-title {
+    font-size: 15pt !important;
+    font-weight: 800 !important;
+    margin: 2px 0 !important;
+    color: #000000 !important;
+    line-height: 1.15 !important;
+  }
+
+  .dossier-subtitle {
+    font-size: 8.5pt;
+    color: #4b5563;
+    font-weight: 500;
+  }
+
+  .dossier-header-badge-col {
+    text-align: right;
+    font-family: monospace;
+    font-size: 7.5pt;
+  }
+
+  .dossier-ref-tag {
+    font-weight: 800;
+    color: #111827;
+    border: 1px solid #111827;
+    padding: 1px 5px;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+
+  .dossier-date-tag, .dossier-status-tag {
+    color: #4b5563;
+    font-weight: 600;
+  }
+
+  .dossier-meta-strip {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-top: 1px dashed #9ca3af;
+    margin-top: 6px;
+    padding-top: 5px;
+    font-family: monospace;
+    font-size: 7.5pt;
+    color: #1f2937;
+  }
+
+  /* Bento Telemetry Grid */
+  .dossier-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .dossier-bento-cell {
+    border: 1px solid #1f2937;
+    padding: 4px 6px;
+    background: #f9fafb;
+    text-align: center;
+  }
+
+  .dossier-cell-label {
+    font-family: monospace;
+    font-size: 6.5pt;
+    font-weight: 700;
+    color: #4b5563;
+    letter-spacing: 0.05em;
+  }
+
+  .dossier-cell-val {
+    font-size: 9.5pt;
+    font-weight: 800;
+    color: #000000;
+    margin: 1px 0;
+  }
+
+  .dossier-cell-sub {
+    font-family: monospace;
+    font-size: 6.5pt;
+    color: #6b7280;
+  }
+
+  /* Section Containers */
+  .dossier-section-box {
+    border: 1px solid #374151;
+    margin-bottom: 7px;
+    background: #ffffff;
+  }
+
+  .dossier-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f3f4f6;
+    border-bottom: 1px solid #374151;
+    padding: 3px 8px;
+    font-family: monospace;
+    font-size: 7.5pt;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: 0.05em;
+  }
+
+  .dossier-coord-mark {
+    font-size: 6.5pt;
+    color: #4b5563;
+  }
+
+  .dossier-svg-wrapper {
+    padding: 6px 10px;
+    background: #ffffff;
+  }
+
+  /* Tactical Table */
+  .dossier-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+  }
+
+  .dossier-table th {
+    background: #f3f4f6;
+    border-bottom: 1px solid #9ca3af;
+    padding: 3px 6px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 6.5pt;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .dossier-table td {
+    padding: 3.5px 6px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #111827;
+  }
+
+  .dossier-bold {
+    font-family: monospace;
+    font-weight: 700;
+  }
+
+  .dossier-note {
+    color: #4b5563;
+    font-size: 7pt;
+  }
+
+  /* Territory SAR Box */
+  .dossier-sar-box {
+    border: 1.5px solid #b91c1c;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    background: #fffafa;
+  }
+
+  .dossier-sar-title {
+    font-family: monospace;
+    font-size: 8pt;
+    font-weight: 800;
+    color: #991b1b;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .dossier-sar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .dossier-sar-card {
+    border: 1px solid #f87171;
+    padding: 3px 5px;
+    background: #ffffff;
+  }
+
+  .dossier-sar-card-label {
+    font-family: monospace;
+    font-size: 6pt;
+    font-weight: 700;
+    color: #6b7280;
+  }
+
+  .dossier-sar-card-agency {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .dossier-sar-card-nums {
+    font-family: monospace;
+    font-size: 8pt;
+    font-weight: 800;
+    color: #b91c1c;
+  }
+
+  .dossier-distress-rule {
+    border-top: 1px dashed #f87171;
+    padding-top: 3px;
+    font-family: monospace;
+    font-size: 6.5pt;
+    color: #7f1d1d;
+  }
+
+  /* Page 2 Medical & Protocols */
+  .dossier-header-mini {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    font-family: monospace;
+    font-size: 7pt;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .dossier-medical-box {
+    border: 1.5px solid #b91c1c;
+    padding: 6px 8px;
+    margin-bottom: 7px;
+    background: #ffffff;
+  }
+
+  .dossier-medical-title {
+    font-family: monospace;
+    font-size: 8pt;
+    font-weight: 800;
+    color: #991b1b;
+    margin-bottom: 4px;
+  }
+
+  .dossier-medical-body p {
+    font-size: 7.5pt;
+    margin: 2px 0;
+    color: #111827;
+    line-height: 1.25;
+  }
+
+  .dossier-medical-sub {
+    border-top: 1px dashed #fca5a5;
+    margin-top: 4px;
+    padding-top: 3px;
+    font-size: 6.5pt;
+    color: #4b5563;
+  }
+
+  /* Checklist Grid */
+  .dossier-checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px 8px;
+    padding: 5px 8px;
+    background: #ffffff;
+  }
+
+  .dossier-check-item {
+    font-size: 7pt;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #1f2937;
+  }
+
+  .dossier-checkbox {
+    font-size: 9pt;
+    line-height: 1;
+    font-family: monospace;
+  }
+
+  /* Hiker ID Slate */
+  .dossier-id-box {
+    border: 1px solid #111827;
+    padding: 6px 8px;
+    margin-bottom: 7px;
+    background: #f9fafb;
+  }
+
+  .dossier-id-title {
+    font-family: monospace;
+    font-size: 7.5pt;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .dossier-id-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 10px;
+    font-family: monospace;
+    font-size: 7pt;
+  }
+
+  .dossier-id-field {
+    display: flex;
+    gap: 4px;
+    align-items: baseline;
+  }
+
+  .dossier-id-full {
+    grid-column: span 2;
+  }
+
+  .dossier-id-label {
+    font-weight: 700;
+    color: #4b5563;
+    white-space: nowrap;
+  }
+
+  .dossier-id-value {
+    color: #111827;
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+  .dossier-code-box {
+    border: 1px dashed #9ca3af;
+    padding: 4px 8px;
+    font-size: 6.5pt;
+    color: #374151;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  /* Page Footer */
+  .dossier-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #9ca3af;
+    padding-top: 3px;
+    font-family: monospace;
+    font-size: 6.5pt;
+    color: #6b7280;
+  }
+}
+
 /* ── 3D Mapbox State Marker Float Animation ─────────────────────── */
 @keyframes stateMarkerFloat {
   0%, 100% {

@@ -13,10 +13,13 @@ import {
   Plus,
   Minus,
   Mountain,
+  Activity,
+  X,
 } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { RouteData } from "@/data/types";
 import { useActiveRoutePoint, setActiveRoutePoint } from "@/lib/route-store";
+import { SyncedElevationScrubber } from "../trek/SyncedElevationScrubber";
 
 interface RouteMap3DProps {
   routeData: RouteData;
@@ -42,6 +45,7 @@ export default function RouteMap3D({
   const [flyoverProgress, setFlyoverProgress] = useState(0); // 0 to 1
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [is3DMode, setIs3DMode] = useState(true);
+  const [showElevationDrawer, setShowElevationDrawer] = useState(false);
   const [webGlSupported] = useState(() => {
     if (typeof window === "undefined") return true;
     try {
@@ -266,36 +270,99 @@ export default function RouteMap3D({
       });
 
       const isJogni = routeData.placeId === "jogni-falls";
-
-      // 6. Trailhead Marker
       const startCoord = coordinates[0];
-      const startEl = document.createElement("div");
-      startEl.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-emerald-400 text-white text-xs font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
-      startEl.innerHTML = `<span>🟢</span><span>${isPatalsu ? "Solang Trailhead (2,480m)" : isJogni ? "Vashisht Trailhead (2,050m)" : "Trailhead"}</span>`;
-      new mapboxgl.Marker({ element: startEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
-        .setLngLat([startCoord[0], startCoord[1]])
-        .addTo(map);
 
-      // 7. Intermediate Camp / Cascade Marker
-      if (isPatalsu && coordinates.length > 500) {
-        const midCoord = coordinates[Math.floor(coordinates.length * 0.45)];
-        const midEl = document.createElement("div");
-        midEl.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-amber-400 text-white text-[11px] font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
-        midEl.innerHTML = `<span>🏕️</span><span>Shagadugh (3,250m)</span>`;
-        new mapboxgl.Marker({ element: midEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
-          .setLngLat([midCoord[0], midCoord[1]])
-          .addTo(map);
-      } else if (isJogni) {
-        const midCoord = coordinates[Math.floor(coordinates.length * 0.6)];
-        const midEl = document.createElement("div");
-        midEl.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-cyan-400 text-white text-[11px] font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
-        midEl.innerHTML = `<span>🌊</span><span>Lower Cascades (2,180m)</span>`;
-        new mapboxgl.Marker({ element: midEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
-          .setLngLat([midCoord[0], midCoord[1]])
+      // 6. Dynamic Alpine Waypoint Taxonomy Markers & Summit Beacons
+      const waypoints = routeData.waypoints || [];
+      const hasWaypoints = waypoints.length > 0;
+
+      if (hasWaypoints) {
+        waypoints.forEach((wp) => {
+          const type = wp.type || "landmark";
+          let icon = "📍";
+          let borderClass = "border-cyan-400";
+          let isPulsing = false;
+
+          switch (type) {
+            case "trailhead":
+              icon = "🟢";
+              borderClass = "border-emerald-400";
+              break;
+            case "water":
+              icon = "💧";
+              borderClass = "border-cyan-400";
+              break;
+            case "camp":
+              icon = "🏕️";
+              borderClass = "border-amber-400";
+              break;
+            case "warning":
+              icon = "⚠️";
+              borderClass = "border-rose-500 animate-pulse";
+              isPulsing = true;
+              break;
+            case "pass":
+              icon = "🏔️";
+              borderClass = "border-indigo-400";
+              break;
+            case "summit":
+              icon = "🚩";
+              borderClass = "border-cyan-300";
+              break;
+          }
+
+          const wpEl = document.createElement("div");
+          wpEl.className = `flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/92 border ${borderClass} text-white text-[10.5px] font-mono font-bold shadow-2xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform select-none ${
+            isPulsing ? "ring-2 ring-rose-500/40" : ""
+          }`;
+          wpEl.innerHTML = `<span>${icon}</span><span class="truncate max-w-[130px] sm:max-w-[180px]">${wp.name}${wp.eleM ? ` (${wp.eleM}m)` : ""}</span>`;
+
+          wpEl.addEventListener("click", () => {
+            map.easeTo({
+              center: [wp.lng, wp.lat],
+              zoom: 14.6,
+              pitch: 62,
+              duration: 1200,
+            });
+            if (activeMarkerRef.current) {
+              activeMarkerRef.current.setLngLat([wp.lng, wp.lat]);
+            }
+          });
+
+          const marker = new mapboxgl.Marker({
+            element: wpEl,
+            anchor: "bottom",
+            pitchAlignment: "viewport",
+            rotationAlignment: "viewport",
+          })
+            .setLngLat([wp.lng, wp.lat])
+            .addTo(map);
+
+          if (wp.cautionNotice) {
+            const popup = new mapboxgl.Popup({
+              offset: 14,
+              closeButton: false,
+              className: "alpine-caution-popup",
+            }).setHTML(`
+              <div style="background: rgba(10, 14, 23, 0.96); border: 1px solid #F43F5E; border-radius: 10px; padding: 8px 12px; color: #FFF; font-family: ui-monospace, monospace; font-size: 11px; max-width: 230px; box-shadow: 0 10px 30px rgba(0,0,0,0.85);">
+                <div style="color: #F43F5E; font-weight: bold; margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">⚠️ CAUTION NOTICE</div>
+                <div style="color: rgba(255,255,255,0.9); line-height: 1.35;">${wp.cautionNotice}</div>
+              </div>
+            `);
+            marker.setPopup(popup);
+          }
+        });
+      } else {
+        // Fallback Trailhead Marker
+        const startEl = document.createElement("div");
+        startEl.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-emerald-400 text-white text-xs font-mono font-bold shadow-xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform";
+        startEl.innerHTML = `<span>🟢</span><span>${isPatalsu ? "Solang Trailhead (2,480m)" : isJogni ? "Vashisht Trailhead (2,050m)" : "Trailhead"}</span>`;
+        new mapboxgl.Marker({ element: startEl, anchor: "bottom", pitchAlignment: "viewport", rotationAlignment: "viewport" })
+          .setLngLat([startCoord[0], startCoord[1]])
           .addTo(map);
       }
 
-      // 8. Summit / Destination Marker
+      // 7. Summit / Destination Marker Beacon
       const summitCoord: [number, number] = isPatalsu
         ? [77.19106, 32.35386]
         : (() => {
@@ -368,13 +435,19 @@ export default function RouteMap3D({
       map.remove();
       mapRef.current = null;
     };
-  }, [isMapActive, mapboxToken, bounds, coordinates, isPatalsu, maxAltitude, placeName, routeData.placeId]);
+  }, [isMapActive, mapboxToken, bounds, coordinates, isPatalsu, maxAltitude, placeName, routeData.placeId, routeData.waypoints]);
 
   // Synchronize marker when elevation profile or route store is hovered
   useEffect(() => {
     if (!mapRef.current || !activeMarkerRef.current || !activeHoverPoint) return;
     activeMarkerRef.current.setLngLat([activeHoverPoint.lng, activeHoverPoint.lat]);
-  }, [activeHoverPoint]);
+    if (!isPlayingFlyover && activeHoverPoint.lat !== 0 && activeHoverPoint.lng !== 0) {
+      mapRef.current.easeTo({
+        center: [activeHoverPoint.lng, activeHoverPoint.lat],
+        duration: 250,
+      });
+    }
+  }, [activeHoverPoint, isPlayingFlyover]);
 
   // Handle Play Flyover Ridge Animation
   const startFlyover = useCallback(() => {
@@ -554,9 +627,25 @@ export default function RouteMap3D({
   const toggleFullscreen = useCallback(() => {
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+      containerRef.current
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true);
+          setTimeout(() => mapRef.current?.resize(), 50);
+          setTimeout(() => mapRef.current?.resize(), 150);
+          setTimeout(() => mapRef.current?.resize(), 300);
+        })
+        .catch(() => {});
     } else {
-      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+      document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false);
+          setTimeout(() => mapRef.current?.resize(), 50);
+          setTimeout(() => mapRef.current?.resize(), 150);
+          setTimeout(() => mapRef.current?.resize(), 300);
+        })
+        .catch(() => {});
     }
   }, []);
 
@@ -567,9 +656,9 @@ export default function RouteMap3D({
           (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement
       );
       setIsFullscreen(isFs);
-      setTimeout(() => {
-        mapRef.current?.resize();
-      }, 80);
+      setTimeout(() => mapRef.current?.resize(), 50);
+      setTimeout(() => mapRef.current?.resize(), 150);
+      setTimeout(() => mapRef.current?.resize(), 300);
     };
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
@@ -617,9 +706,24 @@ export default function RouteMap3D({
   };
 
   return (
-    <div ref={containerRef} className="w-full my-8 scroll-mt-24" id={`3d-route-map-${placeSlug}`} data-place-slug={placeSlug}>
+    <div
+      ref={containerRef}
+      className={`w-full ${
+        isFullscreen
+          ? "fixed inset-0 z-[99999] h-screen w-screen m-0 p-0 rounded-none bg-slate-950 overflow-hidden"
+          : "my-8 scroll-mt-24"
+      }`}
+      id={`3d-route-map-${placeSlug}`}
+      data-place-slug={placeSlug}
+    >
       {/* 3D Map Container Card */}
-      <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 bg-slate-950 shadow-2xl">
+      <div
+        className={`relative w-full overflow-hidden ${
+          isFullscreen
+            ? "h-full w-full rounded-none border-0 bg-slate-950"
+            : "rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-white/10 bg-slate-950 shadow-2xl"
+        }`}
+      >
         {/* Still Poster Launcher View (Saves Mapbox Free Tier & Protects Lighthouse 90+) */}
         {!isMapActive ? (
           <div className="relative w-full min-h-[480px] sm:min-h-[560px] flex flex-col items-center justify-center p-6 sm:p-12 text-center overflow-hidden">
@@ -690,7 +794,7 @@ export default function RouteMap3D({
           </div>
         ) : (
           /* Active Interactive Mapbox 3D Container */
-          <div className="relative w-full h-[540px] sm:h-[640px]">
+          <div className={`relative w-full ${isFullscreen ? "h-screen min-h-screen" : "h-[540px] sm:h-[640px]"}`}>
             <div ref={mapContainerRef} className="w-full h-full" />
 
             {/* Top Telemetry Overlay Dock */}
@@ -711,6 +815,38 @@ export default function RouteMap3D({
               </div>
             </div>
 
+            {/* Docked Elevation Scrubber Drawer (Compact, Transparent & Centered) */}
+            {showElevationDrawer && (
+              <div className="absolute bottom-20 left-3 right-3 sm:left-1/2 sm:-translate-x-1/2 sm:w-[680px] max-w-[calc(100%-24px)] z-30 pointer-events-auto rounded-2xl shadow-2xl backdrop-blur-xl bg-slate-950/65 border border-white/15 overflow-hidden transition-all duration-200">
+                <div className="flex items-center justify-between px-3.5 py-1.5 bg-white/[0.04] border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-3.5 h-3.5 text-cyan-400" />
+                    <span className="text-[10.5px] font-mono font-bold uppercase tracking-wider text-white/90">
+                      Synchronized Ridge Scrubber • {placeName}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowElevationDrawer(false)}
+                    className="p-1 rounded-full text-white/60 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Close Elevation Drawer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <div className="p-2 sm:p-2.5 overflow-hidden">
+                  <SyncedElevationScrubber
+                    routeData={routeData}
+                    maxAltitude={maxAltitude}
+                    startPoint={coordinates[0] ? `${coordinates[0][1].toFixed(3)}°N, ${coordinates[0][0].toFixed(3)}°E` : "Trailhead Entry"}
+                    accentColor={accentColor}
+                    trailTitle={placeName}
+                    compact={true}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Bottom Floating Control Console */}
             <div className="absolute bottom-5 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
               {/* Flyover Playback Controls */}
@@ -719,7 +855,7 @@ export default function RouteMap3D({
                   <button
                     type="button"
                     onClick={startFlyover}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
                     aria-label="Play 3D Flyover"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
@@ -729,7 +865,7 @@ export default function RouteMap3D({
                   <button
                     type="button"
                     onClick={pauseFlyover}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
                     aria-label="Pause Flyover"
                   >
                     <Pause className="w-3.5 h-3.5 fill-current" />
@@ -740,11 +876,26 @@ export default function RouteMap3D({
                 <button
                   type="button"
                   onClick={resetFlyover}
-                  className="p-2.5 rounded-full bg-slate-900/85 hover:bg-slate-800 border border-white/15 text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all"
+                  className="p-2.5 rounded-full bg-slate-900/85 hover:bg-slate-800 border border-white/15 text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all cursor-pointer"
                   aria-label="Reset Camera"
                   title="Reset View"
                 >
                   <RotateCcw className="w-4 h-4" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowElevationDrawer((prev) => !prev)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-full border text-xs font-mono font-bold shadow-lg transition-all cursor-pointer ${
+                    showElevationDrawer
+                      ? "bg-cyan-500 text-slate-950 border-cyan-400"
+                      : "bg-slate-900/85 hover:bg-slate-800 text-white/90 border-white/15"
+                  }`}
+                  aria-label="Toggle Elevation Profile Drawer"
+                  title="Toggle Elevation Profile Drawer"
+                >
+                  <Activity className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Elevation Scrubber</span>
                 </button>
               </div>
 

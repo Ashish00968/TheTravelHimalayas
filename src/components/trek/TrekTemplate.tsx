@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { HimalayaPlace, HimalayaRegion, HimalayaSubRegion } from "@/data/atlas";
 import { TrekHero } from "./TrekHero";
 import { TrekOverview } from "./TrekOverview";
@@ -13,6 +13,7 @@ import { TrekItinerary } from "./TrekItinerary";
 import { TrekInformation } from "./TrekInformation";
 import { TrekFAQ } from "./TrekFAQ";
 import { TrekEnding } from "./TrekEnding";
+import { AlpineFieldDossierModal } from "./AlpineFieldDossierModal";
 
 interface TrekTemplateProps {
   place: HimalayaPlace;
@@ -31,6 +32,7 @@ export function TrekTemplate({
   division,
   breadcrumbItems,
 }: TrekTemplateProps) {
+  const [isDossierOpen, setIsDossierOpen] = useState(false);
   const trek = place.trekData;
   const isPatalsu = place.id === "patalsu-peak";
   const isJogni = place.id === "jogni-falls";
@@ -92,10 +94,14 @@ export function TrekTemplate({
         subRegionName={subRegion.name}
         regionName={region.name}
         isPatalsu={isPatalsu}
+        onOpenDossier={() => setIsDossierOpen(true)}
       />
 
       {/* 3. LIGHTWEIGHT CONTEXTUAL NAVIGATION DOCK */}
-      <TrekContextNav stateSlug={state} />
+      <TrekContextNav
+        stateSlug={state}
+        onOpenDossier={() => setIsDossierOpen(true)}
+      />
 
       {/* 4. ABOUT THE TREK (Editorial Narrative) */}
       <TrekAbout
@@ -135,11 +141,14 @@ export function TrekTemplate({
         stateSlug={state}
         isPatalsu={isPatalsu}
         isJogni={isJogni}
+        bestSeason={bestSeasonVal}
+        onOpenDossier={() => setIsDossierOpen(true)}
       />
 
       {/* 7. ELEVATION & ALTITUDE PROFILE */}
       <TrekElevation
         title={place.name}
+        slug={place.id}
         itinerary={itinerary}
         maxAltitude={maxAltitudeVal}
         startPoint={startPointVal}
@@ -185,6 +194,27 @@ export function TrekTemplate({
         subRegionName={subRegion.name}
         stateSlug={state}
         endingImage={endingImage}
+      />
+
+      {/* 12. 1-CLICK PRINTABLE ALPINE FIELD DOSSIER MODAL & PRINT PORTAL */}
+      <AlpineFieldDossierModal
+        isOpen={isDossierOpen}
+        onClose={() => setIsDossierOpen(false)}
+        title={place.name}
+        slug={place.id}
+        coords={coords}
+        startPoint={startPointVal}
+        maxAltitude={maxAltitudeVal}
+        distance={distanceVal}
+        duration={durationVal}
+        difficulty={difficultyVal}
+        stateSlug={state}
+        regionName={region.name}
+        subRegionName={subRegion.name}
+        bestSeason={bestSeasonVal}
+        itinerary={itinerary}
+        packingList={packingList}
+        isPatalsu={isPatalsu}
       />
     </article>
   );

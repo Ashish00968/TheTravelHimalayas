@@ -1337,7 +1337,11 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           {activeRegion && (
             <button
               onClick={() => setIsTerritoryDrawerOpen((prev) => !prev)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold bg-[#050914]/90 backdrop-blur-xl border border-white/12 text-white/80 hover:text-white hover:border-white/30 transition-all shadow-xl"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold backdrop-blur-xl border transition-all shadow-xl cursor-pointer ${
+                isTerritoryDrawerOpen
+                  ? "bg-white/20 border-white/40 text-white"
+                  : "bg-[#050914]/90 border-white/12 text-white/80 hover:text-white hover:border-white/30"
+              }`}
             >
               <Layers className="w-3.5 h-3.5" style={{ color: currentAccent }} />
               <span className="hidden sm:inline">Valleys ({activeRegion.subregions.length})</span>
@@ -1637,20 +1641,20 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         </div>
       )}
 
-      {/* ── Level 2: Valleys Drawer / Sidebar (Desktop & Mobile) ────────── */}
-      {activeRegion && (isTerritoryDrawerOpen || activeSubRegion) && !selectedPlaceId && (
+      {/* ── Level 2: Valleys Drawer / Sidebar (Compact & Left-Docked) ────────── */}
+      {activeRegion && isTerritoryDrawerOpen && !selectedPlaceId && (
         <div
-          className="absolute top-16 right-4 bottom-24 w-72 sm:w-80 z-20 flex flex-col rounded-2xl overflow-hidden border border-white/12 shadow-2xl transition-all"
-          style={{ background: "rgba(5, 9, 20, 0.94)", backdropFilter: "blur(24px)" }}
+          className="absolute top-28 left-3 sm:left-4 max-h-[380px] w-64 sm:w-72 z-20 flex flex-col rounded-2xl overflow-hidden border border-white/15 shadow-2xl transition-all animate-in fade-in slide-in-from-top-2 duration-200"
+          style={{ background: "rgba(5, 9, 20, 0.88)", backdropFilter: "blur(20px)" }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+          <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-white/10">
             <div>
               <div className="text-xs font-bold !text-white" style={{ color: "#FFFFFF" }}>
                 {activeSubRegion ? activeSubRegion.name : `${activeRegion.name} Valleys`}
               </div>
               <div className="text-[10px] !text-white/60 font-mono" style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                {scopedPlaces.length} Destinations Available
+                {scopedPlaces.length} Destinations
               </div>
             </div>
             <div className="flex items-center gap-1">
@@ -1669,7 +1673,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                       });
                     }
                   }}
-                  className="text-[10px] font-mono !text-white/70 hover:!text-white px-2 py-1 rounded bg-white/10 hover:bg-white/20 transition-colors"
+                  className="text-[9px] font-mono !text-white/70 hover:!text-white px-1.5 py-0.5 rounded bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
                   style={{ color: "#FFFFFF" }}
                 >
                   All Valleys
@@ -1677,7 +1681,8 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               )}
               <button
                 onClick={() => setIsTerritoryDrawerOpen(false)}
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10"
+                className="w-6 h-6 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 cursor-pointer"
+                aria-label="Close Valleys List"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -1685,33 +1690,36 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           </div>
 
           {/* Place List with Altitude, Coordinates & Type */}
-          <div className="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-thin scrollbar-thumb-white/20">
+          <div className="flex-1 overflow-y-auto p-1.5 space-y-0.5 scrollbar-thin scrollbar-thumb-white/20">
             {scopedPlaces.length === 0 ? (
-              <div className="text-center py-8 text-white/40 text-xs font-mono">
+              <div className="text-center py-6 text-white/40 text-xs font-mono">
                 No matching destinations found.
               </div>
             ) : (
               scopedPlaces.map((place) => (
                 <button
                   key={`${place.id}-${place.name}`}
-                  onClick={() => handleSelectPlace(place)}
-                  className="w-full flex items-center justify-between p-2.5 rounded-xl text-left group transition-all border border-transparent hover:border-white/15 hover:bg-white/5"
+                  onClick={() => {
+                    handleSelectPlace(place);
+                    setIsTerritoryDrawerOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between p-2 rounded-xl text-left group transition-all border border-transparent hover:border-white/15 hover:bg-white/5 cursor-pointer"
                 >
-                  <div className="min-w-0 pr-2">
+                  <div className="min-w-0 pr-1.5">
                     <div className="flex items-center gap-1.5 mb-0.5">
                       <span className="text-xs">{place.emoji}</span>
                       <span className="text-xs font-semibold !text-white group-hover:!text-white truncate" style={{ color: "#FFFFFF" }}>
                         {place.name}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-white/45">
+                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-white/45">
                       {place.elevation && (
                         <span style={{ color: currentAccent }}>{place.elevation}</span>
                       )}
                       {place.difficulty && <span>· {place.difficulty}</span>}
                     </div>
                   </div>
-                  <ChevronRight className="w-3.5 h-3.5 text-white/30 group-hover:text-white group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                  <ChevronRight className="w-3 h-3 text-white/30 group-hover:text-white group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                 </button>
               ))
             )}

@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, ArrowUp } from "lucide-react";
-import { ElevationProfile } from "@/components/shared/ElevationProfile";
+import { TrendingUp, ArrowUp, Activity } from "lucide-react";
+import { SyncedElevationScrubber } from "./SyncedElevationScrubber";
+import { getRouteData } from "@/data/routes";
 import { motion, useReducedMotion } from "framer-motion";
 
 interface TrekElevationProps {
@@ -11,6 +12,7 @@ interface TrekElevationProps {
   maxAltitude: string;
   startPoint?: string;
   stateSlug: string;
+  slug?: string;
   isPatalsu?: boolean;
 }
 
@@ -27,10 +29,13 @@ export function TrekElevation({
   maxAltitude,
   startPoint = "Base Trailhead",
   stateSlug,
+  slug,
   isPatalsu = false,
 }: TrekElevationProps) {
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6" };
+
+  const routeData = slug ? getRouteData(slug) : isPatalsu ? getRouteData("patalsu-peak") : null;
 
   const midCampTitle = isPatalsu
     ? "Shagadugh • 3,250 m"
@@ -54,7 +59,7 @@ export function TrekElevation({
           className="text-xs font-mono font-bold uppercase tracking-[0.25em]"
           style={{ color: style.accent }}
         >
-          Altitude Profile
+          Altitude Telemetry
         </span>
         <div className="h-px flex-1 bg-slate-200/80 dark:bg-foreground/[0.08]" />
       </div>
@@ -65,12 +70,12 @@ export function TrekElevation({
             id="climb-heading"
             className="font-display font-bold text-3xl sm:text-5xl text-slate-900 dark:text-foreground tracking-tight mb-3"
           >
-            Elevation
+            Elevation Profile
           </h2>
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
             {isPatalsu
-              ? "Vertical elevation profile from Solang Valley (2,480m) to the 4,261-meter summit crest."
-              : `Vertical elevation profile from ${startPoint} to the ${maxAltitude} summit crest.`}
+              ? "Continuous vertical gradient from Solang Valley (2,480m) to the 4,261-meter summit crest with live slope & oxygen estimates."
+              : `Continuous vertical gradient from ${startPoint} to the ${maxAltitude} summit crest with live slope & oxygen estimates.`}
           </p>
         </div>
 
@@ -79,15 +84,26 @@ export function TrekElevation({
             <TrendingUp className="w-3.5 h-3.5" style={{ color: style.accent }} />
             <span>Summit: <strong className="text-slate-900 dark:text-foreground">{maxAltitude}</strong></span>
           </div>
+          {routeData && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold">
+              <Activity className="w-3.5 h-3.5" />
+              <span>Verified 3D Sync</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Visual Elevation Profile Component */}
-      {itinerary.length > 0 && (
-        <div className="mb-8 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm dark:shadow-xl border border-slate-200/80 dark:border-white/10">
-          <ElevationProfile itinerary={itinerary} />
-        </div>
-      )}
+      {/* Visual Continuous Elevation Scrubber Component */}
+      <div className="mb-8">
+        <SyncedElevationScrubber
+          routeData={routeData}
+          itinerary={itinerary}
+          maxAltitude={maxAltitude}
+          startPoint={startPoint}
+          accentColor={style.accent}
+          trailTitle={title}
+        />
+      </div>
 
       {/* Accessible Text Alternative for Elevation Milestones */}
       <div className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-100/90 dark:bg-[#080e1a]/80 border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-inner">

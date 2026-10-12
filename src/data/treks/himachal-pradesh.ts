@@ -10,7 +10,7 @@ export const himachalTreks: Trek[] = [
     distance: "15.5 km round-trip",
     maxAltitude: "3,700 m",
     bestSeason: "May to June, September to October",
-    coords: [32.3556, 77.1306],
+    coords: [32.3662, 77.0856],
     startPoint: "Dhundi Bridge Checkpoint (2,840m)",
     guideRatePerDay: 2200,
     overview: "Beas Kund (also revered as Vyas Kund) is the sacred high-altitude glacial tarn (3,700m / 12,139 ft) from which the River Beas (ancient Vipasha) originates. Nestled directly beneath the colossal amphitheater of Friendship Peak (5,289m), Shitidhar (5,290m), Ladakhi Peak (5,345m), and the jagged pyramid of Hanuman Tibba (5,982m), it represents one of the most scenic and rewarding alpine treks in the Upper Solang Valley of Manali.\n\nThe 15.5 km round-trip trail begins at the Dhundi Bridge checkpoint (2,840m) on the roaring headwaters of the Beas, climbing through ancient silver birch (Bhojpatra) and deodar woodlands to the broad glacial floodplain of Bakarthach (3,300m). Beyond the shepherd meadows, the trail ascends steeply over rugged terminal moraines, granite boulder fields, and hanging glacier ridges to reveal the serene, turquoise tarn cradled at 3,700 meters.",

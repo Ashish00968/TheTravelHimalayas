@@ -401,6 +401,7 @@
       "lat": 32.266463,
       "lng": 77.184504,
       "eleM": 2050,
+      "type": "trailhead",
       "note": "Parked scooty at Vashisht near temple square. Trail starts through village lanes."
     },
     {
@@ -408,21 +409,24 @@
       "lat": 32.269369,
       "lng": 77.186519,
       "eleM": 2110,
-      "note": "Ancient deodar and apple orchards with message boards."
+      "type": "landmark",
+      "note": "Ancient deodar and apple orchards with environmental message boards."
     },
     {
       "name": "Lower Waterfall Cascades",
       "lat": 32.273939,
       "lng": 77.186627,
       "eleM": 2180,
-      "note": "Glacial stream and boulder cascades below the main waterfall."
+      "type": "water",
+      "note": "Glacial stream and boulder cascades below the main waterfall. Safe water refill."
     },
     {
       "name": "Upper Jogni Waterfall Amphitheater",
       "lat": 32.275032,
       "lng": 77.190588,
       "eleM": 2280,
-      "note": "150-foot roaring cataract plunge and sacred pools."
+      "type": "summit",
+      "note": "150-foot roaring cataract plunge and sacred pools overlooking Beas valley."
     }
   ]
 }

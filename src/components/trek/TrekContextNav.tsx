@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Compass } from "lucide-react";
+import { Compass, FileText } from "lucide-react";
 
 interface TrekContextNavProps {
   stateSlug: string;
+  onOpenDossier?: () => void;
 }
 
 const NAV_ITEMS = [
@@ -25,7 +26,7 @@ const TERRITORY_ACCENTS: Record<string, { accent: string }> = {
   uttarakhand:        { accent: "#0D9488" },
 };
 
-export function TrekContextNav({ stateSlug }: TrekContextNavProps) {
+export function TrekContextNav({ stateSlug, onOpenDossier }: TrekContextNavProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("snapshot");
 
@@ -86,6 +87,18 @@ export function TrekContextNav({ stateSlug }: TrekContextNavProps) {
             </a>
           );
         })}
+
+        {onOpenDossier && (
+          <button
+            type="button"
+            onClick={onOpenDossier}
+            className="px-3.5 py-2 min-h-[44px] flex items-center justify-center gap-1.5 rounded-full text-xs font-mono font-bold tracking-wider transition-all duration-200 whitespace-nowrap shrink-0 active:scale-95 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 ml-1"
+            title="Open Printable Alpine Field Dossier"
+          >
+            <FileText className="w-3.5 h-3.5" />
+            <span>Field Dossier</span>
+          </button>
+        )}
       </nav>
     </div>
   );

@@ -83,12 +83,24 @@ export interface RouteStats {
   pointCount: number;
 }
 
+export type AlpineWaypointType =
+  | "trailhead"
+  | "water"
+  | "camp"
+  | "pass"
+  | "summit"
+  | "warning"
+  | "descent"
+  | "landmark";
+
 export interface RouteWaypoint {
   name: string;
   lat: number;
   lng: number;
   eleM?: number;
   note?: string;
+  type?: AlpineWaypointType;
+  cautionNotice?: string;
 }
 
 export interface RouteData {

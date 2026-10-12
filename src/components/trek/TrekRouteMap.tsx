@@ -13,9 +13,13 @@ import {
   ShieldCheck,
   Smartphone,
   AlertTriangle,
+  FileText,
+  Printer,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { getRouteData } from "@/data/routes";
+
+import { TopoMiniMap } from "@/components/maps/TopoMiniMap";
 
 const RouteMap3D = dynamic(() => import("@/components/maps/RouteMap3D"), {
   ssr: false,
@@ -39,6 +43,8 @@ interface TrekRouteMapProps {
   stateSlug: string;
   isPatalsu?: boolean;
   isJogni?: boolean;
+  bestSeason?: string;
+  onOpenDossier?: () => void;
 }
 
 const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string }> = {
@@ -61,6 +67,8 @@ export function TrekRouteMap({
   stateSlug,
   isPatalsu = false,
   isJogni = false,
+  bestSeason = "May to October",
+  onOpenDossier,
 }: TrekRouteMapProps) {
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.2)" };
@@ -103,20 +111,36 @@ export function TrekRouteMap({
           </p>
         </div>
 
-        {/* Secondary link to 3D Atlas */}
-        <Link
-          href={`/map?focus=${slug}`}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-mono font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex-shrink-0 shadow-sm dark:shadow-lg min-h-[44px]"
-          style={{
-            borderColor: `${style.accent}40`,
-            color: style.accent,
-            backgroundColor: `${style.accent}12`,
-          }}
-        >
-          <Map className="w-3.5 h-3.5" />
-          <span>Inspect 3D Satellite Mesh</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Link>
+        {/* Action Group: 3D Atlas & Printable Field Dossier */}
+        <div className="flex flex-wrap items-center gap-2.5 flex-shrink-0">
+          {onOpenDossier && (
+            <button
+              type="button"
+              onClick={onOpenDossier}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-mono font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex-shrink-0 shadow-sm dark:shadow-lg min-h-[44px] bg-white dark:bg-[#080e1a] text-slate-800 dark:text-slate-200 hover:border-cyan-400/50"
+              style={{
+                borderColor: `${style.accent}30`,
+              }}
+            >
+              <FileText className="w-3.5 h-3.5" style={{ color: style.accent }} />
+              <span>Field Dossier (PDF)</span>
+            </button>
+          )}
+
+          <Link
+            href={`/map?focus=${slug}`}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-mono font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex-shrink-0 shadow-sm dark:shadow-lg min-h-[44px]"
+            style={{
+              borderColor: `${style.accent}40`,
+              color: style.accent,
+              backgroundColor: `${style.accent}12`,
+            }}
+          >
+            <Map className="w-3.5 h-3.5" />
+            <span>Inspect 3D Satellite Mesh</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
       </div>
 
       {/* Key Route Milestones */}
@@ -196,42 +220,19 @@ export function TrekRouteMap({
           isPatalsu={isPatalsu}
         />
       ) : (
-        /* Geospatial Map Visual Representation Banner (Fallback for Non-GPX Routes) */
-        <motion.div 
-          whileHover={shouldReduceMotion ? undefined : { borderColor: `${style.accent}40` }}
-          transition={{ duration: 0.3 }}
-          className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 dark:from-[#0C1017] dark:to-[#07090E] border border-slate-800 dark:border-white/10 shadow-xl dark:shadow-2xl transition-all preserve-white-text dark-photo-card"
-        >
-          <div className="relative z-10 max-w-xl">
-            <span 
-              className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1 rounded-full border inline-block mb-3"
-              style={{
-                backgroundColor: `${style.accent}15`,
-                color: style.accent,
-                borderColor: `${style.accent}30`,
-              }}
-            >
-              Topological Route
-            </span>
-            <h3 className="font-display font-bold text-2xl text-white mb-2">
-              Trail Traversal Profile • {distance}
-            </h3>
-            <p className="text-white/80 font-light text-sm leading-relaxed mb-6">
-              The trail departs from {startPoint.split("(")[0].trim()}, ascending steadily through the alpine geography of {subRegionName} toward the high altitude elevation marker at ${maxAltitude}.
-            </p>
-            <div className="flex items-center gap-4 flex-wrap text-xs font-mono text-white/70">
-              <span>&bull; Trailhead: {startPoint.split("(")[0].trim()}</span>
-              <span>&bull; High Point: {maxAltitude}</span>
-            </div>
-          </div>
-
-          {/* Ambient Map Grid Watermark Effect */}
-          <div className="absolute right-4 bottom-4 sm:right-8 sm:bottom-8 opacity-20 pointer-events-none text-white font-mono text-[10px] space-y-1">
-            <div>LAT: {hasCoordinates ? coords![0].toFixed(4) : "32.3539"} N</div>
-            <div>LON: {hasCoordinates ? coords![1].toFixed(4) : "77.1911"} E</div>
-            <div>DATUM: WGS 84</div>
-          </div>
-        </motion.div>
+        <TopoMiniMap
+          placeName={title}
+          placeSlug={slug}
+          coords={coords}
+          startPoint={startPoint}
+          maxAltitude={maxAltitude}
+          distance={distance}
+          accentColor={style.accent}
+          stateSlug={stateSlug}
+          subRegionName={subRegionName}
+          regionName={regionName}
+          bestSeason={bestSeason}
+        />
       )}
 
       {/* ── Phase 2 GPX Download Block (P2-08 & P2-09, Statically Pre-rendered for Googlebot & Users) ── */}
@@ -255,22 +256,35 @@ export function TrekRouteMap({
               </p>
             </div>
 
-            <a
-              href={`/gpx/dht-${slug}.gpx`}
-              download={`dht-${slug}.gpx`}
-              onClick={() => {
-                if (typeof window !== "undefined" && typeof (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag === "function") {
-                  (window as unknown as { gtag: (...args: unknown[]) => void }).gtag("event", "gpx_download", {
-                    place_id: slug,
-                    file_name: `dht-${slug}.gpx`,
-                  });
-                }
-              }}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl sm:rounded-2xl bg-primary hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 flex-shrink-0 min-h-[44px]"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download GPX ({slug === "jogni-falls" ? "6 KB" : "95 KB"})</span>
-            </a>
+            <div className="flex flex-wrap items-center gap-3 flex-shrink-0">
+              {onOpenDossier && (
+                <button
+                  type="button"
+                  onClick={onOpenDossier}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl sm:rounded-2xl border border-slate-300 dark:border-white/20 hover:border-slate-400 dark:hover:border-white/40 text-slate-900 dark:text-white font-mono text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95 flex-shrink-0 min-h-[44px] bg-white dark:bg-white/5 shadow-sm"
+                >
+                  <Printer className="w-4 h-4 text-cyan-400" />
+                  <span>Field Dossier (PDF)</span>
+                </button>
+              )}
+
+              <a
+                href={`/gpx/dht-${slug}.gpx`}
+                download={`dht-${slug}.gpx`}
+                onClick={() => {
+                  if (typeof window !== "undefined" && typeof (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag === "function") {
+                    (window as unknown as { gtag: (...args: unknown[]) => void }).gtag("event", "gpx_download", {
+                      place_id: slug,
+                      file_name: `dht-${slug}.gpx`,
+                    });
+                  }
+                }}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl sm:rounded-2xl bg-primary hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 flex-shrink-0 min-h-[44px]"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download GPX ({slug === "jogni-falls" ? "6 KB" : slug === "beas-kund" ? "4 KB" : "95 KB"})</span>
+              </a>
+            </div>
           </div>
 
           <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-mono">
@@ -282,6 +296,8 @@ export function TrekRouteMap({
               <p className="text-slate-600 dark:text-white/60 leading-relaxed font-sans text-xs">
                 {slug === "jogni-falls"
                   ? "Verified on 06 October 2026 • Recorded with GPS by Ashish. Authentic forest and waterfall approach trace from Vashisht village. Lightweight offline navigation."
+                  : slug === "beas-kund"
+                  ? "Verified on 12 June 2026 • Recorded with GPS by Ashish. Authentic glacial valley and moraine ascent trace from Dhundi to Beas Kund tarn."
                   : "Verified on 16 July 2020 • Recorded with Strava GPS / Phone by Ashish. All personal biometric timestamps and heart-rate telemetry have been completely stripped for clean, lightweight offline navigation."}
               </p>
             </div>
