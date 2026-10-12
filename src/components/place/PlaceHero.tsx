@@ -94,7 +94,7 @@ export function PlaceHero({
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[88vh] lg:min-h-[92vh] w-full flex flex-col justify-between overflow-hidden bg-[#040812] dark-photo-card preserve-white-text"
+      className="relative min-h-[88vh] lg:min-h-[92vh] w-full flex flex-col justify-between overflow-hidden bg-[#07090E] dark-photo-card preserve-white-text"
       aria-label={`${title} Destination Hero`}
     >
       {/* Background: Authentic Photography (if provided) OR Atmospheric Field Atlas Midnight Canvas */}
@@ -112,12 +112,14 @@ export function PlaceHero({
             className="object-cover object-center hero-wallpaper-img brightness-95"
           />
           {/* Layered Nocturnal / Atmospheric Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-[#040812]/45 to-transparent z-[1]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#040812]/80 z-[1]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(4,8,18,0.65)_100%)] z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07090E] via-[#07090E]/45 to-transparent z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#07090E]/80 z-[1]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(7,9,14,0.65)_100%)] z-[1]" />
+          {/* Feathered bottom horizon melt */}
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent z-[2]" />
         </motion.div>
       ) : (
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#040812] pointer-events-none">
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#07090E] pointer-events-none">
           {/* Radial Territory Glow */}
           <div
             className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vw] sm:w-[900px] h-[550px] rounded-full blur-[140px] opacity-30"
@@ -125,37 +127,36 @@ export function PlaceHero({
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(59,130,246,0.15),transparent)]" />
 
-          {/* Topographic Contour Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.06] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_45%,#000_60%,transparent_100%)]">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          {/* Topographic Cartography Elevation Canvas */}
+          <div className="absolute inset-0 opacity-[0.14] pointer-events-none">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 600">
               <defs>
-                <pattern id="place-topo-grid" width="56" height="56" patternUnits="userSpaceOnUse">
-                  <path d="M 56 0 L 0 0 0 56" fill="none" stroke="currentColor" strokeWidth="0.75" className="text-white" />
-                  <circle cx="28" cy="28" r="1.5" fill="currentColor" className="text-white/40" />
+                <pattern id="survey-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+                  <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.4)" />
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#place-topo-grid)" />
+              <rect width="100%" height="100%" fill="url(#survey-grid)" />
+              {/* Authentic Topographic Iso-Elevation Contours */}
+              <path d="M 0 450 Q 250 380 500 420 T 1000 360" fill="none" stroke={style.accent} strokeWidth="1.5" strokeOpacity="0.4" />
+              <path d="M 0 400 Q 280 320 540 370 T 1000 290" fill="none" stroke={style.accent} strokeWidth="1.2" strokeOpacity="0.35" />
+              <path d="M 0 350 Q 300 260 580 310 T 1000 220" fill="none" stroke={style.accent} strokeWidth="1" strokeOpacity="0.3" strokeDasharray="6 4" />
+              <path d="M 0 300 Q 320 190 620 250 T 1000 150" fill="none" stroke={style.accent} strokeWidth="1" strokeOpacity="0.25" />
+              <path d="M 0 250 Q 350 120 660 190 T 1000 80" fill="none" stroke={style.accent} strokeWidth="0.75" strokeOpacity="0.2" />
             </svg>
           </div>
 
-          {/* Himalayan Ridge Contours */}
-          <div className="absolute inset-x-0 bottom-0 h-80 opacity-25">
-            <svg viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none" className="w-full h-full">
-              <path
-                d="M0,288L60,266.7C120,245,240,203,360,197.3C480,192,600,224,720,202.7C840,181,960,107,1080,101.3C1200,96,1320,160,1380,192L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-                fill="url(#placeMountainGrad)"
-              />
-              <defs>
-                <linearGradient id="placeMountainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor={style.accent} stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#040812" stopOpacity="0.95" />
-                </linearGradient>
-              </defs>
-            </svg>
+          {/* Coordinate Crosshair Reticle Datum */}
+          <div className="absolute top-1/3 right-12 hidden lg:flex flex-col items-end font-mono text-[9px] uppercase tracking-widest text-white/30 pointer-events-none">
+            <span className="flex items-center gap-1.5 text-primary/70 mb-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              TOPOGRAPHIC FIELD DATUM
+            </span>
+            <span>HIMALAYAN GEOSPATIAL ATLAS</span>
           </div>
 
           {/* Feathered bottom horizon melt */}
-          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#040812] dark:via-[#040812]/80 dark:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent" />
         </div>
       )}
 

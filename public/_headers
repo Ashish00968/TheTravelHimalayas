@@ -6,12 +6,24 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Immutable caching for content-hashed Next.js assets
+# Immutable caching for content-hashed Next.js assets & fonts
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Caching for public images and brand assets
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# Caching for public images, brand assets, and GPX tracks
 /images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/brand/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/gpx/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/*.webp
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 /*.png
@@ -20,11 +32,31 @@
 /*.jpg
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
+/*.jpeg
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
 /*.svg
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 /*.ico
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# Machine-Readable manifests and LLM files
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400, stale-while-revalidate=3600
+
+/llms.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=3600
+
+/llms-full.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=3600
+
+# Feeds and Sitemaps
+/sitemap.xml
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/feed.xml
+  Cache-Control: public, max-age=86400, must-revalidate
 
 # HTML documents: revalidate for instant updates
 /*.html

@@ -68,7 +68,6 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
-  Sparkles,
 } from "lucide-react";
 
 
@@ -218,12 +217,12 @@ function MobileHero() {
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
             alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
             fill
-            priority
+            loading="eager"
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center"
           />
           {/* Cinematic Atmospheric Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/60 dark:from-[#040812]/50 dark:via-transparent dark:to-[#040812]/65" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/60 dark:from-[#07090E]/50 dark:via-transparent dark:to-[#07090E]/65" />
         </motion.div>
 
         {/* Layer 2: Emerging Typography: Himalayan & Trails (z-[10], Behind Mountain) */}
@@ -365,16 +364,15 @@ function MobileHero() {
               </Link>
             </div>
 
-            {/* Territory Micro-Pill Dock */}
-            <div className="grid grid-cols-2 gap-1.5 w-full max-w-[310px]">
+            {/* Territory Micro-Pill Dock — 44px Minimum Touch Target */}
+            <div className="grid grid-cols-2 gap-2 w-full max-w-[320px]">
               {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
                 <Link
                   key={id}
                   href={`/explore/${id}`}
-                  className="py-2 px-2.5 min-h-[38px] rounded-full text-[10.5px] font-mono font-medium tracking-wide bg-slate-900/75 dark:bg-black/50 backdrop-blur-md transition-all flex items-center justify-center gap-1.5 shadow-sm border border-white/25 text-white active:scale-95 hover:border-white/40"
-                  style={{ borderLeft: `3px solid ${t.accent}` }}
+                  className="py-2.5 px-3 min-h-[44px] rounded-full text-[11px] font-mono font-medium tracking-wide bg-slate-900/80 dark:bg-black/60 backdrop-blur-md transition-all flex items-center justify-center gap-2 shadow-sm border border-white/20 text-white active:scale-95 hover:border-white/40 group"
                 >
-                  <span>{t.emoji}</span>
+                  <span className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125" style={{ backgroundColor: t.accent }} />
                   <span className="font-semibold whitespace-nowrap">{t.shortLabel}</span>
                 </Link>
               ))}
@@ -480,13 +478,29 @@ function DesktopHero() {
       return;
     }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 44;
-      mouseX.set(x);
+    let rafId: number | null = null;
+    let windowWidth = window.innerWidth;
+
+    const handleResize = () => {
+      windowWidth = window.innerWidth;
     };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const x = (e.clientX / (windowWidth || 1) - 0.5) * 44;
+        mouseX.set(x);
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, [mouseX]);
 
   return (
@@ -516,14 +530,14 @@ function DesktopHero() {
             src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
             alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
             fill
-            priority
+            loading="eager"
             sizes="100vw"
             className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
           />
         </motion.div>
 
         {/* Cinematic Atmospheric Vignette — Lightened in dark mode */}
-        <div className="absolute inset-0 z-[1] pointer-events-none transition-colors duration-500 bg-gradient-to-b from-black/45 via-black/15 to-black/50 dark:from-[#040812]/45 dark:via-transparent dark:to-[#040812]/55" />
+        <div className="absolute inset-0 z-[1] pointer-events-none transition-colors duration-500 bg-gradient-to-b from-black/45 via-black/15 to-black/50 dark:from-[#07090E]/45 dark:via-transparent dark:to-[#07090E]/55" />
 
         {/* Soft Contrast Backplate & Radial Aura Behind Headline */}
         <div className="absolute z-[2] inset-0 pointer-events-none flex items-center justify-center">
@@ -740,10 +754,9 @@ function DesktopHero() {
                 <motion.div key={id} whileHover={{ scale: 1.06, y: -2 }} whileTap={{ scale: 0.96 }}>
                   <Link
                     href={`/explore/${id}`}
-                    className="px-4 py-2 rounded-full text-xs font-mono font-medium tracking-wide glass-capsule transition-all flex items-center gap-2 shadow-sm border border-foreground/10 text-foreground/85 hover:text-foreground hover:bg-foreground/[0.04]"
-                    style={{ borderLeft: `3px solid ${t.accent}` }}
+                    className="px-4 py-2 rounded-full text-xs font-mono font-medium tracking-wide glass-capsule transition-all flex items-center gap-2.5 shadow-sm border border-foreground/10 text-foreground/85 hover:text-foreground hover:bg-foreground/[0.04] group"
                   >
-                    <span>{t.emoji}</span>
+                    <span className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125" style={{ backgroundColor: t.accent }} />
                     <span className="font-semibold">{t.label}</span>
                   </Link>
                 </motion.div>
@@ -947,9 +960,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                         >
                           {profile.shortLabel === "Uttarakhand" ? "Garhwal" : profile.shortLabel}
                         </span>
-                        <span className="text-[12px] shrink-0">
-                          {profile.emoji}
-                        </span>
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: profile.accent }} />
                       </div>
 
                       <div>
@@ -1165,7 +1176,7 @@ function PlatformTrustRibbon() {
       desc: "Rigorous AMS, HAPE, and descent thresholds reviewed against clinical guidelines.",
     },
     {
-      icon: Sparkles,
+      icon: CheckSquare,
       title: "Offline PWA & Print Ready",
       desc: "Client-side bookmarking, exportable packing checklists, and offline paper trail sheets.",
     },
@@ -1173,17 +1184,17 @@ function PlatformTrustRibbon() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 max-w-7xl pt-10 pb-6 no-print">
-      <div className="rounded-3xl p-6 sm:p-8 bg-foreground/[0.02] dark:bg-white/[0.02] border border-foreground/[0.08] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {pillars.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary mt-0.5">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary mt-0.5">
               <Icon className="w-5 h-5" />
             </div>
             <div>
               <h3 className="font-display font-bold text-sm text-foreground mb-1">
                 {title}
               </h3>
-              <p className="text-xs text-foreground/80 font-light leading-relaxed">
+              <p className="text-xs text-foreground/75 font-light leading-relaxed">
                 {desc}
               </p>
             </div>
@@ -1514,83 +1525,73 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                     <div className="w-[1.5px] h-2 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
                   </div>
 
-                  {/* 3D Museum-Grade Alpine Card */}
+                  {/* Alpine Route Card */}
                   <motion.div
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.05 }}
-                    transition={{ duration: 0.4, delay: index * 0.06, ease: EASE }}
+                    transition={{ duration: 0.4, delay: index * 0.05, ease: EASE }}
                   >
-                    <Card3D
-                      depth={6}
-                      glareColor={isLower ? "rgba(245, 158, 11, 0.15)" : "rgba(59, 130, 246, 0.15)"}
-                      className="rounded-2xl"
+                    <Link
+                      href={trek.href || `/explore/${trek.slug}`}
+                      prefetch={false}
+                      className="group rounded-2xl overflow-hidden bg-card dark:bg-[#080E1A] flex flex-col justify-between block border border-slate-200/90 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
                     >
-                      <Link
-                        href={trek.href || `/explore/${trek.slug}`}
-                        prefetch={false}
-                        className="group rounded-2xl overflow-hidden bg-card/90 dark:bg-[#090e1a]/95 backdrop-blur-xl flex flex-col justify-between block border border-border/70 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/10"
-                      >
-                        <div className="relative h-20 sm:h-24 md:h-26 w-full overflow-hidden shrink-0 dark-photo-card preserve-white-text">
-                          {trek.heroImage ? (
-                            <Image
-                              src={trek.heroImage}
-                              alt={`${trek.title} — ${trek.region} Himalayan route reaching ${trek.maxAltitude}`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#0c1424] via-[#101c34] to-[#070c18] flex items-center justify-center">
-                              <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center">
-                                <Mountain className="w-4 h-4 text-primary/60" />
-                              </div>
+                      <div className="relative h-24 sm:h-28 w-full overflow-hidden shrink-0 dark-photo-card preserve-white-text">
+                        {trek.heroImage ? (
+                          <Image
+                            src={trek.heroImage}
+                            alt={`${trek.title} — ${trek.region} Himalayan route reaching ${trek.maxAltitude}`}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#0c1424] via-[#101c34] to-[#070c18] flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                              <Mountain className="w-4 h-4 text-primary/60" />
                             </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-card dark:from-[#090e1a] via-transparent to-black/30" />
-
-                          <div
-                            className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-slate-950/85 dark:bg-black/75 backdrop-blur-md border border-white/20 text-[8px] sm:text-[8.5px] font-mono !text-white font-bold uppercase tracking-wider shadow-sm"
-                            style={{ transform: "translateZ(15px)" }}
-                          >
-                            {trek.region}
                           </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
 
-                          <div
-                            className={`absolute top-2 right-2 px-2.5 py-0.5 rounded-full text-[8px] sm:text-[8.5px] font-mono font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${
-                              trek.difficulty.toLowerCase().includes("easy")
-                                ? "bg-slate-950/80 text-emerald-400 border-emerald-500/40"
-                                : "bg-slate-950/80 text-amber-400 border-amber-500/40"
-                            }`}
-                            style={{ transform: "translateZ(15px)" }}
-                          >
-                            {trek.difficulty}
-                          </div>
+                        <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-slate-950/85 dark:bg-black/75 backdrop-blur-md border border-white/20 text-[8.5px] font-mono text-white font-bold uppercase tracking-wider shadow-sm">
+                          {trek.region}
                         </div>
 
-                        <div className="p-2.5 sm:p-3 flex flex-col flex-1 justify-between" style={{ transform: "translateZ(18px)" }}>
-                          <div>
-                            <h3 className="font-display font-bold text-xs sm:text-[14px] text-foreground group-hover:text-primary transition-colors leading-snug line-clamp-1 mb-0.5 sm:mb-1">
-                              {trek.title}
-                            </h3>
-                            <p className="text-muted-foreground text-[10px] sm:text-[10.5px] font-light line-clamp-1 sm:line-clamp-2 mb-1.5 sm:mb-2.5 leading-relaxed">
-                              {trek.overview}
-                            </p>
-                          </div>
+                        <div
+                          className={`absolute top-2 right-2 px-2.5 py-0.5 rounded-full text-[8.5px] font-mono font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${
+                            trek.difficulty.toLowerCase().includes("easy")
+                              ? "bg-slate-950/80 text-emerald-400 border-emerald-500/40"
+                              : "bg-slate-950/80 text-amber-400 border-amber-500/40"
+                          }`}
+                        >
+                          {trek.difficulty}
+                        </div>
+                      </div>
 
-                          <div className="pt-1.5 sm:pt-2 border-t border-border/60 flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-muted-foreground">
-                            <div className="flex items-center gap-1 sm:gap-1.5">
-                              <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary/70" />
-                              <span className="font-semibold text-foreground/80">{trek.duration}</span>
-                            </div>
-                            <div className="flex items-center gap-1 sm:gap-1.5">
-                              <Mountain className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400/80" />
-                              <span className="font-semibold text-foreground/80">{trek.maxAltitude}</span>
-                            </div>
+                      <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between">
+                        <div>
+                          <h3 className="font-display font-bold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors leading-snug line-clamp-1 mb-1">
+                            {trek.title}
+                          </h3>
+                          <p className="text-foreground/75 text-[11px] font-light line-clamp-2 mb-2.5 leading-relaxed">
+                            {trek.overview}
+                          </p>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-foreground/70">
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3 h-3 text-foreground/45" />
+                            <span className="font-semibold text-foreground/85">{trek.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Mountain className="w-3 h-3 text-foreground/45" />
+                            <span className="font-semibold text-foreground/85">{trek.maxAltitude}</span>
                           </div>
                         </div>
-                      </Link>
-                    </Card3D>
+                      </div>
+                    </Link>
                   </motion.div>
                 </div>
               );
@@ -1625,6 +1626,8 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
               {[
                 { name: "Valley of Flowers", href: "/explore/uttarakhand/chamoli/valley-of-flowers" },
                 { name: "Char Dham Yatra", href: "/explore/uttarakhand/garhwal/char-dham" },
+                { name: "Jogni Falls", href: "/explore/himachal-pradesh/kullu/jogni-falls" },
+                { name: "Vaishno Devi", href: "/explore/jammu-kashmir/jammu/vaishno-devi" },
                 { name: "Kashmir Great Lakes", href: "/explore/jammu-kashmir/kashmir/kashmir-great-lakes" },
                 { name: "Tarsar Marsar", href: "/explore/jammu-kashmir/kashmir/tarsar-marsar" },
                 { name: "Markha Valley", href: "/explore/ladakh/leh/markha-valley" },
@@ -1759,87 +1762,69 @@ function PlanningSuiteSection() {
         </motion.div>
 
         {/* 6-Instrument Balanced Compact Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4.5 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <motion.div
                 key={tool.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: index * 0.05, ease: EASE }}
+                transition={{ duration: 0.45, delay: index * 0.04, ease: EASE }}
                 className="h-full"
               >
-                <Card3D depth={4} glareColor={tool.glow} className="rounded-xl sm:rounded-2xl h-full">
-                  <Link
-                    href={tool.href}
-                    prefetch={false}
-                    className="group relative rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 bg-surface/90 dark:bg-[#0A1122]/90 backdrop-blur-xl transition-all duration-300 shadow-sm hover:shadow-lg active:scale-[0.99] h-full overflow-hidden block"
-                  >
-                    <div
-                      className="absolute -top-16 -right-16 w-32 h-32 rounded-full pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-2xl"
-                      style={{ background: tool.accent }}
-                    />
-
-                    <div className="relative z-10 flex items-center justify-between gap-2 mb-3">
+                <Link
+                  href={tool.href}
+                  prefetch={false}
+                  className="group relative rounded-2xl p-5 sm:p-6 flex flex-col justify-between border border-slate-200/90 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 bg-card dark:bg-[#080E1A] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 h-full overflow-hidden block"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3.5">
                       <div className="flex items-center gap-2.5">
                         <div
-                          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-105 shadow-sm shrink-0"
+                          className="w-10 h-10 rounded-xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-105 shadow-sm shrink-0"
                           style={{
                             backgroundColor: `${tool.accent}14`,
-                            borderColor: `${tool.accent}35`,
+                            borderColor: `${tool.accent}30`,
                             color: tool.accent,
                           }}
                         >
-                          <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                          <Icon className="w-5 h-5" />
                         </div>
 
-                        <div
-                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border"
-                          style={{
-                            color: tool.accent,
-                            borderColor: `${tool.accent}33`,
-                            backgroundColor: `${tool.accent}0D`,
-                          }}
-                        >
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider uppercase text-foreground/75">
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: tool.accent }} />
                           <span>{tool.num}</span>
                           <span className="opacity-40">•</span>
                           <span>{tool.category}</span>
                         </div>
                       </div>
-
-                      <div className="flex items-center gap-1 text-[9px] font-mono tracking-wider uppercase text-foreground/75">
-                        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: tool.accent }} />
-                        <span>Tool</span>
-                      </div>
                     </div>
 
-                    <div className="relative z-10 flex-1 flex flex-col">
-                      <h3 className="font-display font-bold text-base sm:text-lg text-foreground group-hover:text-primary transition-colors leading-snug mb-1 tracking-tight">
-                        {tool.title}
-                      </h3>
+                    <h3 className="font-display font-bold text-base sm:text-lg text-foreground group-hover:text-primary transition-colors leading-snug mb-2 tracking-tight">
+                      {tool.title}
+                    </h3>
 
-                      <p className="text-foreground/70 text-xs font-light leading-relaxed mb-3 line-clamp-2">
-                        {tool.desc}
-                      </p>
-                    </div>
+                    <p className="text-foreground/75 text-xs font-light leading-relaxed mb-4 line-clamp-2">
+                      {tool.desc}
+                    </p>
+                  </div>
 
-                    <div className="relative z-10 pt-2.5 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 mt-auto">
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/70 border border-foreground/[0.08] truncate max-w-[150px]">
-                        {tool.tags[0]}
-                      </span>
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between gap-2 mt-auto">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-foreground/[0.04] text-foreground/75 border border-foreground/[0.08] truncate max-w-[150px]">
+                      {tool.tags[0]}
+                    </span>
 
-                      <span
-                        className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1 transition-transform"
-                        style={{ color: tool.accent }}
-                      >
-                        <span>{tool.action}</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </div>
-                  </Link>
-                </Card3D>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider shrink-0 group-hover:translate-x-1 transition-transform"
+                      style={{ color: tool.accent }}
+                    >
+                      <span>{tool.action}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </Link>
               </motion.div>
             );
           })}
@@ -1886,16 +1871,13 @@ function SafetyFeatureSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-8 relative overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-xl bg-white/75 dark:bg-[#070D1A]/95 backdrop-blur-2xl"
+          className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-8 relative overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-xl bg-card dark:bg-[#070D1A]"
         >
-          <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-blue-500/10 blur-[100px] pointer-events-none" />
-          <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-amber-500/10 blur-[100px] pointer-events-none" />
-
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6 pb-5 border-b border-slate-200/70 dark:border-white/10">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                High-Altitude Safety Command
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono uppercase tracking-[0.2em] font-bold mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                High-Altitude Clinical Directive
               </div>
               <h2 className="font-display font-extrabold text-xl sm:text-2xl lg:text-3xl text-foreground tracking-tight leading-tight">
                 High-Altitude Acclimatisation &amp; Medicine

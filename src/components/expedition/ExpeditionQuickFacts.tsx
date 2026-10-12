@@ -98,7 +98,7 @@ export function ExpeditionQuickFacts({
   }
 
   return (
-    <div className="bg-[#080e1a] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+    <div className="bg-white dark:bg-[#080e1a] rounded-3xl p-6 sm:p-8 border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-2xl">
       <div className="flex items-center gap-3 mb-6">
         <span
           className="text-xs font-mono font-bold uppercase tracking-[0.25em]"
@@ -106,7 +106,7 @@ export function ExpeditionQuickFacts({
         >
           Expedition Telemetry
         </span>
-        <div className="h-px flex-1 bg-white/10" />
+        <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -115,22 +115,22 @@ export function ExpeditionQuickFacts({
           return (
             <div
               key={idx}
-              className="flex items-start gap-4 p-4 rounded-2xl bg-[#0d1422] border border-white/[0.08]"
+              className="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-[#0d1422] border border-slate-200/60 dark:border-white/[0.08]"
             >
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/[0.05] shadow-sm border border-white/10"
+                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-white dark:bg-white/[0.05] shadow-sm border border-slate-200/80 dark:border-white/10"
               >
                 <Icon className="w-4 h-4" style={{ color: style.accent }} />
               </div>
               <div className="min-w-0 flex-1">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-0.5">
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-0.5">
                   {fact.label}
                 </span>
-                <span className="text-sm font-semibold text-white block leading-snug">
+                <span className="text-sm font-semibold text-slate-900 dark:text-white block leading-snug">
                   {fact.value}
                 </span>
                 {fact.subValue && (
-                  <span className="text-[11px] font-light text-slate-400 block mt-0.5">
+                  <span className="text-[11px] font-light text-slate-500 dark:text-slate-400 block mt-0.5">
                     {fact.subValue}
                   </span>
                 )}

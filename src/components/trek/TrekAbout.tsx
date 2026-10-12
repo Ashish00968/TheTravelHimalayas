@@ -60,32 +60,32 @@ export function TrekAbout({
   // Key highlights tags
   const highlights = isJogni
     ? [
-        { label: "150-Ft Vertical Cataract", icon: "🌊" },
-        { label: "Ancient Deodar Woods", icon: "🌲" },
-        { label: "Sacred Jogini Shrine", icon: "🕉️" },
-        { label: "Vashisht Hot Springs Combo", icon: "♨️" },
-        { label: "Pir Panjal Vista", icon: "🏔️" },
+        { label: "150-Ft Vertical Cataract" },
+        { label: "Ancient Deodar Woods" },
+        { label: "Sacred Jogini Shrine" },
+        { label: "Vashisht Hot Springs Corridor" },
+        { label: "Pir Panjal Vista" },
       ]
     : isPatalsu
     ? [
-        { label: "4,261m Summit Pinnacle", icon: "⛰️" },
-        { label: "Shagadugh Meadow (3,250m)", icon: "🌿" },
-        { label: "Ancient Solang Forests", icon: "🌲" },
-        { label: "Hanuman Tibba Face Views", icon: "🧊" },
-        { label: "1-Day Ultra Speed Hike", icon: "⚡" },
+        { label: "4,261m Summit Pinnacle" },
+        { label: "Shagadugh Meadow (3,250m)" },
+        { label: "Ancient Solang Forests" },
+        { label: "Hanuman Tibba Face Views" },
+        { label: "1-Day Alpine Speed Route" },
       ]
     : isBeasKund
     ? [
-        { label: "3,700m Glacial Tarn", icon: "💎" },
-        { label: "River Beas Origin", icon: "🕉️" },
-        { label: "Bakarthach Meadow (3,300m)", icon: "🌿" },
-        { label: "Friendship Peak & Shitidhar", icon: "🏔️" },
-        { label: "Hanuman Tibba Pyramid", icon: "🧊" },
+        { label: "3,700m Glacial Tarn" },
+        { label: "River Beas Origin Datum" },
+        { label: "Bakarthach Meadow (3,300m)" },
+        { label: "Friendship Peak & Shitidhar" },
+        { label: "Hanuman Tibba Pyramid" },
       ]
     : [
-        { label: "Alpine Wilderness", icon: "⛰️" },
-        { label: "Verified GPS Track", icon: "🧭" },
-        { label: "Himalayan Ridge", icon: "🌲" },
+        { label: "Alpine Wilderness Sanctuary" },
+        { label: "Verified GPS Spatial Track" },
+        { label: "Himalayan Ridge Crest" },
       ];
 
   return (
@@ -132,9 +132,9 @@ export function TrekAbout({
           {highlights.map((h, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-white/5"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-medium bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200/70 dark:border-white/10"
             >
-              <span>{h.icon}</span>
+              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: style.accent }} />
               <span>{h.label}</span>
             </span>
           ))}

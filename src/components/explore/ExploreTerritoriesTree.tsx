@@ -225,9 +225,7 @@ export function ExploreTerritoriesTree() {
                         >
                           {profile.shortLabel === "Uttarakhand" ? "Garhwal" : profile.shortLabel}
                         </span>
-                        <span className="text-[12px] shrink-0">
-                          {profile.emoji}
-                        </span>
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: profile.accent }} />
                       </div>
 
                       <div>

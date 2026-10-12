@@ -58,7 +58,7 @@ export function TrekContextNav({ stateSlug }: TrekContextNavProps) {
 
   return (
     <div 
-      className="fixed bottom-5 sm:bottom-6 inset-x-0 z-40 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
+      className="fixed bottom-safe inset-x-0 z-40 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 pb-safe"
     >
       <nav 
         className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 p-1.5 rounded-full bg-white/95 dark:bg-[#080e1a]/90 backdrop-blur-xl border border-slate-200/90 dark:border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.6)] overflow-x-auto max-w-[calc(100vw-1.5rem)] sm:max-w-full scrollbar-none touch-pan-x"
@@ -75,7 +75,7 @@ export function TrekContextNav({ stateSlug }: TrekContextNavProps) {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`px-3 py-1.5 min-h-[36px] flex items-center rounded-full text-xs font-mono tracking-wider transition-all duration-200 whitespace-nowrap shrink-0 ${
+              className={`px-3.5 py-2 min-h-[44px] flex items-center justify-center rounded-full text-xs font-mono tracking-wider transition-all duration-200 whitespace-nowrap shrink-0 active:scale-95 ${
                 isActive
                   ? "bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white font-bold shadow-sm"
                   : "text-slate-600 dark:text-foreground/60 hover:text-slate-900 dark:hover:text-foreground hover:bg-slate-100/60 dark:hover:bg-white/[0.05]"

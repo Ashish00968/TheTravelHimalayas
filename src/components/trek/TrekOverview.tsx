@@ -148,60 +148,82 @@ export function TrekOverview({
       aria-label="Trek Overview"
     >
       <div 
-        className="rounded-2xl sm:rounded-3xl p-5 sm:p-8 backdrop-blur-2xl bg-white/95 dark:bg-[#080e1a]/95 border border-slate-200/90 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
-        style={{
-          borderTop: `2px solid ${style.accent}`,
-        }}
+        className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200/80 dark:border-foreground/[0.08]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200/80 dark:border-white/[0.08]">
           <div className="flex items-center gap-2.5">
             <span 
-              className="w-2.5 h-2.5 rounded-full animate-pulse" 
+              className="w-2 h-2 rounded-full" 
               style={{ backgroundColor: style.accent }} 
             />
-            <h2 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-slate-900 dark:text-foreground/80">
-              Field Instrument Overview
+            <h2 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-foreground">
+              Alpine Field Dossier &bull; Route Metrics
             </h2>
           </div>
-          <span className="font-mono text-xs text-slate-500 dark:text-foreground/50">
+          <span className="font-mono text-xs text-foreground/60">
             {isPatalsu
-              ? "Kullu • Solang Valley • Himachal Pradesh"
+              ? "Kullu Valley &bull; Solang Valley &bull; Himachal Pradesh"
               : `${subRegionName ? `${subRegionName} • ` : ""}${stateSlug.replace(/-/g, " ").toUpperCase()}`}
           </span>
         </div>
 
-        {/* Responsive Grid: 2 columns on mobile with 7th item spanning, 4 on tablet, 7 on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-6">
-          {metrics.map((metric, idx) => {
+        {/* Responsive Telemetry Grid: 2 columns on mobile, 4 on tablet, 4 on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {metrics.slice(0, 4).map((metric, idx) => {
             const Icon = metric.icon;
-            const isLastOnMobile = idx === 6;
             return (
-              <motion.div 
+              <div 
                 key={idx} 
-                whileHover={shouldReduceMotion ? undefined : { y: -3, scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-                className={`flex flex-col p-2.5 sm:p-2 rounded-xl transition-colors hover:bg-slate-100/80 dark:hover:bg-white/[0.03] ${
-                  isLastOnMobile ? "col-span-2 md:col-span-1" : ""
-                }`}
+                className="flex flex-col p-3.5 sm:p-4 rounded-xl bg-slate-50/70 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/[0.05]"
               >
-                <div className="flex items-center gap-1.5 text-slate-500 dark:text-foreground/45 mb-1.5">
+                <div className="flex items-center gap-1.5 text-foreground/55 mb-2">
                   <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: metric.highlight ? style.accent : undefined }} />
-                  <span className="text-[11px] font-mono uppercase tracking-wider font-medium truncate">
+                  <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider font-medium truncate">
                     {metric.label}
                   </span>
                 </div>
                 
                 <span 
-                  className="text-base sm:text-lg font-display font-bold tracking-tight mb-0.5 text-slate-900 dark:text-foreground truncate"
+                  className="text-lg sm:text-xl font-display font-bold tracking-tight mb-1 text-foreground truncate"
                   style={metric.highlight ? { color: style.accent } : undefined}
                 >
                   {metric.value}
                 </span>
 
-                <span className="text-[11px] font-light text-slate-500 dark:text-foreground/50 truncate">
+                <span className="text-xs font-light text-foreground/60 truncate">
                   {metric.subtext}
                 </span>
-              </motion.div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Secondary Context Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4 pt-4 border-t border-slate-100 dark:border-white/[0.06]">
+          {metrics.slice(4).map((metric, idx) => {
+            const Icon = metric.icon;
+            return (
+              <div 
+                key={idx} 
+                className="flex items-start gap-3 p-3 rounded-lg bg-transparent"
+              >
+                <div 
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-slate-200/80 dark:border-white/10 bg-slate-100/80 dark:bg-white/[0.04]"
+                >
+                  <Icon className="w-4 h-4 text-foreground/70" />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-foreground/50 block">
+                    {metric.label}
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground truncate block">
+                    {metric.value}
+                  </span>
+                  <span className="text-[11px] text-foreground/60 block truncate font-light">
+                    {metric.subtext}
+                  </span>
+                </div>
+              </div>
             );
           })}
         </div>

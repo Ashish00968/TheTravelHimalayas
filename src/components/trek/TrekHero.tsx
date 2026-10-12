@@ -72,7 +72,7 @@ export function TrekHero({
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[94vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#040812] dark-photo-card preserve-white-text"
+      className="relative min-h-[94vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#07090E] dark-photo-card preserve-white-text"
       aria-label={`${title} Hero`}
     >
       {/* Background: Authentic Photography (if provided) OR Atmospheric Alpine Midnight Canvas */}
@@ -91,11 +91,11 @@ export function TrekHero({
           />
           {/* Cinematic Vignettes */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/85 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(4,8,18,0.25)_0%,rgba(4,8,18,0.75)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#040812] dark:via-[#040812]/80 dark:to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,9,14,0.25)_0%,rgba(7,9,14,0.75)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent" />
         </motion.div>
       ) : (
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#040812] pointer-events-none">
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#07090E] pointer-events-none">
           {/* Territory Ambient Glow */}
           <div
             className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vw] sm:w-[900px] h-[550px] rounded-full blur-[140px] opacity-30"
@@ -126,14 +126,14 @@ export function TrekHero({
               <defs>
                 <linearGradient id="trekMountainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor={style.accent} stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#040812" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#07090E" stopOpacity="0.95" />
                 </linearGradient>
               </defs>
             </svg>
           </div>
 
           {/* Feathered bottom horizon melt */}
-          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#040812] dark:via-[#040812]/80 dark:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent" />
         </div>
       )}
 

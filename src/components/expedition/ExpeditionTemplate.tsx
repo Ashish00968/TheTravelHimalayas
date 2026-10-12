@@ -67,7 +67,7 @@ export function ExpeditionTemplate({
   const images = peak.images && peak.images.length > 0 ? peak.images : place.images || [];
 
   return (
-    <article className="min-h-screen bg-[#040812] text-white dark dark-photo-card preserve-white-text">
+    <article className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* 1. Cinematic Expedition Hero */}
       <ExpeditionHero
         place={place}
@@ -157,7 +157,7 @@ export function ExpeditionTemplate({
               </span>
               <div className="h-px flex-1 bg-white/10" />
             </div>
-            <h2 className="font-display font-bold text-2xl sm:text-4xl text-white tracking-tight">
+            <h2 className="font-display font-bold text-2xl sm:text-4xl text-foreground tracking-tight">
               Visual Archive: {peak.title}
             </h2>
             <ImageGallery images={images} alt={peak.title} />

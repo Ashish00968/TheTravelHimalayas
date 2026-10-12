@@ -1,0 +1,155 @@
+# Discover Himalayan Trails — Complete Knowledge Base & LLM Context Dossier
+
+> **Platform**: Discover Himalayan Trails (`discoverhimalayantrails.com`)  
+> **Scope**: Definitive digital guide, geospatial atlas, and alpine planning authority for the Indian Himalayas.  
+> **Geographic Reach**: Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand.  
+> **Entity Corpus**: 177 field-verified destinations across 27 administrative divisions.  
+> **Architecture**: Next.js 15 App Router, React 19, 100% pre-rendered static export (`output: "export"`), Mapbox GL 3D terrain meshes, WGS84 coordinates, and clinical high-altitude safety protocols.
+
+---
+
+## 1. Editorial Mission & Guiding Principles
+Discover Himalayan Trails was established to address severe deficiencies in existing Himalayan trekking content:
+1. **Zero Commercial Bias**: Independent, objective trail grades and verified logistical data uncompromised by commission-driven booking funnels.
+2. **100% Geospatial Accuracy**: Every route, waypoint, and summit elevation is validated against Survey of India datum, OpenStreetMap elevation contours, and verified handheld GPS tracks.
+3. **Clinical High-Altitude Standards**: Safety and medical guidance authored under Wilderness Medical Society (WMS) guidelines, rejecting anecdotal advice.
+4. **Offline Resilience & Print Readiness**: All trail guides are architected for offline PWA caching and print stylesheets for backcountry travelers operating beyond cellular range.
+
+---
+
+## 2. Regional Topography & Geographic Divisions
+
+### Himachal Pradesh
+- **Geographic Overview**: Transition zone between the sub-tropical Shivalik foothills, temperate middle ranges (Dhauladhar, Pir Panjal), and arid Trans-Himalayan rain-shadow plateaus (Spiti, Kinnaur).
+- **Kullu & Manali Valley**:
+  - *Altitude Range*: 1,200m to 6,000m+
+  - *Key Hubs*: Manali (2,050m), Naggar (1,800m), Vashisht (2,100m), Solang (2,480m).
+  - *Trekking Corridors*: Solang Valley, Beas Kund cirque, Patalsu Peak ridge, Hampta Pass, Bhrigu Lake, Pin Parvati Pass, Great Himalayan National Park (UNESCO World Heritage Site).
+- **Lahaul & Spiti**:
+  - *Altitude Range*: 3,000m to 6,500m
+  - *Key Hubs*: Keylong, Kaza, Tabo, Mudh (Pin Valley).
+  - *Characteristics*: Extreme diurnal temperature variation, fragile high-desert ecosystems, ancient Buddhist gompas (Ki, Tabo, Dhankar), and high passes (Kunzum La 4,590m, Rohtang La 3,978m).
+- **Kangra & Dhauladhar**:
+  - *Altitude Range*: 1,200m to 4,800m
+  - *Key Hubs*: Dharamshala, McLeodGanj, Bir-Billing.
+  - *Characteristics*: Sheer vertical rise from the Kangra plains into granite crags; high precipitation; classic shepherd passes (Indrahar Pass 4,342m, Minkiani Pass, Kareri Lake 2,934m).
+- **Kinnaur & Baspa**:
+  - *Altitude Range*: 1,800m to 6,050m
+  - *Key Hubs*: Sangla, Chitkul, Kalpa, Reckong Peo.
+  - *Characteristics*: Deep gorges of the Sutlej river, sacred Kinnaur Kailash circumambulation (4,650m), dense pine and apple orchards transitioning into high scree.
+
+### Jammu & Kashmir
+- **Geographic Overview**: Dominated by the Pir Panjal Range in the south, the Kashmir Valley basin, and the Greater Himalayan Zanskar divide to the north and east.
+- **Kashmir Valley**:
+  - *Altitude Range*: 1,585m to 5,425m
+  - *Key Hubs*: Srinagar, Sonmarg (2,730m), Pahalgam (2,130m), Gulmarg (2,650m).
+  - *Trekking Corridors*:
+    - **Kashmir Great Lakes (KGL)**: Sonmarg to Naranag via Nichnai Pass (4,139m), Vishansar, Kishansar, Gadsar Pass (4,200m), Satsar, and Gangabal at the foot of Mount Harmukh (5,142m).
+    - **Tarsar Marsar**: Aru Valley into high alpine twin lakes beneath Mount Kolahoi (5,425m).
+    - **Apharwat Peak**: Gulmarg alpine ridgeline accessible via Gondola phase 2 (3,980m) to summit crags (4,200m).
+
+### Ladakh
+- **Geographic Overview**: High-altitude plateau situated beyond the Greater Himalayan crest, characterized by rain-shadow arid topography, glaciated valleys, and extreme solar radiation.
+- **Leh & Indus Corridor**:
+  - *Altitude Range*: 3,500m to 6,153m (Stok Kangri)
+  - *Key Hubs*: Leh (3,524m), Shey, Thiksey, Hemis.
+  - *Key Routes*: Markha Valley trek, Stok Kangri approach, Sham valley cultural trail.
+- **Zanskar Valley**:
+  - *Altitude Range*: 3,500m to 5,500m
+  - *Key Hubs*: Padum, Karsha, Zangla.
+  - *Key Routes*: Historical Chadar frozen river trek (January–February), Padum to Darcha traverse over Shinku La (5,091m), Phuktal cave monastery trek.
+- **Nubra Valley & Karakoram**:
+  - *Altitude Range*: 3,048m to 7,000m+
+  - *Characteristics*: Diskit sand dunes, double-humped Bactrian camels, Shyok-Nubra confluence, Saser Kangri massif.
+- **Changthang Lakes**:
+  - *Key Waterbodies*: Pangong Tso (4,250m, 134 km long endorheic lake), Tso Moriri (4,522m Ramsar wetland), Tso Kar salt basin.
+
+### Uttarakhand
+- **Geographic Overview**: Sacred Devbhoomi encompassing the Garhwal and Kumaon Himalaya, hosting the headwaters of the Ganges (Bhagirathi, Alaknanda) and Yamuna rivers.
+- **Chamoli District**:
+  - *Altitude Range*: 1,500m to 7,816m (Nanda Devi)
+  - *Key Sites*: Valley of Flowers National Park (3,658m), Hemkund Sahib (4,329m), Kuari Pass (Lord Curzon's Trail 3,650m), Roopkund glacial tarn (5,029m), Badrinath temple (3,133m).
+- **Uttarkashi District**:
+  - *Altitude Range*: 1,350m to 6,856m (Bhagirathi Peaks)
+  - *Key Sites*: Gaumukh Tapovan (source of the Ganges 4,463m beneath Shivling 6,543m), Har Ki Dun valley of gods (3,566m), Kedarkantha winter snow trek (3,810m), Yamunotri shrine (3,291m).
+- **Rudraprayag & Mandakini**:
+  - *Key Sites*: Kedarnath Jyotirlinga (3,584m), Madhyamaheshwar (3,497m), Tungnath (highest Shiva temple in the world at 3,680m beneath Chandrashila peak 4,000m).
+- **Pithoragarh (Kumaon)**:
+  - *Key Sites*: Milam Glacier beneath Trishuli and Hardeol, Panchachuli Five Churns of Cookery, Om Parvat, Adi Kailash circuit.
+
+---
+
+## 3. High-Altitude Medical Protocols (The Three Golden Rules)
+Discover Himalayan Trails enforces the following clinical rules across all trail profiles climbing past 3,000m:
+
+### Rule 1: Symptoms at Altitude Equal Altitude Sickness
+Any traveler ascending above 2,500m who develops headache, nausea, dizziness, insomnia, fatigue, or loss of appetite MUST assume they have **Acute Mountain Sickness (AMS)** until definitively proven otherwise.
+- *Clinical Action*: Never ascend to a higher sleeping altitude with active AMS symptoms. Rest, hydrate (3–4 liters/day), and monitor resting heart rate and peripheral oxygen saturation (SpO₂).
+
+### Rule 2: Conservative Ascent Rate & Acclimatization Staging
+Atmospheric barometric pressure drops with altitude. At 3,700m (Beas Kund), effective oxygen is ~64% of sea level. At 5,289m (Friendship Peak summit), effective oxygen drops to ~52%.
+- *Clinical Action*: Above 3,000m, do not increase net sleeping elevation by more than 300m to 500m per 24 hours. Take an active acclimatization rest day (climb high, sleep low) every 1,000m of net ascent. Prophylactic Acetazolamide (Diamox 125mg–250mg twice daily) can be considered 24 hours prior to ascent under medical supervision.
+
+### Rule 3: Immediate Mandatory Descent for HAPE / HACE
+High Altitude Pulmonary Edema (HAPE) and High Altitude Cerebral Edema (HACE) are lethal conditions that can progress from mild symptoms to death within 12 to 24 hours.
+- *HAPE Symptoms*: Breathlessness at rest, persistent dry cough progressing to pink frothy sputum, gurgling in chest, extreme lethargy, cyanosis (blue lips/nails).
+- *HACE Symptoms*: Loss of physical coordination (ataxia — inability to walk heel-to-toe), irrational confusion, hallucinations, severe unremitting headache, altered consciousness.
+- *Clinical Action*: **DESCEND IMMEDIATELY**. Do not wait for medical evacuation or daylight. A rapid descent of 500m–1,000m is the definitive life-saving therapy. Supplemental oxygen, portable hyperbaric chambers (Gamow bag), Dexamethasone (for HACE), and Nifedipine (for HAPE) are temporizing measures during evacuation.
+
+---
+
+## 4. Flagship Route Dossiers
+
+### Patalsu Peak (4,261m / 13,980 ft)
+- **Classification**: Alpine Trekking Peak (Non-Technical Summit)
+- **Territory**: Kullu Valley, Himachal Pradesh (Above Solang Village)
+- **Total Distance**: 14.0 km round-trip
+- **Vertical Gain**: +1,781 meters
+- **Standard Duration**: 2–3 Days (Camp at Shagadugh 3,250m) or 1-Day Ultra Speed Hike (8–10 hrs)
+- **Key Terrain**: Ancient deodar forest &rarr; Shagadugh sub-alpine meadows &rarr; Wind-scoured scree ridge directly facing Hanuman Tibba (5,982m) and Friendship Peak.
+- **True Summit Datum**: 32.3275°N, 77.1706°E
+
+### Beas Kund Glacial Tarn (3,700m / 12,139 ft)
+- **Classification**: High-Altitude Glacial Lake & Sacred Source
+- **Territory**: Solang / Dhundi Corridor, Kullu, Himachal Pradesh
+- **Total Distance**: 15.5 km round-trip from Dhundi roadhead
+- **Vertical Gain**: +860 meters
+- **Standard Duration**: 2–3 Days (Campsite at Bakarthach 3,300m) or 1-Day Push (8–9 hrs)
+- **Key Terrain**: Dhundi riverine approach &rarr; Bhoj Patra silver birch forest &rarr; Bakarthach shepherd floodplain &rarr; Terminal moraine boulder scrambling &rarr; Emerald glacial tarn beneath Lady Leg ridge (3,893m).
+- **Critical Safety Note**: No running water sources exist along the terminal moraine section between Bakarthach and the lake; carry minimum 2.5L water.
+
+### Jogni Waterfall Trail (2,280m / 7,480 ft)
+- **Classification**: Day Hike & Sacred Cataract
+- **Territory**: Vashisht Village, Kullu Valley, Himachal Pradesh
+- **Total Distance**: 3.2 km round-trip
+- **Vertical Gain**: +240 meters
+- **Standard Duration**: 2–3 Hours
+- **Key Terrain**: Historic stone pathways above Vashisht Temple &rarr; Apple orchards &rarr; Pine groves &rarr; Lower cascade pools (2,180m) &rarr; Upper 150-foot sheer granite vertical cataract.
+
+### Friendship Peak (5,289m / 17,353 ft)
+- **Classification**: Technical Alpine Mountaineering Expedition
+- **Territory**: Pir Panjal Range, Himachal Pradesh
+- **Standard Duration**: 7–9 Days
+- **Key Terrain**: Dhundi roadhead &rarr; Bakarthach Base Camp (3,300m) &rarr; Lady Leg Advance Base Camp (3,893m) &rarr; Summit High Camp (4,800m) &rarr; Glaciated summit ridge requiring crampons, ice screws, fixed ropes, and avalanche safety gear.
+
+---
+
+## 5. Mountain Search & Rescue (SAR) & Administrative Directory
+- **National Emergency Response Support System (ERSS)**: `112`
+- **State Disaster Management Authority (SDMA HP)**: `1070` / `+91-177-2621714`
+- **State Disaster Response Force Uttarakhand (SDRF UK)**: `+91-135-2710334` / `1070`
+- **District Disaster Management Authority Kullu**: `01902-222384` / `1077`
+- **Indian Mountaineering Foundation (IMF) New Delhi**:
+  - HQ Address: Benito Juarez Road, New Delhi 110021
+  - Telephone: `+91-11-24111211`, `+91-11-24117799`
+  - Responsibilities: Expedition clearances, peak booking, satellite phone permits, Search & Rescue coordination.
+- **Atal Bihari Vajpayee Institute of Mountaineering & Allied Sports (ABVIMAS Manali)**: `+91-1902-252342`
+
+---
+
+## 6. Digital Platform Architecture & API Endpoints
+- **Origin**: `https://discoverhimalayantrails.com`
+- **Sitemap**: `https://discoverhimalayantrails.com/sitemap.xml` (244 statically compiled URLs)
+- **Progressive Web App Manifest**: `https://discoverhimalayantrails.com/manifest.webmanifest`
+- **Robots Policy**: `https://discoverhimalayantrails.com/robots.txt`
+- **Contact & Inquiries**: `explore@discoverhimalayantrails.com`

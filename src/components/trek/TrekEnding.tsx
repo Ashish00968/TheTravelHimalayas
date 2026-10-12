@@ -87,16 +87,16 @@ export function TrekEnding({
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-[#040812]/65 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07090E] via-[#07090E]/65 to-black/30" />
           </div>
         ) : (
-          <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] w-full min-h-[360px] sm:min-h-[400px] bg-[#080e1a] overflow-hidden">
+          <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] w-full min-h-[360px] sm:min-h-[400px] bg-[#0C1017] overflow-hidden">
             {/* Ambient territory glow */}
             <div
               className="absolute -top-24 left-1/2 -translate-x-1/2 w-[90vw] sm:w-[650px] h-[400px] rounded-full blur-[120px] opacity-25"
               style={{ background: style.glow || style.accent }}
             />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(4,8,18,0.2)_0%,rgba(4,8,18,0.85)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,9,14,0.2)_0%,rgba(7,9,14,0.85)_100%)]" />
           </div>
         )}
 

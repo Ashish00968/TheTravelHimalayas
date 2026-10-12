@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowUp, Activity } from "lucide-react";
+import { ArrowUp, Activity, AlertTriangle } from "lucide-react";
 import { Peak } from "@/data/types";
 
 interface ExpeditionAltitudeProfileProps {
@@ -71,22 +71,22 @@ export function ExpeditionAltitudeProfile({
         <div>
           <h2
             id="expedition-altitude-heading"
-            className="font-display font-bold text-2xl sm:text-4xl text-white tracking-tight mb-2"
+            className="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white tracking-tight mb-2"
           >
             Vertical Ascent Profile &amp; Physiological Milestones
           </h2>
-          <p className="text-slate-400 font-light text-sm sm:text-base">
+          <p className="text-slate-600 dark:text-slate-400 font-light text-sm sm:text-base">
             Base Camp to summit elevation delta and altitude-induced physiological thresholds.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#080e1a] border border-white/10 flex-shrink-0">
-          <ArrowUp className="w-5 h-5 text-emerald-400" />
+        <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-[#080e1a] border border-slate-200/80 dark:border-white/10 flex-shrink-0">
+          <ArrowUp className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
           <div>
-            <span className="text-[10px] font-mono uppercase text-slate-400 block">
+            <span className="text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400 block">
               Vertical Delta
             </span>
-            <span className="text-sm font-bold font-mono text-white">
+            <span className="text-sm font-bold font-mono text-slate-900 dark:text-white">
               +{verticalGain.toLocaleString("en-IN")}m Gain
             </span>
           </div>
@@ -94,7 +94,7 @@ export function ExpeditionAltitudeProfile({
       </div>
 
       {/* Altitude Bar Visualization */}
-      <div className="p-6 sm:p-10 rounded-3xl bg-[#080e1a] border border-white/10 shadow-2xl space-y-8">
+      <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-2xl space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {milestones.map((m, idx) => {
             const isSummit = idx === milestones.length - 1;
@@ -104,7 +104,7 @@ export function ExpeditionAltitudeProfile({
                 className={`p-6 rounded-2xl border transition-all ${
                   isSummit
                     ? "bg-slate-900 text-white border-white/20 shadow-lg"
-                    : "bg-[#0d1422] border-white/[0.08]"
+                    : "bg-slate-50 dark:bg-[#0d1422] border-slate-200/80 dark:border-white/[0.08]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -112,7 +112,7 @@ export function ExpeditionAltitudeProfile({
                     className={`text-[10px] font-mono uppercase font-bold tracking-wider px-2.5 py-0.5 rounded ${
                       isSummit
                         ? "bg-amber-400/20 text-amber-300 border border-amber-400/30"
-                        : "bg-white/10 text-slate-300"
+                        : "bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-slate-300"
                     }`}
                   >
                     {isSummit ? "SUMMIT POINT" : `STAGE 0${idx + 1}`}
@@ -123,22 +123,22 @@ export function ExpeditionAltitudeProfile({
                   </span>
                 </div>
 
-                <h3 className="font-display font-bold text-lg mb-1 text-white">
+                <h3 className={`font-display font-bold text-lg mb-1 ${isSummit ? "text-white" : "text-slate-900 dark:text-white"}`}>
                   {m.name}
                 </h3>
 
-                <p className={`text-xs font-light mb-4 ${isSummit ? "text-slate-300" : "text-slate-400"}`}>
+                <p className={`text-xs font-light mb-4 ${isSummit ? "text-slate-300" : "text-slate-600 dark:text-slate-400"}`}>
                   {m.note}
                 </p>
 
                 <div className={`pt-3 border-t flex items-center justify-between text-xs font-mono ${
-                  isSummit ? "border-white/10 text-slate-400" : "border-white/[0.06] text-slate-400"
+                  isSummit ? "border-white/10 text-slate-300" : "border-slate-200/80 dark:border-white/[0.06] text-slate-500 dark:text-slate-400"
                 }`}>
                   <span className="flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 text-rose-400" />
+                    <Activity className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400" />
                     O₂ Level:
                   </span>
-                  <span className="font-semibold">{m.oxygen}</span>
+                  <span className={`font-semibold ${isSummit ? "text-white" : "text-slate-900 dark:text-white"}`}>{m.oxygen}</span>
                 </div>
               </div>
             );
@@ -147,8 +147,9 @@ export function ExpeditionAltitudeProfile({
 
         {/* Clinical directive reminder */}
         <div className="p-4 rounded-2xl bg-amber-500/[0.06] border border-amber-500/25 flex items-center justify-between gap-4 text-xs font-light text-slate-700 dark:text-slate-300">
-          <span>
-            ⚠️ High-altitude ascents above 5,000m require conservative staging. Ascend no more than 400m–500m sleeping altitude per 24 hours once above 3,500m.
+          <span className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
+            <span>High-altitude ascents above 5,000m require conservative staging. Ascend no more than 400m–500m sleeping altitude per 24 hours once above 3,500m.</span>
           </span>
           <span className="font-mono text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400 flex-shrink-0">
             Rule 02 Compliant

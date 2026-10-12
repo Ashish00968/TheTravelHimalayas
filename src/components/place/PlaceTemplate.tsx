@@ -41,7 +41,7 @@ export function PlaceTemplate({
   const images = place.images || [];
 
   return (
-    <article className="min-h-screen bg-[#F8FAFC] dark:bg-[#040812] text-slate-900 dark:text-white transition-colors duration-300">
+    <article className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* 1. Cinematic Place Hero */}
       <PlaceHero
         title={place.name}

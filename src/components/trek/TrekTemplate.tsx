@@ -63,7 +63,7 @@ export function TrekTemplate({
   const pathCoords = trek?.pathCoords;
 
   return (
-    <article className="min-h-screen bg-[#F8FAFC] dark:bg-[#040812] text-slate-900 dark:text-slate-100 selection:bg-primary/30 transition-colors duration-300">
+    <article className="min-h-screen bg-background text-foreground selection:bg-primary/30 transition-colors duration-300">
       {/* 1. CINEMATIC FULL-VIEWPORT HERO */}
       <TrekHero
         title={place.name}

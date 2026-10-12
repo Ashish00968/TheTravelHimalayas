@@ -87,13 +87,13 @@ export function SafetyClient() {
         </div>
 
         {/* Tab Navigation Navigation Bar */}
-        <div className="flex flex-wrap gap-2 sm:gap-3 p-1.5 rounded-2xl bg-card border border-border mb-12 w-fit shadow-sm">
+        <div className="flex flex-wrap gap-2 sm:gap-3 p-1.5 rounded-2xl bg-slate-100/80 dark:bg-[#0c1017] border border-slate-200/80 dark:border-white/10 mb-12 w-fit shadow-sm backdrop-blur-sm">
           <button
             onClick={() => setActiveTab("glossary")}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "glossary"
-                ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
             }`}
           >
             <BookOpen className="w-4 h-4" /> Mountain Terms
@@ -101,10 +101,10 @@ export function SafetyClient() {
 
           <button
             onClick={() => setActiveTab("mountaineering")}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "mountaineering"
-                ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
             }`}
           >
             <GraduationCap className="w-4 h-4" /> Mountaineering &amp; BMC/AMC
@@ -112,10 +112,10 @@ export function SafetyClient() {
 
           <button
             onClick={() => setActiveTab("medical")}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "medical"
-                ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
             }`}
           >
             <HeartPulse className="w-4 h-4" /> AMS, HAPE &amp; HACE
@@ -123,10 +123,10 @@ export function SafetyClient() {
 
           <button
             onClick={() => setActiveTab("altitude")}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "altitude"
-                ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
             }`}
           >
             <Mountain className="w-4 h-4" /> Altitude &amp; Oxygen
@@ -136,8 +136,8 @@ export function SafetyClient() {
             onClick={() => setActiveTab("protocols")}
             className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "protocols"
-                ? "bg-primary text-white font-semibold shadow-md shadow-primary/30"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
             }`}
           >
             <Thermometer className="w-4 h-4" /> Cold Injury &amp; Safety
@@ -148,7 +148,7 @@ export function SafetyClient() {
             className={`px-4 sm:px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2 min-h-[44px] ${
               activeTab === "rescue"
                 ? "bg-rose-600 text-white font-semibold shadow-md shadow-rose-600/30"
-                : "text-rose-500/90 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 border border-rose-500/25"
+                : "text-rose-600 dark:text-rose-300 hover:text-rose-700 dark:hover:text-rose-200 hover:bg-rose-500/10 border border-rose-500/30"
             }`}
           >
             <ShieldAlert className="w-4 h-4 text-rose-500" /> Emergency SAR &amp; Helplines
@@ -170,14 +170,14 @@ export function SafetyClient() {
               {/* 1. Embedded Hike vs Trek vs Peak Comparison */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-primary uppercase tracking-widest block font-medium">
+                  <span className="font-mono text-xs text-sky-700 dark:text-sky-300 uppercase tracking-widest block font-medium">
                     Core Himalayan Fundamentals
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Hike */}
                   <div className="p-7 rounded-3xl bg-card border border-border space-y-4 hover:border-border/80 transition-all shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200 flex items-center justify-center border border-slate-200/80 dark:border-white/10">
                       <Compass className="w-5 h-5" />
                     </div>
                     <div>
@@ -188,28 +188,28 @@ export function SafetyClient() {
                         Single Day Outing
                       </p>
                     </div>
-                    <div className="space-y-3 text-xs font-light text-foreground/80 pt-2 border-t border-border/50">
+                    <div className="space-y-3 text-xs font-light pt-2 border-t border-border/50">
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Duration</span>
-                        {FUNDAMENTALS_DATA[0].hike.duration}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Duration</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].hike.duration}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Terrain</span>
-                        {FUNDAMENTALS_DATA[0].hike.terrain}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Terrain</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].hike.terrain}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Gear</span>
-                        {FUNDAMENTALS_DATA[0].hike.gear}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Gear</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].hike.gear}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Trek */}
-                  <div className="p-7 rounded-3xl bg-card border border-primary/40 shadow-lg shadow-primary/10 space-y-4 relative overflow-hidden">
-                    <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-mono text-[9px] uppercase tracking-wider font-semibold">
+                  <div className="p-7 rounded-3xl bg-card border-2 border-sky-500/40 dark:border-sky-400/35 shadow-lg shadow-sky-500/5 space-y-4 relative overflow-hidden">
+                    <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300 border border-sky-500/20 dark:border-sky-400/30 font-mono text-[9px] uppercase tracking-wider font-semibold">
                       Core Focus
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center border border-primary/30">
+                    <div className="w-10 h-10 rounded-xl bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-300 flex items-center justify-center border border-sky-500/20 dark:border-sky-400/30">
                       <Mountain className="w-5 h-5" />
                     </div>
                     <div>
@@ -220,25 +220,25 @@ export function SafetyClient() {
                         Alpine Pass Crossings
                       </p>
                     </div>
-                    <div className="space-y-3 text-xs font-light text-foreground/80 pt-2 border-t border-border/50">
+                    <div className="space-y-3 text-xs font-light pt-2 border-t border-border/50">
                       <div>
-                        <span className="font-mono uppercase text-primary font-medium block mb-0.5">Duration</span>
-                        {FUNDAMENTALS_DATA[0].trek.duration}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-sky-700 dark:text-sky-300 font-semibold block mb-0.5">Duration</span>
+                        <span className="text-slate-900 dark:text-slate-100 font-normal">{FUNDAMENTALS_DATA[0].trek.duration}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-primary font-medium block mb-0.5">Terrain</span>
-                        {FUNDAMENTALS_DATA[0].trek.terrain}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-sky-700 dark:text-sky-300 font-semibold block mb-0.5">Terrain</span>
+                        <span className="text-slate-900 dark:text-slate-100 font-normal">{FUNDAMENTALS_DATA[0].trek.terrain}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-primary font-medium block mb-0.5">Gear</span>
-                        {FUNDAMENTALS_DATA[0].trek.gear}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-sky-700 dark:text-sky-300 font-semibold block mb-0.5">Gear</span>
+                        <span className="text-slate-900 dark:text-slate-100 font-normal">{FUNDAMENTALS_DATA[0].trek.gear}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Peak Expedition */}
                   <div className="p-7 rounded-3xl bg-card border border-border space-y-4 hover:border-border/80 transition-all shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200 flex items-center justify-center border border-slate-200/80 dark:border-white/10">
                       <Flame className="w-5 h-5" />
                     </div>
                     <div>
@@ -249,18 +249,18 @@ export function SafetyClient() {
                         Technical Climbing
                       </p>
                     </div>
-                    <div className="space-y-3 text-xs font-light text-foreground/80 pt-2 border-t border-border/50">
+                    <div className="space-y-3 text-xs font-light pt-2 border-t border-border/50">
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Duration</span>
-                        {FUNDAMENTALS_DATA[0].expedition.duration}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Duration</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].expedition.duration}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Terrain</span>
-                        {FUNDAMENTALS_DATA[0].expedition.terrain}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Terrain</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].expedition.terrain}</span>
                       </div>
                       <div>
-                        <span className="font-mono uppercase text-muted-foreground block mb-0.5">Gear</span>
-                        {FUNDAMENTALS_DATA[0].expedition.gear}
+                        <span className="font-mono uppercase tracking-wider text-[10px] text-slate-500 dark:text-slate-400 block mb-0.5 font-medium">Gear</span>
+                        <span className="text-slate-800 dark:text-slate-200">{FUNDAMENTALS_DATA[0].expedition.gear}</span>
                       </div>
                     </div>
                   </div>
@@ -298,8 +298,8 @@ export function SafetyClient() {
                         onClick={() => setSelectedGlossaryCat(cat.id)}
                         className={`px-3 py-1.5 rounded-full font-mono text-xs capitalize transition-all ${
                           selectedGlossaryCat === cat.id
-                            ? "bg-primary text-white border border-primary shadow-sm"
-                            : "bg-card text-muted-foreground border border-border hover:text-foreground hover:bg-muted"
+                            ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border dark:border-sky-400/50 shadow-sm font-semibold"
+                            : "bg-slate-100/90 text-slate-600 dark:bg-card dark:text-slate-300 border border-slate-200/80 dark:border-border hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-muted"
                         }`}
                       >
                         {cat.label}
@@ -320,7 +320,7 @@ export function SafetyClient() {
                           <h3 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
                             {term.term}
                           </h3>
-                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300 border border-sky-500/20 dark:border-sky-400/30">
                             {term.category}
                           </span>
                         </div>

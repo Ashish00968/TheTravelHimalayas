@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/sync-static-routes.mjs",
+    "clean": "rm -rf .next out tsconfig.tsbuildinfo",
     "start": "next start",
     "lint": "eslint",
     "validate:places": "tsx scripts/validate-places.ts",

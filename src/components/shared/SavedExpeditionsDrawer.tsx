@@ -192,11 +192,11 @@ export function SavedExpeditionsDrawer({ isOpen, onClose }: SavedExpeditionsDraw
 
             {/* Footer Summary / Quick Action */}
             {count > 0 && (
-              <div className="p-6 border-t border-foreground/10 bg-card/40 space-y-3">
+              <div className="p-5 sm:p-6 pb-safe border-t border-foreground/10 bg-card/40 space-y-3">
                 <Link
                   href="/plan/compare"
                   onClick={onClose}
-                  className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white font-display font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-md"
+                  className="w-full py-3.5 px-4 min-h-[44px] rounded-xl bg-primary hover:bg-primary/90 text-white font-display font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-md active:scale-[0.98]"
                 >
                   <Mountain className="w-4 h-4" />
                   <span>Compare Saved Trails</span>

@@ -41,24 +41,24 @@ const config: Config = {
           foreground: "var(--text-low)",
         },
 
-        // ── Brand accent — Glacier Blue ──────────────────────────────────
+        // ── Brand accent — Luminous Glacier Frost (Adaptive) ────────────
         primary: {
-          DEFAULT:    "#3B82F6",   // glacier blue
-          light:      "#60A5FA",
-          dark:       "#1D4ED8",
-          foreground: "#EFF6FF",
-          glow:       "rgba(59,130,246,0.35)",
+          DEFAULT:    "var(--primary)",
+          light:      "#38BDF8",
+          dark:       "#0284C7",
+          foreground: "#FFFFFF",
+          glow:       "rgba(56, 189, 248, 0.35)",
         },
 
         // ── Territory signature colours ──────────────────────────────────
-        // Kashmir — Glacier Blue (shares primary)
-        kashmir:  { DEFAULT: "#3B82F6", glow: "rgba(59,130,246,0.25)" },
+        // Kashmir — Glacier Blue
+        kashmir:  { DEFAULT: "#38BDF8", glow: "rgba(56, 189, 248, 0.25)" },
         // Himachal — Alpenglow Amber
-        himachal: { DEFAULT: "#F59E0B", glow: "rgba(245,158,11,0.25)" },
-        // Ladakh — Twilight Violet
-        ladakh:   { DEFAULT: "#7C3AED", glow: "rgba(124,58,237,0.25)" },
-        // Uttarakhand — Alpine Teal
-        uttarakhand: { DEFAULT: "#0D9488", glow: "rgba(13,148,136,0.25)" },
+        himachal: { DEFAULT: "#F59E0B", glow: "rgba(245, 158, 11, 0.25)" },
+        // Ladakh — High-Altitude Starlight
+        ladakh:   { DEFAULT: "#A78BFA", glow: "rgba(167, 139, 250, 0.25)" },
+        // Uttarakhand — Alpine Glacial Teal
+        uttarakhand: { DEFAULT: "#14B8A6", glow: "rgba(20, 184, 166, 0.25)" },
 
         // ── Semantic helpers ─────────────────────────────────────────────
         gold:   { DEFAULT: "#F59E0B", light: "#FCD34D", dark: "#D97706" },
@@ -66,15 +66,17 @@ const config: Config = {
         snow:   "#F1F5F9",
         slate:  {
           50:  "#F8FAFC",
+          100: "#F1F5F9",
           200: "#E2E8F0",
+          300: "#CBD5E1",
           400: "#94A3B8",
           500: "#64748B",
           600: "#475569",
           700: "#334155",
           800: "#1E293B",
-          850: "#131F35",
-          900: "#0F172A",
-          950: "#040812",
+          850: "#131823",
+          900: "#0E131C",
+          950: "#07090E",
         },
       },
 

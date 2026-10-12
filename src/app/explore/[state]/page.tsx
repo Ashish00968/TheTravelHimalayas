@@ -127,11 +127,16 @@ export default async function StateHub({
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <span className="text-5xl mb-5 block drop-shadow-xl">{region.emoji}</span>
+              <div 
+                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mb-4 text-xs font-mono font-bold uppercase tracking-widest border"
+                style={{ color: style.accent, backgroundColor: `${style.accent}14`, borderColor: `${style.accent}30` }}
+              >
+                <span>Himalayan Territory Arc</span>
+              </div>
               <h1 className="font-display tracking-tight font-bold text-4xl sm:text-5xl md:text-7xl text-foreground mb-5 leading-tight">
                 {region.name}
               </h1>
-              <p className="text-foreground/70 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+              <p className="text-foreground/75 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
                 {region.cardDesc}
               </p>
             </div>
@@ -258,14 +263,14 @@ export default async function StateHub({
                         <Link
                           key={p.id}
                           href={`/explore/${state}/${sub.id}/${p.id}`}
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.08] hover:border-foreground/[0.22] text-foreground/80 hover:text-foreground transition-all duration-200"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-lg bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/[0.08] hover:border-foreground/[0.2] text-foreground/85 hover:text-foreground transition-all duration-200"
                         >
-                          <span>{p.emoji}</span>
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: style.accent }} />
                           <span>{p.name}</span>
                         </Link>
                       ))}
                       {sub.places.length > 3 && (
-                        <span className="text-foreground/40 text-[11px] font-mono px-2 py-1.5">
+                        <span className="text-foreground/50 text-[11px] font-mono px-2 py-1.5 self-center">
                           +{sub.places.length - 3} more
                         </span>
                       )}

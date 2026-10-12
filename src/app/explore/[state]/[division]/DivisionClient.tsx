@@ -7,11 +7,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
   Mountain,
-  Sparkles,
-  ArrowRight,
+  Compass,
+  ArrowUpRight,
   Search,
   Footprints,
   MapPin,
+  Clock,
+  TrendingUp,
 } from "lucide-react";
 import { HimalayaPlace, HimalayaRegion, HimalayaSubRegion } from "@/data/atlas";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
@@ -63,7 +65,7 @@ export function DivisionClient({
     const list: { id: FilterTab; label: string; count: number; icon: React.ElementType }[] = [
       { id: "all", label: "All Destinations", count: subRegion.places.length, icon: MapPin },
     ];
-    if (placesList.length > 0) list.push({ id: "places", label: "Places", count: placesList.length, icon: Sparkles });
+    if (placesList.length > 0) list.push({ id: "places", label: "Places", count: placesList.length, icon: Compass });
     if (treksList.length > 0) list.push({ id: "treks", label: "Treks & Trails", count: treksList.length, icon: Footprints });
     if (expeditionsList.length > 0) list.push({ id: "expeditions", label: "Expeditions", count: expeditionsList.length, icon: Mountain });
     return list;
@@ -269,7 +271,7 @@ export function DivisionClient({
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filteredPlaces.map((item) => {
-              const placeHero = item.heroImage || item.peakData?.heroImage || item.trekData?.heroImage;
+              const placeHero = item.heroImage || item.peakData?.heroImage || item.trekData?.heroImage || (item.images && item.images.length > 0 ? item.images[0] : undefined);
               const categoryLabel = 
                 item.type === "peak" ? "Expedition" :
                 (item.type === "trek" || item.type === "day-hike") ? "Trek & Trail" : "Place";
@@ -278,79 +280,121 @@ export function DivisionClient({
                 <Link
                   key={item.id}
                   href={`/explore/${state}/${division}/${item.id}`}
-                  className="group block relative p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between glass-museum-card border border-foreground/[0.08] hover:border-foreground/[0.22] shadow-lg hover:shadow-xl"
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = `${style.accent}50`;
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 10px 30px ${style.glow}`;
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "";
-                  }}
+                  className="group relative rounded-2xl p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 shadow-sm hover:shadow-xl hover:-translate-y-1"
                 >
                   <div>
                     {/* Photo preview if available */}
-                    {placeHero && (
-                      <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 border border-foreground/[0.08]">
+                    {placeHero ? (
+                      <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden mb-4 bg-muted/40 border border-slate-200/60 dark:border-white/[0.08]">
                         <Image
                           src={placeHero}
-                          alt={`${item.name}${item.elevation ? ` (${item.elevation.toLocaleString()}m)` : ""} in ${subRegion.name}, ${region.name} — ${item.type}`}
+                          alt={`${item.name}${item.elevation ? ` (${item.elevation}m)` : ""} in ${subRegion.name}, ${region.name} — ${item.type}`}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-highland"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+                        {/* Top Badges Overlay */}
+                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-black/65 backdrop-blur-md text-white border border-white/15">
+                            {categoryLabel}
+                          </span>
+                          {item.difficulty && (
+                            <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-md border ${
+                              item.difficulty.toLowerCase().includes("diff")
+                                ? "bg-rose-950/80 text-rose-300 border-rose-500/30"
+                                : item.difficulty.toLowerCase().includes("mod")
+                                ? "bg-amber-950/80 text-amber-300 border-amber-500/30"
+                                : "bg-emerald-950/80 text-emerald-300 border-emerald-500/30"
+                            }`}>
+                              {item.difficulty}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Bottom Overlay: Elevation */}
+                        {item.elevation && (
+                          <div className="absolute bottom-2.5 left-3 pointer-events-none">
+                            <span className="text-[11px] font-mono font-bold text-white px-2.5 py-0.5 rounded bg-black/75 backdrop-blur-md border border-white/15 inline-flex items-center gap-1">
+                              <TrendingUp className="w-3 h-3 text-primary" />
+                              {item.elevation}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="relative w-full h-32 rounded-xl overflow-hidden mb-4 p-4 flex flex-col justify-between bg-slate-100 dark:bg-[#0D1527] border border-slate-200/80 dark:border-white/[0.08]">
+                        <div className="absolute inset-0 opacity-[0.07] dark:opacity-[0.12] pointer-events-none">
+                          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <pattern id={`div-topo-${item.id}`} width="24" height="24" patternUnits="userSpaceOnUse">
+                                <circle cx="12" cy="12" r="1" fill="currentColor" />
+                                <path d="M 0 12 H 24 M 12 0 V 24" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 4" />
+                              </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill={`url(#div-topo-${item.id})`} />
+                          </svg>
+                        </div>
+
+                        <div className="relative z-10 flex items-center justify-between">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-foreground/[0.06] text-foreground/80 border border-foreground/[0.08]">
+                            {categoryLabel}
+                          </span>
+                          {item.elevation && (
+                            <span className="font-mono text-xs font-bold text-foreground/90">
+                              {item.elevation}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="relative z-10 font-mono text-[9px] uppercase tracking-widest text-foreground/50">
+                          Field Record &bull; {subRegion.name}
+                        </div>
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-3xl drop-shadow-md">{item.emoji}</span>
-                      <div className="flex items-center gap-2">
-                        <span 
-                          className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-foreground/[0.04] border border-foreground/[0.1] text-foreground/75"
-                        >
-                          {categoryLabel}
-                        </span>
-                        {item.difficulty && (
-                          <span 
-                            className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-                            style={{ background: `${style.accent}15`, border: `1px solid ${style.accent}30`, color: style.accent }}
-                          >
-                            {item.difficulty}
-                          </span>
-                        )}
-                      </div>
+                    {/* Valley Overline */}
+                    <div className="flex items-center gap-2 mb-2 text-[11px] font-mono tracking-wider uppercase text-foreground/70">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: style.accent }} />
+                      <span className="font-semibold text-foreground/90">{subRegion.name}</span>
+                      <span className="opacity-40">•</span>
+                      <span>{region.name}</span>
                     </div>
 
-                    <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-3 group-hover:text-primary transition-colors">
+                    {/* Title */}
+                    <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-2 group-hover:text-primary transition-colors leading-snug">
                       {item.name}
                     </h3>
 
+                    {/* Field Overview */}
                     {item.overview && (
-                      <p className="text-foreground/65 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
+                      <p className="text-foreground/75 text-sm line-clamp-2 leading-relaxed mb-5 font-light">
                         {item.overview}
                       </p>
                     )}
                   </div>
 
-                  <div 
-                    className="pt-4 flex items-center justify-between mt-auto text-[11px] text-foreground/50 font-mono font-bold uppercase tracking-widest border-t border-foreground/[0.06]"
-                  >
-                    <div className="flex items-center gap-2">
-                      {item.elevation && <span>{item.elevation}</span>}
+                  {/* Footer Metrics */}
+                  <div className="pt-3.5 mt-auto border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between text-xs font-mono">
+                    <div className="flex items-center gap-3 text-foreground/70">
                       {item.duration && (
-                        <>
-                          <span className="text-foreground/30">•</span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-foreground/45" />
                           <span>{item.duration}</span>
-                        </>
+                        </span>
+                      )}
+                      {item.distance && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Footprints className="w-3.5 h-3.5 text-foreground/45" />
+                          <span>{item.distance}</span>
+                        </span>
                       )}
                     </div>
-                    <span 
-                      className="flex items-center gap-1.5 group-hover:translate-x-1 transition-transform font-bold"
-                      style={{ color: style.accent }}
-                    >
-                      Open <ArrowRight className="w-3.5 h-3.5" />
+
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary group-hover:translate-x-1 transition-transform">
+                      <span>Dossier</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </Link>

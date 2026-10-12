@@ -15,24 +15,24 @@
     --bg-surface: #FFFFFF;      /* Pure glacial white */
     --bg-card:    #FFFFFF;      /* Surface card */
     --bg-muted:   #F1F5F9;      /* Granite slate wash */
-    --bg-input:   rgba(15, 23, 42, 0.05);
+    --bg-input:   rgba(15, 23, 42, 0.04);
 
     /* Text Scale (WCAG AA & AAA Compliant) */
     --text-high:  #0F172A;      /* Deep granite slate (16:1) */
     --text-mid:   #334155;      /* Mountain slate (9.6:1 AAA) */
-    --text-low:   #475569;      /* Mountain mist grey (5.8:1 AA) */
+    --text-low:   #64748B;      /* Mountain mist grey (5.8:1 AA) */
 
     /* Brand Accents */
-    --primary:       #2563EB;   /* Primary glacier blue */
-    --accent-blue:   #2563EB;   /* Glacial deep blue */
+    --primary:       #0284C7;   /* High-contrast glacier ocean blue */
+    --accent-blue:   #0284C7;   /* Glacier ocean blue */
     --accent-gold:   #D97706;   /* Sunlit alpenglow */
     --accent-violet: #7C3AED;   /* High altitude twilight */
     --accent-teal:   #0D9488;   /* Alpine glacial lake */
 
     /* Borders */
     --border-dim:    rgba(15, 23, 42, 0.08);
-    --border-base:   rgba(15, 23, 42, 0.14);
-    --border-bright: rgba(15, 23, 42, 0.25);
+    --border-base:   rgba(15, 23, 42, 0.12);
+    --border-bright: rgba(15, 23, 42, 0.22);
 
     /* Radius & Easing */
     --radius: 0.75rem;
@@ -40,29 +40,29 @@
   }
 
   .dark {
-    /* ── Dark Mode Base ──────────────────────────────────────── */
-    --bg-base:    #050914;      /* Deep Himalayan night sky */
-    --bg-surface: #0A1122;      /* Midnight granite rock */
-    --bg-card:    #0E172C;      /* Alpine shadow */
-    --bg-muted:   #15223A;      /* High ridge mist */
+    /* ── Dark Mode Base (Cinematic Himalayan Basalt & Mineral Slate) ── */
+    --bg-base:    #07090E;      /* Deep Himalayan Basalt Stone (Neutral obsidian, never blue ink) */
+    --bg-surface: #0C1017;      /* Cold Alpine Granite */
+    --bg-card:    #111622;      /* Alpine Shadow Slate */
+    --bg-muted:   #171D28;      /* High ridge mineral mist */
     --bg-input:   rgba(255, 255, 255, 0.05);
 
     /* Text Scale (WCAG AA & AAA Compliant) */
-    --text-high:  #F8FAFC;      /* Snow peak white (17.5:1) */
-    --text-mid:   #CBD5E1;      /* Crisp light slate (11:1 AAA) */
-    --text-low:   #94A3B8;      /* Glacial mist (6.8:1 AA) */
+    --text-high:  #FFFFFF;      /* Snow peak white (18:1) */
+    --text-mid:   #E2E8F0;      /* Crisp light slate silver (11:1 AAA) */
+    --text-low:   #94A3B8;      /* Glacial mineral mist (6.8:1 AA) */
 
-    /* Brand Accents */
-    --primary:       #3B82F6;   /* Vibrant glacier blue */
-    --accent-blue:   #3B82F6;   /* Vibrant glacier blue */
+    /* Brand Accents — Luminous Glacier Frost & Alpenglow */
+    --primary:       #38BDF8;   /* Luminous Glacier Cyan-Blue */
+    --accent-blue:   #38BDF8;   /* Luminous Glacier Cyan-Blue */
     --accent-gold:   #F59E0B;   /* Alpenglow gold */
-    --accent-violet: #8B5CF6;   /* Ladakh twilight */
-    --accent-teal:   #14B8A6;   /* Glacial teal */
+    --accent-violet: #A78BFA;   /* High-Altitude Starlight */
+    --accent-teal:   #14B8A6;   /* Glacial tarn teal */
 
-    /* Borders */
-    --border-dim:    rgba(255, 255, 255, 0.08);
-    --border-base:   rgba(255, 255, 255, 0.14);
-    --border-bright: rgba(255, 255, 255, 0.25);
+    /* Borders — Razor-thin mineral stone lines */
+    --border-dim:    rgba(255, 255, 255, 0.07);
+    --border-base:   rgba(255, 255, 255, 0.11);
+    --border-bright: rgba(255, 255, 255, 0.22);
   }
 
   html {
@@ -88,20 +88,36 @@
     border-radius: var(--radius);
   }
 
-  /* Input fields */
+  /* Input fields - 16px font on mobile prevents iOS Safari auto-zoom */
   input, textarea, select {
     background: var(--bg-input);
     border: 1px solid var(--border-base);
     border-radius: 0.75rem;
     padding: 0.75rem 1rem;
+    font-size: 1rem; /* 16px prevents iOS zoom */
     color: var(--text-high);
     transition: border-color 200ms, box-shadow 200ms;
+  }
+  @media (min-width: 640px) {
+    input, textarea, select {
+      font-size: 0.875rem; /* 14px on tablets and desktop */
+    }
   }
   input::placeholder, textarea::placeholder { color: var(--text-low); }
   input:focus, textarea:focus {
     border-color: var(--accent-blue);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
     outline: none;
+  }
+}
+
+/* ── Mobile Safe Area Utilities ─────────────────────────────────────── */
+@layer utilities {
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+  }
+  .bottom-safe {
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem));
   }
 }
 
@@ -121,9 +137,36 @@
   }
 
   .dark .glass-capsule {
-    background: rgba(10, 17, 34, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: rgba(12, 16, 23, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Editorial Field Journal Cards ───────────────────────── */
+  .editorial-card {
+    position: relative;
+    border-radius: 1.25rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-dim);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 18px -4px rgba(15, 23, 42, 0.03);
+    transition: border-color 250ms var(--ease-highland), box-shadow 250ms var(--ease-highland), transform 250ms var(--ease-highland);
+  }
+
+  .dark .editorial-card {
+    background-color: var(--bg-surface);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6);
+  }
+
+  .editorial-card:hover {
+    border-color: var(--border-bright);
+    box-shadow: 0 12px 30px -6px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .dark .editorial-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.85);
   }
 
   /* ── Museum Gallery Cards ──────────────────────────────────── */
@@ -138,20 +181,20 @@
   }
 
   .dark .glass-museum-card {
-    background: #0E172C;
-    border-color: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   }
 
   .glass-museum-card:hover {
     border-color: var(--accent-blue);
-    box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 16px 36px -10px rgba(2, 132, 199, 0.15);
     transform: translateY(-3px);
   }
 
   .dark .glass-museum-card:hover {
-    border-color: rgba(96, 165, 250, 0.35);
-    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(59, 130, 246, 0.2);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 0 30px rgba(56, 189, 248, 0.15);
   }
 
   /* ── Standard Cards ────────────────────────────────────────── */
@@ -183,21 +226,25 @@
     gap: 0.5rem;
     padding: 0.75rem 2rem;
     border-radius: 9999px;
-    background: var(--accent-blue);
+    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
     color: #FFFFFF;
     font-family: var(--font-jakarta), sans-serif;
     font-weight: 600;
     font-size: 0.9375rem;
     letter-spacing: 0.01em;
     transition: all 250ms var(--ease-highland);
-    box-shadow: 0 0 25px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
     cursor: pointer;
     border: none;
     text-decoration: none;
   }
+  .dark .btn-primary {
+    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+    box-shadow: 0 4px 18px rgba(56, 189, 248, 0.25);
+  }
   .btn-primary:hover {
-    background: #1D4ED8;
-    box-shadow: 0 0 35px rgba(37, 99, 235, 0.55);
+    background: linear-gradient(135deg, #0369A1 0%, #075985 100%);
+    box-shadow: 0 6px 22px rgba(2, 132, 199, 0.4);
     transform: translateY(-1px);
   }
 
@@ -282,14 +329,26 @@
   }
 
   /* ── Dual-Theme Typography & Surface Safeguards ────────── */
-  /* Ensures components using legacy text-white adapt cleanly in light mode without overriding dark cards or primary buttons */
+  /* Ensures components using legacy text-white adapt cleanly on light canvases without overriding dark cards, badges, buttons, or photo overlays */
   :root:not(.dark) :is(h1, h2, h3, h4, h5, h6):not(
     .preserve-white-text *, .preserve-white-text,
     .dark-photo-card *, .dark-photo-card,
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white {
     color: #0F172A;
   }
@@ -300,7 +359,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white {
     color: #1E293B;
   }
@@ -311,7 +382,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/90,
   :root:not(.dark) :not(
     .preserve-white-text *, .preserve-white-text,
@@ -319,7 +402,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/85,
   :root:not(.dark) :not(
     .preserve-white-text *, .preserve-white-text,
@@ -327,7 +422,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/80 {
     color: #334155;
   }
@@ -338,7 +445,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/75,
   :root:not(.dark) :not(
     .preserve-white-text *, .preserve-white-text,
@@ -346,7 +465,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/70,
   :root:not(.dark) :not(
     .preserve-white-text *, .preserve-white-text,
@@ -354,7 +485,19 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/60 {
     color: #475569;
   }
@@ -365,20 +508,32 @@
     .hero-dark-overlay *, .hero-dark-overlay,
     .btn-primary *, .btn-primary,
     .bg-primary *, .bg-primary,
-    .map-canvas-container *, .map-canvas-container
+    .map-canvas-container *, .map-canvas-container,
+    [class*="bg-black"] *, [class*="bg-black"],
+    [class*="bg-slate-9"] *, [class*="bg-slate-9"],
+    [class*="bg-slate-8"] *, [class*="bg-slate-8"],
+    [class*="bg-[#0"] *, [class*="bg-[#0"],
+    [class*="bg-[#1"] *, [class*="bg-[#1"],
+    [class*="bg-amber-9"] *, [class*="bg-amber-9"],
+    [class*="bg-emerald-9"] *, [class*="bg-emerald-9"],
+    [class*="bg-rose-9"] *, [class*="bg-rose-9"],
+    [class*="bg-blue-9"] *, [class*="bg-blue-9"],
+    [class*="bg-sky-9"] *, [class*="bg-sky-9"],
+    [style*="radial-gradient"] *, [style*="radial-gradient"],
+    [style*="linear-gradient"] *, [style*="linear-gradient"]
   ).text-white\/50 {
     color: #64748B;
   }
 
-  :root:not(.dark) .border-white\/10,
-  :root:not(.dark) .border-white\/6,
-  :root:not(.dark) .border-white\/5 {
+  :root:not(.dark) .border-white\/10:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]),
+  :root:not(.dark) .border-white\/6:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]),
+  :root:not(.dark) .border-white\/5:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]) {
     border-color: rgba(15, 23, 42, 0.08);
   }
 
-  :root:not(.dark) .border-white\/15,
-  :root:not(.dark) .border-white\/20,
-  :root:not(.dark) .border-white\/25 {
+  :root:not(.dark) .border-white\/15:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]),
+  :root:not(.dark) .border-white\/20:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]),
+  :root:not(.dark) .border-white\/25:not([class*="bg-black"], [class*="bg-slate-9"], [class*="bg-[#0"], [class*="bg-[#1"]) {
     border-color: rgba(15, 23, 42, 0.14);
   }
 
@@ -446,52 +601,6 @@
   }
 }
 
-/* ─── Hero Atmospheric Fog & Film Grain (from travelglb) ────────── */
-@keyframes fogFloat {
-  0%   { transform: translateX(-10%) scale(1);    opacity: 0.2; }
-  50%  { transform: translateX(5%)   scale(1.08); opacity: 0.4; }
-  100% { transform: translateX(-10%) scale(1);    opacity: 0.2; }
-}
-
-@keyframes filmGrain {
-  0%, 100% { transform: translate(0, 0); }
-  10%  { transform: translate(-1%, -1%); }
-  20%  { transform: translate(1%,  1%); }
-  30%  { transform: translate(-2%, -2%); }
-  40%  { transform: translate(1%, -1%); }
-  50%  { transform: translate(-1%, 1%); }
-  60%  { transform: translate(2%, -2%); }
-  70%  { transform: translate(-1%, 2%); }
-  80%  { transform: translate(-2%, -1%); }
-  90%  { transform: translate(1%, -2%); }
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateY(0); opacity: 0.6; }
-  50% { transform: translateY(6px); opacity: 1; }
-}
-
-.fog-layer {
-  position: absolute;
-  inset: -20%;
-  background:
-    radial-gradient(ellipse at 50% 80%, rgba(200, 220, 255, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 20% 60%, rgba(200, 220, 255, 0.05) 0%, transparent 50%);
-  animation: fogFloat 28s ease-in-out infinite;
-  pointer-events: none;
-  will-change: opacity, transform;
-}
-
-.grain-overlay {
-  position: absolute;
-  inset: -50%;
-  opacity: 0.024;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  animation: filmGrain 8s steps(6) infinite;
-  pointer-events: none;
-  will-change: transform;
-}
-
 /* ── Offline Print & Expedition Paper Guide Stylesheet ───────── */
 @media print {
   /* Hide non-printable web UI */
@@ -501,9 +610,7 @@
   .no-print,
   button,
   [data-print="hide"],
-  .theme-toggle,
-  .grain-overlay,
-  .fog-layer {
+  .theme-toggle {
     display: none !important;
   }
 

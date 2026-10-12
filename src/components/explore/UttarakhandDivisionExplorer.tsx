@@ -287,8 +287,9 @@ export function UttarakhandDivisionExplorer({
                 >
                   <div className="space-y-3 max-w-2xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                        🛕 Dedicated Sacred Place
+                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
+                        Dedicated Sacred Circuit
                       </span>
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-blue-500/15 text-blue-400 border border-blue-500/30">
                         4 Shrines • 2 Itineraries
@@ -354,9 +355,9 @@ export function UttarakhandDivisionExplorer({
                         <Link
                           key={p.id}
                           href={`/explore/${state}/${sub.id}/${p.id}`}
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.1] border border-foreground/[0.08] hover:border-foreground/[0.22] text-foreground/75 hover:text-foreground transition-all duration-200"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-lg bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/[0.08] hover:border-foreground/[0.2] text-foreground/80 hover:text-foreground transition-all duration-200"
                         >
-                          <span>{p.emoji}</span>
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
                           <span>{p.name}</span>
                         </Link>
                       ))}

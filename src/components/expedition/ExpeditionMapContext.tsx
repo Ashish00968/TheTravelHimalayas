@@ -44,7 +44,7 @@ export function ExpeditionMapContext({
         <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10" />
       </div>
 
-      <div className="relative rounded-3xl p-6 sm:p-10 bg-gradient-to-br from-slate-900 via-[#080e1a] to-[#040812] text-white border border-white/15 shadow-2xl overflow-hidden group dark-photo-card preserve-white-text">
+      <div className="relative rounded-3xl p-6 sm:p-10 bg-gradient-to-br from-slate-900 via-[#0C1017] to-[#07090E] text-white border border-white/15 shadow-2xl overflow-hidden group dark-photo-card preserve-white-text">
         {/* Subtle Map Grid Motif */}
         <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#3B82F6_1px,transparent_1px)] [background-size:24px_24px]" />
         <div className="absolute -right-16 -bottom-16 w-80 h-80 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: style.glow }} />

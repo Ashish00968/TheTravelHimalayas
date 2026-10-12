@@ -10,8 +10,8 @@ export function Footer() {
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[140px] pointer-events-none opacity-20 bg-primary/20"
       />
       
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-8 mb-16">
           
           {/* Brand & Mission (Col 1-5) */}
           <div className="lg:col-span-5 pr-0 lg:pr-12">
@@ -150,8 +150,10 @@ export function Footer() {
               { name: "Hampta Pass (4,270m)", href: "/explore/himachal-pradesh/kullu/hampta-pass" },
               { name: "Beas Kund (3,700m)", href: "/explore/himachal-pradesh/kullu/beas-kund" },
               { name: "Patalsu Peak (4,261m)", href: "/explore/himachal-pradesh/kullu/patalsu-peak" },
+              { name: "Jogni Falls (2,280m)", href: "/explore/himachal-pradesh/kullu/jogni-falls" },
               { name: "Bhrigu Lake (4,300m)", href: "/explore/himachal-pradesh/kullu/bhrigu-lake" },
               { name: "Pin Parvati Pass (5,319m)", href: "/explore/himachal-pradesh/kullu/pin-parvati-pass" },
+              { name: "Vaishno Devi (1,585m)", href: "/explore/jammu-kashmir/jammu/vaishno-devi" },
               { name: "Valley of Flowers (3,658m)", href: "/explore/uttarakhand/chamoli/valley-of-flowers" },
               { name: "Garhwal Char Dham (3,584m)", href: "/explore/uttarakhand/garhwal/char-dham" },
               { name: "Roopkund Lake (4,800m)", href: "/explore/uttarakhand/chamoli/roopkund-trek" },

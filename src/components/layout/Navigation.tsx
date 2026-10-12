@@ -48,6 +48,7 @@ export function Navigation() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSavedOpen, setIsSavedOpen] = useState(false);
+  const [hasOpenedSaved, setHasOpenedSaved] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { count: savedCount } = useSavedExpeditions();
@@ -92,7 +93,7 @@ export function Navigation() {
           <nav 
             className={`flex items-center justify-between px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-full transition-all duration-500 ${
               scrolled
-                ? "glass-capsule shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
+                ? "glass-capsule shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
                 : "bg-transparent border border-transparent"
             }`}
           >
@@ -152,7 +153,10 @@ export function Navigation() {
 
               {/* Saved Expeditions Trigger Button */}
               <button
-                onClick={() => setIsSavedOpen(true)}
+                onClick={() => {
+                  setHasOpenedSaved(true);
+                  setIsSavedOpen(true);
+                }}
                 className="relative p-2 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 text-foreground/70 hover:text-foreground transition-all duration-200 shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={`Saved expeditions (${savedCount})`}
                 title="View saved expeditions"
@@ -251,10 +255,9 @@ export function Navigation() {
                       prefetch={false}
                       onClick={() => setIsMobileOpen(false)}
                       className="p-3.5 rounded-2xl bg-foreground/[0.03] hover:bg-foreground/[0.07] border border-foreground/[0.08] flex items-center gap-2.5 text-xs font-semibold transition-all active:scale-[0.98]"
-                      style={{ color: t.accent }}
                     >
-                      <span className="text-base">{t.emoji}</span>
-                      <span className="font-display font-bold">{t.label}</span>
+                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: t.accent }} />
+                      <span className="font-display font-bold text-slate-900 dark:text-white">{t.label}</span>
                     </Link>
                   ))}
                 </div>
@@ -266,6 +269,7 @@ export function Navigation() {
                 <button
                   onClick={() => {
                     setIsMobileOpen(false);
+                    setHasOpenedSaved(true);
                     setIsSavedOpen(true);
                   }}
                   className="w-full flex items-center justify-between py-3.5 text-base font-display font-medium text-foreground/75 hover:text-foreground active:text-primary transition-colors text-left"
@@ -328,8 +332,10 @@ export function Navigation() {
       {/* Global Search Modal */}
       {isSearchOpen && <SearchModal onClose={() => setIsSearchOpen(false)} />}
 
-      {/* Client-Side Saved Expeditions Drawer */}
-      <SavedExpeditionsDrawer isOpen={isSavedOpen} onClose={() => setIsSavedOpen(false)} />
+      {/* Client-Side Saved Expeditions Drawer — Defer load until requested */}
+      {hasOpenedSaved && (
+        <SavedExpeditionsDrawer isOpen={isSavedOpen} onClose={() => setIsSavedOpen(false)} />
+      )}
     </>
   );
 }

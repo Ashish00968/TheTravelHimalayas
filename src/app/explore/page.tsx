@@ -3,7 +3,7 @@ import Link from "next/link";
 import { himalayaAtlas } from "@/data/atlas";
 import { ExploreDirectory, ExplorePlaceItem } from "@/components/explore/ExploreDirectory";
 import { ExploreTerritoriesTree } from "@/components/explore/ExploreTerritoriesTree";
-import { Map, Mountain, Compass, ShieldCheck, Sparkles } from "lucide-react";
+import { Map, Mountain, Compass, ShieldCheck, Footprints } from "lucide-react";
 import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
@@ -120,7 +120,7 @@ export default function ExplorePage() {
               <span className="text-foreground/90 font-semibold">{totalValleys} Sub-Regions &amp; Valleys</span>
             </div>
             <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">
-              <Sparkles className="w-4 h-4 text-[#0D9488]" />
+              <Footprints className="w-4 h-4 text-[#0D9488]" />
               <span className="text-foreground/90 font-semibold">{allPlaces.length} Verified Routes</span>
             </div>
             <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/60 dark:bg-white/[0.03] border border-foreground/[0.08]">

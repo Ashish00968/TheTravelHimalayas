@@ -200,7 +200,7 @@ export function TrekRouteMap({
         <motion.div 
           whileHover={shouldReduceMotion ? undefined : { borderColor: `${style.accent}40` }}
           transition={{ duration: 0.3 }}
-          className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 dark:from-[#080e1a] dark:to-[#040812] border border-slate-800 dark:border-white/10 shadow-xl dark:shadow-2xl transition-all preserve-white-text dark-photo-card"
+          className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 dark:from-[#0C1017] dark:to-[#07090E] border border-slate-800 dark:border-white/10 shadow-xl dark:shadow-2xl transition-all preserve-white-text dark-photo-card"
         >
           <div className="relative z-10 max-w-xl">
             <span 

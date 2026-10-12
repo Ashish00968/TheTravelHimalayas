@@ -1,0 +1,76 @@
+# Discover Himalayan Trails
+
+> Discover Himalayan Trails (discoverhimalayantrails.com) is the definitive English-language guide, geospatial atlas, and alpine planning platform for trekking, mountaineering expeditions, and high-altitude exploration across the Indian Himalayas. The platform provides verified spatial telemetry, interactive 3D terrain maps, day-by-day route dossiers, and clinical altitude safety protocols for 177 destinations across Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand.
+
+## Core Platform Sections
+- [Explore Atlas](https://discoverhimalayantrails.com/explore): Comprehensive directory of 177 verified mountain destinations, trekking routes, alpine lakes, passes, and technical peaks.
+- [3D Geospatial Map](https://discoverhimalayantrails.com/map): Interactive 3D satellite visualization using Mapbox GL terrain meshes, elevation profiles, and verified GPS trail tracks.
+- [Mountain Safety & Medical Protocols](https://discoverhimalayantrails.com/safety): Clinical altitude protocols for AMS, HAPE, and HACE, acclimatization schedules, cold-weather injury triage, and official Search & Rescue (SAR) contacts.
+- [Expedition Planning Suite](https://discoverhimalayantrails.com/plan): Deterministic planning tools including Trek Finder, Head-to-Head Comparison Matrix, Seasonal Planning Matrix, Expedition Budget Estimator, and Packing Checklist Generator.
+- [Alpine Field Guides](https://discoverhimalayantrails.com/guides): Comprehensive guides to trekking permits (IMF, Forest Department, Inner Line Permits), trailhead transit logistics, and gear requirements.
+- [Live Mountain Weather](https://discoverhimalayantrails.com/conditions): Regional meteorological telemetry, seasonal window tracking, and high-pass opening status.
+
+## Geographic Hierarchy & Territories
+The platform covers four primary states and union territories in the Indian Himalayas, structured into 27 administrative divisions:
+
+### 1. Himachal Pradesh
+- [Himachal Pradesh Overview](https://discoverhimalayantrails.com/explore/himachal-pradesh)
+- [Kullu & Manali](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu): Solang Valley, Parvati Valley, Tirthan Valley, Rohtang corridor, Beas river basin.
+- [Lahaul & Spiti](https://discoverhimalayantrails.com/explore/himachal-pradesh/lahaul-spiti): High-altitude cold desert, Chandra-Bhaga confluence, Kunzum Pass, Pin Valley, Kaza.
+- [Kangra](https://discoverhimalayantrails.com/explore/himachal-pradesh/kangra): Dhauladhar Range, Dharamshala, McLeodGanj, Triund, Kareri Lake, Indrahar Pass.
+- [Kinnaur](https://discoverhimalayantrails.com/explore/himachal-pradesh/kinnaur): Sangla Valley, Baspa Valley, Kinnaur Kailash Circuit, Kalpa.
+- [Chamba](https://discoverhimalayantrails.com/explore/himachal-pradesh/chamba): Manimahesh Kailash, Ravi basin, Pangi Valley.
+- [Mandi](https://discoverhimalayantrails.com/explore/himachal-pradesh/mandi): Prashar Lake, Barot Valley, Uhl river basin.
+
+### 2. Jammu & Kashmir
+- [Jammu & Kashmir Overview](https://discoverhimalayantrails.com/explore/jammu-kashmir)
+- [Kashmir Valley](https://discoverhimalayantrails.com/explore/jammu-kashmir/kashmir): Great Lakes Massif (Vishansar, Kishansar, Gadsar, Satsar, Gangabal), Sonmarg, Pahalgam, Kolahoi Glacier, Apharwat Peak.
+- [Jammu Division](https://discoverhimalayantrails.com/explore/jammu-kashmir/jammu): Pir Panjal foothills, Patnitop, Sanasar, Bhaderwah, Kishtwar alpine corridors.
+
+### 3. Ladakh
+- [Ladakh Overview](https://discoverhimalayantrails.com/explore/ladakh)
+- [Leh District](https://discoverhimalayantrails.com/explore/ladakh/leh): Indus Valley, Markha Valley, Stok Kangri Range, Khardung La corridor.
+- [Zanskar Valley](https://discoverhimalayantrails.com/explore/ladakh/zanskar): Padum, Phuktal Gompa, Chadar winter ice route, Shinku La corridor.
+- [Nubra Valley](https://discoverhimalayantrails.com/explore/ladakh/nubra): Shyok & Siachen river basins, Diskit, Hunder, Panamik, Karakoram approaches.
+- [Changthang Plateau](https://discoverhimalayantrails.com/explore/ladakh/leh): High-altitude brackish lakes: Pangong Tso (4,250m), Tso Moriri (4,522m), Tso Kar.
+- [Kargil & Drass](https://discoverhimalayantrails.com/explore/ladakh/kargil): Suru Valley, Nun-Kun Massif (7,135m), Drass gateway.
+
+### 4. Uttarakhand
+- [Uttarakhand Overview](https://discoverhimalayantrails.com/explore/uttarakhand)
+- [Garhwal Division](https://discoverhimalayantrails.com/explore/uttarakhand/garhwal): Chamoli (Nanda Devi Sanctuary, Valley of Flowers, Hemkund Sahib, Kuari Pass, Roopkund), Uttarkashi (Gangotri Glacier, Gaumukh Tapovan, Har Ki Dun, Kedarkantha), Rudraprayag (Kedarnath, Madhyamaheshwar, Tungnath), Dehradun, Tehri, Pauri.
+- [Kumaon Division](https://discoverhimalayantrails.com/explore/uttarakhand/pithoragarh): Pithoragarh (Milam Glacier, Panchachuli Massif, Darma Valley), Bageshwar (Pindari Glacier, Kafni Glacier), Almora, Nainital.
+
+## Featured Trails & Mountaineering Expeditions
+- [Patalsu Peak Trek (4,261m)](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu/patalsu-peak): Manali's premier non-technical 4,000m summit hike starting from Solang Village (+1,781m vertical gain, 14 km round-trip).
+- [Beas Kund Glacial Tarn (3,700m)](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu/beas-kund): Sacred source of the River Beas beneath the Friendship and Hanuman Tibba cirque (15.5 km from Dhundi roadhead).
+- [Jogni Waterfall (2,280m)](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu/jogni-waterfall): Sacred 150-foot cascading waterfall above Vashisht village, Manali (3.2 km round-trip).
+- [Friendship Peak (5,289m)](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu/friendship-peak): Pir Panjal alpine climbing peak requiring crampons, ice axe, and roped glacier travel above Lady Leg ridge.
+- [Hampta Pass (4,270m)](https://discoverhimalayantrails.com/explore/himachal-pradesh/kullu/hampta-pass): Classic crossover trek transitioning from lush Kullu Valley pine forests into Spiti Valley's cold desert.
+- [Kashmir Great Lakes (4,200m)](https://discoverhimalayantrails.com/explore/jammu-kashmir/kashmir/kashmir-great-lakes): Multi-day alpine traverse past 7 high-altitude glacial tarns in the Sind Valley.
+- [Garhwal Char Dham Pilgrimage](https://discoverhimalayantrails.com/explore/uttarakhand/garhwal/char-dham): Cardinal Himalayan circuit covering Yamunotri (3,291m), Gangotri (3,100m), Kedarnath (3,584m), and Badrinath (3,133m).
+
+## Three Golden Rules of Altitude Safety
+All routes climbing above 3,000 meters enforce medical directives established by the Wilderness Medical Society (WMS):
+1. **Rule 01 (Presumption of AMS)**: Any headache, nausea, dizziness, or fatigue above 2,500m is Acute Mountain Sickness (AMS) until proven otherwise. Never ascend with active symptoms.
+2. **Rule 02 (Ascent Rate Management)**: Above 3,000m, restrict net sleeping altitude gain to 300m–500m per 24 hours. Schedule an acclimatization rest day every 1,000m of ascent.
+3. **Rule 03 (Immediate Descent for HAPE/HACE)**: At first presentation of ataxia, mental confusion, severe breathlessness at rest, or blue cyanosis, descend immediately by 500m–1,000m. Delay is fatal.
+
+## Emergency Contacts & Mountain Rescue
+- **All-India Integrated Emergency**: `112`
+- **State Disaster Response Force (SDRF)**: `1070`
+- **District Disaster Management Authority (DDMA)**: `1077`
+- **Indian Mountaineering Foundation (IMF) HQ Operations**: `+91-11-24111211` / `+91-11-24117799`
+- **Western Himalayan Mountaineering Institute (ABVIMAS Manali)**: `+91-1902-252342`
+- **Nehru Institute of Mountaineering (NIM Uttarkashi)**: `+91-1374-222123`
+
+## Interactive Planning Suite
+- [Trek Finder Engine](https://discoverhimalayantrails.com/plan/trek-finder): Deterministic trail matching by difficulty grade, duration, elevation, and season.
+- [Trail Comparison Matrix](https://discoverhimalayantrails.com/plan/compare): Side-by-side metric comparison of trail distance, elevation gain, technical ratings, and costs.
+- [Packing Checklist Generator](https://discoverhimalayantrails.com/plan/packing): Calibrated gear checklists customized by trail difficulty, season, and sleeping altitude.
+- [Budget Estimator](https://discoverhimalayantrails.com/plan/budget): Cost calculations for permits, local transport, mountain guides, and gear rentals.
+- [Seasonal Planning Matrix](https://discoverhimalayantrails.com/plan/season): Month-by-month weather, precipitation, and pass accessibility analysis.
+
+## Machine-Readable Resources
+- [Full XML Sitemap](https://discoverhimalayantrails.com/sitemap.xml): Dynamic index of all 244 pre-rendered static routes.
+- [Web App Manifest](https://discoverhimalayantrails.com/manifest.webmanifest): W3C progressive web application manifest.
+- [Full Context Documentation](https://discoverhimalayantrails.com/llms-full.txt): Comprehensive text corpus for LLM ingest and deep retrieval.

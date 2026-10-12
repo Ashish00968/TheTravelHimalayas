@@ -37,26 +37,26 @@ export function ExpeditionProfile({
         >
           Mountain Profile
         </span>
-        <div className="h-px flex-1 bg-white/10" />
+        <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10" />
       </div>
 
       <h2
         id="mountain-profile-heading"
-        className="font-display font-bold text-2xl sm:text-4xl text-white tracking-tight"
+        className="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white tracking-tight"
       >
         The Mountain: {peak.title}
       </h2>
-      <p className="text-slate-400 font-mono text-xs uppercase tracking-wider">
+      <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-wider">
         {subRegionName}, {regionName} Range
       </p>
 
-      <div className="space-y-4 text-slate-300 font-light text-base sm:text-lg leading-relaxed">
+      <div className="space-y-4 text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg leading-relaxed">
         {paragraphs.map((para, idx) => (
           <p
             key={idx}
             className={
               idx === 0
-                ? "first-letter:font-display first-letter:text-4xl sm:first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left first-letter:text-white"
+                ? "first-letter:font-display first-letter:text-4xl sm:first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left first-letter:text-slate-900 dark:first-letter:text-white"
                 : ""
             }
           >

@@ -82,27 +82,27 @@ export function ExpeditionGear({
 
         <h2
           id="expedition-gear-heading"
-          className="font-display font-bold text-2xl sm:text-4xl text-white tracking-tight mb-2"
+          className="font-display font-bold text-2xl sm:text-4xl text-slate-900 dark:text-white tracking-tight mb-2"
         >
           Technical Equipment &amp; High-Camp Systems
         </h2>
-        <p className="text-slate-400 font-light text-sm sm:text-base">
+        <p className="text-slate-600 dark:text-slate-400 font-light text-sm sm:text-base">
           Mandatory alpine climbing systems for {peak.title}. Distinct from standard hiking checklists.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 1. Personal Alpine Equipment */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#080e1a] border border-white/10 shadow-2xl space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-2xl space-y-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/[0.05] border border-white/10">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-white/[0.05] border border-slate-200/80 dark:border-white/10">
               <Shield className="w-5 h-5" style={{ color: style.accent }} />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                 System 01
               </span>
-              <h3 className="font-display font-bold text-base text-white">
+              <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">
                 Personal Alpine Gear
               </h3>
             </div>
@@ -110,8 +110,8 @@ export function ExpeditionGear({
 
           <ul className="space-y-3">
             {personalAlpine.map((item, idx) => (
-              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-300 leading-snug">
-                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-400" />
+              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-700 dark:text-slate-300 leading-snug">
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-500 dark:text-emerald-400" />
                 <span>{item}</span>
               </li>
             ))}
@@ -119,16 +119,16 @@ export function ExpeditionGear({
         </div>
 
         {/* 2. Technical Systems */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#080e1a] border border-white/10 shadow-2xl space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-2xl space-y-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/[0.05] border border-white/10">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-white/[0.05] border border-slate-200/80 dark:border-white/10">
               <Hammer className="w-5 h-5" style={{ color: style.accent }} />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                 System 02
               </span>
-              <h3 className="font-display font-bold text-base text-white">
+              <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">
                 Technical Systems
               </h3>
             </div>
@@ -141,8 +141,8 @@ export function ExpeditionGear({
               "Crevasse rescue pulleys & friction hitches",
               "Ascenders (Jumars) & rappel gear",
             ]).map((item, idx) => (
-              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-300 leading-snug">
-                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-400" />
+              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-700 dark:text-slate-300 leading-snug">
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-500 dark:text-emerald-400" />
                 <span>{item}</span>
               </li>
             ))}
@@ -150,16 +150,16 @@ export function ExpeditionGear({
         </div>
 
         {/* 3. Camp Systems */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#080e1a] border border-white/10 shadow-2xl space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-2xl space-y-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/[0.05] border border-white/10">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-white/[0.05] border border-slate-200/80 dark:border-white/10">
               <Tent className="w-5 h-5" style={{ color: style.accent }} />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                 System 03
               </span>
-              <h3 className="font-display font-bold text-base text-white">
+              <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">
                 High-Camp Systems
               </h3>
             </div>
@@ -172,8 +172,8 @@ export function ExpeditionGear({
               "High-altitude liquid fuel stove",
               "Snow shovel & avalanche probe",
             ]).map((item, idx) => (
-              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-300 leading-snug">
-                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-400" />
+              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-light text-slate-700 dark:text-slate-300 leading-snug">
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-500 dark:text-emerald-400" />
                 <span>{item}</span>
               </li>
             ))}

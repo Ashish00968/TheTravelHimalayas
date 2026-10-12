@@ -87,7 +87,7 @@ export function ExpeditionHero({
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[90vh] lg:min-h-[94vh] w-full flex flex-col justify-between overflow-hidden bg-[#040812] dark-photo-card preserve-white-text"
+      className="relative min-h-[90vh] lg:min-h-[94vh] w-full flex flex-col justify-between overflow-hidden bg-[#07090E] dark-photo-card preserve-white-text"
       aria-label={`${peak.title} Peak Expedition Hero`}
     >
       {/* Background: Authentic Mountaineering Photography (if provided) OR High-Altitude Alpine Midnight Canvas */}
@@ -105,12 +105,14 @@ export function ExpeditionHero({
             className="object-cover object-center hero-wallpaper-img brightness-90 saturate-110"
           />
           {/* Layered Technical Vignettes */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-[#040812]/55 to-transparent z-[1]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-[#040812]/90 z-[1]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(4,8,18,0.75)_100%)] z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07090E] via-[#07090E]/55 to-transparent z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-[#07090E]/90 z-[1]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(7,9,14,0.75)_100%)] z-[1]" />
+          {/* Feathered bottom horizon melt */}
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent z-[2]" />
         </motion.div>
       ) : (
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#040812] pointer-events-none">
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[#07090E] pointer-events-none">
           {/* High-Altitude Territory Ambient Aurora */}
           <div
             className="absolute -top-36 left-1/2 -translate-x-1/2 w-[120vw] sm:w-[960px] h-[580px] rounded-full blur-[150px] opacity-25"
@@ -141,14 +143,14 @@ export function ExpeditionHero({
               <defs>
                 <linearGradient id="expMountainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor={style.accent} stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#040812" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#07090E" stopOpacity="0.95" />
                 </linearGradient>
               </defs>
             </svg>
           </div>
 
           {/* Feathered bottom horizon melt */}
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#040812] via-[#040812]/80 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 dark:to-transparent" />
         </div>
       )}
 

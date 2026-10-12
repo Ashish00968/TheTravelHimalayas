@@ -152,11 +152,11 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               onClick={() => setSelectedCategory(tab.id)}
               className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-medium tracking-wide whitespace-nowrap transition-all duration-300 border ${
                 isActive
-                  ? "bg-primary text-white border-primary shadow-[0_4px_16px_rgba(37,99,235,0.3)] font-bold"
+                  ? "bg-slate-900 text-white dark:bg-sky-500/20 dark:text-sky-200 dark:border-sky-400/50 shadow-sm font-bold"
                   : "glass-capsule text-foreground/75 hover:text-foreground hover:bg-foreground/[0.06] border-foreground/[0.08]"
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-primary"}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white dark:text-sky-300" : "text-sky-500 dark:text-sky-400"}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -165,9 +165,9 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
 
       {/* Control Bar: Search & Sub-filters */}
       <div 
-        className="p-5 md:p-6 rounded-3xl mb-10 glass-museum-card border border-foreground/[0.08]"
+        className="p-4 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl mb-8 sm:mb-10 glass-museum-card border border-foreground/[0.08]"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-center">
           {/* Search Input */}
           <div className="lg:col-span-5 relative">
             <Search className="w-4 h-4 text-foreground/40 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -176,12 +176,12 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search trails, peaks, valleys, or passes..."
-              className="w-full pl-11 pr-10 py-3 rounded-2xl text-sm text-foreground placeholder:text-foreground/40 bg-background border border-foreground/[0.1] focus:outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/15"
+              className="w-full pl-11 pr-10 py-3 min-h-[44px] rounded-2xl text-base sm:text-xs text-foreground placeholder:text-foreground/40 bg-background border border-foreground/[0.1] focus:outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/15"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground p-1 min-w-[36px] min-h-[36px] flex items-center justify-center"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -193,7 +193,7 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={selectedTerritory}
               onChange={(e) => setSelectedTerritory(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
+              className="w-full px-4 py-3 min-h-[44px] rounded-2xl text-base sm:text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
               {TERRITORY_FILTERS.map((t) => (
                 <option key={t.id} value={t.id} className="bg-background text-foreground">
@@ -208,7 +208,7 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
+              className="w-full px-4 py-3 min-h-[44px] rounded-2xl text-base sm:text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
               <option value="all" className="bg-background text-foreground">All Difficulties</option>
               <option value="Easy" className="bg-background text-foreground">Easy / Beginner</option>
@@ -222,7 +222,7 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "featured" | "elevation" | "alpha")}
-              className="w-full px-4 py-3 rounded-2xl text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
+              className="w-full px-4 py-3 min-h-[44px] rounded-2xl text-base sm:text-xs text-foreground bg-background border border-foreground/[0.1] focus:outline-none transition-all cursor-pointer"
             >
               <option value="featured" className="bg-background text-foreground">Sort: Featured</option>
               <option value="elevation" className="bg-background text-foreground">Highest Altitude</option>
@@ -287,17 +287,12 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
               <Link
                 key={place.href || `${place.regionName}-${place.subRegionName}-${place.id}`}
                 href={place.href}
-                className="group relative rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden glass-museum-card shadow-lg border-t-2"
-                style={{
-                  borderTopColor: style.accent,
-                }}
+                className="group relative rounded-2xl p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between overflow-hidden bg-white dark:bg-[#111622] border border-slate-200/90 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 shadow-sm hover:shadow-xl hover:-translate-y-1"
               >
                 <div>
                   {/* Image preview banner */}
                   {imageSrc ? (
-                    <div 
-                      className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 bg-muted/40 border border-foreground/[0.08]"
-                    >
+                    <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden mb-4 bg-muted/40 border border-slate-200/60 dark:border-white/[0.08]">
                       <Image
                         src={imageSrc}
                         alt={`${place.name} (${place.elevation || ""}) — ${place.type} trail in ${place.subRegionName || ""}, ${place.regionName || ""}`.replace(/\s+/g, " ").trim()}
@@ -305,108 +300,110 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+                      {/* Top Overlay Badges */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-950/80 backdrop-blur-md text-white border border-white/20 shadow-sm preserve-white-text">
+                          {categoryBadge}
+                        </span>
+                        {place.difficulty && (
+                          <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-md border shadow-sm preserve-white-text ${
+                            place.difficulty.toLowerCase().includes("diff")
+                              ? "bg-rose-950/85 text-rose-200 border-rose-500/40"
+                              : place.difficulty.toLowerCase().includes("mod")
+                              ? "bg-amber-950/85 text-amber-200 border-amber-500/40"
+                              : "bg-emerald-950/85 text-emerald-200 border-emerald-500/40"
+                          }`}>
+                            {place.difficulty}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Bottom Overlay: Elevation */}
+                      {place.elevation && (
+                        <div className="absolute bottom-2.5 left-3 pointer-events-none">
+                          <span className="text-[11px] font-mono font-bold text-white px-2.5 py-0.5 rounded bg-slate-950/80 backdrop-blur-md border border-white/20 shadow-sm preserve-white-text inline-flex items-center gap-1.5">
+                            <TrendingUp className="w-3 h-3 text-sky-400" />
+                            {place.elevation}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ) : (
-                    <div 
-                      className="relative w-full h-24 rounded-2xl overflow-hidden mb-5 flex items-center justify-between px-5 border border-foreground/[0.08]"
-                      style={{ 
-                        background: `linear-gradient(135deg, ${style.accent}15 0%, var(--bg-surface) 100%)`,
-                      }}
-                    >
-                      <span className="text-3xl drop-shadow-md">{place.emoji}</span>
-                      <span 
-                        className="font-mono text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-                        style={{ color: style.accent, background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
-                      >
-                        {categoryBadge}
-                      </span>
+                    <div className="relative w-full h-32 rounded-xl overflow-hidden mb-4 p-4 flex flex-col justify-between bg-slate-100 dark:bg-[#121722] border border-slate-200/80 dark:border-white/10">
+                      {/* Topographic pattern background */}
+                      <div className="absolute inset-0 opacity-[0.07] dark:opacity-[0.14] pointer-events-none">
+                        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <pattern id={`topo-${place.id}`} width="24" height="24" patternUnits="userSpaceOnUse">
+                              <circle cx="12" cy="12" r="1" fill="currentColor" />
+                              <path d="M 0 12 H 24 M 12 0 V 24" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 4" />
+                            </pattern>
+                          </defs>
+                          <rect width="100%" height="100%" fill={`url(#topo-${place.id})`} />
+                        </svg>
+                      </div>
+
+                      <div className="relative z-10 flex items-center justify-between">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-200/80 dark:bg-white/10 text-slate-800 dark:text-slate-200 border border-slate-300/80 dark:border-white/10">
+                          {categoryBadge}
+                        </span>
+                        {place.elevation && (
+                          <span className="font-mono text-xs font-bold text-slate-900 dark:text-white">
+                            {place.elevation}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="relative z-10 font-mono text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        Topographic Survey &bull; {place.subRegionName}
+                      </div>
                     </div>
                   )}
 
-                  {/* Badges Row */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span 
-                        className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                        style={{ 
-                          color: style.accent, 
-                          background: `${style.accent}15`, 
-                          border: `1px solid ${style.accent}30` 
-                        }}
-                      >
-                        {place.regionName}
-                      </span>
-                      <span 
-                        className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-foreground/70 bg-foreground/[0.05] border border-foreground/[0.08]"
-                      >
-                        {categoryBadge}
-                      </span>
-                    </div>
-
-                    <span 
-                      className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-foreground/60 bg-muted/60 border border-foreground/[0.08]"
-                    >
-                      {place.subRegionName}
-                    </span>
+                  {/* Territory & Valley Overline */}
+                  <div className="flex items-center gap-2 mb-2 text-[11px] font-mono tracking-wider uppercase text-foreground/70">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: style.accent }} />
+                    <span className="font-semibold text-foreground/90">{place.regionName}</span>
+                    <span className="opacity-40">•</span>
+                    <span className="truncate">{place.subRegionName}</span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
-                    <span>{place.emoji}</span>
-                    <span>{place.name}</span>
+                  {/* Clean Editorial Title (No cartoon emoji) */}
+                  <h3 className="font-display tracking-tight font-bold text-xl sm:text-2xl text-foreground mb-2 group-hover:text-primary transition-colors leading-snug">
+                    {place.name}
                   </h3>
 
-                  {/* Overview */}
+                  {/* Field Overview */}
                   {place.overview && (
-                    <p className="text-foreground/70 text-sm line-clamp-2 leading-relaxed mb-6 font-light">
+                    <p className="text-foreground/75 text-sm line-clamp-2 leading-relaxed mb-5 font-light">
                       {place.overview}
                     </p>
                   )}
                 </div>
 
                 {/* Footer Metrics */}
-                <div 
-                  className="pt-4 mt-auto border-t border-foreground/[0.08] flex items-center justify-between text-xs"
-                >
-                  <div className="flex items-center gap-3">
-                    {place.elevation && (
-                      <span className="inline-flex items-center gap-1 font-mono text-foreground/75 font-medium">
-                        <TrendingUp className="w-3 h-3 text-foreground/40" />
-                        {place.elevation}
-                      </span>
-                    )}
-
+                <div className="pt-3.5 mt-auto border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-3 text-foreground/70">
                     {place.duration && (
-                      <span className="inline-flex items-center gap-1 font-mono text-foreground/60">
-                        <Clock className="w-3 h-3 text-foreground/30" />
-                        {place.duration}
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-foreground/45" />
+                        <span>{place.duration}</span>
                       </span>
                     )}
-
-                    {place.difficulty && (
-                      <span 
-                        className="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
-                        style={{
-                          background: place.difficulty.toLowerCase().includes("diff")
-                            ? "rgba(239,68,68,0.15)"
-                            : "rgba(245,158,11,0.15)",
-                          color: place.difficulty.toLowerCase().includes("diff")
-                            ? "#DC2626"
-                            : "#D97706",
-                        }}
-                      >
-                        {place.difficulty}
+                    {place.distance && (
+                      <span className="inline-flex items-center gap-1.5">
+                        <Footprints className="w-3.5 h-3.5 text-foreground/45" />
+                        <span>{place.distance}</span>
                       </span>
                     )}
                   </div>
 
-                  <div 
-                    className="w-8 h-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:translate-x-0.5 border"
-                    style={{ background: `${style.accent}15`, color: style.accent, borderColor: `${style.accent}30` }}
-                  >
-                    <ArrowUpRight className="w-4 h-4" />
-                  </div>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary group-hover:translate-x-1 transition-transform">
+                    <span>Dossier</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
               </Link>
             );
