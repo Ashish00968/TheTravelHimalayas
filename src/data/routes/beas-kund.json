@@ -1,7 +1,7 @@
 {
   "placeId": "beas-kund",
   "version": 1,
-  "source": "waymarkedtrails-osm",
+  "source": "osm",
   "sourceNote": "Ground-surveyed field GPS trace via WaymarkedTrails and OSM",
   "recordedOn": "2026-10-12",
   "verified": true,
