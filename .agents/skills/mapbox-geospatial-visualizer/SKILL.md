@@ -175,9 +175,43 @@ if (coords) {
 
 ---
 
-## 11. Reference Documentation
+---
+
+## 11. Root Marker Element Transform Immunity Rule
+
+**CRITICAL BUG PREVENTION: Never mutate `el.style.transform` on the root marker element.**
+Mapbox GL's internal marker loop continuously updates `el.style.transform = "translate3d(Xpx, Ypx, 0px)"` on every frame to pin HTML markers to physical 3D terrain coordinates.
+
+### The Immunity Rule:
+1. **Never write `el.style.transform = ...`**: If an event listener (`mouseenter`, `mouseleave`, or proximity culler) mutates `el.style.transform` (e.g. `scale(1.06) translateY(-3px)`), it **wipes out Mapbox's coordinate translation**, instantly causing the marker to fly up to `(0, 0)` or jump across the viewport ("moving up glitch").
+2. **Transform Only Inner Children**: Wrap the marker content in an inner container (`innerCard = document.createElement("div")`), append it to `el`, and apply hover scaling / transitions **only to `innerCard`** (`innerCard.style.transform = "scale(1.06) translateY(-3px)"`).
+3. **Culling via Opacity Only**: In proximity or camera distance culling, adjust only `el.style.opacity` (`1.0 -> 0.75 -> 0.25`). Never scale the root element.
+
+---
+
+## 12. High-Density Valley De-Cluttering & Two-Tier Marker LOD
+
+In dense Himalayan valleys (such as Kullu & Manali with 30+ destinations), rendering all places as 180px text capsules causes a massive unreadable overlap brick wall.
+
+### Solution Pattern (FATMAP / AllTrails Architecture):
+1. **Prominence Hierarchy**:
+   - **Tier 1 (Anchor Landmarks & Summits)**: Peaks (`type === "peak"`), Passes, and major verified trails (`patalsu-peak`, `beas-kund`, `hampta-pass`) display as prominent primary frosted capsules.
+   - **Tier 2 (Secondary Valley Points)**: Villages, roadside trailheads, and scenic viewpoints display as sleek 18px frosted category micro-coins with precision needle stems.
+2. **Pure CSS Hover Unfurl**:
+   - Micro-coins contain a collapsed content wrapper (`max-width: 0; opacity: 0`).
+   - On `mouseenter`, the micro-coin elevates to `z-index: 9999` and smoothly unfurls to reveal the full title and elevation pill (`max-width: 180px; opacity: 1`).
+   - On `mouseleave`, it cleanly furls back into the 18px coin.
+3. **Screen-Space Collision Avoidance**:
+   - When placing full capsules, project coordinates to screen space (`map.project([lng, lat])`). If a capsule collides with an existing one (within 135px horizontal, 32px vertical), it automatically collapses to a micro-coin unless selected.
+4. **Active Selection Override**:
+   - The currently selected place (`isSelected`) ALWAYS renders as a full, glowing expanded capsule with `z-index: 500` and an animated GPU pulsing radar beacon underneath.
+
+---
+
+## 13. Reference Documentation
 
 For deep technical context, refer to:
 - [`info/map/ARCHITECTURE.md`](file:///Users/apple/Documents/Discover%20H%20T/Thehimalayantrails/info/map/ARCHITECTURE.md) — Complete system architecture, layer stacks, and component specs.
 - [`info/map/ANIMATIONS_AND_PHYSICS.md`](file:///Users/apple/Documents/Discover%20H%20T/Thehimalayantrails/info/map/ANIMATIONS_AND_PHYSICS.md) — Reverse-engineering chronicle, camera math, and anti-clipping formulas.
 - [`info/map/OPERATIONS.md`](file:///Users/apple/Documents/Discover%20H%20T/Thehimalayantrails/info/map/OPERATIONS.md) — Route ingestion, developer workflows, mobile standards, and troubleshooting.
+

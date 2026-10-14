@@ -553,8 +553,7 @@
   .btn-primary *,
   .bg-primary,
   .bg-primary *,
-  .map-canvas-container,
-  .map-canvas-container * {
+  .map-canvas-container {
     color: #FFFFFF;
   }
 

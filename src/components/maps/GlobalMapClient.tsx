@@ -141,13 +141,24 @@ function getCategoryIconSvg(type: string, color: string): string {
 
 /* ── DOM Marker Builders (Museum-Grade Editorial Architecture) ───────────── */
 
-function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLElement {
+function buildPlaceMarkerEl(
+  place: HimalayaPlace,
+  isSelected = false,
+  isCompact = false
+): HTMLElement {
   const color = TYPE_COLOR[place.type] ?? "#F59E0B";
   const el = document.createElement("div");
   el.className = "group pointer-events-auto cursor-pointer place-marker-node";
   el.setAttribute("data-place-id", place.id);
-  el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out;";
+  el.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+    z-index: ${isSelected ? "500" : isCompact ? "15" : "35"};
+  `;
 
   // Extract clean altitude label if present
   const rawEle = place.elevation || (place as unknown as { altitude?: string }).altitude || "";
@@ -155,17 +166,22 @@ function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLEleme
 
   // The Frosted Glass Capsule
   const capsule = document.createElement("div");
+  capsule.className = "place-marker-capsule";
   capsule.style.cssText = `
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: ${isSelected ? "3px 10px 3px 6px" : "2.5px 8px 2.5px 5px"};
+    gap: ${isCompact && !isSelected ? "0px" : "5px"};
+    padding: ${isSelected ? "3px 10px 3px 6px" : isCompact ? "3px" : "2.5px 8px 2.5px 5px"};
     background: ${isSelected ? "rgba(4, 9, 20, 0.96)" : "rgba(6, 11, 22, 0.92)"};
-    border: 1px solid ${isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.14)"};
+    border: 1px solid ${isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.16)"};
     border-radius: 9999px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: ${isSelected ? "0 0 22px rgba(56, 189, 248, 0.55), 0 8px 20px rgba(0,0,0,0.85)" : "0 4px 16px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08)"};
+    box-shadow: ${
+      isSelected
+        ? "0 0 24px rgba(56, 189, 248, 0.6), 0 8px 20px rgba(0,0,0,0.9)"
+        : "0 4px 16px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08)"
+    };
     transform: ${isSelected ? "scale(1.08)" : "scale(1)"};
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   `;
@@ -185,6 +201,20 @@ function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLEleme
   `;
   iconBox.innerHTML = getCategoryIconSvg(place.type, color);
 
+  // Content wrapper (contains label + elevation) for smooth expand/contract
+  const contentWrapper = document.createElement("div");
+  contentWrapper.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    max-width: ${isCompact && !isSelected ? "0px" : "180px"};
+    opacity: ${isCompact && !isSelected ? "0" : "1"};
+    pointer-events: ${isCompact && !isSelected ? "none" : "auto"};
+  `;
+
   // Place Name Label
   const label = document.createElement("span");
   label.style.cssText = `
@@ -194,14 +224,12 @@ function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLEleme
     letter-spacing: 0.02em;
     color: ${isSelected ? "#38BDF8" : "#FFFFFF"};
     white-space: nowrap;
-    max-width: 145px;
+    max-width: 135px;
     overflow: hidden;
     text-overflow: ellipsis;
   `;
   label.textContent = place.name;
-
-  capsule.appendChild(iconBox);
-  capsule.appendChild(label);
+  contentWrapper.appendChild(label);
 
   // Elevation badge if available
   if (eleClean) {
@@ -218,8 +246,11 @@ function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLEleme
       letter-spacing: 0.04em;
     `;
     eleTag.textContent = eleClean;
-    capsule.appendChild(eleTag);
+    contentWrapper.appendChild(eleTag);
   }
+
+  capsule.appendChild(iconBox);
+  capsule.appendChild(contentWrapper);
 
   // Precision Needle Stem & Ground Target Anchor
   const needleSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -238,21 +269,37 @@ function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLEleme
   el.appendChild(capsule);
   el.appendChild(needleSvg);
 
-  // Hover transitions
+  // Hover transitions: smoothly unfurls compact pills and lifts z-index with zero Mapbox coordinate shift
   el.addEventListener("mouseenter", () => {
+    el.style.zIndex = "9999";
     capsule.style.borderColor = "#FFFFFF";
-    capsule.style.transform = isSelected ? "scale(1.12) translateY(-2px)" : "scale(1.05) translateY(-2px)";
-    capsule.style.boxShadow = `0 8px 24px rgba(0,0,0,0.95), 0 0 16px ${color}88`;
+    capsule.style.transform = isSelected ? "scale(1.12) translateY(-2px)" : "scale(1.06) translateY(-2px)";
+    capsule.style.boxShadow = `0 8px 24px rgba(0,0,0,0.95), 0 0 18px ${color}88`;
     label.style.color = "#FFFFFF";
+
+    if (isCompact && !isSelected) {
+      capsule.style.gap = "5px";
+      capsule.style.padding = "2.5px 8px 2.5px 5px";
+      contentWrapper.style.maxWidth = "180px";
+      contentWrapper.style.opacity = "1";
+    }
   });
 
   el.addEventListener("mouseleave", () => {
-    capsule.style.borderColor = isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.14)";
+    el.style.zIndex = isSelected ? "500" : isCompact ? "15" : "35";
+    capsule.style.borderColor = isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.16)";
     capsule.style.transform = isSelected ? "scale(1.08)" : "scale(1)";
     capsule.style.boxShadow = isSelected
-      ? "0 0 22px rgba(56, 189, 248, 0.55), 0 8px 20px rgba(0,0,0,0.85)"
+      ? "0 0 24px rgba(56, 189, 248, 0.6), 0 8px 20px rgba(0,0,0,0.85)"
       : "0 4px 16px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08)";
     label.style.color = isSelected ? "#38BDF8" : "#FFFFFF";
+
+    if (isCompact && !isSelected) {
+      capsule.style.gap = "0px";
+      capsule.style.padding = "3px";
+      contentWrapper.style.maxWidth = "0px";
+      contentWrapper.style.opacity = "0";
+    }
   });
 
   return el;
@@ -262,73 +309,78 @@ function buildSubRegionMarkerEl(name: string, count: number, accent: string): HT
   const el = document.createElement("div");
   el.className = "group pointer-events-auto cursor-pointer";
   el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);";
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer;";
 
-  el.innerHTML = `
-    <div style="display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.85));">
+  const inner = document.createElement("div");
+  inner.style.cssText =
+    "display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.85)); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: bottom center;";
+
+  inner.innerHTML = `
+    <div style="
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px 3px 6px;
+      background: rgba(6, 10, 20, 0.94);
+      border: 1px solid ${accent}80;
+      border-radius: 9999px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 0 16px ${accent}30, inset 0 1px 0 rgba(255,255,255,0.1);
+    ">
       <div style="
+        width: 18px;
+        height: 18px;
+        border-radius: 9999px;
+        background: ${accent}25;
+        border: 1px solid ${accent}60;
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 3px 10px 3px 6px;
-        background: rgba(6, 10, 20, 0.94);
-        border: 1px solid ${accent}80;
-        border-radius: 9999px;
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow: 0 0 16px ${accent}30, inset 0 1px 0 rgba(255,255,255,0.1);
+        justify-content: center;
+        flex-shrink: 0;
       ">
-        <div style="
-          width: 18px;
-          height: 18px;
-          border-radius: 9999px;
-          background: ${accent}25;
-          border: 1px solid ${accent}60;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        ">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 19 21 12 17 5 21 12 2"/>
-          </svg>
-        </div>
-
-        <span style="
-          font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          color: #FFFFFF;
-          white-space: nowrap;
-        ">${name}</span>
-
-        <span style="
-          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-          font-size: 8px;
-          font-weight: 700;
-          color: ${accent};
-          background: ${accent}20;
-          padding: 1px 5px;
-          border-radius: 4px;
-          border: 1px solid ${accent}40;
-        ">${count} TRAILS</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 19 21 12 17 5 21 12 2"/>
+        </svg>
       </div>
 
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="display: block; margin-top: -1px;">
-        <path d="M9 0 V11" stroke="${accent}" stroke-width="1.8" stroke-linecap="round"/>
-        <circle cx="9" cy="14" r="3.5" stroke="${accent}" stroke-width="1.2" opacity="0.8"/>
-        <circle cx="9" cy="14" r="1.8" fill="#FFFFFF"/>
-      </svg>
+      <span style="
+        font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        white-space: nowrap;
+      ">${name}</span>
+
+      <span style="
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 8px;
+        font-weight: 700;
+        color: ${accent};
+        background: ${accent}20;
+        padding: 1px 5px;
+        border-radius: 4px;
+        border: 1px solid ${accent}40;
+      ">${count} TRAILS</span>
     </div>
+
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="display: block; margin-top: -1px;">
+      <path d="M9 0 V11" stroke="${accent}" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="9" cy="14" r="3.5" stroke="${accent}" stroke-width="1.2" opacity="0.8"/>
+      <circle cx="9" cy="14" r="1.8" fill="#FFFFFF"/>
+    </svg>
   `;
 
+  el.appendChild(inner);
+
+  // Safe hover transition targeting inner wrapper so Mapbox transform on el is NEVER overwritten
   el.addEventListener("mouseenter", () => {
-    el.style.transform = "scale(1.08) translateY(-2px)";
+    inner.style.transform = "scale(1.08) translateY(-2px)";
   });
   el.addEventListener("mouseleave", () => {
-    el.style.transform = "scale(1)";
+    inner.style.transform = "scale(1)";
   });
 
   return el;
@@ -343,71 +395,76 @@ function buildStateMarkerEl(
   const el = document.createElement("div");
   el.className = "group pointer-events-auto cursor-pointer";
   el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);";
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer;";
 
-  el.innerHTML = `
-    <div style="display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.9));">
+  const inner = document.createElement("div");
+  inner.style.cssText =
+    "display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.9)); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: bottom center;";
+
+  inner.innerHTML = `
+    <div style="
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px 5px 8px;
+      background: rgba(5, 9, 20, 0.94);
+      border: 1.5px solid ${accent};
+      border-radius: 9999px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 0 24px ${accent}40, inset 0 1px 0 rgba(255,255,255,0.15);
+    ">
       <div style="
+        width: 24px;
+        height: 24px;
+        border-radius: 9999px;
+        background: ${accent}25;
+        border: 1px solid ${accent}70;
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 5px 12px 5px 8px;
-        background: rgba(5, 9, 20, 0.94);
-        border: 1.5px solid ${accent};
-        border-radius: 9999px;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 0 24px ${accent}40, inset 0 1px 0 rgba(255,255,255,0.15);
+        justify-content: center;
+        flex-shrink: 0;
       ">
-        <div style="
-          width: 24px;
-          height: 24px;
-          border-radius: 9999px;
-          background: ${accent}25;
-          border: 1px solid ${accent}70;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        ">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
-          </svg>
-        </div>
-        
-        <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15;">
-          <span style="
-            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #FFFFFF;
-          ">${name}</span>
-          <span style="
-            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 8.5px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: ${accent};
-            opacity: 0.9;
-          ">${count} EXPEDITIONS · ${subregionsCount} VALLEYS</span>
-        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+        </svg>
       </div>
-
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: block; margin-top: -2px;">
-        <path d="M12 0 V14" stroke="${accent}" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="12" cy="18" r="4.5" stroke="${accent}" stroke-width="1.5" opacity="0.8"/>
-        <circle cx="12" cy="18" r="2.5" fill="#FFFFFF"/>
-      </svg>
+      
+      <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15;">
+        <span style="
+          font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #FFFFFF;
+        ">${name}</span>
+        <span style="
+          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+          font-size: 8.5px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          color: ${accent};
+          opacity: 0.9;
+        ">${count} EXPEDITIONS · ${subregionsCount} VALLEYS</span>
+      </div>
     </div>
+
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: block; margin-top: -2px;">
+      <path d="M12 0 V14" stroke="${accent}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="18" r="4.5" stroke="${accent}" stroke-width="1.5" opacity="0.8"/>
+      <circle cx="12" cy="18" r="2.5" fill="#FFFFFF"/>
+    </svg>
   `;
 
+  el.appendChild(inner);
+
+  // Safe hover transition targeting inner wrapper so Mapbox transform on el is NEVER overwritten
   el.addEventListener("mouseenter", () => {
-    el.style.transform = "scale(1.06) translateY(-3px)";
+    inner.style.transform = "scale(1.06) translateY(-3px)";
   });
   el.addEventListener("mouseleave", () => {
-    el.style.transform = "scale(1)";
+    inner.style.transform = "scale(1)";
   });
 
   return el;
@@ -483,15 +540,12 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       const dLat = lat - cLat;
       const distDeg = Math.sqrt(dLng * dLng + dLat * dLat);
 
-      if (distDeg < 0.12) {
+      if (distDeg < 0.14) {
         el.style.opacity = "1";
-        el.style.transform = "scale(1)";
-      } else if (distDeg < 0.26) {
-        el.style.opacity = "0.7";
-        el.style.transform = "scale(0.94)";
+      } else if (distDeg < 0.28) {
+        el.style.opacity = "0.75";
       } else {
-        el.style.opacity = "0.2";
-        el.style.transform = "scale(0.85)";
+        el.style.opacity = "0.25";
       }
     });
   }, []);
@@ -1193,12 +1247,67 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     }
 
     // ── LEVEL 2: Detailed Valley View — Exact Pahadi Trails Place Markers ─
-    for (const place of scopedPlaces) {
+    // Sort places by cartographic prominence so key anchors (Peaks, Landmark Treks, Passes) claim priority
+    const sortedPlaces = [...scopedPlaces].sort((a, b) => {
+      if (a.id === selectedPlaceId) return -1;
+      if (b.id === selectedPlaceId) return 1;
+      if (a.type === "peak" && b.type !== "peak") return -1;
+      if (b.type === "peak" && a.type !== "peak") return 1;
+      const aIsPass = a.id.includes("pass") || a.name.toLowerCase().includes("pass");
+      const bIsPass = b.id.includes("pass") || b.name.toLowerCase().includes("pass");
+      if (aIsPass && !bIsPass) return -1;
+      if (bIsPass && !aIsPass) return 1;
+      const aEle = parseFloat(a.elevation?.replace(/[^0-9.]/g, "") || "0");
+      const bEle = parseFloat(b.elevation?.replace(/[^0-9.]/g, "") || "0");
+      return bEle - aEle;
+    });
+
+    const isHighDensity = sortedPlaces.length > 7;
+    const placedCapsuleBoxes: { x: number; y: number }[] = [];
+
+    for (const place of sortedPlaces) {
       if (!place.coords || place.coords.length !== 2) continue;
       const [lat, lng] = place.coords;
       const isSelected = selectedPlaceId === place.id;
       const loc = placeLocationIndex.get(place.id);
       const placeAccent = loc ? TERRITORY_ACCENT[loc.regionId] ?? "#3B82F6" : "#3B82F6";
+
+      // Determine compact vs full capsule for high density views
+      let isCompact = false;
+      if (isHighDensity && !isSelected && !searchQuery.trim()) {
+        const isPass = place.id.includes("pass") || place.name.toLowerCase().includes("pass");
+        if (place.type !== "peak" && !isPass) {
+          const isIconicTrek =
+            place.id === "patalsu-peak" ||
+            place.id === "beas-kund" ||
+            place.id === "hampta-pass" ||
+            place.id === "bhrigu-lake" ||
+            place.id === "chandrakhani-pass";
+          if (!isIconicTrek) {
+            isCompact = true;
+          }
+        }
+
+        // Screen-space collision avoidance with previously placed full capsules
+        if (!isCompact && map) {
+          try {
+            const pt = map.project([lng, lat]);
+            const collides = placedCapsuleBoxes.some(
+              (b) => Math.abs(b.x - pt.x) < 135 && Math.abs(b.y - pt.y) < 32
+            );
+            if (collides) {
+              isCompact = true;
+            } else {
+              placedCapsuleBoxes.push(pt);
+            }
+          } catch {}
+        }
+      } else if (!isCompact && map) {
+        try {
+          const pt = map.project([lng, lat]);
+          placedCapsuleBoxes.push(pt);
+        } catch {}
+      }
 
       // STRICT AUTHENTICITY GATE: Render GeoJSON trail lines ONLY for authentic, field-verified routes (currently Patalsu Peak & Jogni Falls)
       const verifiedRoute = getRouteData(place.id);
@@ -1301,7 +1410,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       }
 
       // Build Place Marker (pure DOM element pinned directly at [lng, lat] with anchor: 'bottom')
-      const el = buildPlaceMarkerEl(place, isSelected);
+      const el = buildPlaceMarkerEl(place, isSelected, isCompact);
       el.addEventListener("click", (e) => {
         e.stopPropagation();
         handleSelectPlace(place);
@@ -1634,21 +1743,29 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       </div>
 
       {/* ── Sub-header: Place Type Filter Pills ───────────────── */}
-      <div className="absolute top-14 sm:top-16 left-3 sm:left-4 z-20 flex flex-wrap gap-1 pointer-events-auto max-w-[calc(100%-1.5rem)]">
+      <div className="absolute top-14 sm:top-16 left-3 sm:left-4 z-20 flex flex-wrap gap-1.5 pointer-events-auto max-w-[calc(100%-1.5rem)]">
         {PLACE_TYPES.map(({ id, label, icon: Icon }) => {
           const isActive = typeFilter === id;
           return (
             <button
               key={id}
               onClick={() => setTypeFilter(id)}
-              className={`flex items-center gap-1 px-2 py-1 rounded-xl text-[10px] sm:text-[11px] font-semibold transition-all duration-200 backdrop-blur-xl ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold transition-all duration-200 backdrop-blur-xl ${
                 isActive
-                  ? "bg-white text-slate-950 shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                  : "bg-[#050914]/80 text-white/60 hover:text-white hover:bg-[#050914] border border-white/10"
+                  ? "bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.6)] border border-blue-400/60 ring-2 ring-blue-400/30"
+                  : "bg-slate-950/85 hover:bg-slate-900 border border-white/12"
               }`}
+              style={{
+                color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.75)",
+              }}
             >
-              <Icon className={`w-3 h-3 ${isActive ? "text-slate-950" : "text-white/50"}`} />
-              <span>{label}</span>
+              <Icon
+                className="w-3.5 h-3.5"
+                style={{ color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.65)" }}
+              />
+              <span style={{ color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.85)" }}>
+                {label}
+              </span>
             </button>
           );
         })}
