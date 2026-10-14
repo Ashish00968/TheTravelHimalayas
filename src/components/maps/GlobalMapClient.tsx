@@ -27,6 +27,7 @@ import {
   Maximize2,
   Minimize2,
   Navigation as NavigationIcon,
+  Orbit,
 } from "lucide-react";
 import { Trek } from "@/data/types";
 import {
@@ -37,6 +38,7 @@ import {
 } from "@/data/atlas";
 import { getRouteData } from "@/data/routes";
 import { shortestAngleDiff } from "@/lib/camera-math";
+import { registerPulsingBeacon } from "@/lib/mapbox-canvas-beacon";
 
 interface GlobalMapClientProps {
   treks: Trek[];
@@ -105,89 +107,152 @@ const SUBREGION_CAM: Record<string, [number, number, number, number, number]> = 
 /* ── Screen-Space Marker Relaxation Algorithm ──────────────────────────────
  *  Pushes adjacent markers apart in screen-pixel space so labels/pins never
  *  overlap or occlude in dense mountain valleys. Runs 4 relaxation passes.
-/* ── Colour per Adventure Type (Matches Pahadi Trails Engine) ──────────── */
+/* ── Colour per Adventure Type (Tailored Himalayan Palette) ─────────────── */
 const TYPE_COLOR: Record<string, string> = {
-  trek: "#4ab8a0",
-  peak: "#F59E0B",
-  lake: "#4a9de8",
-  spiritual: "#c47ef5",
-  scenic: "#7eb6e8",
-  adventure: "#e87a4a",
-  road: "#e8c97a",
+  trek: "#10B981",       // Alpine Emerald Green
+  peak: "#F59E0B",       // Summit Gold
+  lake: "#06B6D4",       // Glacial Cyan Tarn
+  spiritual: "#A855F7",  // High Alpine Violet
+  scenic: "#38BDF8",     // Sky Blue
+  adventure: "#F97316",  // Expedition Orange
+  road: "#EAB308",       // High Pass Amber
 };
 
-/* ── DOM Marker Builders (Exact Pahadi Trails Architecture) ──────────────── */
+/* ── Tailored Alpine Iconography Generator ──────────────────────────────── */
+function getCategoryIconSvg(type: string, color: string): string {
+  switch (type) {
+    case "peak":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`;
+    case "trek":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><path d="m9 20 3-6 3 6"/><path d="m6 17 4-5-2-4 4-2 3 3"/></svg>`;
+    case "lake":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/><path d="M2 15c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/></svg>`;
+    case "spiritual":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg>`;
+    case "scenic":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5 10 6.5 10 6.5-3.5 6.5-10 6.5-10-6.5-10-6.5Z"/><circle cx="12" cy="12" r="2.8"/></svg>`;
+    case "road":
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><polygon points="16 8 13.5 13.5 8 16 10.5 10.5 16 8"/></svg>`;
+    case "adventure":
+    default:
+      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+  }
+}
+
+/* ── DOM Marker Builders (Museum-Grade Editorial Architecture) ───────────── */
 
 function buildPlaceMarkerEl(place: HimalayaPlace, isSelected = false): HTMLElement {
-  const color = TYPE_COLOR[place.type] ?? "#e8c97a";
+  const color = TYPE_COLOR[place.type] ?? "#F59E0B";
   const el = document.createElement("div");
-  el.className = "group pointer-events-auto cursor-pointer";
+  el.className = "group pointer-events-auto cursor-pointer place-marker-node";
+  el.setAttribute("data-place-id", place.id);
   el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; gap: 2px; cursor: pointer;";
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out;";
 
-  const nameBox = document.createElement("div");
-  nameBox.style.cssText = `
-    padding: 2.5px 8px;
-    background: rgba(6, 8, 12, 0.94);
-    border: 1px solid ${isSelected ? "#F59E0B" : color + "80"};
-    border-radius: 3px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 8px;
+  // Extract clean altitude label if present
+  const rawEle = place.elevation || (place as unknown as { altitude?: string }).altitude || "";
+  const eleClean = rawEle ? rawEle.replace(/\s*m$/i, "") + "m" : "";
+
+  // The Frosted Glass Capsule
+  const capsule = document.createElement("div");
+  capsule.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: ${isSelected ? "3px 10px 3px 6px" : "2.5px 8px 2.5px 5px"};
+    background: ${isSelected ? "rgba(4, 9, 20, 0.96)" : "rgba(6, 11, 22, 0.92)"};
+    border: 1px solid ${isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.14)"};
+    border-radius: 9999px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: ${isSelected ? "0 0 22px rgba(56, 189, 248, 0.55), 0 8px 20px rgba(0,0,0,0.85)" : "0 4px 16px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08)"};
+    transform: ${isSelected ? "scale(1.08)" : "scale(1)"};
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  `;
+
+  // Category Icon Circle
+  const iconBox = document.createElement("div");
+  iconBox.style.cssText = `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 9999px;
+    background: ${color}22;
+    border: 1px solid ${color}66;
+    flex-shrink: 0;
+  `;
+  iconBox.innerHTML = getCategoryIconSvg(place.type, color);
+
+  // Place Name Label
+  const label = document.createElement("span");
+  label.style.cssText = `
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 9.5px;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: ${isSelected ? "#F59E0B" : color};
+    letter-spacing: 0.02em;
+    color: ${isSelected ? "#38BDF8" : "#FFFFFF"};
     white-space: nowrap;
-    max-width: 140px;
+    max-width: 145px;
     overflow: hidden;
     text-overflow: ellipsis;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.85);
   `;
-  nameBox.textContent = place.name;
+  label.textContent = place.name;
 
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "14");
-  svg.setAttribute("height", "18");
-  svg.setAttribute("viewBox", "0 0 14 18");
-  svg.setAttribute("fill", "none");
+  capsule.appendChild(iconBox);
+  capsule.appendChild(label);
 
-  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-  line.setAttribute("x1", "7");
-  line.setAttribute("y1", "0");
-  line.setAttribute("x2", "7");
-  line.setAttribute("y2", "8");
-  line.setAttribute("stroke", isSelected ? "#F59E0B" : color);
-  line.setAttribute("stroke-width", "1.4");
-  line.setAttribute("opacity", "0.85");
+  // Elevation badge if available
+  if (eleClean) {
+    const eleTag = document.createElement("span");
+    eleTag.style.cssText = `
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8px;
+      font-weight: 700;
+      color: ${color};
+      background: ${color}18;
+      padding: 1px 4.5px;
+      border-radius: 4px;
+      border: 1px solid ${color}40;
+      letter-spacing: 0.04em;
+    `;
+    eleTag.textContent = eleClean;
+    capsule.appendChild(eleTag);
+  }
 
-  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  circle.setAttribute("cx", "7");
-  circle.setAttribute("cy", "13");
-  circle.setAttribute("r", "4.5");
-  circle.setAttribute("fill", isSelected ? "#F59E0B" : color);
-  circle.setAttribute("stroke", "#06080c");
-  circle.setAttribute("stroke-width", "1.2");
+  // Precision Needle Stem & Ground Target Anchor
+  const needleSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  needleSvg.setAttribute("width", "16");
+  needleSvg.setAttribute("height", "16");
+  needleSvg.setAttribute("viewBox", "0 0 16 16");
+  needleSvg.setAttribute("fill", "none");
+  needleSvg.style.cssText = "display: block; margin-top: -1px; pointer-events: none;";
 
-  svg.appendChild(line);
-  svg.appendChild(circle);
+  needleSvg.innerHTML = `
+    <path d="M8 0 V9" stroke="${isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.45)"}" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="8" cy="12" r="3" stroke="${isSelected ? "#38BDF8" : color}" stroke-width="1.2" opacity="${isSelected ? "0.9" : "0.6"}"/>
+    <circle cx="8" cy="12" r="1.5" fill="${isSelected ? "#FFFFFF" : color}"/>
+  `;
 
-  el.appendChild(nameBox);
-  el.appendChild(svg);
+  el.appendChild(capsule);
+  el.appendChild(needleSvg);
 
+  // Hover transitions
   el.addEventListener("mouseenter", () => {
-    nameBox.style.borderColor = "#FFFFFF";
-    nameBox.style.color = "#FFFFFF";
-    nameBox.style.boxShadow = `0 4px 16px rgba(0,0,0,0.95), 0 0 12px ${color}88`;
-    circle.setAttribute("stroke", "#FFFFFF");
+    capsule.style.borderColor = "#FFFFFF";
+    capsule.style.transform = isSelected ? "scale(1.12) translateY(-2px)" : "scale(1.05) translateY(-2px)";
+    capsule.style.boxShadow = `0 8px 24px rgba(0,0,0,0.95), 0 0 16px ${color}88`;
+    label.style.color = "#FFFFFF";
   });
 
   el.addEventListener("mouseleave", () => {
-    nameBox.style.borderColor = isSelected ? "#F59E0B" : color + "80";
-    nameBox.style.color = isSelected ? "#F59E0B" : color;
-    nameBox.style.boxShadow = "0 2px 10px rgba(0,0,0,0.85)";
-    circle.setAttribute("stroke", "#06080c");
+    capsule.style.borderColor = isSelected ? "#38BDF8" : "rgba(255, 255, 255, 0.14)";
+    capsule.style.transform = isSelected ? "scale(1.08)" : "scale(1)";
+    capsule.style.boxShadow = isSelected
+      ? "0 0 22px rgba(56, 189, 248, 0.55), 0 8px 20px rgba(0,0,0,0.85)"
+      : "0 4px 16px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08)";
+    label.style.color = isSelected ? "#38BDF8" : "#FFFFFF";
   });
 
   return el;
@@ -197,68 +262,73 @@ function buildSubRegionMarkerEl(name: string, count: number, accent: string): HT
   const el = document.createElement("div");
   el.className = "group pointer-events-auto cursor-pointer";
   el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; gap: 3px; cursor: pointer;";
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);";
 
-  const nameBox = document.createElement("div");
-  nameBox.style.cssText = `
-    padding: 3px 9px;
-    background: rgba(6, 8, 12, 0.94);
-    border: 1px solid ${accent}80;
-    border-radius: 4px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: ${accent};
-    white-space: nowrap;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.85);
+  el.innerHTML = `
+    <div style="display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.85));">
+      <div style="
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px 3px 6px;
+        background: rgba(6, 10, 20, 0.94);
+        border: 1px solid ${accent}80;
+        border-radius: 9999px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 0 16px ${accent}30, inset 0 1px 0 rgba(255,255,255,0.1);
+      ">
+        <div style="
+          width: 18px;
+          height: 18px;
+          border-radius: 9999px;
+          background: ${accent}25;
+          border: 1px solid ${accent}60;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        ">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 19 21 12 17 5 21 12 2"/>
+          </svg>
+        </div>
+
+        <span style="
+          font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: #FFFFFF;
+          white-space: nowrap;
+        ">${name}</span>
+
+        <span style="
+          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+          font-size: 8px;
+          font-weight: 700;
+          color: ${accent};
+          background: ${accent}20;
+          padding: 1px 5px;
+          border-radius: 4px;
+          border: 1px solid ${accent}40;
+        ">${count} TRAILS</span>
+      </div>
+
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="display: block; margin-top: -1px;">
+        <path d="M9 0 V11" stroke="${accent}" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="9" cy="14" r="3.5" stroke="${accent}" stroke-width="1.2" opacity="0.8"/>
+        <circle cx="9" cy="14" r="1.8" fill="#FFFFFF"/>
+      </svg>
+    </div>
   `;
-  nameBox.textContent = `${name} · ${count} EXPEDITIONS`;
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "28");
-  svg.setAttribute("height", "36");
-  svg.setAttribute("viewBox", "0 0 32 42");
-  svg.setAttribute("fill", "none");
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute(
-    "d",
-    "M16 2C9.37 2 4 7.37 4 14C4 24.5 16 40 16 40C16 40 28 24.5 28 14C28 7.37 22.63 2 16 2Z"
-  );
-  path.setAttribute("fill", `${accent}25`);
-  path.setAttribute("stroke", accent);
-  path.setAttribute("stroke-width", "1.8");
-
-  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  circle.setAttribute("cx", "16");
-  circle.setAttribute("cy", "14");
-  circle.setAttribute("r", "5");
-  circle.setAttribute("fill", `${accent}40`);
-  circle.setAttribute("stroke", accent);
-  circle.setAttribute("stroke-width", "1.2");
-
-  svg.appendChild(path);
-  svg.appendChild(circle);
-
-  el.appendChild(nameBox);
-  el.appendChild(svg);
 
   el.addEventListener("mouseenter", () => {
-    nameBox.style.borderColor = "#FFFFFF";
-    nameBox.style.color = "#FFFFFF";
-    path.setAttribute("stroke", "#FFFFFF");
-    circle.setAttribute("stroke", "#FFFFFF");
+    el.style.transform = "scale(1.08) translateY(-2px)";
   });
-
   el.addEventListener("mouseleave", () => {
-    nameBox.style.borderColor = `${accent}80`;
-    nameBox.style.color = accent;
-    path.setAttribute("stroke", accent);
-    circle.setAttribute("stroke", accent);
+    el.style.transform = "scale(1)";
   });
 
   return el;
@@ -266,8 +336,6 @@ function buildSubRegionMarkerEl(name: string, count: number, accent: string): HT
 
 function buildStateMarkerEl(
   name: string,
-  emoji: string,
-  idx: number,
   accent: string,
   count: number,
   subregionsCount: number
@@ -275,20 +343,72 @@ function buildStateMarkerEl(
   const el = document.createElement("div");
   el.className = "group pointer-events-auto cursor-pointer";
   el.style.cssText =
-    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer;";
+    "display: flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);";
 
   el.innerHTML = `
-    <div class="state-marker-float" style="animation-delay: ${idx * 0.4}s; animation-duration: ${2.2 + idx * 0.4}s; display: flex; flex-direction: column; align-items: center;">
-      <span style="font-size: 26px; line-height: 1; margin-bottom: -4px; filter: drop-shadow(0 2px 8px rgba(0,0,0,1));">${emoji}</span>
-      <svg width="42" height="54" viewBox="0 0 42 54" fill="none">
-        <path d="M21 3L2 44H40L21 3Z" fill="${accent}" stroke="#06080c" stroke-width="1.8" stroke-linejoin="round"/>
-        <path d="M12 44L21 24L30 44Z" fill="#FFFFFF" opacity="0.3"/>
-        <path d="M15 18L9 34H23L15 18Z" fill="#FFFFFF" opacity="0.5"/>
-        <circle cx="21" cy="50" r="3.5" fill="${accent}" stroke="#06080c" stroke-width="1.2"/>
-        <line x1="21" y1="44" x2="21" y2="46.5" stroke="#06080c" stroke-width="1.2"/>
+    <div style="display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.9));">
+      <div style="
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 12px 5px 8px;
+        background: rgba(5, 9, 20, 0.94);
+        border: 1.5px solid ${accent};
+        border-radius: 9999px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 0 24px ${accent}40, inset 0 1px 0 rgba(255,255,255,0.15);
+      ">
+        <div style="
+          width: 24px;
+          height: 24px;
+          border-radius: 9999px;
+          background: ${accent}25;
+          border: 1px solid ${accent}70;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        ">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+          </svg>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15;">
+          <span style="
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+          ">${name}</span>
+          <span style="
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 8.5px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: ${accent};
+            opacity: 0.9;
+          ">${count} EXPEDITIONS · ${subregionsCount} VALLEYS</span>
+        </div>
+      </div>
+
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: block; margin-top: -2px;">
+        <path d="M12 0 V14" stroke="${accent}" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="18" r="4.5" stroke="${accent}" stroke-width="1.5" opacity="0.8"/>
+        <circle cx="12" cy="18" r="2.5" fill="#FFFFFF"/>
       </svg>
-      <div style="margin-top: 6px; padding: 4px 10px; background: rgba(6, 8, 12, 0.94); border: 1px solid ${accent}80; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${accent}; white-space: nowrap; backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.85);">${name} · ${count} EXPEDITIONS · ${subregionsCount} VALLEYS</div>
-    </div>`;
+    </div>
+  `;
+
+  el.addEventListener("mouseenter", () => {
+    el.style.transform = "scale(1.06) translateY(-3px)";
+  });
+  el.addEventListener("mouseleave", () => {
+    el.style.transform = "scale(1)";
+  });
 
   return el;
 }
@@ -326,8 +446,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const placeMarkerNodesRef = useRef<{ el: HTMLElement; lng: number; lat: number }[]>([]);
   const routeListenersRef = useRef<{ layerId: string; fn: () => void }[]>([]);
   const activeTrailIdsRef = useRef<Set<string>>(new Set());
+  const flowTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const initialPlaceLoc = initialFocusId ? placeLocationIndex.get(initialFocusId) : null;
 
@@ -347,6 +469,32 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
   const orbitAnimRef = useRef<number | null>(null);
 
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+  // ── Dynamic Proximity Marker Culling for Valley Depth ─────────────────
+  const updatePlaceVisibilities = useCallback(() => {
+    const map = mapRef.current;
+    if (!map || placeMarkerNodesRef.current.length === 0) return;
+    const center = map.getCenter();
+    const cLng = center.lng;
+    const cLat = center.lat;
+
+    placeMarkerNodesRef.current.forEach(({ el, lng, lat }) => {
+      const dLng = lng - cLng;
+      const dLat = lat - cLat;
+      const distDeg = Math.sqrt(dLng * dLng + dLat * dLat);
+
+      if (distDeg < 0.12) {
+        el.style.opacity = "1";
+        el.style.transform = "scale(1)";
+      } else if (distDeg < 0.26) {
+        el.style.opacity = "0.7";
+        el.style.transform = "scale(0.94)";
+      } else {
+        el.style.opacity = "0.2";
+        el.style.transform = "scale(0.85)";
+      }
+    });
+  }, []);
 
   // ── Derived Data ──────────────────────────────────────────────────────
   const activeRegion = useMemo(
@@ -450,7 +598,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     []
   );
 
-  // Smooth continuous 3D Orbit motion around current center
+  // Smooth continuous 3D Orbit motion around current center with delta-time rotation
   const toggleOrbit = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -463,10 +611,14 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       setIsOrbiting(false);
     } else {
       setIsOrbiting(true);
-      const rotate = () => {
+      let lastTime = performance.now();
+      const rotate = (time: number) => {
         if (!mapRef.current) return;
+        const deltaSec = (time - lastTime) / 1000;
+        lastTime = time;
+        // Serene 7.0 degrees per second delta-time rotation
         const currentBearing = mapRef.current.getBearing();
-        mapRef.current.setBearing((currentBearing + 0.18) % 360);
+        mapRef.current.setBearing((currentBearing + 7.0 * deltaSec) % 360);
         orbitAnimRef.current = requestAnimationFrame(rotate);
       };
       orbitAnimRef.current = requestAnimationFrame(rotate);
@@ -886,6 +1038,26 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         }
       }
 
+      // Register GPU-accelerated pulsing radar beacon
+      registerPulsingBeacon(map, "global-radar-beacon", {
+        size: 90,
+        color: "#22D3EE",
+        coreColor: "#FFFFFF",
+      });
+
+      // User interaction listener to pause orbit when dragging/panning
+      const cancelOrbitOnInteract = () => {
+        setIsOrbiting(false);
+        if (orbitAnimRef.current) {
+          cancelAnimationFrame(orbitAnimRef.current);
+          orbitAnimRef.current = null;
+        }
+      };
+      map.on("mousedown", cancelOrbitOnInteract);
+      map.on("touchstart", cancelOrbitOnInteract);
+      map.on("wheel", cancelOrbitOnInteract);
+      map.on("move", updatePlaceVisibilities);
+
       // Mapbox GL JS v3 natively computes 3D terrain elevation transforms
       // in lockstep with the WebGL terrain canvas for all Markers.
 
@@ -897,12 +1069,17 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         cancelAnimationFrame(orbitAnimRef.current);
         orbitAnimRef.current = null;
       }
+      if (flowTimerRef.current) {
+        clearInterval(flowTimerRef.current);
+        flowTimerRef.current = null;
+      }
       markersRef.current.forEach((m) => m.remove());
       markersRef.current = [];
+      placeMarkerNodesRef.current = [];
       map.remove();
       mapRef.current = null;
     };
-  }, [mapboxToken, initialFocusId]);
+  }, [mapboxToken, initialFocusId, updatePlaceVisibilities]);
 
   // ── Sync Markers & GeoJSON Paths ──────────────────────────────────────
   useEffect(() => {
@@ -912,6 +1089,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     // Clean up markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+    placeMarkerNodesRef.current = [];
 
     // Clean up route listeners and layers
     for (const { layerId, fn } of routeListenersRef.current) {
@@ -929,6 +1107,8 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       const sId = `source-${id}`;
       const lId = `layer-${id}`;
       const gId = `glow-${id}`;
+      const fId = `flow-${id}`;
+      if (map.getLayer(fId)) map.removeLayer(fId);
       if (map.getLayer(lId)) map.removeLayer(lId);
       if (map.getLayer(gId)) map.removeLayer(gId);
       if (map.getSource(sId)) map.removeSource(sId);
@@ -953,7 +1133,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         uttarakhand:        { lat: 30.2, lng: 79.2 },
       };
 
-      himalayaAtlas.forEach((region, idx) => {
+      himalayaAtlas.forEach((region) => {
         const centroid = REGION_CENTROIDS[region.id];
         if (!centroid) return;
         const accent = TERRITORY_ACCENT[region.id] ?? "#3B82F6";
@@ -961,8 +1141,6 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
         const el = buildStateMarkerEl(
           region.name,
-          region.emoji,
-          idx,
           accent,
           count,
           region.subregions.length
@@ -1101,6 +1279,22 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           },
         });
 
+        // Animated marching ants directional flow layer
+        const flowId = `flow-${place.id}`;
+        if (map.getLayer(flowId)) map.removeLayer(flowId);
+        map.addLayer({
+          id: flowId,
+          type: "line",
+          source: sId,
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: {
+            "line-color": "#FFFFFF",
+            "line-width": isSelected ? 2.2 : 1.5,
+            "line-dasharray": [0, 4, 3],
+            "line-opacity": isSelected ? 0.95 : 0.65,
+          },
+        });
+
         const fn = () => handleSelectPlace(place);
         map.on("click", lId, fn);
         routeListenersRef.current.push({ layerId: lId, fn });
@@ -1121,7 +1315,11 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         .addTo(map);
 
       markersRef.current.push(marker);
+      placeMarkerNodesRef.current.push({ el, lng, lat });
     }
+
+    // Trigger initial visibility culling based on camera distance
+    updatePlaceVisibilities();
   }, [
     mapLoaded,
     scopedPlaces,
@@ -1134,7 +1332,87 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
     searchQuery,
     handleRegion,
     handleSubRegion,
+    updatePlaceVisibilities,
   ]);
+
+  // ── Synchronize GPU Radar Beacon with Selected Place on 3D Terrain ─────
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded) return;
+
+    const sourceId = "selected-place-beacon-source";
+    const layerId = "selected-place-beacon-layer";
+
+    if (selectedPlace?.coords && selectedPlace.coords.length === 2) {
+      const [pLat, pLng] = selectedPlace.coords;
+      const pointData: GeoJSON.Feature<GeoJSON.Point> = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Point",
+          coordinates: [pLng, pLat],
+        },
+      };
+
+      const existingSource = map.getSource(sourceId) as mapboxgl.GeoJSONSource | undefined;
+      if (existingSource) {
+        existingSource.setData(pointData);
+      } else {
+        try {
+          map.addSource(sourceId, {
+            type: "geojson",
+            data: pointData,
+          });
+          map.addLayer({
+            id: layerId,
+            type: "symbol",
+            source: sourceId,
+            layout: {
+              "icon-image": "global-radar-beacon",
+              "icon-allow-overlap": true,
+              "icon-ignore-placement": true,
+            },
+          });
+        } catch {}
+      }
+    } else {
+      try {
+        if (map.getLayer(layerId)) map.removeLayer(layerId);
+        if (map.getSource(sourceId)) map.removeSource(sourceId);
+      } catch {}
+    }
+  }, [selectedPlace, mapLoaded]);
+
+  // ── Animated Directional Flow Line Interval for Active Trails ──────────
+  useEffect(() => {
+    let flowStep = 0;
+    const flowSequence = [
+      [0, 4, 3],
+      [1, 4, 2],
+      [2, 4, 1],
+      [3, 4, 0],
+      [0, 1, 3, 3],
+      [0, 2, 3, 2],
+      [0, 3, 3, 1],
+    ];
+
+    flowTimerRef.current = setInterval(() => {
+      flowStep = (flowStep + 1) % flowSequence.length;
+      if (!mapRef.current) return;
+      activeTrailIdsRef.current.forEach((id) => {
+        const flowLayerId = `flow-${id}`;
+        if (mapRef.current?.getLayer(flowLayerId)) {
+          try {
+            mapRef.current.setPaintProperty(flowLayerId, "line-dasharray", flowSequence[flowStep]);
+          } catch {}
+        }
+      });
+    }, 110);
+
+    return () => {
+      if (flowTimerRef.current) clearInterval(flowTimerRef.current);
+    };
+  }, []);
 
   if (!mapboxToken) {
     return (
@@ -1840,7 +2118,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               )}
             </div>
 
-            {/* Action Row: Immediate Chronological Back + Open Guide */}
+            {/* Action Row: Immediate Chronological Back + 3D Orbit + Open Guide */}
             <div className="flex items-center gap-2 relative z-10">
               <button
                 type="button"
@@ -1853,6 +2131,23 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
                 <span className="truncate max-w-[85px]">{activeSubRegion?.name ?? "Valley"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleOrbit();
+                }}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  isOrbiting
+                    ? "bg-cyan-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse"
+                    : "text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10"
+                }`}
+                title={isOrbiting ? "Pause 3D Orbit" : "Orbit around this destination"}
+              >
+                <Orbit className={`w-3.5 h-3.5 ${isOrbiting ? "animate-spin text-slate-950" : "text-cyan-400"}`} />
+                <span>{isOrbiting ? "Orbiting" : "3D Orbit"}</span>
               </button>
 
               <button
