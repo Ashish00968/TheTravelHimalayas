@@ -36,6 +36,7 @@ import {
   placeLocationIndex,
 } from "@/data/atlas";
 import { getRouteData } from "@/data/routes";
+import { shortestAngleDiff } from "@/lib/camera-math";
 
 interface GlobalMapClientProps {
   treks: Trek[];
@@ -431,11 +432,15 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       };
       map.once("moveend", onMoveEnd);
 
+      const curBearing = map.getBearing();
+      const shortestBearing = curBearing + shortestAngleDiff(bearing, curBearing);
+      const safePitch = Math.min(72, Math.max(0, pitch));
+
       map.flyTo({
         center: [lng, lat],
         zoom,
-        pitch,
-        bearing,
+        pitch: safePitch,
+        bearing: shortestBearing,
         duration,
         curve: 1.42,
         speed: 0.9,
@@ -809,8 +814,8 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         maxzoom: 14,
       });
 
-      // Hyper-realistic 3D mountain terrain relief: 1.85x exaggeration
-      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.85 });
+      // Hyper-realistic 3D mountain terrain relief: 1.25x calibrated exaggeration (prevents camera frustum collisions)
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.25 });
 
       // Atmospheric Himalayan Midnight Fog & Sky
       map.setFog({

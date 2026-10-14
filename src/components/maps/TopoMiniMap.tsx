@@ -93,7 +93,7 @@ export function TopoMiniMap({
           tileSize: 512,
           maxzoom: 14,
         });
-        map.setTerrain({ source: "mapbox-dem", exaggeration: 1.35 });
+        map.setTerrain({ source: "mapbox-dem", exaggeration: 1.2 });
       }
 
       // Add Atmospheric Sky
