@@ -20,7 +20,7 @@ export function MapLauncher({ treks }: MapLauncherProps) {
 
   if (isMapActive) {
     return (
-      <div className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] relative">
+      <div className="w-full h-[calc(100dvh-5.5rem)] sm:h-[calc(100vh-6.5rem)] min-h-[500px] sm:min-h-[640px] relative">
         <GlobalMap treks={treks} initialFocusId={focusParam} />
       </div>
     );
@@ -28,7 +28,7 @@ export function MapLauncher({ treks }: MapLauncherProps) {
 
   return (
     <div 
-      className="w-full h-[calc(100vh-6.5rem)] min-h-[640px] rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-5 sm:p-8 md:p-12 transition-all duration-500 preserve-white-text dark-photo-card"
+      className="w-full h-[calc(100dvh-5.5rem)] sm:h-[calc(100vh-6.5rem)] min-h-[500px] sm:min-h-[640px] rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center p-5 sm:p-8 md:p-12 transition-all duration-500 preserve-white-text dark-photo-card"
       style={{
         background: "radial-gradient(ellipse at 50% 30%, #151D2A 0%, #0D121B 60%, #06090F 100%)",
         border: "1px solid rgba(56,189,248,0.25)",

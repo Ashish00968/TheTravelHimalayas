@@ -332,6 +332,7 @@ export default function RouteMap3D({
       },
       maxPitch: 85,
       pitchWithRotate: true,
+      touchPitch: true,
       scrollZoom: false,
       doubleClickZoom: true,
       attributionControl: false,
@@ -1238,7 +1239,7 @@ export default function RouteMap3D({
     >
       {/* 3D Map Container Card */}
       <div
-        className={`relative w-full overflow-hidden ${
+        className={`map-canvas-container preserve-white-text relative w-full overflow-hidden ${
           isFullscreen
             ? "h-full w-full rounded-none border-0 bg-slate-950"
             : "rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-white/10 bg-slate-950 shadow-2xl"
@@ -1446,7 +1447,7 @@ export default function RouteMap3D({
             </div>
 
             {/* Bottom Floating Control Console */}
-            <div className="absolute bottom-2.5 sm:bottom-4 left-2 right-2 sm:left-4 sm:right-4 z-20 flex items-center justify-between pointer-events-none">
+            <div className="absolute bottom-2.5 sm:bottom-4 left-1.5 right-1.5 sm:left-4 sm:right-4 z-20 flex items-center justify-between pointer-events-none">
               {/* Flyover Playback Controls */}
               <div className="flex items-center gap-1 sm:gap-2 pointer-events-auto">
                 {!isPlayingFlyover ? (

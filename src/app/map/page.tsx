@@ -55,7 +55,7 @@ export default function MapPage() {
       <div className="w-full px-2 sm:px-4 lg:px-6 pt-2 pb-6">
         <Suspense
           fallback={
-            <div className="w-full h-[calc(100vh-6.5rem)] rounded-2xl sm:rounded-3xl bg-surface border border-white/10 flex items-center justify-center animate-pulse">
+            <div className="w-full h-[calc(100dvh-5.5rem)] sm:h-[calc(100vh-6.5rem)] min-h-[500px] sm:min-h-[640px] rounded-2xl sm:rounded-3xl bg-surface border border-white/10 flex items-center justify-center animate-pulse">
               <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
             </div>
           }

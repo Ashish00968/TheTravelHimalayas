@@ -998,6 +998,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
       boxZoom: false,
       dragRotate: true,
       touchZoomRotate: true,
+      touchPitch: true,
       attributionControl: false,
       antialias: true,
     });
@@ -1539,7 +1540,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
   return (
     <div
       ref={containerRef}
-      className={`map-canvas-container preserve-white-text relative w-full h-full min-h-[640px] overflow-hidden ${
+      className={`map-canvas-container preserve-white-text relative w-full h-full min-h-[500px] sm:min-h-[640px] overflow-hidden ${
         isFullscreen
           ? "fixed inset-0 z-[9999] rounded-none border-none shadow-none h-screen w-screen"
           : "rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl"
@@ -1567,10 +1568,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
           {activeRegion && (
             <>
-              <ChevronRight className="w-3.5 h-3.5 text-white/30" />
+              <ChevronRight className="w-3.5 h-3.5 text-white/30 flex-shrink-0" />
               <button
                 onClick={() => handleRegion(activeRegion.id)}
-                className={`transition-colors font-semibold truncate max-w-[110px] sm:max-w-none ${
+                className={`transition-colors font-semibold truncate max-w-[65px] xs:max-w-[100px] sm:max-w-none ${
                   activeRegionId && !activeSubRegionId
                     ? "text-white underline underline-offset-4"
                     : "text-white/70 hover:text-white"
@@ -1584,10 +1585,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
           {activeSubRegion && (
             <>
-              <ChevronRight className="w-3.5 h-3.5 text-white/30" />
+              <ChevronRight className="w-3.5 h-3.5 text-white/30 flex-shrink-0" />
               <button
                 onClick={() => handleSubRegion(activeSubRegion.id)}
-                className={`transition-colors font-semibold truncate max-w-[100px] sm:max-w-none ${
+                className={`transition-colors font-semibold truncate max-w-[65px] xs:max-w-[100px] sm:max-w-none ${
                   !selectedPlace
                     ? "font-bold text-white underline underline-offset-4"
                     : "text-white/70 hover:text-white"
@@ -1601,9 +1602,9 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
           {selectedPlace && (
             <>
-              <ChevronRight className="w-3.5 h-3.5 text-white/30" />
+              <ChevronRight className="w-3.5 h-3.5 text-white/30 flex-shrink-0" />
               <span
-                className="font-bold text-white truncate max-w-[100px] sm:max-w-[150px]"
+                className="font-bold text-white truncate max-w-[70px] xs:max-w-[110px] sm:max-w-[150px]"
                 style={{ color: currentAccent }}
                 title={selectedPlace.name}
               >
@@ -1616,7 +1617,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             <button
               onClick={handleReset}
               title="Reset Atlas View"
-              className="ml-1.5 pl-1.5 border-l border-white/15 text-white/40 hover:text-white transition-colors"
+              className="ml-1 pl-1.5 border-l border-white/15 text-white/40 hover:text-white transition-colors flex-shrink-0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -1624,15 +1625,15 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         </div>
 
         {/* Right: 3D Camera Controls & Quick Search */}
-        <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2">
+        <div className="pointer-events-auto flex items-center gap-1 sm:gap-2">
           {/* 3D Orbit & Rotation Control Cluster */}
           <div className="flex items-center bg-[#050914]/90 backdrop-blur-xl border border-white/12 rounded-2xl shadow-xl p-0.5">
-            {/* Rotate CCW 45° */}
+            {/* Rotate CCW 45° (Desktop only) */}
             <button
               onClick={handleRotateCCW}
               title="Rotate Camera Anti-Clockwise 45°"
               aria-label="Rotate Anti-Clockwise 45°"
-              className="px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+              className="hidden sm:flex px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -1660,22 +1661,22 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               )}
             </button>
 
-            {/* Rotate CW 45° */}
+            {/* Rotate CW 45° (Desktop only) */}
             <button
               onClick={handleRotateCW}
               title="Rotate Camera Clockwise 45°"
               aria-label="Rotate Clockwise 45°"
-              className="px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+              className="hidden sm:flex px-2 py-1.5 sm:py-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
             >
               <RotateCw className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Perspective Tilt Toggle */}
+          {/* Perspective Tilt Toggle (Desktop only, mobile uses on-screen 3D dock) */}
           <button
             onClick={togglePerspective}
             title="Toggle Ridge View vs High Angle"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold bg-[#050914]/90 backdrop-blur-xl border border-white/12 text-white/80 hover:text-white hover:border-white/30 transition-all shadow-xl"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold bg-[#050914]/90 backdrop-blur-xl border border-white/12 text-white/80 hover:text-white hover:border-white/30 transition-all shadow-xl"
           >
             <Eye className="w-3.5 h-3.5 text-amber-400" />
             <span className="hidden md:inline">Ridge View</span>
@@ -1686,7 +1687,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             onClick={toggleFullscreen}
             title={isFullscreen ? "Exit Fullscreen (Esc or F)" : "Fullscreen Mode (Press F)"}
             aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-semibold backdrop-blur-xl border transition-all shadow-xl ${
+            className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-2xl text-xs font-semibold backdrop-blur-xl border transition-all shadow-xl ${
               isFullscreen
                 ? "bg-primary text-white border-primary/40 shadow-[0_0_20px_rgba(59,130,246,0.6)]"
                 : "bg-[#050914]/90 text-white/80 hover:text-white border-white/12 hover:border-white/30"
@@ -1706,20 +1707,20 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             )}
           </button>
 
-          {/* Quick Search Input */}
+          {/* Quick Search Input (Responsive expand on focus) */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+            <Search className="w-3.5 h-3.5 absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search trails, peaks…"
-              className="w-32 xs:w-44 sm:w-60 pl-8 pr-3 py-1.5 sm:py-2 text-xs bg-[#050914]/90 backdrop-blur-xl border border-white/12 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-primary/60 transition-all shadow-xl"
+              placeholder="Search…"
+              className="w-20 xs:w-28 sm:w-60 focus:w-36 xs:focus:w-44 sm:focus:w-60 pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1.5 sm:py-2 text-xs bg-[#050914]/90 backdrop-blur-xl border border-white/12 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-primary/60 transition-all duration-300 shadow-xl"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -1742,15 +1743,15 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
         </div>
       </div>
 
-      {/* ── Sub-header: Place Type Filter Pills ───────────────── */}
-      <div className="absolute top-14 sm:top-16 left-3 sm:left-4 z-20 flex flex-wrap gap-1.5 pointer-events-auto max-w-[calc(100%-1.5rem)]">
+      {/* ── Sub-header: Place Type Filter Pills (Horizontal Touch Carousel on Mobile) ── */}
+      <div className="absolute top-14 sm:top-16 left-3 sm:left-4 z-20 flex items-center gap-1.5 overflow-x-auto no-scrollbar scrollbar-none py-1 max-w-[calc(100vw-24px)] pointer-events-auto touch-pan-x">
         {PLACE_TYPES.map(({ id, label, icon: Icon }) => {
           const isActive = typeFilter === id;
           return (
             <button
               key={id}
               onClick={() => setTypeFilter(id)}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold transition-all duration-200 backdrop-blur-xl ${
+              className={`flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold transition-all duration-200 backdrop-blur-xl ${
                 isActive
                   ? "bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.6)] border border-blue-400/60 ring-2 ring-blue-400/30"
                   : "bg-slate-950/85 hover:bg-slate-900 border border-white/12"
@@ -1760,10 +1761,10 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
               }}
             >
               <Icon
-                className="w-3.5 h-3.5"
+                className="w-3.5 h-3.5 flex-shrink-0"
                 style={{ color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.65)" }}
               />
-              <span style={{ color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.85)" }}>
+              <span className="whitespace-nowrap" style={{ color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.85)" }}>
                 {label}
               </span>
             </button>
@@ -1884,21 +1885,21 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
           >
             2D↓
           </button>
-          {/* Rotate Anti-Clockwise */}
+          {/* Rotate Anti-Clockwise (Desktop only) */}
           <button
             onClick={handleRotateCCW}
             title="Rotate Anti-Clockwise 45°"
             aria-label="Rotate Anti-Clockwise 45 degrees"
-            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
+            className="hidden sm:flex w-8 h-8 rounded-xl items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
-          {/* Rotate Clockwise */}
+          {/* Rotate Clockwise (Desktop only) */}
           <button
             onClick={handleRotateCW}
             title="Rotate Clockwise 45°"
             aria-label="Rotate Clockwise 45 degrees"
-            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
+            className="hidden sm:flex w-8 h-8 rounded-xl items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10"
           >
             <RotateCw className="w-3.5 h-3.5" />
           </button>
@@ -1916,8 +1917,8 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
       {/* ── Level 0: 4 Himalayan Territories Strip (When No Region is Active) ── */}
       {!activeRegionId && (
-        <div className="absolute bottom-5 inset-x-4 z-20 pointer-events-auto">
-          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2.5">
+        <div className="absolute bottom-5 inset-x-3 sm:inset-x-4 z-20 pointer-events-auto">
+          <div className="max-w-4xl mx-auto flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2.5 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0 no-scrollbar touch-pan-x">
             {himalayaAtlas.map((region) => {
               const accent = TERRITORY_ACCENT[region.id] ?? "#3B82F6";
               const totalPlaces = region.subregions.reduce(
@@ -1929,7 +1930,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                 <button
                   key={region.id}
                   onClick={() => handleRegion(region.id)}
-                  className="group relative flex flex-col p-3.5 sm:p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden"
+                  className="group relative flex flex-col p-3 sm:p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden w-[190px] sm:w-auto flex-shrink-0 sm:flex-shrink"
                   style={{
                     background: "rgba(5, 9, 20, 0.88)",
                     backdropFilter: "blur(20px)",
@@ -1980,8 +1981,8 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
 
       {/* ── Level 1 & 2: Subregion / Valley Bottom Dock (When Region is Active) ── */}
       {activeRegion && !selectedPlaceId && (
-        <div className="absolute bottom-5 inset-x-4 z-20 pointer-events-auto">
-          <div className="max-w-4xl mx-auto flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-white/20">
+        <div className="absolute bottom-5 inset-x-3 sm:inset-x-4 z-20 pointer-events-auto">
+          <div className="max-w-4xl mx-auto flex items-center gap-2 overflow-x-auto pb-1.5 no-scrollbar sm:scrollbar-thin touch-pan-x">
             {activeSubRegionId ? (
               <button
                 onClick={() => {
@@ -1990,7 +1991,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                   const cam = TERRITORY_CAM[activeRegion.id] ?? [31.8, 77.1, 8.4, 72, 18];
                   flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2000);
                 }}
-                className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold !text-white bg-[#050914]/90 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all shadow-xl"
+                className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-semibold !text-white bg-[#050914]/90 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all shadow-xl"
                 style={{ color: "#FFFFFF" }}
               >
                 <ChevronLeft className="w-3.5 h-3.5 text-primary" />
@@ -1999,7 +2000,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             ) : (
               <button
                 onClick={handleReset}
-                className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-medium !text-white/80 hover:!text-white bg-[#050914]/90 backdrop-blur-xl border border-white/12 transition-all shadow-xl"
+                className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-medium !text-white/80 hover:!text-white bg-[#050914]/90 backdrop-blur-xl border border-white/12 transition-all shadow-xl"
                 style={{ color: "#FFFFFF" }}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
@@ -2013,7 +2014,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                 <button
                   key={sub.id}
                   onClick={() => handleSubRegion(sub.id)}
-                  className={`flex-shrink-0 flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                  className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     isCurrent
                       ? "!text-white shadow-lg"
                       : "!text-white/80 hover:!text-white bg-[#050914]/85 backdrop-blur-xl border border-white/10"
@@ -2236,18 +2237,18 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
             </div>
 
             {/* Action Row: Immediate Chronological Back + 3D Orbit + Open Guide */}
-            <div className="flex items-center gap-2 relative z-10">
+            <div className="flex items-center gap-1.5 sm:gap-2 relative z-10">
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClosePlace();
                 }}
-                className="flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors flex-shrink-0 cursor-pointer"
+                className="flex items-center gap-1 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors flex-shrink-0 cursor-pointer min-h-[38px]"
                 title={`Back to ${activeSubRegion?.name ?? "Valley"}`}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
-                <span className="truncate max-w-[85px]">{activeSubRegion?.name ?? "Valley"}</span>
+                <span className="truncate max-w-[65px] sm:max-w-[85px]">{activeSubRegion?.name ?? "Valley"}</span>
               </button>
 
               <button
@@ -2256,7 +2257,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                   e.stopPropagation();
                   toggleOrbit();
                 }}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer min-h-[38px] whitespace-nowrap ${
                   isOrbiting
                     ? "bg-cyan-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse"
                     : "text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10"
@@ -2271,7 +2272,7 @@ export default function GlobalMapClient({ treks, initialFocusId }: GlobalMapClie
                 type="button"
                 onClick={handleOpenPlace}
                 disabled={navigating}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold tracking-wide transition-all group shadow-md cursor-pointer"
+                className="flex-1 min-h-[38px] flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-3 rounded-xl text-xs font-bold tracking-wide transition-all group shadow-md cursor-pointer whitespace-nowrap"
                 style={{
                   background: currentAccent,
                   color: "#FFFFFF",

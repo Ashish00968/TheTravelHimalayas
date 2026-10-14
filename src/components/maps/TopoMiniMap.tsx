@@ -81,6 +81,7 @@ export function TopoMiniMap({
       zoom: 13.8,
       pitch: 65,
       bearing: -25,
+      touchPitch: true,
       attributionControl: false,
     });
 
@@ -130,7 +131,7 @@ export function TopoMiniMap({
   }, [is3DActive, mapboxToken, lat, lng, placeName, maxAltitude]);
 
   return (
-    <div className="w-full relative rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 bg-[#080E1A] shadow-xl dark:shadow-2xl transition-all">
+    <div className="map-canvas-container preserve-white-text w-full relative rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 bg-[#080E1A] shadow-xl dark:shadow-2xl transition-all">
       {/* ── Top Bar with Live Season Condition & Coordinates ──────────────── */}
       <div className="px-5 sm:px-6 py-3.5 bg-slate-900/90 border-b border-white/[0.08] flex items-center justify-between flex-wrap gap-2.5 text-xs font-mono select-none">
         <div className="flex items-center gap-2">
