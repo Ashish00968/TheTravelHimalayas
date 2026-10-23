@@ -239,6 +239,79 @@ export function computeAdaptivePitch(
 }
 
 /**
+ * Computes destination coordinate given a starting coordinate, bearing in degrees, and distance in meters.
+ */
+export function computeOffsetPoint(
+  lng: number,
+  lat: number,
+  bearingDeg: number,
+  distanceMeters: number
+): [number, number] {
+  const R = 6378137; // Earth radius in meters
+  const δ = distanceMeters / R;
+  const θ = (bearingDeg * Math.PI) / 180;
+  const φ1 = (lat * Math.PI) / 180;
+  const λ1 = (lng * Math.PI) / 180;
+
+  const sinφ2 = Math.sin(φ1) * Math.cos(δ) + Math.cos(φ1) * Math.sin(δ) * Math.cos(θ);
+  const φ2 = Math.asin(sinφ2);
+  const y = Math.sin(θ) * Math.sin(δ) * Math.cos(φ1);
+  const x = Math.cos(δ) - Math.sin(φ1) * sinφ2;
+  const λ2 = λ1 + Math.atan2(y, x);
+
+  return [((λ2 * 180) / Math.PI + 540) % 360 - 180, (φ2 * 180) / Math.PI];
+}
+
+/**
+ * Strava-Grade 3D Chase Camera Math:
+ * Calculates an elevated camera eye position that trails behind the hiker along
+ * the inverted movement bearing, looking forward at the target coordinate.
+ *
+ * @param hikerLng Current hiker longitude
+ * @param hikerLat Current hiker latitude
+ * @param bearing Current movement bearing in degrees
+ * @param gradientPct Current trail grade percentage
+ * @param distanceBehindMeters Distance camera trails behind hiker in meters (default 240m)
+ */
+export function computeStravaChaseCamera(
+  hikerLng: number,
+  hikerLat: number,
+  bearing: number,
+  gradientPct = 0,
+  distanceBehindMeters = 240
+): {
+  center: [number, number];
+  zoom: number;
+  pitch: number;
+  bearing: number;
+} {
+  // Trail behind the hiker along the reverse bearing
+  const reverseBearing = (bearing + 180) % 360;
+  
+  // Adaptive offset: slightly further back on steep climbs to keep mountain peaks in frame
+  const clampedGrade = Math.max(-25, Math.min(30, gradientPct));
+  const offsetMeters = distanceBehindMeters + (clampedGrade > 10 ? (clampedGrade - 10) * 3 : 0);
+  
+  const eyeCoord = computeOffsetPoint(hikerLng, hikerLat, reverseBearing, offsetMeters);
+
+  // Pitch: 58° on flat, dampens down to 48° on steep ascents to prevent mountain cliff collision
+  const pitch = Math.max(46, Math.min(62, 58 - clampedGrade * 0.35));
+
+  // Zoom: 14.2 gives high-detail 3D terrain immersion without claustrophobia
+  const zoom = 14.2;
+
+  return {
+    center: [
+      (eyeCoord[0] + hikerLng * 2) / 3, // Target between eye and hiker for balanced framing
+      (eyeCoord[1] + hikerLat * 2) / 3,
+    ],
+    zoom,
+    pitch,
+    bearing,
+  };
+}
+
+/**
  * Computes safe, strictly ascending stops for Mapbox GL `line-gradient` expressions.
  * Mapbox requires `stop[i] < stop[i+1]` strictly. Colliding or equal stops crash WebGL.
  *

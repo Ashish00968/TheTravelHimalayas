@@ -15,6 +15,7 @@ import {
   Mountain,
   Orbit,
   FastForward,
+  Film,
 } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { RouteData } from "@/data/types";
@@ -27,8 +28,10 @@ import {
   computeSafeGradientStops,
   cubicEaseOut,
   getInterpolatedPoint,
+  computeStravaChaseCamera,
 } from "@/lib/camera-math";
 import { registerPulsingBeacon } from "@/lib/mapbox-canvas-beacon";
+import { FlyoverVideoExportModal } from "./FlyoverVideoExportModal";
 
 interface RouteMap3DProps {
   routeData: RouteData;
@@ -38,6 +41,12 @@ interface RouteMap3DProps {
   distance: string;
   accentColor?: string;
   isPatalsu?: boolean;
+}
+
+function getCompassDirection(deg: number): string {
+  const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  const index = Math.round((((deg % 360) + 360) % 360) / 45) % 8;
+  return directions[index];
 }
 
 export default function RouteMap3D({
@@ -50,8 +59,20 @@ export default function RouteMap3D({
   isPatalsu = true,
 }: RouteMap3DProps) {
   const [isMapActive, setIsMapActive] = useState(false);
+  const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPlayingFlyover, setIsPlayingFlyover] = useState(false);
   const [isOrbiting, setIsOrbiting] = useState(false);
+  const [orbitBearing, setOrbitBearing] = useState<number>(0);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [activeWaypointAlert, setActiveWaypointAlert] = useState<{
+    name: string;
+    eleM?: number;
+    note?: string;
+    caution?: string;
+  } | null>(null);
+  const [isIntroZooming, setIsIntroZooming] = useState(false);
+  const introTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastWaypointAlertNameRef = useRef<string | null>(null);
   const [flyoverProgress, setFlyoverProgress] = useState(0); // 0 to 1
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -115,8 +136,7 @@ export default function RouteMap3D({
 
   const totalDistanceKm = cumDistances[cumDistances.length - 1] || routeData.stats.distanceKm;
 
-  const altimeterTrackRef = useRef<HTMLDivElement>(null);
-  const isDraggingAltimeterRef = useRef<boolean>(false);
+
 
   // Precompute summit / apex distance along trail for out-and-back stabilization
   const apexInfo = useMemo(() => {
@@ -132,8 +152,9 @@ export default function RouteMap3D({
     return {
       apexIdx,
       apexDistKm: cumDistances[apexIdx] || totalDistanceKm,
+      maxEle: maxEle > -Infinity ? maxEle : (routeData.stats.maxEleM || 4000),
     };
-  }, [coordinates, cumDistances, totalDistanceKm]);
+  }, [coordinates, cumDistances, totalDistanceKm, routeData.stats.maxEleM]);
 
   const apexDistKm = apexInfo.apexDistKm;
 
@@ -337,9 +358,11 @@ export default function RouteMap3D({
       doubleClickZoom: true,
       attributionControl: false,
       antialias: true,
+      preserveDrawingBuffer: true,
     });
 
     mapRef.current = map;
+    setMapInstance(map);
 
     map.on("load", () => {
       // 0. Clean wilderness canvas
@@ -605,10 +628,15 @@ export default function RouteMap3D({
         lat: summitCoord[1],
       });
 
-      // 10. Interactive Dynamic Scrubber Marker
+      // 10. Interactive Dynamic Scrubber Marker (Strava-Grade Precision Puck)
       const activeEl = document.createElement("div");
-      activeEl.className = "w-5 h-5 rounded-full bg-cyan-400 border-2 border-white shadow-xl shadow-cyan-500/50 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center";
-      activeEl.innerHTML = `<div class="w-2 h-2 rounded-full bg-slate-900"></div>`;
+      activeEl.className = "relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2 pointer-events-none";
+      activeEl.innerHTML = `
+        <div class="absolute w-8 h-8 rounded-full bg-cyan-400/30 animate-ping"></div>
+        <div class="relative w-4.5 h-4.5 rounded-full bg-white border-2 border-cyan-400 shadow-[0_0_12px_#22d3ee] flex items-center justify-center">
+          <div class="w-1.5 h-1.5 rounded-full bg-slate-900"></div>
+        </div>
+      `;
       const activeMarker = new mapboxgl.Marker({ element: activeEl, pitchAlignment: "viewport", rotationAlignment: "viewport" })
         .setLngLat([startCoord[0], startCoord[1]])
         .addTo(map);
@@ -644,10 +672,12 @@ export default function RouteMap3D({
       if (flyoverAnimRef.current) cancelAnimationFrame(flyoverAnimRef.current);
       if (orbitAnimRef.current) cancelAnimationFrame(orbitAnimRef.current);
       if (orbitTimeoutRef.current) clearTimeout(orbitTimeoutRef.current);
+      if (introTimeoutRef.current) clearTimeout(introTimeoutRef.current);
       if (flowTimerRef.current) clearInterval(flowTimerRef.current);
       waypointItemsRef.current = [];
       map.remove();
       mapRef.current = null;
+      setMapInstance(null);
     };
   }, [
     isMapActive,
@@ -701,6 +731,7 @@ export default function RouteMap3D({
   // Stop 360° summit flyover orbit
   const stopOrbit = useCallback(() => {
     setIsOrbiting(false);
+    setOrbitBearing(0);
     if (orbitTimeoutRef.current) {
       clearTimeout(orbitTimeoutRef.current);
       orbitTimeoutRef.current = null;
@@ -752,8 +783,8 @@ export default function RouteMap3D({
     const map = mapRef.current;
     map.easeTo({
       center: [summitCoord[0], summitCoord[1]],
-      zoom: 13.2,
-      pitch: 46,
+      zoom: 12.8,
+      pitch: 48,
       duration: 1800,
     });
 
@@ -762,12 +793,18 @@ export default function RouteMap3D({
       if (!mapRef.current) return;
       const deltaMs = Math.min(32, now - lastOrbitTime);
       lastOrbitTime = now;
-      const deltaBearing = (deltaMs / 1000) * 7.5; // ~48s for complete 360° rotation
+      const deltaBearing = (deltaMs / 1000) * 6.5; // ~55s for calm, majestic 360° summit panoramic orbit
       const b = (mapRef.current.getBearing() + deltaBearing) % 360;
+      
+      // Stable locked 48° pitch — eliminates vertical terrain shudder and tile jitter
       mapRef.current.jumpTo({
         center: [summitCoord[0], summitCoord[1]],
         bearing: b,
+        pitch: 48,
+        zoom: 12.8,
       });
+
+      setOrbitBearing(Math.round(b));
       orbitAnimRef.current = requestAnimationFrame(orbitStep);
     };
 
@@ -783,26 +820,14 @@ export default function RouteMap3D({
     updateTelemetryDOM,
   ]);
 
-  // Pause Flyover Ridge Animation
-  const pauseFlyover = useCallback(() => {
-    if (flyoverAnimRef.current) {
-      cancelAnimationFrame(flyoverAnimRef.current);
-      flyoverAnimRef.current = null;
-    }
-    setIsPlayingFlyover(false);
-    setFlyoverProgress(flyoverProgressRef.current);
-  }, []);
-
-  // Start / Resume Flyover Ridge Animation with Anti-Clipping Chase Math & Gimbal Smoothing
-  const startFlyover = useCallback(() => {
+  // Main 60fps Ridge Traversal Loop (Strava-Grade Himalayan Chase Camera)
+  const beginFlyoverLoop = useCallback((startProgress: number) => {
     if (!mapRef.current) return;
-    stopOrbit();
     setIsPlayingFlyover(true);
 
-    const baseDuration = 32000; // 32s base time for smooth alpine traversal
+    const baseDuration = 36000; // 36s base time for smooth alpine traversal and calm tile loading
     const duration = baseDuration / speedMultiplier;
     const startTime = performance.now();
-    const startProgress = flyoverProgressRef.current >= 0.99 ? 0 : flyoverProgressRef.current;
 
     const frame = (now: number) => {
       const elapsed = now - startTime;
@@ -844,34 +869,65 @@ export default function RouteMap3D({
           activeMarkerRef.current.setLngLat([pt.lng, pt.lat]);
         }
 
-        // Camera Gimbal Center EMA Smoothing (completely dampens GPS trail micro-wiggles)
-        cameraCenterRef.current[0] += (pt.lng - cameraCenterRef.current[0]) * 0.055;
-        cameraCenterRef.current[1] += (pt.lat - cameraCenterRef.current[1]) * 0.055;
+        // Strava-Grade 3D Chase Camera: camera trails 220m behind the hiker along the movement vector
+        const stravaCamera = computeStravaChaseCamera(
+          pt.lng,
+          pt.lat,
+          pt.bearing,
+          pt.gradientPct,
+          220
+        );
 
-        // Camera Gimbal Pitch EMA Smoothing (calibrated 38° to 48°)
-        cameraPitchRef.current += (pt.adaptivePitch - cameraPitchRef.current) * 0.05;
+        // Smooth camera gimbal position (responsive tracking, prevents camera lagging behind switchbacks)
+        cameraCenterRef.current[0] += (stravaCamera.center[0] - cameraCenterRef.current[0]) * 0.09;
+        cameraCenterRef.current[1] += (stravaCamera.center[1] - cameraCenterRef.current[1]) * 0.09;
 
-        // Rate-Limited Bearing Lerp: strictly limits rotation to max 0.65°/frame (39°/sec)
-        // completely eliminates snappy switchback shaking and 360° reverse barrel spins!
+        // Smooth camera pitch (52°–62° for deep 3D horizon perspective without clipping)
+        cameraPitchRef.current += (stravaCamera.pitch - cameraPitchRef.current) * 0.06;
+
+        // Rate-Limited Bearing Lerp: limits turn speed to 0.55°/frame (33°/sec)
+        // completely eliminates snappy switchback shaking and reverse barrel spins!
         if (!shouldReduceMotion) {
           currentBearingRef.current = rateLimitedBearingLerp(
             currentBearingRef.current,
             pt.bearing,
-            0.045,
-            0.65
+            0.055,
+            0.55
           );
         }
 
-        // Camera flight tracking: jumpTo directly sets WebGL camera matrix without scheduling easeTo animations!
+        // Camera flight tracking: jumpTo directly sets WebGL camera matrix at immersive 14.2 zoom!
         mapRef.current.jumpTo({
           center: cameraCenterRef.current,
-          zoom: shouldReduceMotion ? 12.0 : 12.5,
+          zoom: shouldReduceMotion ? 12.0 : stravaCamera.zoom,
           pitch: shouldReduceMotion ? 20 : cameraPitchRef.current,
           bearing: shouldReduceMotion ? -35 : currentBearingRef.current,
         });
 
         // Dynamic proximity culling for waypoint badges during flight
         updateWaypointVisibilities(pt.lng, pt.lat);
+
+        // Dynamic proximity notification for trail waypoints during flight
+        let nearbyWpt: { name: string; eleM?: number; note?: string; caution?: string } | null = null;
+        if (routeData.waypoints && routeData.waypoints.length > 0) {
+          for (const wpt of routeData.waypoints) {
+            const dKm = haversineDistanceKm(pt.lng, pt.lat, wpt.lng, wpt.lat);
+            if (dKm <= 0.35) {
+              nearbyWpt = {
+                name: wpt.name,
+                eleM: wpt.eleM,
+                note: wpt.note,
+                caution: wpt.cautionNotice,
+              };
+              break;
+            }
+          }
+        }
+
+        if (nearbyWpt?.name !== lastWaypointAlertNameRef.current) {
+          lastWaypointAlertNameRef.current = nearbyWpt?.name || null;
+          setActiveWaypointAlert(nearbyWpt);
+        }
 
         // Update Left Vertical Altimeter Gauge
         const altPct = Math.max(
@@ -897,6 +953,8 @@ export default function RouteMap3D({
       } else {
         setIsPlayingFlyover(false);
         setFlyoverProgress(1);
+        setActiveWaypointAlert(null);
+        lastWaypointAlertNameRef.current = null;
 
         // Keep the trail up to the summit illuminated with vibrant glacier cyan!
         try {
@@ -913,7 +971,6 @@ export default function RouteMap3D({
 
     flyoverAnimRef.current = requestAnimationFrame(frame);
   }, [
-    stopOrbit,
     speedMultiplier,
     getPointAtProgress,
     flyoverMaxDistKm,
@@ -922,6 +979,106 @@ export default function RouteMap3D({
     shouldReduceMotion,
     startOrbit,
     updateWaypointVisibilities,
+    routeData.waypoints,
+  ]);
+
+  // Pause Flyover Ridge Animation with complete cancellation of intro timers & flights
+  const pauseFlyover = useCallback(() => {
+    if (introTimeoutRef.current) {
+      clearTimeout(introTimeoutRef.current);
+      introTimeoutRef.current = null;
+    }
+    if (flyoverAnimRef.current) {
+      cancelAnimationFrame(flyoverAnimRef.current);
+      flyoverAnimRef.current = null;
+    }
+    if (mapRef.current) {
+      mapRef.current.stop();
+    }
+    setIsIntroZooming(false);
+    setIsPlayingFlyover(false);
+    setFlyoverProgress(flyoverProgressRef.current);
+    setActiveWaypointAlert(null);
+    lastWaypointAlertNameRef.current = null;
+  }, []);
+
+  // Start / Resume Flyover Ridge Animation with Strava-Style Initial 2.5s 3D Overview & Zoom
+  const startFlyover = useCallback(() => {
+    if (!mapRef.current) return;
+    stopOrbit();
+
+    let startProgress = flyoverProgressRef.current;
+    if (startProgress >= 0.99) {
+      startProgress = 0;
+      flyoverProgressRef.current = 0;
+      setFlyoverProgress(0);
+    }
+
+    // Strava FlyoverStart: 2.5-second cinematic 3D overview & zoom into the trailhead
+    if (startProgress < 0.01 && !isIntroZooming) {
+      setIsPlayingFlyover(true);
+      setIsIntroZooming(true);
+
+      const startPt = getPointAtProgress(0);
+      const stravaCamera = computeStravaChaseCamera(
+        startPt.lng,
+        startPt.lat,
+        startPt.bearing,
+        startPt.gradientPct,
+        220
+      );
+
+      // Pre-position active beacon at trailhead with high-visibility cyan pulse
+      if (activeMarkerRef.current) {
+        activeMarkerRef.current.setLngLat([startPt.lng, startPt.lat]);
+      }
+
+      // If user had panned or zoomed away, align camera to high 3D overview before taking flight
+      const currentZoom = mapRef.current.getZoom();
+      if (currentZoom > 13) {
+        mapRef.current.jumpTo({
+          pitch: 52,
+          bearing: -35,
+          zoom: 11.5,
+        });
+      }
+
+      // Synchronize internal camera references to land seamlessly without jump or flicker
+      cameraCenterRef.current = [stravaCamera.center[0], stravaCamera.center[1]];
+      cameraPitchRef.current = stravaCamera.pitch;
+      currentBearingRef.current = stravaCamera.bearing;
+
+      // Phase 1 (0ms–500ms): 3D Overview hold showcasing the mountain massif & trail
+      // Phase 2 (500ms–2500ms): Parabolic 3D fly-in swoop down into the trailhead
+      introTimeoutRef.current = setTimeout(() => {
+        if (!mapRef.current) return;
+
+        mapRef.current.flyTo({
+          center: stravaCamera.center,
+          zoom: stravaCamera.zoom,
+          pitch: stravaCamera.pitch,
+          bearing: stravaCamera.bearing,
+          duration: 2000,
+          essential: true,
+          curve: 1.42,
+        });
+
+        introTimeoutRef.current = setTimeout(() => {
+          setIsIntroZooming(false);
+          // Phase 3 (2550ms+): Start actual route progression after the cinematic 3D fly-in
+          beginFlyoverLoop(0);
+        }, 2050);
+      }, 500);
+
+      return;
+    }
+
+    beginFlyoverLoop(startProgress);
+  }, [
+    stopOrbit,
+    isIntroZooming,
+    getPointAtProgress,
+    beginFlyoverLoop,
   ]);
 
   // Direct altimeter & flight progress seeker
@@ -980,12 +1137,19 @@ export default function RouteMap3D({
           activeMarkerRef.current.setLngLat([pt.lng, pt.lat]);
         }
 
-        // Instant camera placement while dragging
+        // Instant Strava-grade camera placement while dragging timeline scrubber
+        const stravaCamera = computeStravaChaseCamera(
+          pt.lng,
+          pt.lat,
+          pt.bearing,
+          pt.gradientPct,
+          220
+        );
         mapRef.current.jumpTo({
-          center: [pt.lng, pt.lat],
-          zoom: 12.5,
-          pitch: pt.adaptivePitch,
-          bearing: pt.bearing,
+          center: stravaCamera.center,
+          zoom: stravaCamera.zoom,
+          pitch: stravaCamera.pitch,
+          bearing: stravaCamera.bearing,
         });
 
         // Dynamic proximity culling for waypoint badges
@@ -1002,48 +1166,7 @@ export default function RouteMap3D({
     ]
   );
 
-  // Drag & click seeker directly on the Left Vertical Altimeter Gauge
-  const seekFromPointer = useCallback(
-    (clientY: number) => {
-      const track = altimeterTrackRef.current;
-      if (!track) return;
-      const rect = track.getBoundingClientRect();
-      const clampedY = Math.max(rect.top, Math.min(rect.bottom, clientY));
-      const p = 1 - (clampedY - rect.top) / (rect.height || 1);
-      seekToProgress(p);
-    },
-    [seekToProgress]
-  );
 
-  const handleAltimeterPointerDown = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      isDraggingAltimeterRef.current = true;
-      try {
-        e.currentTarget.setPointerCapture(e.pointerId);
-      } catch {}
-      seekFromPointer(e.clientY);
-    },
-    [seekFromPointer]
-  );
-
-  const handleAltimeterPointerMove = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      if (isDraggingAltimeterRef.current) {
-        seekFromPointer(e.clientY);
-      }
-    },
-    [seekFromPointer]
-  );
-
-  const handleAltimeterPointerUp = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      isDraggingAltimeterRef.current = false;
-      try {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      } catch {}
-    },
-    []
-  );
 
   // Speed multiplier cycle
   const cycleSpeed = useCallback(() => {
@@ -1059,6 +1182,8 @@ export default function RouteMap3D({
   const resetFlyover = useCallback(() => {
     pauseFlyover();
     stopOrbit();
+    setActiveWaypointAlert(null);
+    lastWaypointAlertNameRef.current = null;
     flyoverProgressRef.current = 0;
     setFlyoverProgress(0);
     setActiveRoutePoint(null);
@@ -1339,230 +1464,220 @@ export default function RouteMap3D({
                   </span>
                 </div>
               </div>
-
-              {/* Active Mode / 3D Summit Orbit Indicator */}
-              {isOrbiting && (
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyan-950/90 border border-cyan-400/50 backdrop-blur-md text-cyan-300 font-mono text-[11px] font-bold shadow-xl animate-pulse pointer-events-auto">
-                  <Orbit className="w-3.5 h-3.5 animate-spin text-cyan-400" />
-                  <span>360° SUMMIT FLYOVER • {maxAltitude}</span>
-                </div>
-              )}
             </div>
 
-            {/* Left Vertical Alpine Altimeter Gauge with Direct Seeking */}
-            <div
-              className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-20 pointer-events-auto flex items-center gap-2 select-none"
-              aria-label="Vertical Altitude Gauge"
-            >
-              {/* Vertical Rail Capsule (Interactive Drag / Click Seeker) */}
-              <div
-                onPointerDown={handleAltimeterPointerDown}
-                onPointerMove={handleAltimeterPointerMove}
-                onPointerUp={handleAltimeterPointerUp}
-                onPointerCancel={handleAltimeterPointerUp}
-                className="flex flex-col items-center justify-between h-[210px] sm:h-[260px] w-9 sm:w-11 py-2 sm:py-2.5 px-1 rounded-2xl bg-slate-950/85 hover:bg-slate-950/95 backdrop-blur-md border border-white/15 hover:border-cyan-400/50 shadow-2xl transition-all cursor-pointer touch-none group"
-                title="Click or drag vertically to seek trail elevation"
-              >
-                {/* Summit Altitude Cap */}
-                <div
-                  className="flex flex-col items-center text-center pointer-events-none"
-                  title={`Summit Peak Altitude: ${altimeterStats.maxEle}m`}
-                >
-                  <Mountain className="w-3 h-3 text-amber-300 group-hover:scale-110 transition-transform" />
-                  <span className="font-mono text-[9px] font-bold text-amber-300/90 leading-tight">
-                    {altimeterStats.maxEle}m
+
+
+            {/* 3D Overview & Trailhead Fly-In Toast */}
+            {isIntroZooming && (
+              <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-slate-950/90 backdrop-blur-md border border-cyan-400/50 shadow-[0_0_24px_rgba(0,229,255,0.3)] text-white font-mono text-[11px] font-bold">
+                  <Compass className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
+                  <span className="text-white/95">3D OVERVIEW • APPROACHING TRAILHEAD</span>
+                  <span className="text-cyan-300 bg-cyan-950/70 px-2 py-0.5 rounded-full border border-cyan-500/40 text-[10px]">
+                    3D ZOOM
                   </span>
                 </div>
+              </div>
+            )}
 
-                {/* Vertical Gauge Track */}
-                <div
-                  ref={altimeterTrackRef}
-                  className="relative w-1.5 flex-1 mx-auto my-1.5 sm:my-2 rounded-full bg-slate-800/80 overflow-visible pointer-events-none"
-                >
-                  {/* AMS 3,000m Critical Altitude Threshold Tick */}
-                  {altimeterStats.amsPct !== null && (
-                    <div
-                      className="absolute left-1/2 -translate-x-1/2 w-3.5 h-[1.5px] bg-amber-400/90 shadow-[0_0_6px_rgba(251,191,36,0.8)] z-10"
-                      style={{ bottom: `${altimeterStats.amsPct}%` }}
-                      title="3,000m Altitude Threshold (AMS Risk Zone)"
-                    />
-                  )}
+            {/* 360° Summit Orbit Compass Telemetry Banner */}
+            {isOrbiting && (
+              <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-cyan-400/40 shadow-lg text-white font-mono text-[11px] font-bold">
+                  <Orbit className="w-3 h-3 text-cyan-400 animate-spin" />
+                  <span className="text-white/90">SUMMIT ORBIT • {maxAltitude}</span>
+                  <span className="text-cyan-300 bg-cyan-950/60 px-1.5 py-0.2 rounded-full border border-cyan-500/30 text-[10px]">
+                    {orbitBearing}° {getCompassDirection(orbitBearing)}
+                  </span>
+                </div>
+              </div>
+            )}
 
-                  {/* Dynamic Glowing Liquid Fill */}
-                  <div
-                    ref={altimeterFillRef}
-                    className="absolute bottom-0 left-0 right-0 rounded-full bg-gradient-to-t from-cyan-500 via-blue-500 to-amber-400 shadow-[0_0_10px_rgba(34,211,238,0.7)] transition-all duration-75 ease-out"
-                    style={{ height: `${initialAltPct}%` }}
-                  />
-
-                  {/* Sliding Level Crosshair Beacon */}
-                  <div
-                    ref={altimeterThumbRef}
-                    className="absolute left-1/2 -translate-x-1/2 transition-all duration-75 ease-out pointer-events-none z-20"
-                    style={{ bottom: `${initialAltPct}%`, transform: "translate(-50%, 50%)" }}
-                  >
-                    <div className="relative flex items-center justify-center">
-                      <div className="w-3.5 h-3.5 rounded-full bg-white border-2 border-cyan-400 shadow-[0_0_10px_#22d3ee] flex items-center justify-center group-hover:scale-125 transition-transform">
-                        <div className="w-1 h-1 rounded-full bg-cyan-600" />
-                      </div>
-                    </div>
+            {/* Live Waypoint Proximity Toast during Flyover */}
+            {activeWaypointAlert && isPlayingFlyover && (
+              <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-300 max-w-[88vw] sm:max-w-sm">
+                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl backdrop-blur-md border shadow-xl text-xs ${
+                  activeWaypointAlert.caution
+                    ? "bg-amber-950/85 border-amber-400/50 text-amber-100"
+                    : "bg-slate-950/85 border-cyan-400/40 text-white"
+                }`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping flex-shrink-0" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-semibold text-[11px] flex items-center gap-1.5 truncate">
+                      {activeWaypointAlert.name}
+                      {activeWaypointAlert.eleM && (
+                        <span className="text-cyan-300 font-mono text-[10px]">({activeWaypointAlert.eleM}m)</span>
+                      )}
+                    </span>
+                    {activeWaypointAlert.caution ? (
+                      <span className="text-[9px] text-amber-300/90 font-light truncate">{activeWaypointAlert.caution}</span>
+                    ) : activeWaypointAlert.note ? (
+                      <span className="text-[9px] text-slate-300 font-light truncate">{activeWaypointAlert.note}</span>
+                    ) : null}
                   </div>
                 </div>
-
-                {/* Base / Trailhead Altitude Cap */}
-                <div
-                  className="flex flex-col items-center text-center pointer-events-none"
-                  title={`Trailhead Altitude: ${altimeterStats.minEle}m`}
-                >
-                  <span className="font-mono text-[9px] font-semibold text-white/50 leading-tight">
-                    {altimeterStats.minEle}m
-                  </span>
-                </div>
               </div>
+            )}
 
-              {/* Floating Real-Time Altitude Callout Pill */}
-              <div className="hidden sm:flex flex-col gap-1 px-3 py-2 rounded-xl bg-slate-950/90 backdrop-blur-md border border-cyan-400/30 text-white font-mono shadow-2xl">
-                <div className="text-[9px] uppercase tracking-wider text-cyan-400/90 font-bold flex items-center justify-between gap-3">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    Altitude
-                  </span>
-                  <span ref={progressTextRef} className="text-cyan-300 font-bold">
+            {/* Bottom Strava-Grade Control Cockpit & Interactive Timeline Scrubber */}
+            <div className="absolute bottom-2.5 sm:bottom-4 left-2 right-2 sm:left-4 sm:right-4 z-20 pointer-events-none flex flex-col items-center gap-2">
+              <div className="w-full max-w-2xl p-2.5 sm:p-3 rounded-2xl bg-slate-950/90 border border-white/15 backdrop-blur-md shadow-2xl pointer-events-auto">
+                {/* Strava Scrub Timeline Bar */}
+                <div className="flex items-center gap-3 px-1 mb-2">
+                  <span className="text-[10px] font-mono font-bold text-cyan-400 shrink-0 w-8">
                     {Math.round(flyoverProgress * 100)}%
                   </span>
-                </div>
-                <div className="flex items-baseline gap-1.5 text-xs font-extrabold text-cyan-300">
-                  <span ref={altimeterValRef}>{displayCoordinates[0]?.[2] || altimeterStats.minEle}m</span>
-                  <span ref={slopeValRef} className="text-[10px] font-normal text-white/60">
-                    {defaultTelemetryPoint.gradientPct > 0
-                      ? `+${defaultTelemetryPoint.gradientPct}%`
-                      : `${defaultTelemetryPoint.gradientPct}%`}
+                  <div className="relative flex-1 flex items-center">
+                    <input
+                      type="range"
+                      min="0"
+                      max="1000"
+                      value={Math.round(flyoverProgress * 1000)}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10) / 1000;
+                        if (isPlayingFlyover) pauseFlyover();
+                        seekToProgress(val);
+                      }}
+                      className="w-full h-1.5 sm:h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400 focus:outline-hidden"
+                      aria-label="Route Playback Timeline Scrubber"
+                    />
+                  </div>
+                  <span className="text-[10px] font-mono text-white/50 shrink-0">
+                    {activeTelemetry.distanceKm.toFixed(1)} / {flyoverMaxDistKm.toFixed(1)} km
                   </span>
                 </div>
-                <div className="text-[10px] font-mono text-white/50 border-t border-white/10 pt-1 flex items-center justify-between gap-2">
-                  <span ref={scrubberDistValRef}>{activeTelemetry.distanceKm.toFixed(1)} km</span>
-                  <span className="text-white/40">/ {flyoverMaxDistKm.toFixed(1)} km</span>
+
+                {/* Primary Player Action Controls & Tools */}
+                <div className="flex items-center justify-between gap-1 pt-1 border-t border-white/10">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    {!isPlayingFlyover ? (
+                      <button
+                        type="button"
+                        onClick={startFlyover}
+                        className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                        aria-label="Play 3D Flyover"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Play</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={pauseFlyover}
+                        className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                        aria-label="Pause Flyover"
+                      >
+                        <Pause className="w-3.5 h-3.5 fill-current" />
+                        <span>Pause</span>
+                      </button>
+                    )}
+
+                    {/* Speed Multiplier Button */}
+                    <button
+                      type="button"
+                      onClick={cycleSpeed}
+                      className="px-2 sm:px-2.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-white/15 text-white/90 text-[11px] font-mono font-bold shadow-md transition-all cursor-pointer flex items-center gap-1"
+                      aria-label="Cycle Flyover Speed"
+                      title="Playback Speed"
+                    >
+                      <FastForward className="w-3 h-3 text-cyan-400" />
+                      <span>{speedMultiplier}x</span>
+                    </button>
+
+                    {/* 360° Summit Orbit Button */}
+                    <button
+                      type="button"
+                      onClick={isOrbiting ? stopOrbit : startOrbit}
+                      className={`px-2.5 py-1.5 rounded-full border text-xs font-mono font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isOrbiting
+                          ? "bg-cyan-500 text-slate-950 border-cyan-400 shadow-cyan-500/30 animate-pulse"
+                          : "bg-slate-900 hover:bg-slate-800 text-white/80 hover:text-white border-white/15"
+                      }`}
+                      aria-label="360 Summit Flyover"
+                      title="360° Summit Flyover Orbit"
+                    >
+                      <Orbit className={`w-3.5 h-3.5 ${isOrbiting ? "animate-spin" : ""}`} />
+                      <span className="hidden sm:inline">
+                        {isOrbiting ? "Orbiting" : "Summit Orbit"}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={resetFlyover}
+                      className="p-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-white/15 text-white/70 hover:text-white shadow-md transition-all cursor-pointer"
+                      aria-label="Reset View"
+                      title="Reset Overview"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                    </button>
+
+                    {/* 🎬 Export 3D Video Button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsExportModalOpen(true)}
+                      className="px-2.5 py-1 rounded-full bg-slate-900 hover:bg-cyan-950/60 text-cyan-300 hover:text-white border border-cyan-400/40 hover:border-cyan-400 font-mono text-[11px] font-bold shadow-md transition-all flex items-center gap-1 cursor-pointer"
+                      aria-label="Export 3D Alpine Video"
+                      title="Export 3D MP4 / WebM Video"
+                    >
+                      <Film className="w-3 h-3 text-cyan-400" />
+                      <span className="hidden md:inline">Export</span>
+                    </button>
+                  </div>
+
+                  {/* Camera & Zoom Console */}
+                  <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 rounded-full bg-slate-900 border border-white/15 shadow-md">
+                    <button
+                      type="button"
+                      onClick={toggle3D}
+                      className="px-2 py-0.5 rounded-full text-xs font-mono font-bold text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+                      aria-label="Toggle 3D View"
+                    >
+                      {is3DMode ? "3D" : "2D"}
+                    </button>
+                    <div className="w-px h-3 bg-white/20" />
+                    <button
+                      type="button"
+                      onClick={resetNorth}
+                      className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      aria-label="Reset North"
+                      title="Reset North"
+                    >
+                      <Compass className="w-3.5 h-3.5" />
+                    </button>
+                    <div className="w-px h-3 bg-white/20" />
+                    <button
+                      type="button"
+                      onClick={() => handleZoom(0.8)}
+                      className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      aria-label="Zoom In"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleZoom(-0.8)}
+                      className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      aria-label="Zoom Out"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <div className="w-px h-3 bg-white/20" />
+                    <button
+                      type="button"
+                      onClick={toggleFullscreen}
+                      className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      aria-label="Toggle Fullscreen"
+                    >
+                      {isFullscreen ? (
+                        <Minimize2 className="w-3.5 h-3.5" />
+                      ) : (
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Bottom Floating Control Console */}
-            <div className="absolute bottom-2.5 sm:bottom-4 left-1.5 right-1.5 sm:left-4 sm:right-4 z-20 flex items-center justify-between pointer-events-none">
-              {/* Flyover Playback Controls */}
-              <div className="flex items-center gap-1 sm:gap-2 pointer-events-auto">
-                {!isPlayingFlyover ? (
-                  <button
-                    type="button"
-                    onClick={startFlyover}
-                    className="inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                    aria-label="Play 3D Flyover"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Flyover</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={pauseFlyover}
-                    className="inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                    aria-label="Pause Flyover"
-                  >
-                    <Pause className="w-3.5 h-3.5 fill-current" />
-                    <span>Pause</span>
-                  </button>
-                )}
-
-                {/* Speed Multiplier Button */}
-                <button
-                  type="button"
-                  onClick={cycleSpeed}
-                  className="px-2 sm:px-2.5 py-1.5 rounded-full bg-slate-900/85 hover:bg-slate-800 border border-white/15 text-white/90 text-[11px] font-mono font-bold backdrop-blur-md shadow-lg transition-all cursor-pointer flex items-center gap-1"
-                  aria-label="Cycle Flyover Speed"
-                  title="Playback Speed"
-                >
-                  <FastForward className="w-3 h-3 text-cyan-400" />
-                  <span>{speedMultiplier}x</span>
-                </button>
-
-                {/* 360° Summit Orbit Button */}
-                <button
-                  type="button"
-                  onClick={isOrbiting ? stopOrbit : startOrbit}
-                  className={`p-2 sm:px-3 sm:py-2 rounded-full border text-xs font-mono font-bold backdrop-blur-md shadow-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                    isOrbiting
-                      ? "bg-cyan-500 text-slate-950 border-cyan-400 shadow-cyan-500/30 animate-pulse"
-                      : "bg-slate-900/85 hover:bg-slate-800 text-white/80 hover:text-white border-white/15"
-                  }`}
-                  aria-label="360 Summit Flyover"
-                  title="360° Summit Flyover Orbit"
-                >
-                  <Orbit className={`w-3.5 h-3.5 ${isOrbiting ? "animate-spin" : ""}`} />
-                  <span className="hidden sm:inline">
-                    {isOrbiting ? "Orbiting Summit" : "Summit Flyover"}
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={resetFlyover}
-                  className="p-2 sm:p-2.5 rounded-full bg-slate-900/85 hover:bg-slate-800 border border-white/15 text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all cursor-pointer"
-                  aria-label="Reset View"
-                  title="Reset View"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </button>
-              </div>
-
-              {/* Camera & Zoom Console */}
-              <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-full bg-slate-900/85 border border-white/15 backdrop-blur-md shadow-xl pointer-events-auto">
-                <button
-                  type="button"
-                  onClick={toggle3D}
-                  className="px-2 py-1 rounded-full text-xs font-mono font-bold text-white/90 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Toggle 3D View"
-                >
-                  {is3DMode ? "3D" : "2D"}
-                </button>
-                <div className="w-px h-3 bg-white/20" />
-                <button
-                  type="button"
-                  onClick={resetNorth}
-                  className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Reset North"
-                  title="Reset North"
-                >
-                  <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </button>
-                <div className="w-px h-3 bg-white/20" />
-                <button
-                  type="button"
-                  onClick={() => handleZoom(0.8)}
-                  className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Zoom In"
-                >
-                  <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleZoom(-0.8)}
-                  className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Zoom Out"
-                >
-                  <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </button>
-                <div className="w-px h-3 bg-white/20" />
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Toggle Fullscreen"
-                >
-                  {isFullscreen ? (
-                    <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  ) : (
-                    <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  )}
-                </button>
               </div>
             </div>
 
@@ -1570,6 +1685,21 @@ export default function RouteMap3D({
             <div className="absolute top-2 right-2 z-10 text-[9px] font-mono text-white/40 bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm pointer-events-none">
               &copy; Mapbox &copy; OpenStreetMap
             </div>
+
+            {/* 3D Video Export Modal */}
+            <FlyoverVideoExportModal
+              isOpen={isExportModalOpen}
+              onClose={() => setIsExportModalOpen(false)}
+              map={mapInstance}
+              placeName={placeName}
+              placeSlug={placeSlug}
+              maxAltitude={maxAltitude}
+              territoryName="Himalayas"
+              apexElevationM={apexInfo.maxEle}
+              getPointAtProgress={getPointAtProgress}
+              summitCoord={summitCoord}
+              flyoverMaxDistKm={flyoverMaxDistKm}
+            />
           </div>
         )}
       </div>
