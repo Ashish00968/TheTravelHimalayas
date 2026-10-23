@@ -15,9 +15,11 @@ export type ExportResolution =
 export type ExportMode = "flyover" | "orbit";
 export type ExportFramerate = 30 | 60;
 export type ExportQuality = "ultra" | "high" | "standard";
+export type ExportDuration = "cinematic" | "quick";
 
 export interface VideoExportOptions {
   mode: ExportMode;
+  durationOption?: ExportDuration;
   resolution: ExportResolution;
   fps: ExportFramerate;
   quality: ExportQuality;
@@ -37,6 +39,7 @@ export interface VideoExportProgress {
   elapsedSec: number;
   error?: string;
   downloadUrl?: string;
+  downloadFilename?: string;
   fileSizeMb?: number;
 }
 
@@ -96,26 +99,26 @@ export function getTargetDimensions(
  * Determines appropriate encoder bitrate based on quality and resolution.
  */
 export function getTargetBitrate(quality: ExportQuality, resolution: ExportResolution): number {
-  const is1080p = resolution === "1080p-landscape" || resolution === "1080p-portrait";
+  const is1080p = resolution === "1080p-landscape" || resolution === "1080p-portrait" || resolution === "native";
   if (is1080p) {
     switch (quality) {
       case "ultra":
-        return 14_000_000; // 14 Mbps (Museum-grade fidelity)
+        return 26_000_000; // 26 Mbps (Cinema Master grade, crystal clear snow and rock relief)
       case "high":
-        return 8_500_000;  // 8.5 Mbps
+        return 16_000_000; // 16 Mbps (Vibrant High Definition)
       case "standard":
       default:
-        return 5_000_000;  // 5 Mbps
+        return 9_000_000;  // 9 Mbps (Optimized web sharing)
     }
   } else {
     switch (quality) {
       case "ultra":
-        return 8_000_000;
+        return 14_000_000;
       case "high":
-        return 5_000_000;
+        return 9_000_000;
       case "standard":
       default:
-        return 3_000_000;
+        return 6_000_000;
     }
   }
 }
@@ -259,6 +262,61 @@ export function renderTelemetryOverlay(
     ctx.fillText(datumText, width - botPadX, height - 44 * scale);
     ctx.textAlign = "left";
   }
+
+  ctx.restore();
+}
+
+/**
+ * Draws the high-visibility Strava-grade pulsing cyan hiker beacon directly
+ * onto the composite canvas frame at the hiker's projected screen coordinates.
+ */
+export function drawHikerBeaconOnCanvas(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  now: number,
+  scale: number = 1
+) {
+  ctx.save();
+
+  // 1. Outer expanding radar pulse ring
+  const pulseT = (now % 1500) / 1500; // 0 to 1 over 1.5s
+  const maxHalo = 26 * scale;
+  const haloRadius = 10 * scale + pulseT * maxHalo;
+  const haloAlpha = Math.max(0, 1 - pulseT) * 0.55;
+
+  ctx.beginPath();
+  ctx.arc(x, y, haloRadius, 0, Math.PI * 2);
+  ctx.fillStyle = `rgba(34, 211, 238, ${haloAlpha})`;
+  ctx.fill();
+
+  // 2. Cyan ripple ring stroke
+  ctx.beginPath();
+  ctx.arc(x, y, haloRadius, 0, Math.PI * 2);
+  ctx.strokeStyle = `rgba(0, 229, 255, ${haloAlpha * 0.85})`;
+  ctx.lineWidth = 1.5 * scale;
+  ctx.stroke();
+
+  // 3. Middle bright cyan border ring
+  ctx.beginPath();
+  ctx.arc(x, y, 9 * scale, 0, Math.PI * 2);
+  ctx.fillStyle = "#06B6D4";
+  ctx.shadowColor = "#00E5FF";
+  ctx.shadowBlur = 12 * scale;
+  ctx.fill();
+
+  // 4. Inner crisp reflective white core
+  ctx.beginPath();
+  ctx.arc(x, y, 5.5 * scale, 0, Math.PI * 2);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.shadowBlur = 0;
+  ctx.fill();
+
+  // 5. Dark center pinpoint
+  ctx.beginPath();
+  ctx.arc(x, y, 2.2 * scale, 0, Math.PI * 2);
+  ctx.fillStyle = "#030712";
+  ctx.fill();
 
   ctx.restore();
 }
