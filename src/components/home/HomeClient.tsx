@@ -129,280 +129,125 @@ const TERRITORY_PROFILES: Record<
   },
 };
 
-/* ── 1A. Mobile Alpine Hero with 2.5D "Behind the Mountain" Scroll Revelation ─ */
+/* ── 1A. Mobile Alpine Hero (Compact Viewport, Immediate CTAs, Zero Scroll Trap) ─ */
 function MobileHero() {
-  const containerRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
-
-  // Mobile scroll tracking over clamp(250vh, 280vh, 310vh) for leisurely, cinematic pacing
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 28,
-    restDelta: 0.001,
-  });
-
-  // Background & Foreground Parallax
-  const bgScale = useTransform(smoothProgress, [0, 1], [1.02, 1.10]);
-  const bgY = useTransform(smoothProgress, [0, 1], [0, 50]);
-  const fgScale = useTransform(smoothProgress, [0, 1], [1.02, 1.10]);
-  const fgY = useTransform(smoothProgress, [0, 1], [0, 50]);
-
-  // STEP 1: Discover — visible in open sky on landing
-  const discoverOpacityRaw = useTransform(smoothProgress, [0, 0.08], [0.95, 1]);
-  const discoverYRaw = useTransform(smoothProgress, [0, 0.08], [4, 0]);
-
-  // STEP 2: Himalayan — emerges from BEHIND the mountain peaks (rising up from behind ridge)
-  const himalayanOpacityRaw = useTransform(smoothProgress, [0.05, 0.32], [0, 1]);
-  const himalayanYRaw = useTransform(smoothProgress, [0.05, 0.32], [70, 0]);
-
-  // STEP 3: Trails — rises up along the ridge from behind the peaks
-  const trailsOpacityRaw = useTransform(smoothProgress, [0.22, 0.48], [0, 1]);
-  const trailsYRaw = useTransform(smoothProgress, [0.22, 0.48], [80, 0]);
-  const trailsScaleRaw = useTransform(smoothProgress, [0.22, 0.48], [0.92, 1]);
-
-  // STEP 4: Basecamp Controls (Tagline + Action Buttons + Territory Micro-Pill Dock + Stats)
-  const detailsOpacityRaw = useTransform(smoothProgress, [0.48, 0.72], [0, 1]);
-  const detailsYRaw = useTransform(smoothProgress, [0.48, 0.72], [20, 0]);
-  const detailsPointerEvents = useTransform(smoothProgress, (p) => (p > 0.50 ? "auto" : "none"));
-
-  // Scroll Down Indicator Hint (fades out cleanly as scroll starts)
-  const scrollHintOpacity = useTransform(smoothProgress, [0, 0.06], [1, 0]);
-
-  // Outro transition — gentle start to fading, never fades away completely ("little by little start fading only")
-  const contentOpacityOutro = useTransform(smoothProgress, [0.88, 1.0], [1, 0.65]);
-  const contentYOutro = useTransform(smoothProgress, [0.88, 1.0], [0, -10]);
-
-  // Bottom Edge Horizon Melt
-  const bottomMeltOpacity = useTransform(smoothProgress, [0.75, 1.0], [0, 0.90]);
-
-  // Accessibility override for users requesting reduced motion
-  const discoverOpacity = shouldReduceMotion ? 1 : discoverOpacityRaw;
-  const discoverY = shouldReduceMotion ? 0 : discoverYRaw;
-  const himalayanOpacity = shouldReduceMotion ? 1 : himalayanOpacityRaw;
-  const himalayanY = shouldReduceMotion ? 0 : himalayanYRaw;
-  const trailsOpacity = shouldReduceMotion ? 1 : trailsOpacityRaw;
-  const trailsY = shouldReduceMotion ? 0 : trailsYRaw;
-  const trailsScale = shouldReduceMotion ? 1 : trailsScaleRaw;
-  const detailsOpacity = shouldReduceMotion ? 1 : detailsOpacityRaw;
-  const detailsY = shouldReduceMotion ? 0 : detailsYRaw;
 
   return (
     <section
       id="home-mobile"
-      ref={containerRef}
       suppressHydrationWarning
-      className="-mt-20 relative w-full md:hidden"
-      style={{
-        height: "clamp(250vh, 280vh, 310vh)",
-      }}
+      className="-mt-20 relative w-full min-h-[100dvh] md:hidden flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden"
     >
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-between pt-20 pb-6 px-4">
-        {/* Layer 1: Background Mountain Wallpaper (z-0) */}
-        <motion.div
-          style={{
-            position: "absolute",
-            inset: 0,
-            scale: bgScale,
-            y: bgY,
-            pointerEvents: "none",
-          }}
-          className="z-0"
-        >
-          <Image
-            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
-            alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
-            fill
-            loading="eager"
-            sizes="100vw"
-            className="hero-wallpaper-img object-cover object-center"
-          />
-          {/* Cinematic Atmospheric Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/60 dark:from-[#07090E]/50 dark:via-transparent dark:to-[#07090E]/65" />
-        </motion.div>
-
-        {/* Layer 2: Emerging Typography: Himalayan & Trails (z-[10], Behind Mountain) */}
-        <motion.div
-          style={{
-            opacity: contentOpacityOutro,
-            y: contentYOutro,
-          }}
-          className="absolute inset-x-0 top-0 pt-20 pb-6 px-4 z-[10] w-full flex flex-col items-center justify-center text-center max-w-sm mx-auto pointer-events-none"
-        >
-          <div className="select-none mb-1 flex flex-col items-center w-full">
-            {/* Invisible spacer for Discover so vertical position matches Layer 4 */}
-            <div className="invisible select-none" aria-hidden="true">
-              <span
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: "1.55rem",
-                  lineHeight: 1.1,
-                }}
-                className="block font-serif italic"
-              >
-                Discover
-              </span>
-            </div>
-
-            {/* Himalayan (Rising from behind central peaks) */}
-            <motion.span
-              style={{
-                opacity: himalayanOpacity,
-                y: himalayanY,
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "2.9rem",
-                lineHeight: 1.05,
-                color: "#ffffff",
-                textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 2px 14px rgba(0,0,0,0.9)",
-              }}
-              className="block font-serif font-bold tracking-tight my-0.5"
-            >
-              Himalayan
-            </motion.span>
-
-            {/* Trails (Rising from behind right mountain ridge) */}
-            <motion.span
-              style={{
-                opacity: trailsOpacity,
-                y: trailsY,
-                scale: trailsScale,
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "3.4rem",
-                lineHeight: 1.05,
-                color: "#60A5FA",
-                textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 0 35px rgba(59, 130, 246, 0.65)",
-              }}
-              className="block font-serif italic font-extrabold drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
-            >
-              Trails
-            </motion.span>
-          </div>
-        </motion.div>
-
-        {/* Layer 3: Foreground Mountain Cutout Occlusion (z-[15]) */}
-        <motion.div
-          style={{
-            position: "absolute",
-            inset: 0,
-            scale: fgScale,
-            y: fgY,
-            pointerEvents: "none",
-          }}
-          className="z-[15] pointer-events-none"
-        >
-          <Image
-            src="/brand/hero-mountain-foreground-mobile.webp"
-            alt="Silhouetted alpine ridge and Himalayan rocky crest foreground"
-            fill
-            sizes="100vw"
-            className="hero-wallpaper-img object-cover object-center"
-          />
-        </motion.div>
-
-        {/* Layer 4: Discover & Basecamp Controls (z-[20], In Sky & On Mountain Surface) */}
-        <motion.div
-          style={{
-            opacity: contentOpacityOutro,
-            y: contentYOutro,
-          }}
-          className="relative z-[20] w-full h-full flex flex-col justify-between max-w-sm mx-auto pointer-events-none"
-        >
-          {/* Top: Discover alone in open sky */}
-          <div className="select-none flex flex-col items-center pt-2">
-            <motion.span
-              style={{
-                opacity: discoverOpacity,
-                y: discoverY,
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "1.55rem",
-                lineHeight: 1.1,
-                color: "#93C5FD",
-                textShadow: "0 3px 20px rgba(0,0,0,0.95), 0 0 30px rgba(59, 130, 246, 0.55)",
-              }}
-              className="block font-serif italic drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]"
-            >
-              Discover
-            </motion.span>
-          </div>
-
-          {/* Bottom: Basecamp Controls (Tagline + Action Buttons + Territory Micro-Pill Dock + Stats) */}
-          <motion.div
-            style={{
-              opacity: detailsOpacity,
-              y: detailsY,
-              pointerEvents: detailsPointerEvents,
-            }}
-            className="w-full flex flex-col items-center text-center max-w-sm mx-auto mb-2 pointer-events-auto"
-          >
-            {/* Tagline */}
-            <p
-              className="font-serif italic text-xs sm:text-sm drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] mb-2 font-medium"
-              style={{ fontFamily: "'Playfair Display', serif", color: "#ffffff", textShadow: "0 2px 10px rgba(0,0,0,0.95)" }}
-            >
-              Explore the Himalayas
-            </p>
-
-            {/* Action Buttons */}
-            <div className="w-full space-y-2 mb-2.5">
-              <Link
-                href="/explore"
-                className="w-full py-3 px-5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider transition-all shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 active:scale-[0.98]"
-              >
-                <span>Explore All Expeditions</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/map"
-                className="w-full py-2.5 px-5 rounded-full bg-slate-900/75 dark:bg-black/50 hover:bg-slate-900/90 text-white font-display font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-white/30 active:scale-[0.98] shadow-md backdrop-blur-md"
-              >
-                <Map className="w-4 h-4 text-primary" />
-                <span>Launch 3D Atlas</span>
-              </Link>
-            </div>
-
-            {/* Territory Micro-Pill Dock — 44px Minimum Touch Target */}
-            <div className="grid grid-cols-2 gap-2 w-full max-w-[320px]">
-              {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
-                <Link
-                  key={id}
-                  href={`/explore/${id}`}
-                  className="py-2.5 px-3 min-h-[44px] rounded-full text-[11px] font-mono font-medium tracking-wide bg-slate-900/80 dark:bg-black/60 backdrop-blur-md transition-all flex items-center justify-center gap-2 shadow-sm border border-white/20 text-white active:scale-95 hover:border-white/40 group"
-                >
-                  <span className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125" style={{ backgroundColor: t.accent }} />
-                  <span className="font-semibold whitespace-nowrap">{t.shortLabel}</span>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Layer 5: Feathered Edge Melt at Bottom (z-[25]) — Dark mode only; zero milky fade in light mode */}
-        <motion.div
-          style={{ opacity: bottomMeltOpacity }}
-          className="hidden dark:block absolute inset-x-0 bottom-0 h-32 pointer-events-none z-[25] bg-gradient-to-t from-background via-background/75 to-transparent transition-colors duration-500"
+      {/* Layer 1: Background Mountain Wallpaper (z-0) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image
+          src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
+          alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
+          fill
+          priority
+          sizes="100vw"
+          className="hero-wallpaper-img object-cover object-center"
         />
-
-        {/* Layer 6: Scroll Indicator Hint (z-30) */}
-        <motion.div
-          style={{ opacity: scrollHintOpacity }}
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1 pointer-events-none select-none"
-        >
-          <span className="font-mono text-[8.5px] uppercase tracking-[0.25em] text-blue-200/90 font-semibold drop-shadow-md">
-            Scroll to Discover
-          </span>
-          <div className="w-3.5 h-6 rounded-full border border-blue-300/50 flex items-start justify-center p-1 bg-black/20 backdrop-blur-xs">
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-1 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.9)]"
-            />
-          </div>
-        </motion.div>
+        {/* Cinematic Atmospheric Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/75 dark:from-[#07090E]/60 dark:via-black/20 dark:to-[#07090E]/85" />
       </div>
+
+      {/* Layer 2: Main Brand Typography (Immediate Full Title Visibility) */}
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE }}
+        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-2 select-none"
+      >
+        <h1 className="flex flex-col items-center w-full">
+          {/* Step 1: Discover */}
+          <span
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              color: "#93C5FD",
+              textShadow: "0 2px 14px rgba(0,0,0,0.95), 0 0 25px rgba(59, 130, 246, 0.45)",
+            }}
+            className="block font-serif italic text-lg sm:text-xl font-medium tracking-wide mb-0.5"
+          >
+            Discover
+          </span>
+
+          {/* Step 2: Himalayan */}
+          <span
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 2px 14px rgba(0,0,0,0.9)",
+            }}
+            className="block font-serif font-bold text-[2.75rem] leading-[1.05] tracking-tight text-white my-0.5"
+          >
+            Himalayan
+          </span>
+
+          {/* Step 3: Trails */}
+          <span
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              color: "#60A5FA",
+              textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 0 35px rgba(59, 130, 246, 0.65)",
+            }}
+            className="block font-serif italic font-extrabold text-[3.25rem] leading-[1.02] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+          >
+            Trails
+          </span>
+        </h1>
+
+        {/* Tagline */}
+        <p
+          style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 2px 10px rgba(0,0,0,0.95)" }}
+          className="font-serif italic text-sm text-slate-200 mt-2 font-normal tracking-wide drop-shadow-md"
+        >
+          Explore the Himalayas
+        </p>
+      </motion.div>
+
+      {/* Layer 3: Exploration Controls & Territory Quick-Nav Dock */}
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-auto mb-2 pointer-events-auto"
+      >
+        {/* Action Buttons */}
+        <div className="w-full space-y-2 mb-3">
+          <Link
+            href="/explore"
+            className="w-full py-3.5 px-5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider transition-all shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 active:scale-[0.98]"
+          >
+            <span>Explore All Expeditions</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/map"
+            className="w-full py-3 px-5 rounded-full bg-slate-900/80 dark:bg-black/60 hover:bg-slate-900/90 text-white font-display font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-white/30 active:scale-[0.98] shadow-md backdrop-blur-md"
+          >
+            <Map className="w-4 h-4 text-primary" />
+            <span>Launch 3D Atlas</span>
+          </Link>
+        </div>
+
+        {/* Territory Micro-Pill Dock — 44px Minimum Touch Target */}
+        <div className="grid grid-cols-2 gap-2 w-full max-w-[320px]">
+          {Object.entries(TERRITORY_PROFILES).map(([id, t]) => (
+            <Link
+              key={id}
+              href={`/explore/${id}`}
+              className="py-2.5 px-3 min-h-[44px] rounded-full text-[11px] font-mono font-medium tracking-wide bg-slate-900/85 dark:bg-black/70 backdrop-blur-md transition-all flex items-center justify-center gap-2 shadow-sm border border-white/20 text-white active:scale-95 hover:border-white/40 group"
+            >
+              <span className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125" style={{ backgroundColor: t.accent }} />
+              <span className="font-semibold whitespace-nowrap">{t.shortLabel}</span>
+            </Link>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Layer 4: Feathered Edge Melt at Bottom */}
+      <div className="absolute inset-x-0 bottom-0 h-24 pointer-events-none z-[5] bg-gradient-to-t from-background via-background/60 to-transparent transition-colors duration-500" />
     </section>
   );
 }
