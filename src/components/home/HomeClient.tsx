@@ -137,7 +137,7 @@ function MobileHero() {
     <section
       id="home-mobile"
       suppressHydrationWarning
-      className="-mt-20 relative w-full min-h-[100dvh] md:hidden flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden"
+      className="-mt-20 relative w-full min-h-[100dvh] md:hidden flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden preserve-white-text hero-dark-overlay"
     >
       {/* Layer 1: Background Mountain Wallpaper (z-0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -158,7 +158,7 @@ function MobileHero() {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE }}
-        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-2 select-none"
+        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-2 select-none preserve-white-text"
       >
         <h1 className="flex flex-col items-center w-full">
           {/* Step 1: Discover */}
@@ -177,9 +177,10 @@ function MobileHero() {
           <span
             style={{
               fontFamily: "'Playfair Display', serif",
-              textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 2px 14px rgba(0,0,0,0.9)",
+              color: "#FFFFFF",
+              textShadow: "0 4px 24px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9)",
             }}
-            className="block font-serif font-bold text-[2.75rem] leading-[1.05] tracking-tight text-white my-0.5"
+            className="block font-serif font-bold text-[2.75rem] leading-[1.05] tracking-tight my-0.5"
           >
             Himalayan
           </span>
@@ -657,7 +658,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
   return (
     <section
       id="territories"
-      className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300 shadow-[0_-16px_40px_rgba(15,23,42,0.06)] dark:shadow-none"
+      className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300 shadow-[0_-16px_40px_rgba(15,23,42,0.06)] dark:shadow-none overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* Section Heading */}
@@ -1028,8 +1029,30 @@ function PlatformTrustRibbon() {
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 max-w-7xl pt-10 pb-6 no-print">
-      <div className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="container mx-auto px-4 sm:px-6 max-w-7xl pt-6 sm:pt-10 pb-4 sm:pb-6 no-print overflow-hidden">
+      {/* Mobile: Compact 1-line horizontal scrolling badge strip */}
+      <div className="sm:hidden w-full max-w-full overflow-x-auto no-scrollbar scrollbar-none py-1 touch-pan-x">
+        <div className="flex items-center gap-2 px-0.5">
+          {pillars.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="relative flex items-center gap-2 px-3 py-1.5 rounded-full bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 shrink-0 shadow-xs overflow-hidden"
+            >
+              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                <Icon className="w-3 h-3" />
+              </div>
+              <span className="font-display font-semibold text-[11px] text-foreground whitespace-nowrap">
+                {title}
+              </span>
+              {/* Preserved SEO description for search crawlers */}
+              <span className="sr-only">{desc}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop / Tablet: Full 4-Pillar Grid */}
+      <div className="hidden sm:grid rounded-2xl sm:rounded-3xl p-6 sm:p-8 bg-card dark:bg-[#080E1A] border border-slate-200/90 dark:border-white/10 shadow-sm sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {pillars.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-start gap-3.5">
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary mt-0.5">
@@ -1585,7 +1608,7 @@ const PLANNING_TOOLS = [
 
 function PlanningSuiteSection() {
   return (
-    <section className="py-10 sm:py-14 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-10 sm:py-14 relative z-10 bg-background transition-colors duration-300 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1606,8 +1629,93 @@ function PlanningSuiteSection() {
           </p>
         </motion.div>
 
-        {/* 6-Instrument Balanced Compact Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
+        {/* ── Mobile 2x2 Quadrant Grid (4 Tools in 2x2 Layout like Territories) ── */}
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:hidden">
+          {PLANNING_TOOLS.slice(0, 4).map((tool, idx) => {
+            const Icon = tool.icon;
+            return (
+              <motion.div
+                key={tool.id}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ duration: 0.45, delay: idx * 0.05, ease: EASE }}
+              >
+                <Link
+                  href={tool.href}
+                  prefetch={false}
+                  className="group relative rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between border border-slate-200/90 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/25 bg-card dark:bg-[#080E1A] transition-all duration-300 shadow-sm active:scale-[0.98] h-full min-h-[148px]"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-1 mb-2">
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center border shadow-xs shrink-0"
+                        style={{
+                          backgroundColor: `${tool.accent}14`,
+                          borderColor: `${tool.accent}30`,
+                          color: tool.accent,
+                        }}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="text-[9px] font-mono font-bold tracking-wider uppercase text-foreground/50">
+                        {tool.num}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display font-bold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-snug tracking-tight mb-1">
+                      {tool.title}
+                    </h3>
+
+                    <p className="text-foreground/70 text-[10.5px] font-light leading-snug line-clamp-2">
+                      {tool.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between gap-1 mt-2.5">
+                    <span
+                      className="inline-flex items-center gap-1 text-[9.5px] font-mono font-bold uppercase tracking-wider group-hover:translate-x-0.5 transition-transform"
+                      style={{ color: tool.accent }}
+                    >
+                      <span>{tool.action}</span>
+                      <ArrowRight className="w-2.5 h-2.5" />
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* ── Mobile Action Link: more tools -> ── */}
+        <div className="mt-3.5 md:hidden">
+          <Link
+            href="/plan"
+            prefetch={false}
+            className="w-full py-3 px-4 rounded-xl sm:rounded-2xl bg-card dark:bg-[#080E1A] hover:bg-slate-100 dark:hover:bg-slate-800/80 text-foreground group flex items-center justify-between border border-primary/30 shadow-xs transition-all active:scale-[0.98]"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <Compass className="w-3.5 h-3.5" />
+              </div>
+              <div className="text-left">
+                <span className="block font-display font-bold text-xs text-foreground tracking-tight">
+                  All Planning Tools (6)
+                </span>
+                <span className="block text-[10px] text-foreground/60 font-light">
+                  Packing Checklist, Seasonal Matrix &amp; Route Specs
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-primary text-xs font-mono font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform shrink-0">
+              <span>More tools</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </div>
+          </Link>
+        </div>
+
+        {/* ── Desktop 6-Instrument Grid: Full 3x2 Grid ── */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
           {PLANNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
@@ -1709,7 +1817,7 @@ function SafetyFeatureSection() {
   ];
 
   return (
-    <section className="py-8 sm:py-12 relative z-10 bg-background transition-colors duration-300">
+    <section className="py-8 sm:py-12 relative z-10 bg-background transition-colors duration-300 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
