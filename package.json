@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "validate:places": "tsx scripts/validate-places.ts",
-    "process:gpx": "tsx scripts/process-gpx.ts"
+    "process:gpx": "tsx scripts/process-gpx.ts",
+    "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
