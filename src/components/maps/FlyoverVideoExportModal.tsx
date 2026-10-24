@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import {
   X,
   Video,
@@ -25,12 +25,16 @@ import {
   getTargetDimensions,
   getTargetBitrate,
   renderTelemetryOverlay,
+  selectKeyMilestones,
+  renderMilestoneBanner,
+  RouteMilestone,
 } from "@/lib/video-export";
 import {
   computeStravaChaseCamera,
   rateLimitedBearingLerp,
   computeSafeGradientStops,
 } from "@/lib/camera-math";
+import type { RouteWaypoint } from "@/data/types";
 import type mapboxgl from "mapbox-gl";
 
 interface FlyoverVideoExportModalProps {
@@ -52,6 +56,8 @@ interface FlyoverVideoExportModalProps {
   };
   summitCoord: [number, number, number];
   flyoverMaxDistKm: number;
+  waypoints?: RouteWaypoint[];
+  coordinates?: [number, number, number][];
 }
 
 export function FlyoverVideoExportModal({
@@ -66,6 +72,8 @@ export function FlyoverVideoExportModal({
   getPointAtProgress,
   summitCoord,
   flyoverMaxDistKm,
+  waypoints,
+  coordinates,
 }: FlyoverVideoExportModalProps) {
   // Settings state — defaults optimized for 100% 1:1 match with Live Play
   const [mode, setMode] = useState<ExportMode>("flyover");
@@ -74,6 +82,17 @@ export function FlyoverVideoExportModal({
   const [fps, setFps] = useState<ExportFramerate>(60);
   const [quality, setQuality] = useState<ExportQuality>("ultra");
   const [includeOverlay, setIncludeOverlay] = useState<boolean>(false);
+
+  // Curate 2 to 3 broadcast milestones along the trail
+  const keyMilestones = useMemo(() => {
+    return selectKeyMilestones(
+      waypoints,
+      flyoverMaxDistKm,
+      placeName,
+      apexElevationM,
+      coordinates
+    );
+  }, [waypoints, flyoverMaxDistKm, placeName, apexElevationM, coordinates]);
 
   // Recording lifecycle state
   const [progress, setProgress] = useState<VideoExportProgress>({
@@ -152,14 +171,13 @@ export function FlyoverVideoExportModal({
 
     // Exact flight phase durations
     const isCinematic = durationOption === "cinematic";
-    const overviewHoldMs = isCinematic ? 600 : 500;
-    const swoopDurationMs = isCinematic ? 2000 : 1500;
+    const startHoldMs = 1200; // Stabilized trailhead hold showcasing start milestone (Solang Village)
     const trailDurationMs = isCinematic ? 33000 : 15000;
-    const orbitDurationMs = isCinematic ? 3400 : 3000;
+    const orbitDurationMs = isCinematic ? 3500 : 3000;
 
     const totalDurationMs =
       mode === "flyover"
-        ? overviewHoldMs + swoopDurationMs + trailDurationMs + orbitDurationMs
+        ? startHoldMs + trailDurationMs + orbitDurationMs
         : 18000;
 
     const totalFrames = Math.round((totalDurationMs / 1000) * fps);
@@ -272,16 +290,6 @@ export function FlyoverVideoExportModal({
       }
     };
 
-    recorder.start(100);
-
-    setProgress({
-      status: "recording",
-      progressPct: 0,
-      currentFrame: 0,
-      totalFrames,
-      elapsedSec: 0,
-    });
-
     // Bring map into smooth view
     try {
       map.getContainer().scrollIntoView({ behavior: "smooth", block: "center" });
@@ -295,7 +303,15 @@ export function FlyoverVideoExportModal({
       startPt.gradientPct
     );
 
-    // Position native WebGL hiker puck at trailhead
+    // 1. Position camera directly at trailhead view (eliminates missing frames & floating island at start)
+    map.jumpTo({
+      center: startStravaCamera.center,
+      zoom: startStravaCamera.zoom,
+      pitch: startStravaCamera.pitch,
+      bearing: startStravaCamera.bearing,
+    });
+
+    // 2. Position native WebGL hiker puck at trailhead
     const startPuckSource = map.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
     if (startPuckSource) {
       startPuckSource.setData({
@@ -305,32 +321,53 @@ export function FlyoverVideoExportModal({
       });
     }
 
-    const overviewCenter: [number, number] = [
-      (startPt.lng + summitCoord[0]) / 2,
-      (startPt.lat + summitCoord[1]) / 2,
-    ];
-
-    // Align map to 3D overview
-    map.jumpTo({
-      center: overviewCenter,
-      zoom: 11.5,
-      pitch: 52,
-      bearing: -35,
-    });
-
-    // Reset trail line gradient
+    // 3. Reset trail line gradient
     try {
       const stops = computeSafeGradientStops(0, "#00E5FF", "rgba(0, 229, 255, 0.2)");
       map.setPaintProperty("trail-route-line", "line-gradient", stops);
     } catch {}
 
+    // 4. Update status to preparing while satellite tiles load
+    setProgress({
+      status: "preparing",
+      progressPct: 0,
+      currentFrame: 0,
+      totalFrames,
+      elapsedSec: 0,
+    });
+
+    // 5. Pre-warm and await Mapbox 3D terrain & satellite tiles fully loaded
+    await new Promise<void>((resolve) => {
+      let resolved = false;
+      const done = () => {
+        if (!resolved) {
+          resolved = true;
+          resolve();
+        }
+      };
+
+      if (map.areTilesLoaded()) {
+        setTimeout(done, 400);
+      } else {
+        map.once("idle", () => {
+          setTimeout(done, 250);
+        });
+        setTimeout(done, 2200); // Safety fallback
+      }
+    });
+
+    if (abortControllerRef.current) return;
+
     let cameraCenter: [number, number] = [startStravaCamera.center[0], startStravaCamera.center[1]];
     let cameraPitch = startStravaCamera.pitch;
     let currentBearing = startStravaCamera.bearing;
 
-    let swoopTriggered = false;
     let trailInitialized = false;
     let summitEaseTriggered = false;
+
+    const startMilestone = keyMilestones.find((m) => m.category === "trailhead") || keyMilestones[0];
+    const intermediateMilestones = keyMilestones.filter((m) => m.category === "meadow" || m.category === "pass");
+    const summitMilestone = keyMilestones.find((m) => m.category === "summit") || keyMilestones[keyMilestones.length - 1];
 
     const renderCompositeFrame = (
       hikerLng: number,
@@ -339,10 +376,11 @@ export function FlyoverVideoExportModal({
       bearing: number,
       ele: number,
       distKm: number,
-      gradPct: number
+      gradPct: number,
+      milestoneAlert: { milestone: RouteMilestone; opacity: number } | null = null
     ) => {
-      // 1. Draw WebGL Mapbox canvas to composite canvas
-      ctx.fillStyle = "#040812";
+      // 1. Draw WebGL Mapbox canvas to composite canvas with atmospheric background fill
+      ctx.fillStyle = "#0c1a2e";
       ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
       if (resolution === "native") {
@@ -370,7 +408,21 @@ export function FlyoverVideoExportModal({
         ctx.drawImage(sourceCanvas, sx, sy, sWidth, sHeight, 0, 0, dimensions.width, dimensions.height);
       }
 
-      // 2. Native WebGL hiker puck is already rendered on sourceCanvas by Mapbox GPU layer
+      const isPortrait = dimensions.height > dimensions.width;
+      const scale = dimensions.width / (isPortrait ? 1080 : 1920);
+
+      // 2. Render active broadcast waypoint milestone badge (Solang Village, Shagadug Meadow, Patalsu Peak)
+      if (milestoneAlert && milestoneAlert.opacity > 0.01) {
+        renderMilestoneBanner(
+          ctx,
+          dimensions.width,
+          dimensions.height,
+          milestoneAlert.milestone,
+          milestoneAlert.opacity,
+          scale,
+          isPortrait
+        );
+      }
 
       // 3. Optional telemetry HUD & editorial watermark
       if (includeOverlay) {
@@ -398,6 +450,29 @@ export function FlyoverVideoExportModal({
       }
     };
 
+    // Pre-render warm-up frame to prime GPU buffers
+    renderCompositeFrame(
+      startPt.lng,
+      startPt.lat,
+      0,
+      startStravaCamera.bearing,
+      startPt.ele,
+      0,
+      startPt.gradientPct,
+      startMilestone ? { milestone: startMilestone, opacity: 1.0 } : null
+    );
+
+    // 6. Start MediaRecorder now that the 3D scene is 100% pre-warmed & textured
+    recorder.start(100);
+
+    setProgress({
+      status: "recording",
+      progressPct: 0,
+      currentFrame: 0,
+      totalFrames,
+      elapsedSec: 0,
+    });
+
     const startTime = performance.now();
     let frameCount = 0;
 
@@ -412,32 +487,30 @@ export function FlyoverVideoExportModal({
       frameCount++;
 
       if (mode === "flyover") {
-        const swoopStartMs = overviewHoldMs;
-        const trailStartMs = overviewHoldMs + swoopDurationMs;
-        const orbitStartMs = trailStartMs + trailDurationMs;
+        const orbitStartMs = startHoldMs + trailDurationMs;
 
-        if (elapsed < swoopStartMs) {
-          // Phase 1: High-Altitude 3D Overview hold
-          renderCompositeFrame(startPt.lng, startPt.lat, 0, -35, startPt.ele, 0, 0);
-        } else if (elapsed < trailStartMs) {
-          // Phase 2: Parabolic 3D Swoop down into trailhead using Mapbox's native flight curve
-          if (!swoopTriggered) {
-            swoopTriggered = true;
-            map.flyTo({
-              center: startStravaCamera.center,
-              zoom: startStravaCamera.zoom,
-              pitch: startStravaCamera.pitch,
-              bearing: startStravaCamera.bearing,
-              duration: swoopDurationMs,
-              curve: 1.42,
-              essential: true,
-            });
+        if (elapsed < startHoldMs) {
+          // Phase 1: Stabilized Trailhead Hold with Start Milestone Pop-up (Solang Village)
+          // 0-200ms fade-in, 200-900ms hold, 900-1200ms fade-out
+          let opacity = 1.0;
+          if (elapsed < 200) {
+            opacity = elapsed / 200;
+          } else if (elapsed > 900) {
+            opacity = Math.max(0, (1200 - elapsed) / 300);
           }
 
-          const curBearing = map.getBearing();
-          renderCompositeFrame(startPt.lng, startPt.lat, 0, curBearing, startPt.ele, 0, startPt.gradientPct);
+          renderCompositeFrame(
+            startPt.lng,
+            startPt.lat,
+            0,
+            startStravaCamera.bearing,
+            startPt.ele,
+            0,
+            startPt.gradientPct,
+            startMilestone ? { milestone: startMilestone, opacity } : null
+          );
         } else if (elapsed < orbitStartMs) {
-          // Phase 3: Trail Traversal with Strava Chase Camera & Glowing Line (100% 1:1 Live Play match!)
+          // Phase 2: Trail Traversal with Strava Chase Camera & Milestone Pop-ups
           if (!trailInitialized) {
             trailInitialized = true;
             cameraCenter = [startStravaCamera.center[0], startStravaCamera.center[1]];
@@ -445,7 +518,7 @@ export function FlyoverVideoExportModal({
             currentBearing = startStravaCamera.bearing;
           }
 
-          const trailElapsed = elapsed - trailStartMs;
+          const trailElapsed = elapsed - startHoldMs;
           const p = Math.min(1, trailElapsed / trailDurationMs);
           const pt = getPointAtProgress(p);
           const currentDistKm = p * flyoverMaxDistKm;
@@ -473,7 +546,6 @@ export function FlyoverVideoExportModal({
             pt.gradientPct
           );
 
-          // Exact same gimbal lerp & rate-limited bearing smoothing as Live Play
           cameraCenter[0] += (stravaCamera.center[0] - cameraCenter[0]) * 0.15;
           cameraCenter[1] += (stravaCamera.center[1] - cameraCenter[1]) * 0.15;
           cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.08;
@@ -488,15 +560,43 @@ export function FlyoverVideoExportModal({
             bearing: currentBearing,
           });
 
-          renderCompositeFrame(pt.lng, pt.lat, p, currentBearing, pt.ele, currentDistKm, pt.gradientPct);
+          // Check for active intermediate milestone (e.g. Shagadugh Meadow)
+          let activeMidMilestone: { milestone: RouteMilestone; opacity: number } | null = null;
+          for (const mid of intermediateMilestones) {
+            const triggerTimeMs = startHoldMs + mid.progress * trailDurationMs;
+            const windowStart = triggerTimeMs - 200;
+            const windowEnd = triggerTimeMs + 1000;
+            if (elapsed >= windowStart && elapsed <= windowEnd) {
+              const t = elapsed - windowStart;
+              let op = 1.0;
+              if (t < 200) {
+                op = t / 200;
+              } else if (t > 950) {
+                op = Math.max(0, (1200 - t) / 250);
+              }
+              activeMidMilestone = { milestone: mid, opacity: op };
+              break;
+            }
+          }
+
+          renderCompositeFrame(
+            pt.lng,
+            pt.lat,
+            p,
+            currentBearing,
+            pt.ele,
+            currentDistKm,
+            pt.gradientPct,
+            activeMidMilestone
+          );
         } else if (elapsed < totalDurationMs) {
-          // Phase 4: Summit Arrival Ease-In & 360° Orbit Celebration
+          // Phase 3: Summit Arrival Ease-In & 360° Orbit Celebration with Summit Crest Badge
           if (!summitEaseTriggered) {
             summitEaseTriggered = true;
             map.easeTo({
               center: [summitCoord[0], summitCoord[1]],
-              zoom: 12.8,
-              pitch: 48,
+              zoom: 13.0,
+              pitch: 50,
               duration: 1800,
             });
           }
@@ -506,10 +606,13 @@ export function FlyoverVideoExportModal({
 
           map.jumpTo({
             center: [summitCoord[0], summitCoord[1]],
-            zoom: 12.8,
-            pitch: 48,
+            zoom: 13.0,
+            pitch: 50,
             bearing: summitBearing,
           });
+
+          // Summit milestone fades in over 300ms, then stays active throughout orbit
+          const summitOpacity = Math.min(1.0, orbitElapsed / 300);
 
           renderCompositeFrame(
             summitCoord[0],
@@ -518,7 +621,8 @@ export function FlyoverVideoExportModal({
             summitBearing,
             summitCoord[2] || apexElevationM,
             flyoverMaxDistKm,
-            0
+            0,
+            summitMilestone ? { milestone: summitMilestone, opacity: summitOpacity } : null
           );
         }
       } else {
@@ -527,8 +631,8 @@ export function FlyoverVideoExportModal({
         const angleDeg = (t * 360) % 360;
         map.jumpTo({
           center: [summitCoord[0], summitCoord[1]],
-          zoom: 12.8,
-          pitch: 48,
+          zoom: 13.0,
+          pitch: 50,
           bearing: angleDeg,
         });
         renderCompositeFrame(
@@ -538,7 +642,8 @@ export function FlyoverVideoExportModal({
           angleDeg,
           summitCoord[2] || apexElevationM,
           flyoverMaxDistKm,
-          0
+          0,
+          summitMilestone ? { milestone: summitMilestone, opacity: 1.0 } : null
         );
       }
 
@@ -576,6 +681,7 @@ export function FlyoverVideoExportModal({
     getPointAtProgress,
     summitCoord,
     flyoverMaxDistKm,
+    keyMilestones,
   ]);
 
   const handleCancel = () => {
@@ -598,51 +704,62 @@ export function FlyoverVideoExportModal({
 
   return (
     <>
-      {/* 1. Sleek Floating Recording Banner (Active during recording — map is 100% visible!) */}
-      {progress.status === "recording" && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[99999] flex items-center gap-3.5 px-6 py-2.5 rounded-full bg-[#080e1a]/95 backdrop-blur-xl border border-red-500/50 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300 pointer-events-auto">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
-            <span className="font-mono text-xs font-bold text-red-400 tracking-wider uppercase">
-              REC • {mode === "flyover" ? "3D TRAIL FLYOVER" : "360° SUMMIT ORBIT"}
-            </span>
-          </div>
+      {/* 1. Sleek Floating Recording / Preparing Banner */}
+      {(progress.status === "recording" || progress.status === "preparing") && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[99999] flex items-center gap-3.5 px-6 py-2.5 rounded-full bg-[#080e1a]/95 backdrop-blur-xl border border-cyan-500/50 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300 pointer-events-auto">
+          {progress.status === "preparing" ? (
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+              <span className="font-mono text-xs font-bold text-cyan-300 tracking-wider uppercase">
+                PREPARING 3D ENGINE • CACHING TERRAIN TILES
+              </span>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+                <span className="font-mono text-xs font-bold text-red-400 tracking-wider uppercase">
+                  REC • {mode === "flyover" ? "3D TRAIL FLYOVER" : "360° SUMMIT ORBIT"}
+                </span>
+              </div>
 
-          <div className="w-px h-4 bg-white/20" />
+              <div className="w-px h-4 bg-white/20" />
 
-          <span className="font-mono text-xs text-white font-bold">
-            {progress.progressPct}%
-          </span>
+              <span className="font-mono text-xs text-white font-bold">
+                {progress.progressPct}%
+              </span>
 
-          <span className="font-mono text-[11px] text-slate-400">
-            ({progress.elapsedSec.toFixed(0)}s /{" "}
-            {mode === "flyover"
-              ? durationOption === "cinematic"
-                ? "39s"
-                : "20s"
-              : "18s"}
-            )
-          </span>
+              <span className="font-mono text-[11px] text-slate-400">
+                ({progress.elapsedSec.toFixed(0)}s /{" "}
+                {mode === "flyover"
+                  ? durationOption === "cinematic"
+                    ? "38s"
+                    : "19s"
+                  : "18s"}
+                )
+              </span>
 
-          <div className="w-24 bg-white/10 h-1.5 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-cyan-400 to-red-500 transition-all duration-150"
-              style={{ width: `${progress.progressPct}%` }}
-            />
-          </div>
+              <div className="w-24 bg-white/10 h-1.5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-cyan-400 to-red-500 transition-all duration-150"
+                  style={{ width: `${progress.progressPct}%` }}
+                />
+              </div>
 
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="ml-1 px-3 py-1 rounded-full bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-white border border-red-500/30 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            Cancel
-          </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="ml-1 px-3 py-1 rounded-full bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-white border border-red-500/30 text-xs font-semibold transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+            </>
+          )}
         </div>
       )}
 
       {/* 2. Main Dialog (Active in Idle, Completed, and Error states) */}
-      {progress.status !== "recording" && (
+      {progress.status !== "recording" && progress.status !== "preparing" && (
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-200"
           role="dialog"

@@ -1,16 +1,175 @@
-/**
- * Discover Himalayan Trails — 3D Map Video Export & Rendering Engine
- * 
- * Provides client-side WebGL canvas stream capture, high-bitrate MediaRecorder
- * orchestration, multi-resolution compositing (1080p Landscape, 1080p Reel, 720p),
- * and editorial alpine telemetry overlays for downloadable MP4 / WebM videos.
- */
+import type { RouteWaypoint } from "@/data/types";
+import { haversineDistanceKm } from "@/lib/camera-math";
 
 export type ExportResolution =
   | "1080p-landscape" // 1920x1080 (16:9 YouTube / Desktop)
   | "1080p-portrait"  // 1080x1920 (9:16 Instagram Reels / YouTube Shorts)
   | "720p-landscape"  // 1280x720 (16:9 Fast HD)
   | "native";         // Current canvas dimensions
+
+export interface RouteMilestone {
+  id: string;
+  name: string;
+  category: "trailhead" | "meadow" | "summit" | "pass";
+  kind: "trailhead" | "meadow" | "summit" | "pass";
+  kicker: string;
+  elevationM: number;
+  progress: number; // 0.0 to 1.0 along the route
+  accentColor: string;
+  note?: string;
+  cautionNotice?: string;
+}
+
+/**
+ * Deterministically curates exactly 2 to 3 high-impact alpine milestones
+ * along the route (Trailhead, Key Meadow/Camp, Summit), omitting minor
+ * water streams and dense forest sections per broadcast specifications.
+ */
+export function selectKeyMilestones(
+  waypoints: RouteWaypoint[] | undefined,
+  totalDistanceKm: number,
+  placeName: string,
+  apexElevationM: number,
+  coordinates?: [number, number, number][]
+): RouteMilestone[] {
+  const milestones: RouteMilestone[] = [];
+  const validWaypoints = (waypoints || []).filter((w) => w && w.name);
+
+  // Helper to find fractional route progress (0.0 to 1.0) for a coordinate
+  const findProgressForCoord = (lng: number, lat: number): number => {
+    if (!coordinates || coordinates.length < 2) return 0;
+    let closestIdx = 0;
+    let minDist = Infinity;
+    for (let i = 0; i < coordinates.length; i++) {
+      const d = haversineDistanceKm(lng, lat, coordinates[i][0], coordinates[i][1]);
+      if (d < minDist) {
+        minDist = d;
+        closestIdx = i;
+      }
+    }
+    return closestIdx / (coordinates.length - 1);
+  };
+
+  // Helper to clean up trail waypoint names into punchy editorial titles
+  const cleanMilestoneName = (rawName: string): string => {
+    return rawName
+      .replace(/\s*Trailhead$/i, "")
+      .replace(/\s*Apex Cairn$/i, "")
+      .replace(/\s*Summit Cairn$/i, "")
+      .replace(/\s*Base Camp$/i, "")
+      .trim();
+  };
+
+  // 1. Trailhead / Start Milestone
+  const startWp = validWaypoints.find((w) => w.type === "trailhead") || validWaypoints[0];
+  const startEle = startWp?.eleM || (coordinates && coordinates[0] ? Math.round(coordinates[0][2]) : 2000);
+  const startTitle = startWp ? cleanMilestoneName(startWp.name) : `${placeName} Trailhead`;
+
+  milestones.push({
+    id: "milestone-start",
+    name: startTitle,
+    category: "trailhead",
+    kind: "trailhead",
+    kicker: `START POINT • ${Math.round(startEle)}M`,
+    elevationM: startEle,
+    progress: 0.0,
+    accentColor: "#38BDF8", // Sky Blue
+    note: startWp?.note,
+  });
+
+  // 2. Intermediate Milestone(s) (1 or max 2 key points: meadows, camps, passes, lakes)
+  // Skip water streams, minor warnings, and dense forest as specifically requested by user.
+  if (validWaypoints.length > 1) {
+    const scoredCandidates = validWaypoints
+      .map((w, index) => {
+        const prog = findProgressForCoord(w.lng, w.lat);
+        let score = 0;
+
+        const nameLower = w.name.toLowerCase();
+        const type = w.type;
+
+        if (type === "camp" || nameLower.includes("camp")) score += 100;
+        if (type === "pass" || nameLower.includes("pass")) score += 95;
+        if (nameLower.includes("lake") || nameLower.includes("tarn")) score += 90;
+        if (nameLower.includes("meadow") || nameLower.includes("thach") || nameLower.includes("bugyal")) score += 110;
+        if (type === "landmark" || nameLower.includes("ridge") || nameLower.includes("viewpoint")) score += 50;
+
+        // Heavily de-prioritize streams, water points, and forest as requested
+        if (nameLower.includes("stream") || nameLower.includes("water") || type === "water") score -= 80;
+        if (nameLower.includes("forest") || nameLower.includes("woodland") || nameLower.includes("scree")) score -= 60;
+
+        // Must be in the middle 70% of the trail (not start, not summit)
+        if (prog < 0.12 || prog > 0.88) score = -1000;
+
+        return {
+          wp: w,
+          index,
+          progress: prog,
+          score,
+        };
+      })
+      .filter((c) => c.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    // Pick top 1 (or 2 if distance > 14km)
+    const maxMidpoints = totalDistanceKm > 14 ? 2 : 1;
+    const selectedMids = scoredCandidates
+      .slice(0, maxMidpoints)
+      .sort((a, b) => a.progress - b.progress);
+
+    selectedMids.forEach((c, idx) => {
+      const w = c.wp;
+      const ele = w.eleM || (coordinates ? Math.round(coordinates[Math.round(c.progress * (coordinates.length - 1))][2]) : 3000);
+      const isPass = w.type === "pass" || w.name.toLowerCase().includes("pass");
+      const isLake = w.name.toLowerCase().includes("lake") || w.name.toLowerCase().includes("tarn");
+
+      const kicker = isPass
+        ? `MOUNTAIN PASS • ${Math.round(ele)}M`
+        : isLake
+        ? `ALPINE TARN • ${Math.round(ele)}M`
+        : `ALPINE MEADOW • ${Math.round(ele)}M`;
+
+      const accent = isPass ? "#A78BFA" : isLake ? "#06B6D4" : "#34D399";
+
+      milestones.push({
+        id: `milestone-mid-${idx}`,
+        name: cleanMilestoneName(w.name),
+        category: isPass ? "pass" : "meadow",
+        kind: isPass ? "pass" : "meadow",
+        kicker,
+        elevationM: ele,
+        progress: c.progress,
+        accentColor: accent,
+        note: w.note,
+        cautionNotice: w.cautionNotice,
+      });
+    });
+  }
+
+  // 3. Summit / Apex Milestone
+  const summitWp =
+    validWaypoints.find((w) => w.type === "summit") ||
+    validWaypoints[validWaypoints.length - 1];
+
+  const summitEle = apexElevationM || summitWp?.eleM || (coordinates && coordinates.length > 0 ? Math.round(coordinates[coordinates.length - 1][2]) : 4000);
+  const summitTitle = summitWp && summitWp.type === "summit"
+    ? cleanMilestoneName(summitWp.name)
+    : placeName;
+
+  milestones.push({
+    id: "milestone-summit",
+    name: summitTitle,
+    category: "summit",
+    kind: "summit",
+    kicker: `SUMMIT CREST • ${Math.round(summitEle)}M`,
+    elevationM: summitEle,
+    progress: 1.0,
+    accentColor: "#F59E0B", // High-Alpine Gold
+    note: summitWp?.note,
+  });
+
+  return milestones;
+}
 
 export type ExportMode = "flyover" | "orbit";
 export type ExportFramerate = 30 | 60;
@@ -320,3 +479,130 @@ export function drawHikerBeaconOnCanvas(
 
   ctx.restore();
 }
+
+/**
+ * Renders a broadcast-grade alpine waypoint milestone badge onto the video canvas.
+ * Seamlessly adapts between landscape and portrait orientations with glowing
+ * territory accents, frosted glass backdrop, and animated entry float.
+ */
+export function renderMilestoneBanner(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  milestone: RouteMilestone,
+  opacity: number,
+  scale: number,
+  isPortrait: boolean
+) {
+  if (opacity <= 0.01) return;
+  ctx.save();
+
+  // Dimensions & centering
+  const cardWidth = Math.min(width - 48 * scale, isPortrait ? width - 56 * scale : 450 * scale);
+  const cardHeight = 74 * scale;
+  const cardX = (width - cardWidth) / 2;
+  // Positioned high in the sky frame above the hiker
+  const baseY = isPortrait ? 135 * scale : 125 * scale;
+  const floatOffset = (1 - opacity) * 12 * scale; // smooth upward float on entry
+  const cardY = baseY + floatOffset;
+
+  // 1. Frosted Glass Backplate
+  ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
+
+  // Outer glow shadow
+  ctx.shadowColor = milestone.accentColor;
+  ctx.shadowBlur = 22 * scale * opacity;
+
+  ctx.fillStyle = "rgba(6, 11, 24, 0.92)";
+  ctx.beginPath();
+  ctx.roundRect(cardX, cardY, cardWidth, cardHeight, 18 * scale);
+  ctx.fill();
+
+  // Glowing hairline border
+  ctx.strokeStyle = milestone.accentColor;
+  ctx.lineWidth = 1.75 * scale;
+  ctx.stroke();
+
+  // Reset shadow for crisp inner vector elements
+  ctx.shadowBlur = 0;
+
+  // 2. Left Icon Badge Circle
+  const iconR = 18 * scale;
+  const iconX = cardX + 28 * scale;
+  const iconY = cardY + cardHeight / 2;
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+  ctx.beginPath();
+  ctx.arc(iconX, iconY, iconR, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = milestone.accentColor;
+  ctx.lineWidth = 1.5 * scale;
+  ctx.stroke();
+
+  // Draw clean vector icon inside badge
+  ctx.strokeStyle = milestone.accentColor;
+  ctx.fillStyle = milestone.accentColor;
+  ctx.lineWidth = 1.75 * scale;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  if (milestone.category === "trailhead") {
+    // Locator Pin
+    ctx.beginPath();
+    ctx.arc(iconX, iconY - 2 * scale, 5 * scale, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(iconX, iconY - 2 * scale, 2 * scale, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(iconX, iconY + 3 * scale);
+    ctx.lineTo(iconX, iconY + 7 * scale);
+    ctx.stroke();
+  } else if (milestone.category === "summit") {
+    // Summit Peak Flag
+    ctx.beginPath();
+    ctx.moveTo(iconX - 6 * scale, iconY + 7 * scale);
+    ctx.lineTo(iconX, iconY - 7 * scale);
+    ctx.lineTo(iconX + 6 * scale, iconY + 7 * scale);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(iconX, iconY - 7 * scale, 2 * scale, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    // Alpine Meadow / Tent Chevron
+    ctx.beginPath();
+    ctx.moveTo(iconX - 7 * scale, iconY + 6 * scale);
+    ctx.lineTo(iconX - 2 * scale, iconY - 5 * scale);
+    ctx.lineTo(iconX + 4 * scale, iconY + 6 * scale);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(iconX + 1 * scale, iconY - 2 * scale);
+    ctx.lineTo(iconX + 7 * scale, iconY + 6 * scale);
+    ctx.stroke();
+  }
+
+  // 3. Typography Layout
+  const textLeft = iconX + iconR + 14 * scale;
+
+  // Kicker Line (All Caps Monospace)
+  ctx.font = `bold ${Math.round(10.5 * scale)}px "JetBrains Mono", Menlo, monospace`;
+  ctx.fillStyle = milestone.accentColor;
+  ctx.fillText(milestone.kicker, textLeft, cardY + 28 * scale);
+
+  // Title Line (Bold Headline)
+  ctx.font = `bold ${Math.round(20 * scale)}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#FFFFFF";
+  const maxTitleW = cardWidth - (textLeft - cardX) - 16 * scale;
+  let displayTitle = milestone.name;
+  if (ctx.measureText(displayTitle).width > maxTitleW) {
+    while (displayTitle.length > 3 && ctx.measureText(displayTitle + "…").width > maxTitleW) {
+      displayTitle = displayTitle.slice(0, -1);
+    }
+    displayTitle += "…";
+  }
+  ctx.fillText(displayTitle, textLeft, cardY + 54 * scale);
+
+  ctx.restore();
+}
+

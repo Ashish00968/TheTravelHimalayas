@@ -16,6 +16,8 @@ import {
   Orbit,
   FastForward,
   Film,
+  MapPin,
+  Trophy,
 } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { RouteData } from "@/data/types";
@@ -31,6 +33,7 @@ import {
   computeStravaChaseCamera,
 } from "@/lib/camera-math";
 import { registerPulsingBeacon } from "@/lib/mapbox-canvas-beacon";
+import { selectKeyMilestones, RouteMilestone } from "@/lib/video-export";
 import { FlyoverVideoExportModal } from "./FlyoverVideoExportModal";
 
 interface RouteMap3DProps {
@@ -65,15 +68,11 @@ export default function RouteMap3D({
   const isOrbitingRef = useRef(false);
   const [orbitBearing, setOrbitBearing] = useState<number>(0);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
-  const [activeWaypointAlert, setActiveWaypointAlert] = useState<{
-    name: string;
-    eleM?: number;
-    note?: string;
-    caution?: string;
-  } | null>(null);
+  const [activeMilestoneAlert, setActiveMilestoneAlert] = useState<RouteMilestone | null>(null);
+  const milestoneTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const triggeredMilestoneIdsRef = useRef<Set<string>>(new Set());
   const [isIntroZooming, setIsIntroZooming] = useState(false);
   const introTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastWaypointAlertNameRef = useRef<string | null>(null);
   const [flyoverProgress, setFlyoverProgress] = useState(0); // 0 to 1
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -197,6 +196,17 @@ export default function RouteMap3D({
     );
     return [maxPt[0], maxPt[1], maxPt[2] || 0];
   }, [coordinates, isPatalsu]);
+
+  // Curate 2 to 3 high-impact broadcast alpine milestones (Trailhead, Key Meadow/Camp, Summit)
+  const keyMilestones = useMemo(() => {
+    return selectKeyMilestones(
+      routeData?.waypoints,
+      flyoverMaxDistKm,
+      placeName,
+      apexInfo.maxEle,
+      displayCoordinates
+    );
+  }, [routeData?.waypoints, flyoverMaxDistKm, placeName, apexInfo.maxEle, displayCoordinates]);
 
   // Dynamic waypoint proximity culling to eliminate badge stacking / clustering
   const updateWaypointVisibilities = useCallback((focusLng: number, focusLat: number) => {
@@ -794,6 +804,11 @@ export default function RouteMap3D({
       cancelAnimationFrame(orbitAnimRef.current);
       orbitAnimRef.current = null;
     }
+    if (milestoneTimeoutRef.current) {
+      clearTimeout(milestoneTimeoutRef.current);
+      milestoneTimeoutRef.current = null;
+    }
+    setActiveMilestoneAlert(null);
     if (mapRef.current) {
       mapRef.current.stop();
     }
@@ -806,6 +821,12 @@ export default function RouteMap3D({
     isOrbitingRef.current = true;
     setIsPlayingFlyover(false);
     setIsOrbiting(true);
+
+    // Show summit milestone crest badge during orbit
+    const summitMilestone = keyMilestones.find((m) => m.category === "summit");
+    if (summitMilestone) {
+      setActiveMilestoneAlert(summitMilestone);
+    }
 
     // Pin timeline and progress directly to the summit
     flyoverProgressRef.current = 1;
@@ -879,6 +900,7 @@ export default function RouteMap3D({
     flyoverMaxDistKm,
     updateWaypointVisibilities,
     updateTelemetryDOM,
+    keyMilestones,
   ]);
 
   // Main 60fps Ridge Traversal Loop (Strava-Grade Himalayan Chase Camera)
@@ -975,26 +997,21 @@ export default function RouteMap3D({
         // Dynamic proximity culling for waypoint badges during flight
         updateWaypointVisibilities(pt.lng, pt.lat);
 
-        // Dynamic proximity notification for trail waypoints during flight
-        let nearbyWpt: { name: string; eleM?: number; note?: string; caution?: string } | null = null;
-        if (routeData.waypoints && routeData.waypoints.length > 0) {
-          for (const wpt of routeData.waypoints) {
-            const dKm = haversineDistanceKm(pt.lng, pt.lat, wpt.lng, wpt.lat);
-            if (dKm <= 0.35) {
-              nearbyWpt = {
-                name: wpt.name,
-                eleM: wpt.eleM,
-                note: wpt.note,
-                caution: wpt.cautionNotice,
-              };
+        // Broadcast alpine milestone progression triggers (Solang Village, Shagadugh Meadow, Patalsu Peak)
+        for (const ms of keyMilestones) {
+          if (!triggeredMilestoneIdsRef.current.has(ms.id)) {
+            if (p >= ms.progress - 0.02 && p <= ms.progress + 0.06) {
+              triggeredMilestoneIdsRef.current.add(ms.id);
+              setActiveMilestoneAlert(ms);
+              if (milestoneTimeoutRef.current) clearTimeout(milestoneTimeoutRef.current);
+              if (ms.category !== "summit") {
+                milestoneTimeoutRef.current = setTimeout(() => {
+                  setActiveMilestoneAlert(null);
+                }, 1200);
+              }
               break;
             }
           }
-        }
-
-        if (nearbyWpt?.name !== lastWaypointAlertNameRef.current) {
-          lastWaypointAlertNameRef.current = nearbyWpt?.name || null;
-          setActiveWaypointAlert(nearbyWpt);
         }
 
         // Update Left Vertical Altimeter Gauge
@@ -1021,8 +1038,11 @@ export default function RouteMap3D({
       } else {
         setIsPlayingFlyover(false);
         setFlyoverProgress(1);
-        setActiveWaypointAlert(null);
-        lastWaypointAlertNameRef.current = null;
+
+        const summitMilestone = keyMilestones.find((m) => m.category === "summit");
+        if (summitMilestone) {
+          setActiveMilestoneAlert(summitMilestone);
+        }
 
         // Keep the trail up to the summit illuminated with vibrant glacier cyan!
         try {
@@ -1047,7 +1067,7 @@ export default function RouteMap3D({
     shouldReduceMotion,
     startOrbit,
     updateWaypointVisibilities,
-    routeData.waypoints,
+    keyMilestones,
   ]);
 
   // Pause Flyover Ridge Animation with complete cancellation of intro timers & flights
@@ -1060,17 +1080,20 @@ export default function RouteMap3D({
       cancelAnimationFrame(flyoverAnimRef.current);
       flyoverAnimRef.current = null;
     }
+    if (milestoneTimeoutRef.current) {
+      clearTimeout(milestoneTimeoutRef.current);
+      milestoneTimeoutRef.current = null;
+    }
     if (mapRef.current) {
       mapRef.current.stop();
     }
     setIsIntroZooming(false);
     setIsPlayingFlyover(false);
     setFlyoverProgress(flyoverProgressRef.current);
-    setActiveWaypointAlert(null);
-    lastWaypointAlertNameRef.current = null;
+    setActiveMilestoneAlert(null);
   }, []);
 
-  // Start / Resume Flyover Ridge Animation with Strava-Style Initial 2.5s 3D Overview & Zoom
+  // Start / Resume Flyover Ridge Animation with Strava-Style Stabilized Trailhead Start & Milestone
   const startFlyover = useCallback(() => {
     if (!mapRef.current) return;
     mapRef.current.stop();
@@ -1087,7 +1110,7 @@ export default function RouteMap3D({
       setFlyoverProgress(0);
     }
 
-    // Strava FlyoverStart: 2.5-second cinematic 3D overview & zoom into the trailhead
+    // Stabilized Start: pre-position camera at trailhead & show start milestone (e.g. Solang Village)
     if (startProgress < 0.01) {
       setIsPlayingFlyover(true);
       setIsIntroZooming(true);
@@ -1113,42 +1136,38 @@ export default function RouteMap3D({
         activeMarkerRef.current.setLngLat([startPt.lng, startPt.lat]);
       }
 
-      // If user had panned or zoomed away, align camera to high 3D overview before taking flight
-      const currentZoom = mapRef.current.getZoom();
-      if (currentZoom > 13) {
-        mapRef.current.jumpTo({
-          pitch: 52,
-          bearing: -35,
-          zoom: 11.5,
-        });
+      // Reset triggered milestones for clean flight replay
+      triggeredMilestoneIdsRef.current.clear();
+
+      // Immediately show start milestone (e.g. Solang Village) for 1.2s
+      if (keyMilestones[0]) {
+        setActiveMilestoneAlert(keyMilestones[0]);
+        triggeredMilestoneIdsRef.current.add(keyMilestones[0].id);
+        if (milestoneTimeoutRef.current) clearTimeout(milestoneTimeoutRef.current);
+        milestoneTimeoutRef.current = setTimeout(() => {
+          setActiveMilestoneAlert(null);
+        }, 1200);
       }
 
-      // Synchronize internal camera references to land seamlessly without jump or flicker
+      // Smoothly ease to trailhead camera without jumping to distant overview
+      mapRef.current.flyTo({
+        center: stravaCamera.center,
+        zoom: stravaCamera.zoom,
+        pitch: stravaCamera.pitch,
+        bearing: stravaCamera.bearing,
+        duration: 1000,
+        essential: true,
+      });
+
+      // Synchronize internal camera references
       cameraCenterRef.current = [stravaCamera.center[0], stravaCamera.center[1]];
       cameraPitchRef.current = stravaCamera.pitch;
       currentBearingRef.current = stravaCamera.bearing;
 
-      // Phase 1 (0ms–500ms): 3D Overview hold showcasing the mountain massif & trail
-      // Phase 2 (500ms–2500ms): Parabolic 3D fly-in swoop down into the trailhead
       introTimeoutRef.current = setTimeout(() => {
-        if (!mapRef.current) return;
-
-        mapRef.current.flyTo({
-          center: stravaCamera.center,
-          zoom: stravaCamera.zoom,
-          pitch: stravaCamera.pitch,
-          bearing: stravaCamera.bearing,
-          duration: 2000,
-          essential: true,
-          curve: 1.42,
-        });
-
-        introTimeoutRef.current = setTimeout(() => {
-          setIsIntroZooming(false);
-          // Phase 3 (2550ms+): Start actual route progression after the cinematic 3D fly-in
-          beginFlyoverLoop(0);
-        }, 2050);
-      }, 500);
+        setIsIntroZooming(false);
+        beginFlyoverLoop(0);
+      }, 1100);
 
       return;
     }
@@ -1158,6 +1177,7 @@ export default function RouteMap3D({
     stopOrbit,
     getPointAtProgress,
     beginFlyoverLoop,
+    keyMilestones,
   ]);
 
   // Direct altimeter & flight progress seeker
@@ -1269,8 +1289,11 @@ export default function RouteMap3D({
   const resetFlyover = useCallback(() => {
     pauseFlyover();
     stopOrbit();
-    setActiveWaypointAlert(null);
-    lastWaypointAlertNameRef.current = null;
+    setActiveMilestoneAlert(null);
+    if (milestoneTimeoutRef.current) {
+      clearTimeout(milestoneTimeoutRef.current);
+      milestoneTimeoutRef.current = null;
+    }
     flyoverProgressRef.current = 0;
     setFlyoverProgress(0);
     setActiveRoutePoint(null);
@@ -1590,27 +1613,55 @@ export default function RouteMap3D({
               </div>
             )}
 
-            {/* Live Waypoint Proximity Toast during Flyover */}
-            {activeWaypointAlert && isPlayingFlyover && (
-              <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-300 max-w-[88vw] sm:max-w-sm">
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl backdrop-blur-md border shadow-xl text-xs ${
-                  activeWaypointAlert.caution
-                    ? "bg-amber-950/85 border-amber-400/50 text-amber-100"
-                    : "bg-slate-950/85 border-cyan-400/40 text-white"
-                }`}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping flex-shrink-0" />
-                  <div className="flex flex-col min-w-0">
-                    <span className="font-semibold text-[11px] flex items-center gap-1.5 truncate">
-                      {activeWaypointAlert.name}
-                      {activeWaypointAlert.eleM && (
-                        <span className="text-cyan-300 font-mono text-[10px]">({activeWaypointAlert.eleM}m)</span>
-                      )}
+            {/* Live Alpine Milestone Badge (Trailhead, Key Meadow/Camp, Summit Crest) */}
+            {activeMilestoneAlert && (isPlayingFlyover || isOrbiting) && (
+              <div
+                className={`absolute ${
+                  isOrbiting ? "top-12 sm:top-14" : "top-3 sm:top-4"
+                } left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-300 max-w-[90vw] sm:max-w-md`}
+              >
+                <div
+                  className="flex items-center gap-2.5 px-3.5 py-1.5 sm:py-2 rounded-2xl backdrop-blur-xl border shadow-2xl transition-all duration-300"
+                  style={{
+                    backgroundColor: "rgba(8, 14, 26, 0.92)",
+                    borderColor: `${activeMilestoneAlert.accentColor}88`,
+                    boxShadow: `0 8px 30px -4px ${activeMilestoneAlert.accentColor}40`,
+                  }}
+                >
+                  <div
+                    className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 border"
+                    style={{
+                      backgroundColor: `${activeMilestoneAlert.accentColor}25`,
+                      borderColor: `${activeMilestoneAlert.accentColor}80`,
+                      color: activeMilestoneAlert.accentColor,
+                    }}
+                  >
+                    {activeMilestoneAlert.kind === "summit" ? (
+                      <Trophy className="w-3.5 h-3.5 animate-bounce" />
+                    ) : activeMilestoneAlert.kind === "trailhead" ? (
+                      <MapPin className="w-3.5 h-3.5" />
+                    ) : (
+                      <Compass className="w-3.5 h-3.5" />
+                    )}
+                  </div>
+
+                  <div className="flex flex-col min-w-0 pr-1 text-left">
+                    <span
+                      className="font-mono text-[9px] font-bold tracking-wider uppercase leading-none"
+                      style={{ color: activeMilestoneAlert.accentColor }}
+                    >
+                      {activeMilestoneAlert.kicker}
                     </span>
-                    {activeWaypointAlert.caution ? (
-                      <span className="text-[9px] text-amber-300/90 font-light truncate">{activeWaypointAlert.caution}</span>
-                    ) : activeWaypointAlert.note ? (
-                      <span className="text-[9px] text-slate-300 font-light truncate">{activeWaypointAlert.note}</span>
-                    ) : null}
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="font-bold text-white text-xs sm:text-sm tracking-tight truncate">
+                        {activeMilestoneAlert.name}
+                      </span>
+                      {activeMilestoneAlert.elevationM && (
+                        <span className="font-mono text-[10px] text-white/80 bg-white/10 px-1.5 py-0.5 rounded-full shrink-0">
+                          {activeMilestoneAlert.elevationM}m
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1795,6 +1846,8 @@ export default function RouteMap3D({
               getPointAtProgress={getPointAtProgress}
               summitCoord={summitCoord}
               flyoverMaxDistKm={flyoverMaxDistKm}
+              waypoints={routeData?.waypoints || []}
+              coordinates={displayCoordinates}
             />
           </div>
         )}
