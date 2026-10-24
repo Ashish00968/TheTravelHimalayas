@@ -153,14 +153,14 @@ export function getInterpolatedPoint(
  * @param coordinates Full array of [lng, lat, eleM] trail coordinates
  * @param cumDistances Precomputed cumulative distance array in kilometers
  * @param currentDistKm Current position along route in kilometers
- * @param lookAheadKm Look-ahead distance in kilometers (default 0.55 km / 550m)
+ * @param lookAheadKm Look-ahead distance in kilometers (default 0.075 km / 75m, matching Strava standard)
  * @param apexKm Optional trail summit / apex distance. When ascending, caps lookahead to summit.
  */
 export function computeMacroBearing(
   coordinates: [number, number, number][],
   cumDistances: number[],
   currentDistKm: number,
-  lookAheadKm = 0.55,
+  lookAheadKm = 0.075,
   apexKm?: number
 ): number {
   if (coordinates.length < 2) return 0;
@@ -264,49 +264,47 @@ export function computeOffsetPoint(
 
 /**
  * Strava-Grade 3D Chase Camera Math:
- * Calculates an elevated camera eye position that trails behind the hiker along
- * the inverted movement bearing, looking forward at the target coordinate.
+ * Direct 1:1 match with Strava / FATMAP 3D activity flyovers.
+ * Centers the camera directly on the hiker [hikerLng, hikerLat] with
+ * high-horizon 68° pitch and 15.2 zoom, placing the hiker in the
+ * lower-middle foreground while the majestic mountain skyline towers ahead.
  *
  * @param hikerLng Current hiker longitude
  * @param hikerLat Current hiker latitude
  * @param bearing Current movement bearing in degrees
  * @param gradientPct Current trail grade percentage
- * @param distanceBehindMeters Distance camera trails behind hiker in meters (default 240m)
  */
 export function computeStravaChaseCamera(
   hikerLng: number,
   hikerLat: number,
   bearing: number,
-  gradientPct = 0,
-  distanceBehindMeters = 240
+  gradientPct = 0
 ): {
   center: [number, number];
   zoom: number;
   pitch: number;
   bearing: number;
 } {
-  // Trail behind the hiker along the reverse bearing
-  const reverseBearing = (bearing + 180) % 360;
+  const clampedGrade = Math.max(-25, Math.min(35, gradientPct));
   
-  // Adaptive offset: slightly further back on steep climbs to keep mountain peaks in frame
-  const clampedGrade = Math.max(-25, Math.min(30, gradientPct));
-  const offsetMeters = distanceBehindMeters + (clampedGrade > 10 ? (clampedGrade - 10) * 3 : 0);
-  
-  const eyeCoord = computeOffsetPoint(hikerLng, hikerLat, reverseBearing, offsetMeters);
+  // Base pitch: 68° (Strava standard). On steep climbs (>12%), gently dampens down
+  // to 62° to prevent the mountain cliff face from overwhelming the top frame.
+  let pitch = 68;
+  if (clampedGrade > 12) {
+    const t = Math.min(1, (clampedGrade - 12) / 20);
+    pitch = 68 - t * 6; // 68° down to 62°
+  } else if (clampedGrade < -15) {
+    const t = Math.min(1, (-clampedGrade - 15) / 20);
+    pitch = 68 - t * 4; // 68° down to 64° on steep descent
+  }
 
-  // Pitch: 58° on flat, dampens down to 48° on steep ascents to prevent mountain cliff collision
-  const pitch = Math.max(46, Math.min(62, 58 - clampedGrade * 0.35));
-
-  // Zoom: 14.2 gives high-detail 3D terrain immersion without claustrophobia
-  const zoom = 14.2;
+  // Zoom: 15.2 gives high-detail 3D terrain immersion and intimate ground feeling
+  const zoom = 15.2;
 
   return {
-    center: [
-      (eyeCoord[0] + hikerLng * 2) / 3, // Target between eye and hiker for balanced framing
-      (eyeCoord[1] + hikerLat * 2) / 3,
-    ],
+    center: [hikerLng, hikerLat],
     zoom,
-    pitch,
+    pitch: Math.round(pitch * 10) / 10,
     bearing,
   };
 }

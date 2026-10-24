@@ -25,7 +25,6 @@ import {
   getTargetDimensions,
   getTargetBitrate,
   renderTelemetryOverlay,
-  drawHikerBeaconOnCanvas,
 } from "@/lib/video-export";
 import {
   computeStravaChaseCamera,
@@ -293,9 +292,18 @@ export function FlyoverVideoExportModal({
       startPt.lng,
       startPt.lat,
       startPt.bearing,
-      startPt.gradientPct,
-      220
+      startPt.gradientPct
     );
+
+    // Position native WebGL hiker puck at trailhead
+    const startPuckSource = map.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+    if (startPuckSource) {
+      startPuckSource.setData({
+        type: "Feature",
+        properties: {},
+        geometry: { type: "Point", coordinates: [startPt.lng, startPt.lat] },
+      });
+    }
 
     const overviewCenter: [number, number] = [
       (startPt.lng + summitCoord[0]) / 2,
@@ -323,8 +331,6 @@ export function FlyoverVideoExportModal({
     let swoopTriggered = false;
     let trailInitialized = false;
     let summitEaseTriggered = false;
-
-    const container = map.getContainer();
 
     const renderCompositeFrame = (
       hikerLng: number,
@@ -364,45 +370,7 @@ export function FlyoverVideoExportModal({
         ctx.drawImage(sourceCanvas, sx, sy, sWidth, sHeight, 0, 0, dimensions.width, dimensions.height);
       }
 
-      // 2. Project hiker coordinate to screen and draw active glowing cyan beacon directly on canvas
-      try {
-        const containerW = container.clientWidth || 1;
-        const containerH = container.clientHeight || 1;
-        const screenPos = map.project([hikerLng, hikerLat]);
-
-        let compX: number;
-        let compY: number;
-
-        if (resolution === "native") {
-          compX = screenPos.x * (dimensions.width / containerW);
-          compY = screenPos.y * (dimensions.height / containerH);
-        } else {
-          const srcW = sourceCanvas.width;
-          const srcH = sourceCanvas.height;
-          const targetAspect = dimensions.width / dimensions.height;
-          const srcAspect = srcW / srcH;
-          let sx = 0;
-          let sy = 0;
-          let sWidth = srcW;
-          let sHeight = srcH;
-          if (srcAspect > targetAspect) {
-            sWidth = srcH * targetAspect;
-            sx = (srcW - sWidth) / 2;
-          } else {
-            sHeight = srcW / targetAspect;
-            sy = (srcH - sHeight) / 2;
-          }
-          const srcX = screenPos.x * (srcW / containerW);
-          const srcY = screenPos.y * (srcH / containerH);
-          compX = ((srcX - sx) / sWidth) * dimensions.width;
-          compY = ((srcY - sy) / sHeight) * dimensions.height;
-        }
-
-        if (compX >= -50 && compX <= dimensions.width + 50 && compY >= -50 && compY <= dimensions.height + 50) {
-          const scale = dimensions.width / (dimensions.height > dimensions.width ? 1080 : 1920);
-          drawHikerBeaconOnCanvas(ctx, compX, compY, performance.now(), scale);
-        }
-      } catch {}
+      // 2. Native WebGL hiker puck is already rendered on sourceCanvas by Mapbox GPU layer
 
       // 3. Optional telemetry HUD & editorial watermark
       if (includeOverlay) {
@@ -488,21 +456,30 @@ export function FlyoverVideoExportModal({
             map.setPaintProperty("trail-route-line", "line-gradient", stops);
           } catch {}
 
+          // Update native WebGL hiker puck position
+          const puckSource = map.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+          if (puckSource) {
+            puckSource.setData({
+              type: "Feature",
+              properties: {},
+              geometry: { type: "Point", coordinates: [pt.lng, pt.lat] },
+            });
+          }
+
           const stravaCamera = computeStravaChaseCamera(
             pt.lng,
             pt.lat,
             pt.bearing,
-            pt.gradientPct,
-            220
+            pt.gradientPct
           );
 
           // Exact same gimbal lerp & rate-limited bearing smoothing as Live Play
-          cameraCenter[0] += (stravaCamera.center[0] - cameraCenter[0]) * 0.09;
-          cameraCenter[1] += (stravaCamera.center[1] - cameraCenter[1]) * 0.09;
-          cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.06;
+          cameraCenter[0] += (stravaCamera.center[0] - cameraCenter[0]) * 0.15;
+          cameraCenter[1] += (stravaCamera.center[1] - cameraCenter[1]) * 0.15;
+          cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.08;
 
-          const maxTurn = isCinematic ? 0.55 : 1.2;
-          currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.055, maxTurn);
+          const maxTurn = isCinematic ? 0.65 : 1.2;
+          currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.08, maxTurn);
 
           map.jumpTo({
             center: cameraCenter,

@@ -62,6 +62,7 @@ export default function RouteMap3D({
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPlayingFlyover, setIsPlayingFlyover] = useState(false);
   const [isOrbiting, setIsOrbiting] = useState(false);
+  const isOrbitingRef = useRef(false);
   const [orbitBearing, setOrbitBearing] = useState<number>(0);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [activeWaypointAlert, setActiveWaypointAlert] = useState<{
@@ -244,18 +245,18 @@ export default function RouteMap3D({
       const lat = pt[1];
       const ele = pt[2];
 
-      // Smooth Macro Valley Bearing (550m lookahead window, apex-clamped on ascent)
-      const bearing = computeMacroBearing(coordinates, cumDistances, targetDist, 0.55, apexDistKm);
+      // Smooth Macro Valley Bearing (75m lookahead window, matching Strava standard)
+      const bearing = computeMacroBearing(coordinates, cumDistances, targetDist, 0.075, apexDistKm);
 
       // Lookahead point for gradient and adaptive anti-clipping pitch
-      const aheadDist = Math.min(flyoverMaxDistKm, targetDist + 0.22);
+      const aheadDist = Math.min(flyoverMaxDistKm, targetDist + 0.075);
       const aheadPt = getInterpolatedPoint(coordinates, cumDistances, aheadDist);
       const aheadDistMeters = Math.max(30, (aheadDist - targetDist) * 1000);
       const deltaElev = aheadPt[2] - ele;
       const gradientPct = Math.round((deltaElev / aheadDistMeters) * 100);
 
-      // Adaptive Pitch Damper: 48° down to 38° on steep ascents & steep descents
-      const adaptivePitch = computeAdaptivePitch(ele, aheadPt[2], aheadDistMeters, 48, 38);
+      // Adaptive Pitch Damper: 68° base down to 62° on steep ascents
+      const adaptivePitch = computeAdaptivePitch(ele, aheadPt[2], aheadDistMeters, 68, 62);
 
       return { lng, lat, ele, bearing, adaptivePitch, gradientPct };
     },
@@ -382,23 +383,35 @@ export default function RouteMap3D({
         });
       }
 
-      // 1. Add DEM terrain elevation (1.15x relief calibrated for Himalayan high ridges without near-plane collision)
+      // 1. Add DEM terrain elevation (1.25x relief calibrated for crisp Himalayan ridgelines)
       map.addSource("mapbox-dem", {
         type: "raster-dem",
         url: "mapbox://mapbox.mapbox-terrain-dem-v1",
         tileSize: 512,
         maxzoom: 14,
       });
-      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.15 });
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.25 });
 
-      // 2. Add realistic atmospheric alpine sky
+      // 2. Add realistic atmospheric alpine sky and sunlight (Strava / FATMAP standard)
+      if (!map.getLayer("sky")) {
+        map.addLayer({
+          id: "sky",
+          type: "sky",
+          paint: {
+            "sky-type": "atmosphere",
+            "sky-atmosphere-sun": [0.0, 90.0],
+            "sky-atmosphere-sun-intensity": 15,
+          },
+        });
+      }
+
       map.setFog({
-        range: [0.8, 12],
-        color: "#050914",
-        "horizon-blend": 0.2,
-        "high-color": "#223b53",
-        "space-color": "#01040a",
-        "star-intensity": 0.4,
+        range: [1.0, 12.0],
+        color: "rgb(186, 210, 235)",
+        "horizon-blend": 0.15,
+        "high-color": "rgb(36, 92, 223)",
+        "space-color": "rgb(11, 24, 44)",
+        "star-intensity": 0.0,
       });
 
       // 3. Register GPU canvas pulsing beacons
@@ -502,9 +515,49 @@ export default function RouteMap3D({
         } catch {}
       }, 130);
 
+      // 7. Native WebGL Hiker Puck on GPU (zero DOM lag, 100% captured in video exports)
+      const startCoord = displayCoordinates[0];
+      if (!map.getSource("hiker-puck-source")) {
+        map.addSource("hiker-puck-source", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "Point",
+              coordinates: [startCoord[0], startCoord[1]],
+            },
+          },
+        });
+
+        map.addLayer({
+          id: "hiker-puck-glow",
+          type: "circle",
+          source: "hiker-puck-source",
+          paint: {
+            "circle-radius": 14,
+            "circle-color": "#00E5FF",
+            "circle-opacity": 0.45,
+            "circle-pitch-alignment": "map",
+          },
+        });
+
+        map.addLayer({
+          id: "hiker-puck-core",
+          type: "circle",
+          source: "hiker-puck-source",
+          paint: {
+            "circle-radius": 6.5,
+            "circle-color": "#FFFFFF",
+            "circle-stroke-width": 2.5,
+            "circle-stroke-color": "#00E5FF",
+            "circle-pitch-alignment": "map",
+          },
+        });
+      }
+
       // 8. Alpine Waypoint Taxonomy Markers with Proximity Culling Registration
       const isJogni = routeData.placeId === "jogni-falls";
-      const startCoord = displayCoordinates[0];
       const waypoints = routeData.waypoints || [];
       const hasWaypoints = waypoints.length > 0;
       waypointItemsRef.current = [];
@@ -730,6 +783,7 @@ export default function RouteMap3D({
 
   // Stop 360° summit flyover orbit
   const stopOrbit = useCallback(() => {
+    isOrbitingRef.current = false;
     setIsOrbiting(false);
     setOrbitBearing(0);
     if (orbitTimeoutRef.current) {
@@ -740,12 +794,16 @@ export default function RouteMap3D({
       cancelAnimationFrame(orbitAnimRef.current);
       orbitAnimRef.current = null;
     }
+    if (mapRef.current) {
+      mapRef.current.stop();
+    }
   }, []);
 
   // Start 360° summit flyover orbit around peak
   const startOrbit = useCallback(() => {
     if (!mapRef.current) return;
     stopOrbit();
+    isOrbitingRef.current = true;
     setIsPlayingFlyover(false);
     setIsOrbiting(true);
 
@@ -790,7 +848,7 @@ export default function RouteMap3D({
 
     let lastOrbitTime = performance.now();
     const orbitStep = (now: number) => {
-      if (!mapRef.current) return;
+      if (!isOrbitingRef.current || !mapRef.current) return;
       const deltaMs = Math.min(32, now - lastOrbitTime);
       lastOrbitTime = now;
       const deltaBearing = (deltaMs / 1000) * 6.5; // ~55s for calm, majestic 360° summit panoramic orbit
@@ -805,10 +863,13 @@ export default function RouteMap3D({
       });
 
       setOrbitBearing(Math.round(b));
-      orbitAnimRef.current = requestAnimationFrame(orbitStep);
+      if (isOrbitingRef.current) {
+        orbitAnimRef.current = requestAnimationFrame(orbitStep);
+      }
     };
 
     orbitTimeoutRef.current = setTimeout(() => {
+      if (!isOrbitingRef.current || !mapRef.current) return;
       lastOrbitTime = performance.now();
       orbitAnimRef.current = requestAnimationFrame(orbitStep);
     }, 1900);
@@ -864,39 +925,46 @@ export default function RouteMap3D({
           mapRef.current.setPaintProperty("trail-route-line", "line-gradient", stops);
         } catch {}
 
-        // Move active hiker beacon
+        // Move active hiker beacon (both GPU WebGL puck and DOM marker)
+        const puckSource = mapRef.current.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+        if (puckSource) {
+          puckSource.setData({
+            type: "Feature",
+            properties: {},
+            geometry: { type: "Point", coordinates: [pt.lng, pt.lat] },
+          });
+        }
         if (activeMarkerRef.current) {
           activeMarkerRef.current.setLngLat([pt.lng, pt.lat]);
         }
 
-        // Strava-Grade 3D Chase Camera: camera trails 220m behind the hiker along the movement vector
+        // Strava-Grade 3D Chase Camera (zoom 15.2, pitch 68°, centered directly on hiker)
         const stravaCamera = computeStravaChaseCamera(
           pt.lng,
           pt.lat,
           pt.bearing,
-          pt.gradientPct,
-          220
+          pt.gradientPct
         );
 
-        // Smooth camera gimbal position (responsive tracking, prevents camera lagging behind switchbacks)
-        cameraCenterRef.current[0] += (stravaCamera.center[0] - cameraCenterRef.current[0]) * 0.09;
-        cameraCenterRef.current[1] += (stravaCamera.center[1] - cameraCenterRef.current[1]) * 0.09;
+        // Smooth camera gimbal position (tight tracking prevents lagging behind trail)
+        cameraCenterRef.current[0] += (stravaCamera.center[0] - cameraCenterRef.current[0]) * 0.15;
+        cameraCenterRef.current[1] += (stravaCamera.center[1] - cameraCenterRef.current[1]) * 0.15;
 
-        // Smooth camera pitch (52°–62° for deep 3D horizon perspective without clipping)
-        cameraPitchRef.current += (stravaCamera.pitch - cameraPitchRef.current) * 0.06;
+        // Smooth camera pitch (68° base down to 62° on steep climbs)
+        cameraPitchRef.current += (stravaCamera.pitch - cameraPitchRef.current) * 0.08;
 
-        // Rate-Limited Bearing Lerp: limits turn speed to 0.55°/frame (33°/sec)
+        // Rate-Limited Bearing Lerp: limits turn speed to 0.65°/frame (39°/sec)
         // completely eliminates snappy switchback shaking and reverse barrel spins!
         if (!shouldReduceMotion) {
           currentBearingRef.current = rateLimitedBearingLerp(
             currentBearingRef.current,
             pt.bearing,
-            0.055,
-            0.55
+            0.08,
+            0.65
           );
         }
 
-        // Camera flight tracking: jumpTo directly sets WebGL camera matrix at immersive 14.2 zoom!
+        // Camera flight tracking: jumpTo directly sets WebGL camera matrix at immersive 15.2 zoom!
         mapRef.current.jumpTo({
           center: cameraCenterRef.current,
           zoom: shouldReduceMotion ? 12.0 : stravaCamera.zoom,
@@ -1005,17 +1073,22 @@ export default function RouteMap3D({
   // Start / Resume Flyover Ridge Animation with Strava-Style Initial 2.5s 3D Overview & Zoom
   const startFlyover = useCallback(() => {
     if (!mapRef.current) return;
+    mapRef.current.stop();
     stopOrbit();
+    if (introTimeoutRef.current) {
+      clearTimeout(introTimeoutRef.current);
+      introTimeoutRef.current = null;
+    }
 
     let startProgress = flyoverProgressRef.current;
-    if (startProgress >= 0.99) {
+    if (startProgress >= 0.90) {
       startProgress = 0;
       flyoverProgressRef.current = 0;
       setFlyoverProgress(0);
     }
 
     // Strava FlyoverStart: 2.5-second cinematic 3D overview & zoom into the trailhead
-    if (startProgress < 0.01 && !isIntroZooming) {
+    if (startProgress < 0.01) {
       setIsPlayingFlyover(true);
       setIsIntroZooming(true);
 
@@ -1024,11 +1097,18 @@ export default function RouteMap3D({
         startPt.lng,
         startPt.lat,
         startPt.bearing,
-        startPt.gradientPct,
-        220
+        startPt.gradientPct
       );
 
-      // Pre-position active beacon at trailhead with high-visibility cyan pulse
+      // Pre-position active beacon at trailhead on both WebGL canvas and DOM
+      const puckSource = mapRef.current.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+      if (puckSource) {
+        puckSource.setData({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "Point", coordinates: [startPt.lng, startPt.lat] },
+        });
+      }
       if (activeMarkerRef.current) {
         activeMarkerRef.current.setLngLat([startPt.lng, startPt.lat]);
       }
@@ -1076,7 +1156,6 @@ export default function RouteMap3D({
     beginFlyoverLoop(startProgress);
   }, [
     stopOrbit,
-    isIntroZooming,
     getPointAtProgress,
     beginFlyoverLoop,
   ]);
@@ -1133,6 +1212,15 @@ export default function RouteMap3D({
           mapRef.current.setPaintProperty("trail-route-line", "line-gradient", stops);
         } catch {}
 
+        // Move active hiker beacon (both GPU WebGL puck and DOM marker)
+        const puckSource = mapRef.current.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+        if (puckSource) {
+          puckSource.setData({
+            type: "Feature",
+            properties: {},
+            geometry: { type: "Point", coordinates: [pt.lng, pt.lat] },
+          });
+        }
         if (activeMarkerRef.current) {
           activeMarkerRef.current.setLngLat([pt.lng, pt.lat]);
         }
@@ -1142,8 +1230,7 @@ export default function RouteMap3D({
           pt.lng,
           pt.lat,
           pt.bearing,
-          pt.gradientPct,
-          220
+          pt.gradientPct
         );
         mapRef.current.jumpTo({
           center: stravaCamera.center,
@@ -1216,6 +1303,15 @@ export default function RouteMap3D({
         bearing: -35,
         duration: 1800,
       });
+
+      const puckSource = mapRef.current.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+      if (puckSource) {
+        puckSource.setData({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "Point", coordinates: [displayCoordinates[0][0], displayCoordinates[0][1]] },
+        });
+      }
 
       if (activeMarkerRef.current) {
         activeMarkerRef.current.setLngLat([displayCoordinates[0][0], displayCoordinates[0][1]]);
