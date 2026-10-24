@@ -27,12 +27,21 @@ import {
   renderTelemetryOverlay,
   selectKeyMilestones,
   renderMilestoneBanner,
+  selectTacticalAdvisories,
+  renderPeakSightingBanner,
+  renderTacticalAdvisoryBanner,
   RouteMilestone,
+  TacticalAdvisory,
 } from "@/lib/video-export";
 import {
   computeStravaChaseCamera,
   rateLimitedBearingLerp,
   computeSafeGradientStops,
+  haversineDistanceKm,
+  createAdaptivePacingMapper,
+  getVisiblePeaksFromSummit,
+  findActivePeakSighting,
+  VisibleSummitPeak,
 } from "@/lib/camera-math";
 import type { RouteWaypoint } from "@/data/types";
 import type mapboxgl from "mapbox-gl";
@@ -93,6 +102,59 @@ export function FlyoverVideoExportModal({
       coordinates
     );
   }, [waypoints, flyoverMaxDistKm, placeName, apexElevationM, coordinates]);
+
+  // Extract tactical alpine hazards & caution notices
+  const tacticalAdvisories = useMemo(() => {
+    return selectTacticalAdvisories(waypoints, coordinates);
+  }, [waypoints, coordinates]);
+
+  // Sample mini elevation profile for video overlay
+  const elevationProfile = useMemo(() => {
+    if (!coordinates || coordinates.length < 2) return undefined;
+    const step = Math.max(1, Math.floor(coordinates.length / 80));
+    const sampled: { distKm: number; eleM: number }[] = [];
+    let cumD = 0;
+    sampled.push({ distKm: 0, eleM: coordinates[0][2] });
+    for (let i = 1; i < coordinates.length; i++) {
+      cumD += haversineDistanceKm(
+        coordinates[i - 1][0],
+        coordinates[i - 1][1],
+        coordinates[i][0],
+        coordinates[i][1]
+      );
+      if (i % step === 0 || i === coordinates.length - 1) {
+        sampled.push({ distKm: Math.round(cumD * 10) / 10, eleM: coordinates[i][2] });
+      }
+    }
+    return sampled;
+  }, [coordinates]);
+
+  // Gradient-aware adaptive pacing mapper reference
+  const pacingMapperRef = useRef<(t: number) => number>((t: number) => t);
+  useEffect(() => {
+    if (!coordinates || coordinates.length < 2) {
+      pacingMapperRef.current = (t: number) => t;
+      return;
+    }
+    const dists: number[] = [0];
+    for (let i = 1; i < coordinates.length; i++) {
+      dists.push(
+        dists[i - 1] +
+          haversineDistanceKm(
+            coordinates[i - 1][0],
+            coordinates[i - 1][1],
+            coordinates[i][0],
+            coordinates[i][1]
+          )
+      );
+    }
+    pacingMapperRef.current = createAdaptivePacingMapper(coordinates, dists);
+  }, [coordinates]);
+
+  // Visible Himalayan peaks from summit apex
+  const visiblePeaks = useMemo(() => {
+    return getVisiblePeaksFromSummit(summitCoord[0], summitCoord[1], 45);
+  }, [summitCoord]);
 
   // Recording lifecycle state
   const [progress, setProgress] = useState<VideoExportProgress>({
@@ -168,6 +230,8 @@ export function FlyoverVideoExportModal({
     const format = getSupportedVideoMimeType();
     const dimensions = getTargetDimensions(resolution, sourceCanvas);
     const bitrate = getTargetBitrate(quality, resolution);
+
+    const isPortrait = resolution === "1080p-portrait";
 
     // Exact flight phase durations
     const isCinematic = durationOption === "cinematic";
@@ -305,10 +369,13 @@ export function FlyoverVideoExportModal({
 
     // 1. Position camera directly at trailhead view (eliminates missing frames & floating island at start)
     map.jumpTo({
-      center: startStravaCamera.center,
+      center: [startPt.lng, startPt.lat],
       zoom: startStravaCamera.zoom,
       pitch: startStravaCamera.pitch,
       bearing: startStravaCamera.bearing,
+      padding: isPortrait
+        ? { top: 0, bottom: 200, left: 0, right: 0 }
+        : { top: 0, bottom: 130, left: 0, right: 0 },
     });
 
     // 2. Position native WebGL hiker puck at trailhead
@@ -323,8 +390,10 @@ export function FlyoverVideoExportModal({
 
     // 3. Reset trail line gradient
     try {
-      const stops = computeSafeGradientStops(0, "#00E5FF", "rgba(0, 229, 255, 0.2)");
-      map.setPaintProperty("trail-route-line", "line-gradient", stops);
+      if (map.getStyle() && map.getLayer("trail-route-line")) {
+        const stops = computeSafeGradientStops(0, "#00E5FF", "rgba(0, 229, 255, 0.2)");
+        map.setPaintProperty("trail-route-line", "line-gradient", stops);
+      }
     } catch {}
 
     // 4. Update status to preparing while satellite tiles load
@@ -358,12 +427,12 @@ export function FlyoverVideoExportModal({
 
     if (abortControllerRef.current) return;
 
-    let cameraCenter: [number, number] = [startStravaCamera.center[0], startStravaCamera.center[1]];
     let cameraPitch = startStravaCamera.pitch;
     let currentBearing = startStravaCamera.bearing;
+    let camCenterLng = startPt.lng;
+    let camCenterLat = startPt.lat;
 
     let trailInitialized = false;
-    let summitEaseTriggered = false;
 
     const startMilestone = keyMilestones.find((m) => m.category === "trailhead") || keyMilestones[0];
     const intermediateMilestones = keyMilestones.filter((m) => m.category === "meadow" || m.category === "pass");
@@ -377,11 +446,16 @@ export function FlyoverVideoExportModal({
       ele: number,
       distKm: number,
       gradPct: number,
-      milestoneAlert: { milestone: RouteMilestone; opacity: number } | null = null
+      milestoneAlert: { milestone: RouteMilestone; opacity: number } | null = null,
+      peakAlert: { peak: VisibleSummitPeak; opacity: number } | null = null,
+      advisoryAlert: { advisory: TacticalAdvisory; opacity: number } | null = null
     ) => {
       // 1. Draw WebGL Mapbox canvas to composite canvas with atmospheric background fill
       ctx.fillStyle = "#0c1a2e";
       ctx.fillRect(0, 0, dimensions.width, dimensions.height);
+
+      const isPortrait = dimensions.height > dimensions.width;
+      const scale = dimensions.width / (isPortrait ? 1080 : 1920);
 
       if (resolution === "native") {
         // Razor-sharp 1:1 pixel match with what's visible on user's display
@@ -402,16 +476,15 @@ export function FlyoverVideoExportModal({
           sx = (srcW - sWidth) / 2;
         } else {
           sHeight = srcW / targetAspect;
-          sy = (srcH - sHeight) / 2;
+          const defaultSy = (srcH - sHeight) / 2;
+          // In 9:16 vertical reel, bias crop upward by 30% so mountain summits stay in upper frame
+          sy = isPortrait ? Math.max(0, defaultSy * 0.70) : defaultSy;
         }
 
         ctx.drawImage(sourceCanvas, sx, sy, sWidth, sHeight, 0, 0, dimensions.width, dimensions.height);
       }
 
-      const isPortrait = dimensions.height > dimensions.width;
-      const scale = dimensions.width / (isPortrait ? 1080 : 1920);
-
-      // 2. Render active broadcast waypoint milestone badge (Solang Village, Shagadug Meadow, Patalsu Peak)
+      // 2. Render broadcast waypoint milestones, alpine peak sightings, or tactical advisories
       if (milestoneAlert && milestoneAlert.opacity > 0.01) {
         renderMilestoneBanner(
           ctx,
@@ -422,9 +495,29 @@ export function FlyoverVideoExportModal({
           scale,
           isPortrait
         );
+      } else if (peakAlert && peakAlert.opacity > 0.01) {
+        renderPeakSightingBanner(
+          ctx,
+          dimensions.width,
+          dimensions.height,
+          peakAlert.peak,
+          peakAlert.opacity,
+          scale,
+          isPortrait
+        );
+      } else if (advisoryAlert && advisoryAlert.opacity > 0.01) {
+        renderTacticalAdvisoryBanner(
+          ctx,
+          dimensions.width,
+          dimensions.height,
+          advisoryAlert.advisory,
+          advisoryAlert.opacity,
+          scale,
+          isPortrait
+        );
       }
 
-      // 3. Optional telemetry HUD & editorial watermark
+      // 3. Telemetry HUD with barometric O2 and mini elevation profile
       if (includeOverlay) {
         renderTelemetryOverlay(ctx, dimensions.width, dimensions.height, {
           trailName: placeName,
@@ -437,10 +530,11 @@ export function FlyoverVideoExportModal({
           bearingDeg: bearing,
           progressPct: lineProg * 100,
           mode,
+          elevationProfile,
         });
       }
 
-      // 4. Live in-modal mini preview update (if preview canvas is mounted)
+      // 4. Live in-modal mini preview update
       if (previewCanvasRef.current) {
         const pCanvas = previewCanvasRef.current;
         const pCtx = pCanvas.getContext("2d");
@@ -491,7 +585,6 @@ export function FlyoverVideoExportModal({
 
         if (elapsed < startHoldMs) {
           // Phase 1: Stabilized Trailhead Hold with Start Milestone Pop-up (Solang Village)
-          // 0-200ms fade-in, 200-900ms hold, 900-1200ms fade-out
           let opacity = 1.0;
           if (elapsed < 200) {
             opacity = elapsed / 200;
@@ -510,23 +603,28 @@ export function FlyoverVideoExportModal({
             startMilestone ? { milestone: startMilestone, opacity } : null
           );
         } else if (elapsed < orbitStartMs) {
-          // Phase 2: Trail Traversal with Strava Chase Camera & Milestone Pop-ups
+          // Phase 2: Trail Traversal with Adaptive Gradient-Aware Flight Pacing
           if (!trailInitialized) {
             trailInitialized = true;
-            cameraCenter = [startStravaCamera.center[0], startStravaCamera.center[1]];
             cameraPitch = startStravaCamera.pitch;
             currentBearing = startStravaCamera.bearing;
+            camCenterLng = startPt.lng;
+            camCenterLat = startPt.lat;
           }
 
           const trailElapsed = elapsed - startHoldMs;
-          const p = Math.min(1, trailElapsed / trailDurationMs);
+          const linearT = Math.min(1, trailElapsed / trailDurationMs);
+          // Apply gradient-aware alpine effort curve: decelerate on steep scrambles/moraines
+          const p = pacingMapperRef.current(linearT);
           const pt = getPointAtProgress(p);
           const currentDistKm = p * flyoverMaxDistKm;
 
           // Update glowing trail line gradient on Mapbox WebGL canvas
           try {
-            const stops = computeSafeGradientStops(p, "#00E5FF", "rgba(0, 229, 255, 0.2)");
-            map.setPaintProperty("trail-route-line", "line-gradient", stops);
+            if (map.getStyle() && map.getLayer("trail-route-line")) {
+              const stops = computeSafeGradientStops(p, "#00E5FF", "rgba(0, 229, 255, 0.2)");
+              map.setPaintProperty("trail-route-line", "line-gradient", stops);
+            }
           } catch {}
 
           // Update native WebGL hiker puck position
@@ -546,18 +644,24 @@ export function FlyoverVideoExportModal({
             pt.gradientPct
           );
 
-          cameraCenter[0] += (stravaCamera.center[0] - cameraCenter[0]) * 0.15;
-          cameraCenter[1] += (stravaCamera.center[1] - cameraCenter[1]) * 0.15;
-          cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.08;
+          // 2-axis critically damped physical gimbal camera center suspension
+          // Filters out high-frequency GPS coordinate wobble and switchback micro-kinks
+          camCenterLng += (pt.lng - camCenterLng) * 0.12;
+          camCenterLat += (pt.lat - camCenterLat) * 0.12;
 
-          const maxTurn = isCinematic ? 0.65 : 1.2;
-          currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.08, maxTurn);
+          cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.035;
+
+          const maxTurn = isCinematic ? 0.50 : 0.85;
+          currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.045, maxTurn);
 
           map.jumpTo({
-            center: cameraCenter,
+            center: [camCenterLng, camCenterLat],
             zoom: stravaCamera.zoom,
             pitch: cameraPitch,
             bearing: currentBearing,
+            padding: isPortrait
+              ? { top: 0, bottom: 200, left: 0, right: 0 }
+              : { top: 0, bottom: 130, left: 0, right: 0 },
           });
 
           // Check for active intermediate milestone (e.g. Shagadugh Meadow)
@@ -579,6 +683,24 @@ export function FlyoverVideoExportModal({
             }
           }
 
+          // Check for active alpine tactical advisory (e.g. loose scree couloir, water cutoff)
+          let activeAdvisory: { advisory: TacticalAdvisory; opacity: number } | null = null;
+          if (!activeMidMilestone) {
+            for (const adv of tacticalAdvisories) {
+              const triggerTimeMs = startHoldMs + adv.progress * trailDurationMs;
+              const windowStart = triggerTimeMs - 200;
+              const windowEnd = triggerTimeMs + 1100;
+              if (elapsed >= windowStart && elapsed <= windowEnd) {
+                const t = elapsed - windowStart;
+                let op = 1.0;
+                if (t < 200) op = t / 200;
+                else if (t > 950) op = Math.max(0, (1300 - t) / 350);
+                activeAdvisory = { advisory: adv, opacity: op };
+                break;
+              }
+            }
+          }
+
           renderCompositeFrame(
             pt.lng,
             pt.lat,
@@ -587,31 +709,49 @@ export function FlyoverVideoExportModal({
             pt.ele,
             currentDistKm,
             pt.gradientPct,
-            activeMidMilestone
+            activeMidMilestone,
+            null,
+            activeAdvisory
           );
         } else if (elapsed < totalDurationMs) {
-          // Phase 3: Summit Arrival Ease-In & 360° Orbit Celebration with Summit Crest Badge
-          if (!summitEaseTriggered) {
-            summitEaseTriggered = true;
-            map.easeTo({
-              center: [summitCoord[0], summitCoord[1]],
-              zoom: 13.0,
-              pitch: 50,
-              duration: 1800,
-            });
-          }
-
+          // Phase 3: Summit Arrival Ease-In & Cinematic Drone Pull-Back Orbit Spiral
           const orbitElapsed = elapsed - orbitStartMs;
+          const orbitT = Math.min(1, orbitElapsed / orbitDurationMs);
+
+          // Commanding 3D Drone Spiral: starts intimate at summit crags (zoom 14.6, pitch 68°),
+          // gently pulls back to reveal the surrounding mountain ranges (zoom 13.8, pitch 64°)
+          const spiralT = orbitT * orbitT * (3 - 2 * orbitT);
+          const targetZoom = 14.6 - spiralT * 0.8;
+          const targetPitch = 68 - spiralT * 4;
           const summitBearing = (currentBearing + (orbitElapsed / 1000) * 6.5) % 360;
 
+          // Seamless transition ease from traversal center/padding into summit orbit
+          const transitionT = Math.min(1, orbitElapsed / 800);
+          const easeIn = transitionT * transitionT * (3 - 2 * transitionT);
+          const currentCenterLng = camCenterLng + (summitCoord[0] - camCenterLng) * easeIn;
+          const currentCenterLat = camCenterLat + (summitCoord[1] - camCenterLat) * easeIn;
+          const currentZoom = 15.3 * (1 - easeIn) + targetZoom * easeIn;
+          const currentPitch = cameraPitch * (1 - easeIn) + targetPitch * easeIn;
+          const initialPadding = isPortrait ? 200 : 130;
+          const targetPadding = isPortrait ? 110 : 80;
+          const bottomPadding = Math.round(initialPadding * (1 - easeIn) + targetPadding * easeIn);
+
           map.jumpTo({
-            center: [summitCoord[0], summitCoord[1]],
-            zoom: 13.0,
-            pitch: 50,
+            center: [currentCenterLng, currentCenterLat],
+            zoom: currentZoom,
+            pitch: currentPitch,
             bearing: summitBearing,
+            padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 },
           });
 
-          // Summit milestone fades in over 300ms, then stays active throughout orbit
+          // Check for prominent Himalayan peak sightings in current view
+          const activePeakSighting = findActivePeakSighting(summitBearing, visiblePeaks, 18);
+          let activePeakAlert: { peak: VisibleSummitPeak; opacity: number } | null = null;
+          if (activePeakSighting && orbitElapsed > 350) {
+            activePeakAlert = { peak: activePeakSighting, opacity: 1.0 };
+          }
+
+          // Summit milestone fades in over 300ms, stays active unless a peak sighting is showcased
           const summitOpacity = Math.min(1.0, orbitElapsed / 300);
 
           renderCompositeFrame(
@@ -622,19 +762,32 @@ export function FlyoverVideoExportModal({
             summitCoord[2] || apexElevationM,
             flyoverMaxDistKm,
             0,
-            summitMilestone ? { milestone: summitMilestone, opacity: summitOpacity } : null
+            activePeakAlert ? null : (summitMilestone ? { milestone: summitMilestone, opacity: summitOpacity } : null),
+            activePeakAlert
           );
         }
       } else {
-        // Orbit mode: Calm 360° rotation around peak
+        // Orbit mode: Drone pull-back spiral rotation around peak in commanding 3D relief
         const t = Math.min(1, elapsed / totalDurationMs);
+        const spiralT = t * t * (3 - 2 * t);
+        const spiralZoom = 14.6 - spiralT * 0.8;
+        const spiralPitch = 68 - spiralT * 4;
         const angleDeg = (t * 360) % 360;
+
         map.jumpTo({
           center: [summitCoord[0], summitCoord[1]],
-          zoom: 13.0,
-          pitch: 50,
+          zoom: spiralZoom,
+          pitch: spiralPitch,
           bearing: angleDeg,
+          padding: { top: 0, bottom: isPortrait ? 110 : 80, left: 0, right: 0 },
         });
+
+        const activePeakSighting = findActivePeakSighting(angleDeg, visiblePeaks, 18);
+        let activePeakAlert: { peak: VisibleSummitPeak; opacity: number } | null = null;
+        if (activePeakSighting && elapsed > 400) {
+          activePeakAlert = { peak: activePeakSighting, opacity: 1.0 };
+        }
+
         renderCompositeFrame(
           summitCoord[0],
           summitCoord[1],
@@ -643,7 +796,8 @@ export function FlyoverVideoExportModal({
           summitCoord[2] || apexElevationM,
           flyoverMaxDistKm,
           0,
-          summitMilestone ? { milestone: summitMilestone, opacity: 1.0 } : null
+          activePeakAlert ? null : (summitMilestone ? { milestone: summitMilestone, opacity: 1.0 } : null),
+          activePeakAlert
         );
       }
 
@@ -682,6 +836,9 @@ export function FlyoverVideoExportModal({
     summitCoord,
     flyoverMaxDistKm,
     keyMilestones,
+    elevationProfile,
+    tacticalAdvisories,
+    visiblePeaks,
   ]);
 
   const handleCancel = () => {

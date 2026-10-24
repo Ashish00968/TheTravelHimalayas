@@ -45,7 +45,7 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="pt-8 sm:pt-14 pb-16 sm:pb-24 relative z-10 bg-background transition-colors duration-300 overflow-hidden"
+      className="pt-8 sm:pt-14 pb-16 sm:pb-24 relative z-10 bg-background transition-colors duration-300 overflow-hidden cv-auto"
       aria-label="Frequently Asked Questions"
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
@@ -70,7 +70,7 @@ export function FaqSection() {
                 setIsExpanded(!isExpanded);
               }
             }}
-            className="w-full text-left p-4 sm:p-8 cursor-pointer select-none group flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 transition-colors duration-300"
+            className="w-full text-left p-4 sm:p-8 cursor-pointer select-none group flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 transition-colors duration-300 touch-manipulation"
           >
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2.5">
@@ -155,7 +155,7 @@ export function FaqSection() {
                             e.stopPropagation();
                             setActiveCategory(cat.id);
                           }}
-                          className={`relative px-4 py-2 rounded-full text-xs font-mono font-medium transition-all duration-300 flex items-center gap-2 border ${
+                          className={`relative px-4 py-2 rounded-full text-xs font-mono font-medium transition-all duration-300 flex items-center gap-2 border touch-manipulation min-h-[38px] ${
                             isActive
                               ? "text-white shadow-md border-primary/60 bg-primary"
                               : "text-foreground/70 hover:text-foreground border-border/70 hover:border-border bg-foreground/[0.02]"
@@ -193,7 +193,7 @@ export function FaqSection() {
                                 e.stopPropagation();
                                 toggleFaq(faq.id);
                               }}
-                              className="w-full text-left p-4 sm:p-5 flex items-start justify-between gap-4 select-none group"
+                              className="w-full text-left p-4 sm:p-5 flex items-start justify-between gap-4 select-none group touch-manipulation min-h-[44px]"
                               aria-expanded={isOpen}
                               aria-controls={`faq-answer-${faq.id}`}
                             >
