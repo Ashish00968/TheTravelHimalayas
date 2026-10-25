@@ -2706,8 +2706,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The road and trail begin from Dharchula, traveling through Tawaghat, Khela, and Sobla into the upper valley."
                                                           }
                                                 ],
-                                                "seoTitle": "Darma Valley (3,400m), Pithoragarh — Rung Borderlands",
-                                                "seoDescription": "Explore Darma Valley in Pithoragarh, Kumaon. Dhauliganga canyon, Panchachuli views, Dantu & Dugtu villages, and travel permit guide Plan your journey with.",
+                                                "seoTitle": "Darma Valley Travel Guide: Routes, Permits & Best Time",
+                                                "seoDescription": "Explore Darma Valley in Uttarakhand, with Panchachuli views, Dantu and Dugtu villages, route guidance, permit information and seasonal travel tips.",
                                                 "keywords": [
                                                           "Darma Valley Pithoragarh",
                                                           "Darma valley trek",

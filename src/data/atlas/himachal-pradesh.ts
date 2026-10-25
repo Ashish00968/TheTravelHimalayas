@@ -184,8 +184,8 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 answer: "Via Sach Pass from Chamba in summer, or via Atal Tunnel and Keylong through Udaipur along the Chandrabhaga river valley."
               }
             ],
-            seoTitle: "Pangi Valley & Killar (2,600m) — Wild Himalayas Guide",
-            seoDescription: "Explore the remote wilderness of Pangi Valley and Killar in Chamba. Chandrabhaga river canyon, tribal Pangwala heritage, cliffhanger routes, and travel guide."
+            seoTitle: "Pangi Valley Travel Guide: How to Reach & Best Time",
+            seoDescription: "Explore Pangi Valley in Chamba, Himachal Pradesh. Discover routes via Sach Pass and Keylong, the best season to visit, local villages and travel tips."
           }
         ]
       },
