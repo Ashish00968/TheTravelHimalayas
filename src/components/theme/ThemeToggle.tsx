@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 
@@ -32,6 +33,7 @@ function getServerSnapshot(): "light" | "dark" {
 
 export function ThemeToggle({ variant = "nav", className = "" }: ThemeToggleProps) {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const pathname = usePathname();
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -54,6 +56,7 @@ export function ThemeToggle({ variant = "nav", className = "" }: ThemeToggleProp
   };
 
   if (variant === "floating") {
+    if (pathname === "/map") return null;
     return (
       <motion.button
         whileHover={{ scale: 1.08 }}
