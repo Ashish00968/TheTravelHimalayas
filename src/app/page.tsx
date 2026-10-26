@@ -113,14 +113,14 @@ export default function HomePage() {
         rel="preload"
         as="image"
         href="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
-        media="(max-width: 768px)"
+        media="(max-width: 767px)"
         fetchPriority="high"
       />
       <link
         rel="preload"
         as="image"
         href="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
-        media="(min-width: 769px)"
+        media="(min-width: 768px)"
         fetchPriority="high"
       />
       {/* Search Engine Machine-Readable Schema Graph (Google Rich Results & AI Overviews) */}

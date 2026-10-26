@@ -49,7 +49,6 @@ export function LogoMark({
         width={pixelSize}
         height={pixelSize}
         className="w-full h-full object-contain rounded-full drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
-        priority
       />
     </div>
   );

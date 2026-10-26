@@ -131,8 +131,6 @@ const TERRITORY_PROFILES: Record<
 
 /* ── 1A. Mobile Alpine Hero (Compact Viewport, Immediate CTAs, Zero Scroll Trap) ─ */
 function MobileHero() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section
       id="home-mobile"
@@ -141,25 +139,29 @@ function MobileHero() {
     >
       {/* Layer 1: Background Mountain Wallpaper (z-0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
-          alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
-          fill
-          priority
-          sizes="100vw"
-          className="hero-wallpaper-img object-cover object-center"
-        />
+        <picture className="absolute inset-0 w-full h-full">
+          <source
+            media="(max-width: 767px)"
+            srcSet="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
+          />
+          <source
+            media="(min-width: 768px)"
+            srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          />
+          <img
+            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_800/v1777213099/Wallpaper.jpg"
+            alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
+            className="hero-wallpaper-img object-cover object-center w-full h-full"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         {/* Cinematic Atmospheric Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/75 dark:from-[#07090E]/60 dark:via-black/20 dark:to-[#07090E]/85" />
       </div>
 
       {/* Layer 2: Main Brand Typography (Immediate Full Title Visibility) */}
-      <motion.div
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: EASE }}
-        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-2 select-none preserve-white-text"
-      >
+      <div className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-2 select-none preserve-white-text">
         <h1 className="flex flex-col items-center w-full">
           {/* Step 1: Discover */}
           <span
@@ -205,15 +207,10 @@ function MobileHero() {
         >
           Explore the Himalayas
         </p>
-      </motion.div>
+      </div>
 
       {/* Layer 3: Exploration Controls & Territory Quick-Nav Dock */}
-      <motion.div
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
-        className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-auto mb-2 pointer-events-auto"
-      >
+      <div className="relative z-10 w-full max-w-sm mx-auto flex flex-col items-center text-center mt-auto mb-2 pointer-events-auto">
         {/* Action Buttons */}
         <div className="w-full space-y-2 mb-3">
           <Link
@@ -245,7 +242,7 @@ function MobileHero() {
             </Link>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Layer 4: Feathered Edge Melt at Bottom */}
       <div className="absolute inset-x-0 bottom-0 h-24 pointer-events-none z-[5] bg-gradient-to-t from-background via-background/60 to-transparent transition-colors duration-500" />
@@ -372,14 +369,23 @@ function DesktopHero() {
             pointerEvents: "none",
           }}
         >
-          <Image
-            src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
-            alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
-            fill
-            loading="eager"
-            sizes="100vw"
-            className="hero-wallpaper-img object-cover object-center opacity-100 transition-transform duration-700 ease-out"
-          />
+          <picture className="absolute inset-0 w-full h-full">
+            <source
+              media="(min-width: 768px)"
+              srcSet="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
+            />
+            <source
+              media="(max-width: 767px)"
+              srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            />
+            <img
+              src="https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1600/v1777213099/Wallpaper.jpg"
+              alt="Snow-capped Himalayan mountain range and alpine crest panorama at dawn"
+              className="hero-wallpaper-img object-cover object-center w-full h-full opacity-100 transition-transform duration-700 ease-out"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
         </motion.div>
 
         {/* Cinematic Atmospheric Vignette — Lightened in dark mode */}
