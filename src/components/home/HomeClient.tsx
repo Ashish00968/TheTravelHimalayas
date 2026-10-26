@@ -135,7 +135,7 @@ function MobileHero() {
     <section
       id="home-mobile"
       suppressHydrationWarning
-      className="-mt-20 relative w-full min-h-[100dvh] md:hidden flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden preserve-white-text hero-dark-overlay"
+      className="-mt-20 relative w-full min-h-[100svh] md:hidden flex flex-col justify-between pt-24 pb-8 px-4 overflow-hidden preserve-white-text hero-dark-overlay"
     >
       {/* Layer 1: Background Mountain Wallpaper (z-0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
