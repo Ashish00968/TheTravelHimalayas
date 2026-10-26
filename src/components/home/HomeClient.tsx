@@ -215,6 +215,7 @@ function MobileHero() {
         <div className="w-full space-y-2 mb-3">
           <Link
             href="/explore"
+            prefetch={false}
             className="w-full py-3.5 px-5 rounded-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-xs uppercase tracking-wider transition-all shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 active:scale-[0.98]"
           >
             <span>Explore All Expeditions</span>
@@ -222,6 +223,7 @@ function MobileHero() {
           </Link>
           <Link
             href="/map"
+            prefetch={false}
             className="w-full py-3 px-5 rounded-full bg-slate-900/80 dark:bg-black/60 hover:bg-slate-900/90 text-white font-display font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-white/30 active:scale-[0.98] shadow-md backdrop-blur-md"
           >
             <Map className="w-4 h-4 text-primary" />
@@ -235,6 +237,7 @@ function MobileHero() {
             <Link
               key={id}
               href={`/explore/${id}`}
+              prefetch={false}
               className="py-2.5 px-3 min-h-[44px] rounded-full text-[11px] font-mono font-medium tracking-wide bg-slate-900/85 dark:bg-black/70 backdrop-blur-md transition-all flex items-center justify-center gap-2 shadow-sm border border-white/20 text-white active:scale-95 hover:border-white/40 group"
             >
               <span className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125" style={{ backgroundColor: t.accent }} />
@@ -664,7 +667,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
   return (
     <section
       id="territories"
-      className="pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300 shadow-[0_-16px_40px_rgba(15,23,42,0.06)] dark:shadow-none overflow-hidden"
+      className="cv-auto pt-12 sm:pt-20 pb-16 sm:pb-28 relative z-10 scroll-mt-12 bg-background transition-colors duration-300 shadow-[0_-16px_40px_rgba(15,23,42,0.06)] dark:shadow-none overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* Section Heading */}
@@ -795,7 +798,8 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                       src={profile.image}
                       alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                       fill
-                      sizes="50vw"
+                      loading="lazy"
+                      sizes="(max-width: 767px) 50vw, 200px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/25" />

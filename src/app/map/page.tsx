@@ -43,6 +43,11 @@ export default function MapPage() {
 
   return (
     <PageTransition>
+      {/* Route-isolated Mapbox preconnects for 3D satellite tile acceleration */}
+      <link rel="preconnect" href="https://api.mapbox.com" />
+      <link rel="dns-prefetch" href="https://api.mapbox.com" />
+      <link rel="preconnect" href="https://events.mapbox.com" />
+      <link rel="dns-prefetch" href="https://events.mapbox.com" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(webAppSchema) }}
