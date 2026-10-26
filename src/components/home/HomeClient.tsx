@@ -656,6 +656,91 @@ function Hero() {
   );
 }
 
+/**
+ * Safe, zero-CLS deferred image wrapper for below-the-fold cards.
+ * Prevents non-critical card images from competing with mobile hero LCP during initial load.
+ * Eagerly mounts on any user interaction (scroll, touch, wheel) or when intersecting within 50px.
+ */
+function DeferredImage({
+  src,
+  alt,
+  fill,
+  sizes,
+  className,
+  ...rest
+}: React.ComponentProps<typeof Image>) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      const timer = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(timer);
+    }
+
+    const trigger = () => {
+      setIsVisible(true);
+    };
+
+    window.addEventListener("scroll", trigger, { passive: true, once: true });
+    window.addEventListener("touchmove", trigger, { passive: true, once: true });
+    window.addEventListener("wheel", trigger, { passive: true, once: true });
+    window.addEventListener("keydown", trigger, { passive: true, once: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "50px",
+        threshold: 0.01,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", trigger);
+      window.removeEventListener("touchmove", trigger);
+      window.removeEventListener("wheel", trigger);
+      window.removeEventListener("keydown", trigger);
+    };
+  }, []);
+
+  return (
+    <div ref={ref} className="absolute inset-0 w-full h-full pointer-events-none">
+      {isVisible ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill={fill}
+          sizes={sizes}
+          className={className}
+          loading="lazy"
+          {...rest}
+        />
+      ) : (
+        <noscript>
+          <Image
+            src={src}
+            alt={alt}
+            fill={fill}
+            sizes={sizes}
+            className={className}
+            {...rest}
+          />
+        </noscript>
+      )}
+    </div>
+  );
+}
+
 /* ── 2. Territories Showcase (Cinematic Mountain Expedition Tree) ──────────── */
 function TerritoriesSection({ territories }: { territories?: LightweightTerritory[] }) {
   const [activeBranch, setActiveBranch] = useState<string | null>(null);
@@ -794,11 +879,10 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                     href={`/explore/${region.id}`}
                     className="dark-photo-card group relative rounded-2xl overflow-hidden block border border-slate-200/80 dark:border-white/10 active:scale-[0.98] transition-transform duration-300 shadow-md h-[135px] sm:h-[150px]"
                   >
-                    <Image
+                    <DeferredImage
                       src={profile.image}
                       alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                       fill
-                      loading="lazy"
                       sizes="(max-width: 767px) 50vw, 200px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
@@ -880,7 +964,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                         prefetch={false}
                         className="dark-photo-card group relative rounded-2xl sm:rounded-3xl overflow-hidden block border border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-500 shadow-lg hover:shadow-2xl h-[185px] sm:h-[230px]"
                       >
-                        <Image
+                        <DeferredImage
                           src={profile.image}
                           alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                           fill
@@ -954,7 +1038,7 @@ function TerritoriesSection({ territories }: { territories?: LightweightTerritor
                         prefetch={false}
                         className="dark-photo-card group relative rounded-2xl sm:rounded-3xl overflow-hidden block border border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-500 shadow-lg hover:shadow-2xl h-[185px] sm:h-[230px]"
                       >
-                        <Image
+                        <DeferredImage
                           src={profile.image}
                           alt={`High-altitude alpine terrain and mountain peaks of ${region.name} (${profile.ranges})`}
                           fill
@@ -1417,11 +1501,11 @@ function IconicTreksSection({ featuredTreks }: { featuredTreks?: LightweightFeat
                     >
                       <div className="relative h-24 sm:h-28 w-full overflow-hidden shrink-0 dark-photo-card preserve-white-text">
                         {trek.heroImage ? (
-                          <Image
+                          <DeferredImage
                             src={trek.heroImage}
                             alt={`${trek.title} — ${trek.region} Himalayan route reaching ${trek.maxAltitude}`}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            sizes="(max-width: 768px) 280px, (max-width: 1200px) 50vw, 25vw"
                             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           />
                         ) : (
