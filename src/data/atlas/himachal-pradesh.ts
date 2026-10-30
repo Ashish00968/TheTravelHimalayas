@@ -273,14 +273,45 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             name: "Indrahar Pass Trek",
             type: "trek",
             emoji: "🧗",
-            coords: [32.2858, 76.3725],
-            elevation: "4,342 m",
+            coords: [32.2977, 76.3811],
+            elevation: "4,334 m",
             bestSeason: "May to June, September to October",
             difficulty: "Difficult",
             duration: "4–5 Days",
-            distance: "35 km",
-            overview: "The definitive high-altitude pass trek across the Dhauladhar crest. Originating from McLeod Ganj and continuing past Triund and the glacial amphitheater of Ilaqa Got, the route ascends steep boulder moraines and the famous Lahesh cave (3,500m) before tackling a grueling climb over steep stone steps and snow gullies to reach Indrahar Pass (4,342m / 14,245 ft). The pass connects Kangra with the Ravi river basin in Bharmour.",
+            distance: "21 km return (35 km from McLeod Ganj)",
+            overview: "The definitive high-altitude pass trek across the Dhauladhar crest. Originating from McLeod Ganj and continuing past Triund and the glacial amphitheater of Ilaqa Got, the route ascends steep boulder moraines and the famous Lahesh cave (3,500m) before tackling a grueling climb over steep stone steps and snow gullies to reach Indrahar Pass (4,334m / 14,219 ft). The pass connects Kangra with the Ravi river basin in Bharmour.",
+            routeDescription: "Climbs from Galu Devi Temple through mixed oak and rhododendron forests to the iconic Triund ridge (2,853m), traverses to Snowline Cafe and the glacial pastures of Ilaqa Got (3,153m), ascends past ancient Lahesh Cave (3,506m), and scrambles through 35°–40° boulder fields and snow gullies to reach Indrahar Pass (4,334m).",
             experience: "Resting inside the ancient Lahesh shepherd cave by campfire light before embarking on a pre-dawn scramble up the near-vertical Dhauladhar snow gullies.",
+            itinerary: [
+              {
+                day: 1,
+                title: "McLeod Ganj / Galu Devi to Triund Ridge",
+                description: "Trek 5 km through rhododendron and pine forests from Galu Devi Temple to the expansive grassy ridge of Triund (2,853m).",
+                elevationMeters: 2853,
+                distanceKm: 5
+              },
+              {
+                day: 2,
+                title: "Triund to Ilaqa Got & Lahesh Cave",
+                description: "Trek 4 km past Snowline Cafe to the glacial amphitheater of Ilaqa Got (3,153m) and continue to the natural shepherd shelter of Lahesh Cave (3,506m).",
+                elevationMeters: 3506,
+                distanceKm: 4
+              },
+              {
+                day: 3,
+                title: "Lahesh Cave to Indrahar Pass Summit & Return",
+                description: "Summit push: Pre-dawn climb over steep granite boulders and snow gullies to Indrahar Pass col (4,334m) for views of Pir Panjal and Mani Mahesh Kailash. Descend to Ilaqa Got.",
+                elevationMeters: 4334,
+                distanceKm: 7
+              },
+              {
+                day: 4,
+                title: "Ilaqa Got to McLeod Ganj Descent",
+                description: "Descend from Ilaqa Got past Triund and Galu Devi Temple back to Dharamkot and McLeod Ganj.",
+                elevationMeters: 2082,
+                distanceKm: 9
+              }
+            ],
             tips: [
               "High-grade trekking boots with rigid ankle support are crucial for the jagged, shifting boulder fields above Ilaqa Got.",
               "Start from Lahesh cave before 5:30 AM to summit Indrahar Pass before noon, when dense fog frequently rolls up from the plains."

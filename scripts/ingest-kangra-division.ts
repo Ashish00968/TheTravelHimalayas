@@ -82,8 +82,10 @@ function parseGpxSegments(xmlContent: string): [number, number][][] {
 }
 
 async function ingestKangra() {
+  const targetId = process.argv[2];
+
   console.log("==================================================");
-  console.log("🏔️ INGESTING HIMACHAL PRADESH DIVISION 2: KANGRA");
+  console.log(`🏔️ INGESTING HIMACHAL PRADESH DIVISION 2: KANGRA ${targetId ? `(${targetId})` : ""}`);
   console.log("==================================================");
 
   const routesDir = path.resolve(__dirname, "../src/data/routes");
@@ -91,6 +93,7 @@ async function ingestKangra() {
   if (!fs.existsSync(routesDir)) fs.mkdirSync(routesDir, { recursive: true });
   if (!fs.existsSync(publicGpxDir)) fs.mkdirSync(publicGpxDir, { recursive: true });
 
+  if (!targetId || targetId === "triund") {
   // ─────────────────────────────────────────────────────────────
   // 1. TRIUND TREK (Kandi to Snowline Cafe via Triund Ridge)
   // ─────────────────────────────────────────────────────────────
@@ -199,7 +202,9 @@ async function ingestKangra() {
     )
   );
   console.log(`✅ Triund saved: ${triundStats.distanceKm} km, +${triundStats.gainM}m / -${triundStats.lossM}m, ${triundStats.pointCount} pts.`);
+  }
 
+  if (!targetId || targetId === "kareri-lake") {
   // ─────────────────────────────────────────────────────────────
   // 2. KARERI LAKE TREK (Kareri Village to Glacial Lake)
   // ─────────────────────────────────────────────────────────────
@@ -293,76 +298,107 @@ async function ingestKangra() {
     )
   );
   console.log(`✅ Kareri Lake saved: ${kareriStats.distanceKm} km, +${kareriStats.gainM}m / -${kareriStats.lossM}m, ${kareriStats.pointCount} pts.`);
+  }
 
+  if (!targetId || targetId === "indrahar-pass") {
   // ─────────────────────────────────────────────────────────────
-  // 3. INDRAHAR PASS TREK (Ilaqa Got to Kuwarsi over Dhauladhar)
+  // 3. INDRAHAR PASS TREK (Galu Devi Temple to Indrahar Pass Circuit)
   // ─────────────────────────────────────────────────────────────
   console.log("\n[3/3] Processing Indrahar Pass Trek...");
-  const indraharXml = fs.readFileSync("/Users/apple/Downloads/indrahar-pass.gpx", "utf8");
-  const indraharRawCoords = parseGpxCoords(indraharXml);
-  const indraharFiltered = filterMinDistance(indraharRawCoords, 40.0);
-  console.log(`  Parsed ${indraharRawCoords.length} track points -> filtered to ${indraharFiltered.length} in indrahar-pass.gpx.`);
+  const indraharXml = fs.readFileSync("/Users/apple/Downloads/Indrahar_Pass_Trek.gpx", "utf8");
 
-  const indraharElevations = await lookupElevationsRobust(
-    indraharFiltered.map(([lat, lon]) => ({ latitude: lat, longitude: lon }))
-  );
+  // Parse track points with embedded elevations
+  const trkptRegex = /<trkpt\s+([^>]+?)(?:\/>|>([\s\S]*?)<\/trkpt>)/gi;
+  let match: RegExpExecArray | null;
+  const indraharRawPointsWithEle: [number, number, number][] = [];
+  while ((match = trkptRegex.exec(indraharXml)) !== null) {
+    const attrs = match[1];
+    const inner = match[2] || "";
+    const latMatch = /lat=["\x27]([^"\x27]+)["\x27]/i.exec(attrs);
+    const lonMatch = /lon=["\x27]([^"\x27]+)["\x27]/i.exec(attrs);
+    if (!latMatch || !lonMatch) continue;
+    const lat = parseFloat(latMatch[1]);
+    const lon = parseFloat(lonMatch[1]);
+    const eleMatch = /<ele>([^<]+)<\/ele>/i.exec(inner);
+    const ele = eleMatch ? parseFloat(eleMatch[1]) : 0;
+    if (!isNaN(lat) && !isNaN(lon)) {
+      indraharRawPointsWithEle.push([lat, lon, ele]);
+    }
+  }
 
-  const indraharRawPointsWithEle: [number, number, number][] = indraharFiltered.map(
-    ([lat, lon], idx) => [lat, lon, indraharElevations[idx] || 3500]
-  );
+  // Filter min distance 15m
+  const indraharFiltered: [number, number, number][] = [indraharRawPointsWithEle[0]];
+  for (let i = 1; i < indraharRawPointsWithEle.length; i++) {
+    const prev = indraharFiltered[indraharFiltered.length - 1];
+    const curr = indraharRawPointsWithEle[i];
+    if (haversineM(prev[0], prev[1], curr[0], curr[1]) >= 15.0) {
+      indraharFiltered.push(curr);
+    }
+  }
+  if (indraharFiltered[indraharFiltered.length - 1] !== indraharRawPointsWithEle[indraharRawPointsWithEle.length - 1]) {
+    indraharFiltered.push(indraharRawPointsWithEle[indraharRawPointsWithEle.length - 1]);
+  }
 
-  const { coordinates: indraharCoords, stats: indraharStats } = processPoints(indraharRawPointsWithEle, 500);
+  const { coordinates: indraharCoords, stats: indraharStats } = processPoints(indraharFiltered, 450);
 
   const indraharWaypoints: RouteWaypoint[] = [
     {
-      name: "Ilaqa Got Meadow Basecamp",
-      lat: 32.273426,
-      lng: 76.361574,
-      eleM: 3154,
+      name: "Galu Devi Temple Trailhead",
+      lat: 32.25434,
+      lng: 76.32578,
+      eleM: 2101,
+      type: "trailhead",
+      note: "Upper Dharamkot roadhead and primary gateway trailhead for Triund and Indrahar Pass.",
+    },
+    {
+      name: "Magic View Cafe Ridge Junction",
+      lat: 32.25637,
+      lng: 76.34197,
+      eleM: 2401,
+      type: "water",
+      note: "Historic tea shop and trail resting point on the rhododendron ridge overlooking Kangra valley.",
+    },
+    {
+      name: "Triund Panoramic Ridge Plateau",
+      lat: 32.26307,
+      lng: 76.3541,
+      eleM: 2853,
       type: "camp",
-      note: "Glacial amphitheater meadow situated above the tree line at the base of the main Dhauladhar wall.",
+      note: "Expansive grassy ridge plateau directly beneath the sheer south face of Moon Peak.",
+    },
+    {
+      name: "Snowline Cafe & Ilaqa Got Meadow",
+      lat: 32.27117,
+      lng: 76.35937,
+      eleM: 3153,
+      type: "camp",
+      note: "Glacial amphitheater basecamp situated above the tree line at the base of the main Dhauladhar wall.",
     },
     {
       name: "Lahesh Natural Rock Cave",
-      lat: 32.288025,
-      lng: 76.372583,
-      eleM: 3516,
+      lat: 32.28786,
+      lng: 76.37275,
+      eleM: 3506,
       type: "camp",
       note: "Famous natural shepherd rock shelter used for pre-dawn summit assault camping.",
     },
     {
-      name: "Dhauladhar Boulder Moraine Gully",
-      lat: 32.294147,
-      lng: 76.376785,
-      eleM: 3973,
+      name: "Dhauladhar Boulder Scree & Snow Gully",
+      lat: 32.29294,
+      lng: 76.37537,
+      eleM: 3860,
       type: "warning",
-      cautionNotice: "35°–40° steep scree and hard snow gullies. Risk of rockfall; crampons or microspikes required in pre-monsoon.",
-      note: "Strenuous climb over steep granite boulders and snow chutes.",
+      cautionNotice: "35°–40° steep boulder fields and hard snow gullies. Risk of rockfall; microspikes recommended in pre-monsoon.",
+      note: "Strenuous scramble over steep granite boulders and snow chutes.",
     },
     {
       name: "Indrahar Pass Summit Col",
-      lat: 32.299007,
-      lng: 76.383405,
-      eleM: 4342,
+      lat: 32.29773,
+      lng: 76.38111,
+      eleM: 4334,
       type: "pass",
-      cautionNotice: "Knife-edge ridge crossing between Kangra and Chamba. Weather changes rapidly with afternoon fog and high winds.",
-      note: "Commanding pass col offering 360° vistas of Mani Mahesh Kailash and Pir Panjal.",
-    },
-    {
-      name: "Chhata Parao High Meadow",
-      lat: 32.309832,
-      lng: 76.393771,
-      eleM: 3585,
-      type: "camp",
-      note: "First camping meadow on the Chamba descent beside glacial streams.",
-    },
-    {
-      name: "Kuwarsi Valley Trailhead Outpost",
-      lat: 32.372004,
-      lng: 76.506428,
-      eleM: 1854,
-      type: "trailhead",
-      note: "Historic Gaddi tribal village in Bharmour with road connectivity to Chamba.",
+      cautionNotice: "Knife-edge ridge crossing between Kangra and Chamba. High winds and sudden afternoon mists; begin descent before noon.",
+      note: "Commanding pass col offering 360° vistas of Mani Mahesh Kailash and the Pir Panjal range.",
     },
   ];
 
@@ -370,10 +406,10 @@ async function ingestKangra() {
     placeId: "indrahar-pass",
     version: 1,
     source: "dht-recorded",
-    sourceNote: "Ground-surveyed high-altitude Dhauladhar crossover GPS trace from Ilaqa Got across Indrahar Pass to Kuwarsi",
-    recordedOn: "2026-10-30",
+    sourceNote: "Ground-surveyed field GPS trace from Galu Devi Temple via Triund, Ilaqa Got, and Lahesh Cave to Indrahar Pass",
+    recordedOn: "2026-10-31",
     verified: true,
-    verifiedOn: "2026-10-30",
+    verifiedOn: "2026-10-31",
     license: "Discover Himalayan Trails / Free to use with attribution",
     stats: indraharStats,
     line: {
@@ -389,13 +425,14 @@ async function ingestKangra() {
     generatePublicGpx(
       "Indrahar Pass Trek",
       "https://discoverhimalayantrails.com/explore/himachal-pradesh/kangra/indrahar-pass",
-      "2026-10-30",
+      "2026-10-31",
       "Discover Himalayan Trails / Free to use with attribution",
       indraharCoords,
       indraharWaypoints
     )
   );
   console.log(`✅ Indrahar Pass saved: ${indraharStats.distanceKm} km, +${indraharStats.gainM}m / -${indraharStats.lossM}m, ${indraharStats.pointCount} pts.`);
+  }
 
   console.log("\n🎉 ALL 3 KANGRA DIVISION ROUTES INGESTED SUCCESSFULLY!");
 }
