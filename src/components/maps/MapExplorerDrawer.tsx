@@ -148,6 +148,174 @@ export const VERIFIED_ROUTES_CATALOG: VerifiedRouteMeta[] = [
     gain: "+280m",
     overview: "Refreshing pine trail from Vashisht temple village to the sacred multi-tiered cascade above the Beas River.",
   },
+  {
+    id: "triund",
+    name: "Triund Panoramic Ridge Trek",
+    region: "Himachal Pradesh",
+    valley: "Kangra / Dharamshala",
+    type: "trek",
+    maxAltitude: "3,154m",
+    distance: "8.5 km",
+    difficulty: "Moderate",
+    gain: "+1,837m",
+    overview: "Classic Dhauladhar ridge trail climbing from Kandi through mixed oak forests to the breathtaking plateau directly under Moon Peak.",
+  },
+  {
+    id: "kareri-lake",
+    name: "Kareri Glacial Lake Trail",
+    region: "Himachal Pradesh",
+    valley: "Kangra / Dharamshala",
+    type: "trek",
+    maxAltitude: "2,964m",
+    distance: "5.7 km",
+    difficulty: "Moderate",
+    gain: "+1,019m",
+    overview: "Serpentine trail climbing along the roaring Nyund river torrent to a crystal-clear high-altitude glacial lake nestled under Minkiani Pass.",
+  },
+  {
+    id: "indrahar-pass",
+    name: "Indrahar Pass Dhauladhar Crossover",
+    region: "Himachal Pradesh",
+    valley: "Kangra to Chamba",
+    type: "trek",
+    maxAltitude: "4,342m",
+    distance: "22.7 km",
+    difficulty: "Difficult",
+    gain: "+1,799m",
+    overview: "Demanding high-altitude crossing of the sheer Dhauladhar crest from Ilaqa Got past ancient Lahesh Cave into the Ravi basin of Bharmour.",
+  },
+  {
+    id: "hemkund-sahib",
+    name: "Hemkund Sahib & Lokpal Lake",
+    region: "Uttarakhand",
+    valley: "Chamoli / Garhwal",
+    type: "trek",
+    maxAltitude: "4,329m",
+    distance: "13.9 km",
+    difficulty: "Moderate-Difficult",
+    gain: "+2,090m",
+    overview: "Sacred high-altitude Sikh pilgrimage trail climbing from Govindghat through Ghangaria to the glaciated lake at 4,329m.",
+  },
+  {
+    id: "valley-of-flowers",
+    name: "Valley of Flowers National Park",
+    region: "Uttarakhand",
+    valley: "Chamoli / Garhwal",
+    type: "trek",
+    maxAltitude: "3,858m",
+    distance: "17.1 km",
+    difficulty: "Moderate",
+    gain: "+1,676m",
+    overview: "UNESCO World Heritage floral sanctuary trail ascending along the Pushpawati River into high alpine wildflower pastures.",
+  },
+  {
+    id: "kedarkantha",
+    name: "Kedarkantha Summit Trek",
+    region: "Uttarakhand",
+    valley: "Uttarkashi / Govind Sanctuary",
+    type: "trek",
+    maxAltitude: "3,800m",
+    distance: "18.4 km",
+    difficulty: "Moderate",
+    gain: "+2,613m",
+    overview: "India's premier winter summit trek climbing from Sankri through Juda Ka Talab to the panoramic 3,800m pyramidal summit.",
+  },
+  {
+    id: "markha-valley",
+    name: "Markha Valley Expedition",
+    region: "Ladakh",
+    valley: "Hemis National Park",
+    type: "trek",
+    maxAltitude: "5,269m",
+    distance: "97.0 km",
+    difficulty: "Challenging",
+    gain: "+4,017m",
+    overview: "Definitive Ladakh wilderness trek through high canyons, mudbrick gompas, Nimaling pasture, and Kongmaru La pass.",
+  },
+  {
+    id: "tarsar-marsar",
+    name: "Tarsar Marsar Alpine Lakes",
+    region: "Jammu & Kashmir",
+    valley: "Aru Valley / Kolahoi",
+    type: "trek",
+    maxAltitude: "3,996m",
+    distance: "41.9 km",
+    difficulty: "Moderate",
+    gain: "+1,733m",
+    overview: "Enchanting Kashmiri alpine trek from Aru village past pine glades and meadows to the almond-shaped glacial tarns.",
+  },
+  {
+    id: "kashmir-great-lakes",
+    name: "Kashmir Great Lakes (KGL)",
+    region: "Jammu & Kashmir",
+    valley: "Sonmarg to Naranag",
+    type: "trek",
+    maxAltitude: "4,200m",
+    distance: "58.3 km",
+    difficulty: "Difficult",
+    gain: "+3,365m",
+    overview: "Crown jewel alpine expedition crossing 3 high passes to unveil seven turquoise glacial lakes beneath Mount Harmukh.",
+  },
+  {
+    id: "roopkund-trek",
+    name: "Roopkund Mystery Lake Trek",
+    region: "Uttarakhand",
+    valley: "Chamoli / Trishul",
+    type: "trek",
+    maxAltitude: "5,029m",
+    distance: "18.0 km",
+    difficulty: "Difficult",
+    gain: "+2,031m",
+    overview: "Historic Garhwali high-altitude trek crossing the immense meadows of Bedni Bugyal to the enigmatic skeleton lake at 5,029m.",
+  },
+  {
+    id: "gangotri-gaumukh",
+    name: "Gaumukh Tapovan Glacier Trek",
+    region: "Uttarakhand",
+    valley: "Uttarkashi / Gangotri",
+    type: "trek",
+    maxAltitude: "4,463m",
+    distance: "20.2 km",
+    difficulty: "Moderate-Difficult",
+    gain: "+1,425m",
+    overview: "Sacred trek along the roaring Bhagirathi River to the origin of the Ganga and the golden meadows of Tapovan under Shivling.",
+  },
+  {
+    id: "dayara-bugyal",
+    name: "Dayara Bugyal Meadow Trek",
+    region: "Uttarakhand",
+    valley: "Uttarkashi / Raithal",
+    type: "trek",
+    maxAltitude: "3,657m",
+    distance: "6.5 km",
+    difficulty: "Easy-Moderate",
+    gain: "+1,184m",
+    overview: "Gentle oak forest ascent to one of India's most expansive high-altitude velvet alpine meadows with Bandarpoonch views.",
+  },
+  {
+    id: "chopta-tungnath",
+    name: "Chopta, Tungnath & Chandrashila",
+    region: "Uttarakhand",
+    valley: "Rudraprayag / Garhwal",
+    type: "trek",
+    maxAltitude: "4,000m",
+    distance: "3.9 km",
+    difficulty: "Moderate",
+    gain: "+757m",
+    overview: "Short steep ascent from Chopta meadow to the world's highest Shiva temple (Tungnath) and the Chandrashila summit panorama.",
+  },
+  {
+    id: "kuari-pass",
+    name: "Kuari Pass (Lord Curzon Trail)",
+    region: "Uttarakhand",
+    valley: "Chamoli / Nanda Devi",
+    type: "trek",
+    maxAltitude: "3,876m",
+    distance: "4.5 km",
+    difficulty: "Moderate",
+    gain: "+544m",
+    overview: "Classic British colonial alpine trail providing front-row theater views of Nanda Devi, Kamet, Dronagiri, and Trishul.",
+  },
 ];
 
 const TERRITORY_OPTIONS = [
@@ -191,8 +359,13 @@ export function MapExplorerDrawer({
   const filteredRoutes = useMemo(() => {
     let list = VERIFIED_ROUTES_CATALOG;
     if (territoryFilter !== "all") {
-      const regionSlug = territoryFilter === "himachal-pradesh" ? "Himachal Pradesh" : territoryFilter;
-      list = list.filter((r) => r.region.toLowerCase().includes(regionSlug.toLowerCase()));
+      const targetSlug =
+        territoryFilter === "himachal-pradesh"
+          ? "himachal"
+          : territoryFilter === "jammu-kashmir"
+          ? "kashmir"
+          : territoryFilter.toLowerCase();
+      list = list.filter((r) => r.region.toLowerCase().includes(targetSlug));
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
@@ -250,7 +423,7 @@ export function MapExplorerDrawer({
           <Compass className="w-4 h-4 text-sky-400 group-hover:rotate-45 transition-transform duration-300" />
           <span className="text-xs font-semibold tracking-wide">Trail Directory</span>
           <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md bg-sky-500/15 text-sky-300 border border-sky-500/30">
-            10 GPS
+            {VERIFIED_ROUTES_CATALOG.length} GPS
           </span>
         </button>
       )}
