@@ -617,51 +617,80 @@ const FLAGSHIP_TREKS: TrekIngestDef[] = [
   {
     placeId: "kuari-pass",
     placeName: "Kuari Pass (Curzon Trail)",
-    sourceFile: "/Users/apple/Downloads/kuari-pass.gpx",
+    sourceFile: "/Users/apple/Downloads/Kuari_Pass_Trek.gpx",
     placeHref: "https://discoverhimalayantrails.com/explore/uttarakhand/chamoli/kuari-pass",
-    sourceNote: "Ground-surveyed field GPS trace along the historic Lord Curzon Trail to Kuari Pass (3,876m)",
-    minDistMeters: 15.0,
-    maxPointsTarget: 400,
+    sourceNote: "Ground-surveyed field GPS trace along the historic Lord Curzon Trail from Dhak via Kuari Pass and Gorson Bugyal to Auli",
+    minDistMeters: 20.0,
+    maxPointsTarget: 450,
     waypoints: [
       {
         name: "Dhak Village Roadhead Trailhead",
-        lat: 30.4819,
-        lng: 79.5895,
-        eleM: 2875,
+        lat: 30.4974,
+        lng: 79.6133,
+        eleM: 2089,
         type: "trailhead",
-        note: "Roadhead near Joshimath initiating the historic Lord Curzon Trail.",
+        note: "Roadhead near Joshimath on the Malari highway where the Lord Curzon Trail begins.",
       },
       {
-        name: "Gulling & Tugasi Terraced Pastures",
-        lat: 30.48,
-        lng: 79.585,
-        eleM: 3050,
+        name: "Tugasi & Gulling Terraced Meadows",
+        lat: 30.4830,
+        lng: 79.5942,
+        eleM: 2711,
         type: "camp",
-        note: "Picturesque Himalayan villages overlooking Dhauli Ganga canyon.",
+        note: "Picturesque Himalayan villages overlooking the Dhauli Ganga canyon.",
       },
       {
-        name: "Chitrakantha Oak Forest Camp",
-        lat: 30.478,
-        lng: 79.58,
-        eleM: 3310,
+        name: "Khullara Alpine Campsite",
+        lat: 30.4677,
+        lng: 79.5843,
+        eleM: 3250,
         type: "camp",
-        note: "Campsite shaded by centuries-old rhododendrons with views of Mount Dronagiri.",
+        note: "Wide alpine meadow campsite beneath the ridge with direct views of Mount Dronagiri.",
       },
       {
-        name: "Kuari Pass Col (Curzon Summit)",
-        lat: 30.474,
-        lng: 79.5728,
-        eleM: 3876,
+        name: "Kuari Pass Col (Curzon Summit Crest)",
+        lat: 30.4523,
+        lng: 79.5811,
+        eleM: 3682,
         type: "pass",
-        note: "Legendary high pass col framing the western face of Mount Nanda Devi (7,816m).",
+        note: "Historic high pass col framing unobstructed panoramic views of Mount Nanda Devi (7,816m), Kamet, and Trishul.",
+      },
+      {
+        name: "Tali Forest & Sacred Tarn",
+        lat: 30.4709,
+        lng: 79.5765,
+        eleM: 3282,
+        type: "water",
+        note: "Dense rhododendron and birch forest surrounding the small high-altitude Tali lake.",
+      },
+      {
+        name: "Gorson Bugyal Panoramic Meadows",
+        lat: 30.4919,
+        lng: 79.5823,
+        eleM: 3531,
+        type: "landmark",
+        note: "Vast undulating velvet alpine bugyal with front-row amphitheater views of Nanda Devi and Chaukhamba.",
+      },
+      {
+        name: "Auli Ski Slopes & Trailhead",
+        lat: 30.5355,
+        lng: 79.5653,
+        eleM: 2728,
+        type: "trailhead",
+        note: "Famous Himalayan alpine meadow and ski resort finishing point connecting to Joshimath.",
       },
     ],
   },
 ];
 
 async function ingestAllFlagships() {
+  const targetId = process.argv[2];
+  const listToProcess = targetId
+    ? FLAGSHIP_TREKS.filter((t) => t.placeId === targetId)
+    : FLAGSHIP_TREKS;
+
   console.log("==================================================");
-  console.log("🏔️ INGESTING 11 HIMALAYAN FLAGSHIP TREKS");
+  console.log(`🏔️ INGESTING HIMALAYAN FLAGSHIP TREKS (${listToProcess.length} selected)`);
   console.log("==================================================");
 
   const routesDir = path.resolve(__dirname, "../src/data/routes");
@@ -669,9 +698,9 @@ async function ingestAllFlagships() {
   if (!fs.existsSync(routesDir)) fs.mkdirSync(routesDir, { recursive: true });
   if (!fs.existsSync(publicGpxDir)) fs.mkdirSync(publicGpxDir, { recursive: true });
 
-  for (let idx = 0; idx < FLAGSHIP_TREKS.length; idx++) {
-    const trek = FLAGSHIP_TREKS[idx];
-    console.log(`\n[${idx + 1}/${FLAGSHIP_TREKS.length}] Processing ${trek.placeName} (${trek.placeId})...`);
+  for (let idx = 0; idx < listToProcess.length; idx++) {
+    const trek = listToProcess[idx];
+    console.log(`\n[${idx + 1}/${listToProcess.length}] Processing ${trek.placeName} (${trek.placeId})...`);
 
     if (!fs.existsSync(trek.sourceFile)) {
       console.error(`  ❌ Source file not found: ${trek.sourceFile}`);

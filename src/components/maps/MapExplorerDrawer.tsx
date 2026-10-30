@@ -310,11 +310,11 @@ export const VERIFIED_ROUTES_CATALOG: VerifiedRouteMeta[] = [
     region: "Uttarakhand",
     valley: "Chamoli / Nanda Devi",
     type: "trek",
-    maxAltitude: "3,876m",
-    distance: "4.5 km",
+    maxAltitude: "3,682m",
+    distance: "20.3 km",
     difficulty: "Moderate",
-    gain: "+544m",
-    overview: "Classic British colonial alpine trail providing front-row theater views of Nanda Devi, Kamet, Dronagiri, and Trishul.",
+    gain: "+1,901m",
+    overview: "Pioneered by Lord Curzon in 1905, this legendary traverse climbs from Dhak via Tugasi and Khullara over Kuari Pass to Tali and Gorson Bugyal, finishing at Auli.",
   },
 ];
 
