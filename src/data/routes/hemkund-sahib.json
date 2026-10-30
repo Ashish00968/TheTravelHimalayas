@@ -1620,34 +1620,42 @@
       "name": "Govindghat / Pulna Trailhead",
       "lat": 30.639,
       "lng": 79.575,
-      "eleM": 1920,
+      "eleM": 2140,
       "type": "trailhead",
-      "note": "Roadhead base on the banks of the Alaknanda River."
+      "note": "Roadhead base on the banks of the Alaknanda and Bhyundar Ganga."
     },
     {
-      "name": "Bhyundar Valley River Bridge",
-      "lat": 30.665,
-      "lng": 79.595,
-      "eleM": 2450,
+      "name": "Bhyundar Valley River Crossing",
+      "lat": 30.6614,
+      "lng": 79.586,
+      "eleM": 2425,
       "type": "water",
-      "note": "Wooden suspension bridge crossing the roaring Lakshman Ganga."
+      "note": "Suspension bridge crossing the roaring Lakshman Ganga torrent."
     },
     {
       "name": "Ghangaria Basecamp Settlement",
-      "lat": 30.7,
-      "lng": 79.583,
+      "lat": 30.6975,
+      "lng": 79.5915,
       "eleM": 3048,
       "type": "camp",
       "note": "Last inhabited settlement and central staging ground for Valley of Flowers and Hemkund."
     },
     {
+      "name": "Valley of Flowers Trail Junction",
+      "lat": 30.7046,
+      "lng": 79.5976,
+      "eleM": 3178,
+      "type": "landmark",
+      "note": "Trail bifurcation above Ghangaria: left path enters Valley of Flowers; right path climbs to Hemkund."
+    },
+    {
       "name": "Kanjila Zigzag Glacial Switchbacks",
-      "lat": 30.702,
-      "lng": 79.605,
-      "eleM": 3750,
+      "lat": 30.7,
+      "lng": 79.6118,
+      "eleM": 3850,
       "type": "warning",
       "cautionNotice": "Steep 1,200m vertical climb over 6 km. High risk of AMS above 3,500m; pace deliberately and stay hydrated.",
-      "note": "Challenging stone-paved stairway above the tree line."
+      "note": "Challenging stone-paved stairway above the birch tree line."
     },
     {
       "name": "Hemkund Sahib Gurudwara & Lokpal Lake",

@@ -7,10 +7,11 @@
     <copyright author="Discover Himalayan Trails"><year>2026</year><license>Discover Himalayan Trails / Free to use with attribution</license></copyright>
     <link href="https://discoverhimalayantrails.com/explore/uttarakhand/chamoli/hemkund-sahib"><text>Trek page</text></link>
   </metadata>
-  <wpt lat="30.639000" lon="79.575000"><ele>1920</ele><name>Govindghat / Pulna Trailhead</name><desc>Roadhead base on the banks of the Alaknanda River.</desc></wpt>
-  <wpt lat="30.665000" lon="79.595000"><ele>2450</ele><name>Bhyundar Valley River Bridge</name><desc>Wooden suspension bridge crossing the roaring Lakshman Ganga.</desc></wpt>
-  <wpt lat="30.700000" lon="79.583000"><ele>3048</ele><name>Ghangaria Basecamp Settlement</name><desc>Last inhabited settlement and central staging ground for Valley of Flowers and Hemkund.</desc></wpt>
-  <wpt lat="30.702000" lon="79.605000"><ele>3750</ele><name>Kanjila Zigzag Glacial Switchbacks</name><desc>Challenging stone-paved stairway above the tree line.</desc></wpt>
+  <wpt lat="30.639000" lon="79.575000"><ele>2140</ele><name>Govindghat / Pulna Trailhead</name><desc>Roadhead base on the banks of the Alaknanda and Bhyundar Ganga.</desc></wpt>
+  <wpt lat="30.661400" lon="79.586000"><ele>2425</ele><name>Bhyundar Valley River Crossing</name><desc>Suspension bridge crossing the roaring Lakshman Ganga torrent.</desc></wpt>
+  <wpt lat="30.697500" lon="79.591500"><ele>3048</ele><name>Ghangaria Basecamp Settlement</name><desc>Last inhabited settlement and central staging ground for Valley of Flowers and Hemkund.</desc></wpt>
+  <wpt lat="30.704600" lon="79.597600"><ele>3178</ele><name>Valley of Flowers Trail Junction</name><desc>Trail bifurcation above Ghangaria: left path enters Valley of Flowers; right path climbs to Hemkund.</desc></wpt>
+  <wpt lat="30.700000" lon="79.611800"><ele>3850</ele><name>Kanjila Zigzag Glacial Switchbacks</name><desc>Challenging stone-paved stairway above the birch tree line.</desc></wpt>
   <wpt lat="30.699000" lon="79.615700"><ele>4329</ele><name>Hemkund Sahib Gurudwara &amp; Lokpal Lake</name><desc>Highest Sikh shrine in the world on the shores of crystal-clear glacial lake surrounded by 7 snow peaks.</desc></wpt>
   <trk>
     <name>Hemkund Sahib &amp; Lokpal Lake</name>

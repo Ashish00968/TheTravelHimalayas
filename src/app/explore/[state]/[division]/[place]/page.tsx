@@ -15,6 +15,7 @@ import {
   buildFAQJsonLd, 
   buildBreadcrumbJsonLd 
 } from "@/lib/json-ld";
+import { getRouteData } from "@/data/routes";
 
 export function generateStaticParams() {
   const params: { state: string; division: string; place: string }[] = [];
@@ -43,7 +44,7 @@ export async function generateMetadata({
   if (!place || !region || !subRegion) return {};
 
   const isExpedition = Boolean(place.peakData || place.type === "peak");
-  const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike");
+  const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike" || getRouteData(place.id));
 
   const isPatalsu = placeId === "patalsu-peak";
   const isJogni = placeId === "jogni-falls";
@@ -247,7 +248,7 @@ export default async function PlacePage({
   // Type 2: Treks & Trails (Alpine hiking corridors, high pass crossings, day hikes) -> TrekTemplate
   // Type 3: Expeditions (Mountaineering peaks, climbing summits, 6000m+ giants) -> ExpeditionTemplate
   const isExpedition = Boolean(place.peakData || place.type === "peak");
-  const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike");
+  const isTrek = !isExpedition && Boolean(place.trekData || place.type === "trek" || place.type === "day-hike" || getRouteData(place.id));
   const isBeasKund = placeId === "beas-kund";
   const isJogni = placeId === "jogni-falls";
 

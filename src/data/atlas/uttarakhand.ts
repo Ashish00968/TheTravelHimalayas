@@ -639,31 +639,52 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "heroImage": "https://images.unsplash.com/photo-1653545709990-a6a4c8a6c36c?q=80&w=1600&auto=format&fit=crop",
                                                 "image": "https://images.unsplash.com/photo-1653545709990-a6a4c8a6c36c?q=80&w=1600&auto=format&fit=crop",
                                                 "name": "Hemkund Sahib & Lokpal Lake",
-                                                "type": "spiritual",
+                                                "type": "trek",
                                                 "emoji": "☬",
                                                 "coords": [
-                                                          30.7,
-                                                          79.62
+                                                          30.699,
+                                                          79.6157
                                                 ],
-                                                "elevation": "4,632 m",
+                                                "elevation": "4,329 m",
                                                 "bestSeason": "June to October",
                                                 "difficulty": "Moderate to Difficult",
-                                                "duration": "1 Day (from Ghangaria)",
-                                                "distance": "12 km return",
-                                                "overview": "The world's highest Gurudwara, Hemkund Sahib is perched at an extreme altitude of 4,632 meters on the shores of the glaciated Lokpal Lake. Ringed by seven glaciated mountain peaks (Saptashringa) adorned with fluttering Nishan Sahib flags, it is revered as the spot where Guru Gobind Singh meditated in a previous incarnation as Sage Dusht Daman. Nearby stands the ancient Lakshman Temple.",
-                                                "routeDescription": "Climbs 6 km on a continuous, steep zig-zag cobblestone path from Ghangaria (3,049m) through birch and rhododendron forests into high alpine scree, gaining 1,583 meters of vertical elevation.",
+                                                "duration": "4 Days",
+                                                "distance": "28 km (total) / 14 km (one-way)",
+                                                "overview": "The world's highest Gurudwara, Hemkund Sahib is perched at an extreme altitude of 4,329 meters on the shores of the glaciated Lokpal Lake. Ringed by seven glaciated mountain peaks (Saptashringa) adorned with fluttering Nishan Sahib flags, it is revered as the spot where Guru Gobind Singh meditated in a previous incarnation as Sage Dusht Daman. Nearby stands the ancient Lakshman Temple.",
+                                                "routeDescription": "Climbs 14 km from Govindghat / Pulna through Bhyundar valley to Ghangaria (3,048m), then ascends 6 km on continuous, steep zig-zag cobblestone switchbacks past Kanjila through birch forests into high alpine scree, gaining over 2,200 meters of total vertical elevation to the sacred glacial tarn.",
                                                 "experience": "Dipping hands into the crystal-clear, icy glaciated waters of Lokpal Lake while steaming hot langar and sweet halwa are served inside the world's highest Gurudwara.",
                                                 "itinerary": [
                                                           {
                                                                     "day": 1,
-                                                                    "title": "Ghangaria to Hemkund Sahib Ascent & Descent",
-                                                                    "description": "Early morning start from Ghangaria (3,049m). Steep 6 km zig-zag climb to Hemkund Sahib (4,632m). Dip in Lokpal lake, attend Gurudwara prayers, and descend back to Ghangaria by late afternoon.",
-                                                                    "elevationMeters": 4632,
+                                                                    "title": "Drive Rishikesh to Govindghat",
+                                                                    "description": "Drive 275 km along the Alaknanda River via Devprayag, Rudraprayag, and Joshimath to Govindghat (1,828m).",
+                                                                    "elevationMeters": 1828,
+                                                                    "distanceKm": 275
+                                                          },
+                                                          {
+                                                                    "day": 2,
+                                                                    "title": "Govindghat / Pulna to Ghangaria",
+                                                                    "description": "Trek 10 km along the roaring Bhyundar Ganga through pine and mixed conifer forests to the basecamp settlement of Ghangaria (3,048m).",
+                                                                    "elevationMeters": 3048,
+                                                                    "distanceKm": 10
+                                                          },
+                                                          {
+                                                                    "day": 3,
+                                                                    "title": "Ghangaria to Hemkund Sahib & Return",
+                                                                    "description": "Early morning start: Steep 6 km zig-zag climb gaining 1,280m to Hemkund Sahib Gurudwara and Lokpal Lake (4,329m). Descend back to Ghangaria before 2:00 PM.",
+                                                                    "elevationMeters": 4329,
                                                                     "distanceKm": 12
+                                                          },
+                                                          {
+                                                                    "day": 4,
+                                                                    "title": "Ghangaria to Govindghat & Return Drive",
+                                                                    "description": "Descend 10 km from Ghangaria to Pulna/Govindghat, followed by onward journey to Joshimath or Rishikesh.",
+                                                                    "elevationMeters": 1828,
+                                                                    "distanceKm": 10
                                                           }
                                                 ],
                                                 "packingList": [
-                                                          "Heavy windproof and waterproof jacket (temperatures at 4,600m hover near freezing)",
+                                                          "Heavy windproof and waterproof jacket (temperatures at 4,329m hover near freezing)",
                                                           "Warm woollen cap/beanie and insulated gloves",
                                                           "Trekking poles with shock absorption",
                                                           "Head covering (mandatory inside Gurudwara premises)",
@@ -671,7 +692,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 ],
                                                 "tips": [
                                                           "Start climbing from Ghangaria by 5:30 AM to beat afternoon cloud build-up and cold mountain winds at the summit.",
-                                                          "Take slow, rhythmic steps and practice deep breathing; the rapid vertical ascent from 3,000m to 4,632m demands proper acclimatization."
+                                                          "Take slow, rhythmic steps and practice deep breathing; the rapid vertical ascent from 3,000m to 4,329m demands proper acclimatization."
                                                 ],
                                                 "faqs": [
                                                           {
@@ -683,8 +704,8 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "answer": "The mythical Brahma Kamal (Saussurea obvallata), the state flower of Uttarakhand, blooms in abundance on the rocky slopes surrounding the lake between July and August."
                                                           }
                                                 ],
-                                                "seoTitle": "Hemkund Sahib (4,632m), Chamoli — World's Highest Gurudwara",
-                                                "seoDescription": "Explore Hemkund Sahib (4,632m) in Chamoli, Uttarakhand. World's highest Sikh pilgrimage, Lokpal glacial lake, 6km climb from Ghangaria, opening dates, and.",
+                                                "seoTitle": "Hemkund Sahib Trek (4,329m), Chamoli Guide",
+                                                "seoDescription": "Guide to Hemkund Sahib Trek (4,329m) in Chamoli, Uttarakhand. Sacred Sikh pilgrimage, Lokpal glacial tarn, route from Govindghat, 3D map, and altitude safety.",
                                                 "keywords": [
                                                           "Hemkund Sahib altitude",
                                                           "Hemkund Sahib trek",
