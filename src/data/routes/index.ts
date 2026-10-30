@@ -22,6 +22,17 @@ import gangotriGaumukhRoute from "./gangotri-gaumukh.json";
 import dayaraBugyalRoute from "./dayara-bugyal.json";
 import choptaTungnathRoute from "./chopta-tungnath.json";
 import kuariPassRoute from "./kuari-pass.json";
+import doditalRoute from "./dodital.json";
+import deoriaTalRoute from "./deoria-tal.json";
+import kamrunagRoute from "./kamrunag-lake.json";
+import kinnerKailashRoute from "./kinner-kailash.json";
+import madhyamaheshwarRoute from "./madhyamaheshwar.json";
+import manimaheshRoute from "./manimahesh-kailash.json";
+import pinBhabaRoute from "./pin-bhaba-pass.json";
+import pinParvatiRoute from "./pin-parvati-pass.json";
+import rupinPassRoute from "./rupin-pass-kinnaur.json";
+import satopanthRoute from "./satopanth-tal-trek.json";
+import vasudharaRoute from "./vasudhara-falls.json";
 import { RouteData } from "../types";
 
 export const routesMap: Record<string, RouteData> = {
@@ -49,6 +60,17 @@ export const routesMap: Record<string, RouteData> = {
   "dayara-bugyal": dayaraBugyalRoute as unknown as RouteData,
   "chopta-tungnath": choptaTungnathRoute as unknown as RouteData,
   "kuari-pass": kuariPassRoute as unknown as RouteData,
+  "dodital": doditalRoute as unknown as RouteData,
+  "deoria-tal": deoriaTalRoute as unknown as RouteData,
+  "kamrunag-lake": kamrunagRoute as unknown as RouteData,
+  "kinner-kailash": kinnerKailashRoute as unknown as RouteData,
+  "madhyamaheshwar": madhyamaheshwarRoute as unknown as RouteData,
+  "manimahesh-kailash": manimaheshRoute as unknown as RouteData,
+  "pin-bhaba-pass": pinBhabaRoute as unknown as RouteData,
+  "pin-parvati-pass": pinParvatiRoute as unknown as RouteData,
+  "rupin-pass-kinnaur": rupinPassRoute as unknown as RouteData,
+  "satopanth-tal-trek": satopanthRoute as unknown as RouteData,
+  "vasudhara-falls": vasudharaRoute as unknown as RouteData,
 };
 
 export function getRouteData(placeId: string): RouteData | null {
