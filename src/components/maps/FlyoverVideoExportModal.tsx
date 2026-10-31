@@ -208,6 +208,10 @@ export function FlyoverVideoExportModal({
       if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
         mediaRecorderRef.current.stop();
       }
+      if (mp4EncoderRef.current) {
+        mp4EncoderRef.current.close();
+        mp4EncoderRef.current = null;
+      }
     };
   }, []);
 
@@ -239,8 +243,32 @@ export function FlyoverVideoExportModal({
 
     abortControllerRef.current = false;
     const format = getSupportedVideoMimeType();
-    const dimensions = getTargetDimensions(resolution, sourceCanvas);
+    let dimensions = getTargetDimensions(resolution, sourceCanvas);
     const bitrate = getTargetBitrate(quality, resolution);
+
+    // Pre-flight WebCodecs configuration verification & dimension negotiation
+    let mp4Encoder: Mp4CanvasEncoder | null = null;
+    if (isWebCodecsSupported()) {
+      try {
+        mp4Encoder = await Mp4CanvasEncoder.create({
+          width: dimensions.width,
+          height: dimensions.height,
+          fps,
+          bitrate,
+        });
+        if (mp4Encoder) {
+          // Adopt validated encoder dimensions (e.g. if downscaled for hardware level compliance)
+          dimensions = {
+            width: mp4Encoder.width,
+            height: mp4Encoder.height,
+          };
+        }
+      } catch (e) {
+        console.warn("[WebCodecs] Failed pre-flight configuration, falling back to MediaRecorder", e);
+        mp4Encoder = null;
+      }
+    }
+    const useWebCodecs = mp4Encoder !== null;
 
     const isPortrait = resolution === "1080p-portrait";
 
@@ -278,7 +306,6 @@ export function FlyoverVideoExportModal({
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
-    const useWebCodecs = isWebCodecsSupported();
     let recorder: MediaRecorder | null = null;
     const recordedChunks: Blob[] = [];
 
@@ -572,16 +599,10 @@ export function FlyoverVideoExportModal({
       startMilestone ? { milestone: startMilestone, opacity: 1.0 } : null
     );
 
-    if (useWebCodecs) {
+    if (useWebCodecs && mp4Encoder) {
       // ═════════════════════════════════════════════════════════════════════
       // DETERMINISTIC 60FPS WEBCODECS H.264 MP4 EXPORT (ZERO DROPPED FRAMES)
       // ═════════════════════════════════════════════════════════════════════
-      const mp4Encoder = new Mp4CanvasEncoder({
-        width: dimensions.width,
-        height: dimensions.height,
-        fps,
-        bitrate,
-      });
       mp4EncoderRef.current = mp4Encoder;
 
       setProgress({
@@ -599,7 +620,8 @@ export function FlyoverVideoExportModal({
       currentBearing = startStravaCamera.bearing;
       trailInitialized = false;
 
-      for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
+      try {
+        for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
         if (abortControllerRef.current) {
           mp4Encoder.close();
           mp4EncoderRef.current = null;
@@ -874,7 +896,19 @@ export function FlyoverVideoExportModal({
       a.click();
       document.body.removeChild(a);
       return;
+    } catch (err: unknown) {
+      console.error("[WebCodecs Export Error]", err);
+      mp4Encoder.close();
+      mp4EncoderRef.current = null;
+      const message = err instanceof Error ? err.message : "Video encoding failed";
+      setProgress((prev) => ({
+        ...prev,
+        status: "error",
+        error: `Export failed: ${message}`,
+      }));
+      return;
     }
+  }
 
     // 6. Start MediaRecorder (Legacy fallback if WebCodecs unavailable)
     if (recorder) {

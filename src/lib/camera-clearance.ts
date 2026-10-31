@@ -152,3 +152,4 @@ export function computeSightlinePitchLimit(
 
   return Math.max(34, basePitch - maxRequiredPitchReduction);
 }
+

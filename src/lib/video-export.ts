@@ -304,9 +304,21 @@ export function getTargetDimensions(
       return { width: 1280, height: 720 };
     case "native":
     default: {
+      let w = sourceCanvas.width;
+      let h = sourceCanvas.height;
+
+      // Cap at 1440p QHD bounding box (2560x1440) to prevent GPU VRAM exhaustion on 4K/5K Retina monitors
+      const MAX_W = 2560;
+      const MAX_H = 1440;
+      if (w > MAX_W || h > MAX_H) {
+        const scale = Math.min(MAX_W / w, MAX_H / h);
+        w = Math.round(w * scale);
+        h = Math.round(h * scale);
+      }
+
       // Dimensions must be even integers for video encoders
-      const w = sourceCanvas.width - (sourceCanvas.width % 2);
-      const h = sourceCanvas.height - (sourceCanvas.height % 2);
+      w = w - (w % 2);
+      h = h - (h % 2);
       return { width: Math.max(640, w), height: Math.max(360, h) };
     }
   }
