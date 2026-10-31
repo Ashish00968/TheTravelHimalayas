@@ -52,6 +52,11 @@ import {
   type RouteMilestone,
   type TacticalAdvisory,
 } from "@/lib/video-export";
+import {
+  readCameraGroundClearanceMeters,
+  computeNextPitchLimitDeg,
+  computeSightlinePitchLimit,
+} from "@/lib/camera-clearance";
 import { FlyoverVideoExportModal } from "./FlyoverVideoExportModal";
 
 interface RouteMap3DProps {
@@ -158,6 +163,8 @@ export default function RouteMap3D({
   const cameraCenterRef = useRef<[number, number]>([coordinates[0][0], coordinates[0][1]]);
   const cameraPitchRef = useRef<number>(50);
   const cameraZoomRef = useRef<number>(15.3);
+  const pitchCeilingRef = useRef<number>(50);
+  const lastClearanceFrameTimeRef = useRef<number>(0);
   const progressTextRef = useRef<HTMLSpanElement>(null);
   const scrubberDistValRef = useRef<HTMLSpanElement>(null);
   const timelineInputRef = useRef<HTMLInputElement>(null);
@@ -1060,6 +1067,8 @@ export default function RouteMap3D({
     const duration = baseDuration / speedMultiplier;
     const startTime = performance.now();
     const startLinear = startProgress <= 0.01 ? 0 : linearProgressRef.current;
+    lastClearanceFrameTimeRef.current = performance.now();
+    pitchCeilingRef.current = 50;
 
     const frame = (now: number) => {
       if (!mapRef.current || !mapRef.current.getStyle() || !isPlayingFlyoverRef.current) {
@@ -1134,8 +1143,37 @@ export default function RouteMap3D({
         cameraCenterRef.current[0] += (pt.lng - cameraCenterRef.current[0]) * 0.12;
         cameraCenterRef.current[1] += (pt.lat - cameraCenterRef.current[1]) * 0.12;
 
-        // Smooth camera pitch with Hermite-damped elevation response
-        cameraPitchRef.current += (stravaCamera.pitch - cameraPitchRef.current) * 0.035;
+        // Closed-Loop Dynamic Terrain Clearance Servo:
+        // Actively queries real-time DEM clearance between camera eye and 3D terrain
+        const frameDeltaMs = lastClearanceFrameTimeRef.current > 0
+          ? Math.min(100, Math.max(8, now - lastClearanceFrameTimeRef.current))
+          : 16.6;
+        lastClearanceFrameTimeRef.current = now;
+
+        const groundClearanceM = readCameraGroundClearanceMeters(mapRef.current);
+        pitchCeilingRef.current = computeNextPitchLimitDeg({
+          currentLimitDeg: pitchCeilingRef.current,
+          pitchDeg: cameraPitchRef.current,
+          clearanceMeters: groundClearanceM,
+          ceilingDeg: stravaCamera.pitch,
+          floorDeg: 30,
+          elapsedMs: frameDeltaMs,
+        });
+
+        // 7-Point Sightline Raycaster: ensures intermediate mountain ridges never occlude the hiker
+        const sightlinePitch = computeSightlinePitchLimit(
+          mapRef.current,
+          [pt.lng, pt.lat],
+          pt.ele,
+          [cameraCenterRef.current[0], cameraCenterRef.current[1]],
+          pitchCeilingRef.current,
+          1.25
+        );
+
+        const targetPitch = Math.min(pitchCeilingRef.current, sightlinePitch);
+
+        // Smooth camera pitch with Hermite-damped elevation response toward collision-safe target
+        cameraPitchRef.current += (targetPitch - cameraPitchRef.current) * 0.04;
 
         // Smooth camera zoom (strictly eliminates zoom-in/out pulsing / flicker)
         cameraZoomRef.current += (stravaCamera.zoom - cameraZoomRef.current) * 0.05;

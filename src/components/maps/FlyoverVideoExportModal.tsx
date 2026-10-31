@@ -43,6 +43,16 @@ import {
   findActivePeakSighting,
   VisibleSummitPeak,
 } from "@/lib/camera-math";
+import {
+  isWebCodecsSupported,
+  Mp4CanvasEncoder,
+  waitForMapSettle,
+} from "@/lib/mp4-canvas-encoder";
+import {
+  readCameraGroundClearanceMeters,
+  computeNextPitchLimitDeg,
+  computeSightlinePitchLimit,
+} from "@/lib/camera-clearance";
 import type { RouteWaypoint } from "@/data/types";
 import type mapboxgl from "mapbox-gl";
 
@@ -167,6 +177,7 @@ export function FlyoverVideoExportModal({
 
   const abortControllerRef = useRef<boolean>(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const mp4EncoderRef = useRef<Mp4CanvasEncoder | null>(null);
   const animFrameIdRef = useRef<number | null>(null);
   const swoopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -267,92 +278,96 @@ export function FlyoverVideoExportModal({
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
-    // Capture media stream from composite canvas at target FPS
-    let stream: MediaStream;
-    try {
-      stream = compositeCanvas.captureStream(fps);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Canvas stream capture failed";
-      setProgress({
-        status: "error",
-        progressPct: 0,
-        currentFrame: 0,
-        totalFrames: 0,
-        elapsedSec: 0,
-        error: `Stream capture failed: ${message}`,
-      });
-      return;
-    }
+    const useWebCodecs = isWebCodecsSupported();
+    let recorder: MediaRecorder | null = null;
+    const recordedChunks: Blob[] = [];
 
-    // Initialize MediaRecorder with cinema bitrate
-    let recorder: MediaRecorder;
-    try {
-      recorder = new MediaRecorder(stream, {
-        mimeType: format.mimeType,
-        videoBitsPerSecond: bitrate,
-      });
-    } catch {
+    if (!useWebCodecs) {
+      // Capture media stream from composite canvas at target FPS
+      let stream: MediaStream;
       try {
-        recorder = new MediaRecorder(stream, {
-          videoBitsPerSecond: bitrate,
-        });
+        stream = compositeCanvas.captureStream(fps);
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "MediaRecorder initialization failed";
+        const message = err instanceof Error ? err.message : "Canvas stream capture failed";
         setProgress({
           status: "error",
           progressPct: 0,
           currentFrame: 0,
           totalFrames: 0,
           elapsedSec: 0,
-          error: `MediaRecorder not supported on this browser: ${message}`,
+          error: `Stream capture failed: ${message}`,
         });
         return;
       }
-    }
 
-    mediaRecorderRef.current = recorder;
-    const recordedChunks: Blob[] = [];
-
-    recorder.ondataavailable = (event) => {
-      if (event.data && event.data.size > 0) {
-        recordedChunks.push(event.data);
-      }
-    };
-
-    recorder.onstop = () => {
+      // Initialize MediaRecorder with cinema bitrate
       try {
-        const finalBlob = new Blob(recordedChunks, { type: format.mimeType });
-        const url = URL.createObjectURL(finalBlob);
-        const sizeMb = Math.round((finalBlob.size / (1024 * 1024)) * 10) / 10;
-        const filename = `dht-${placeSlug}-${mode}-${resolution}.${format.extension}`;
-
-        setProgress({
-          status: "completed",
-          progressPct: 100,
-          currentFrame: totalFrames,
-          totalFrames,
-          elapsedSec: totalDurationMs / 1000,
-          downloadUrl: url,
-          downloadFilename: filename,
-          fileSizeMb: sizeMb,
+        recorder = new MediaRecorder(stream, {
+          mimeType: format.mimeType,
+          videoBitsPerSecond: bitrate,
         });
-
-        // Trigger automatic browser download
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Video encoding failed";
-        setProgress((prev) => ({
-          ...prev,
-          status: "error",
-          error: `Failed to compile final video: ${message}`,
-        }));
+      } catch {
+        try {
+          recorder = new MediaRecorder(stream, {
+            videoBitsPerSecond: bitrate,
+          });
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : "MediaRecorder initialization failed";
+          setProgress({
+            status: "error",
+            progressPct: 0,
+            currentFrame: 0,
+            totalFrames: 0,
+            elapsedSec: 0,
+            error: `MediaRecorder not supported on this browser: ${message}`,
+          });
+          return;
+        }
       }
-    };
+
+      mediaRecorderRef.current = recorder;
+
+      recorder.ondataavailable = (event) => {
+        if (event.data && event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        try {
+          const finalBlob = new Blob(recordedChunks, { type: format.mimeType });
+          const url = URL.createObjectURL(finalBlob);
+          const sizeMb = Math.round((finalBlob.size / (1024 * 1024)) * 10) / 10;
+          const filename = `dht-${placeSlug}-${mode}-${resolution}.${format.extension}`;
+
+          setProgress({
+            status: "completed",
+            progressPct: 100,
+            currentFrame: totalFrames,
+            totalFrames,
+            elapsedSec: totalDurationMs / 1000,
+            downloadUrl: url,
+            downloadFilename: filename,
+            fileSizeMb: sizeMb,
+          });
+
+          // Trigger automatic browser download
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : "Video encoding failed";
+          setProgress((prev) => ({
+            ...prev,
+            status: "error",
+            error: `Failed to compile final video: ${message}`,
+          }));
+        }
+      };
+    }
 
     // Bring map into smooth view
     try {
@@ -428,6 +443,7 @@ export function FlyoverVideoExportModal({
     if (abortControllerRef.current) return;
 
     let cameraPitch = startStravaCamera.pitch;
+    let pitchCeiling = 50;
     let currentBearing = startStravaCamera.bearing;
     let camCenterLng = startPt.lng;
     let camCenterLat = startPt.lat;
@@ -556,8 +572,314 @@ export function FlyoverVideoExportModal({
       startMilestone ? { milestone: startMilestone, opacity: 1.0 } : null
     );
 
-    // 6. Start MediaRecorder now that the 3D scene is 100% pre-warmed & textured
-    recorder.start(100);
+    if (useWebCodecs) {
+      // ═════════════════════════════════════════════════════════════════════
+      // DETERMINISTIC 60FPS WEBCODECS H.264 MP4 EXPORT (ZERO DROPPED FRAMES)
+      // ═════════════════════════════════════════════════════════════════════
+      const mp4Encoder = new Mp4CanvasEncoder({
+        width: dimensions.width,
+        height: dimensions.height,
+        fps,
+        bitrate,
+      });
+      mp4EncoderRef.current = mp4Encoder;
+
+      setProgress({
+        status: "recording",
+        progressPct: 0,
+        currentFrame: 0,
+        totalFrames,
+        elapsedSec: 0,
+      });
+
+      camCenterLng = startPt.lng;
+      camCenterLat = startPt.lat;
+      cameraPitch = startStravaCamera.pitch;
+      pitchCeiling = 50;
+      currentBearing = startStravaCamera.bearing;
+      trailInitialized = false;
+
+      for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
+        if (abortControllerRef.current) {
+          mp4Encoder.close();
+          mp4EncoderRef.current = null;
+          setProgress((prev) => ({ ...prev, status: "cancelled" }));
+          return;
+        }
+
+        const elapsed = (frameIndex / fps) * 1000;
+
+        if (mode === "flyover") {
+          const orbitStartMs = startHoldMs + trailDurationMs;
+
+          if (elapsed < startHoldMs) {
+            let opacity = 1.0;
+            if (elapsed < 200) {
+              opacity = elapsed / 200;
+            } else if (elapsed > 900) {
+              opacity = Math.max(0, (1200 - elapsed) / 300);
+            }
+
+            renderCompositeFrame(
+              startPt.lng,
+              startPt.lat,
+              0,
+              startStravaCamera.bearing,
+              startPt.ele,
+              0,
+              startPt.gradientPct,
+              startMilestone ? { milestone: startMilestone, opacity } : null
+            );
+          } else if (elapsed < orbitStartMs) {
+            if (!trailInitialized) {
+              trailInitialized = true;
+              cameraPitch = startStravaCamera.pitch;
+              pitchCeiling = 50;
+              currentBearing = startStravaCamera.bearing;
+              camCenterLng = startPt.lng;
+              camCenterLat = startPt.lat;
+            }
+
+            const trailElapsed = elapsed - startHoldMs;
+            const linearT = Math.min(1, trailElapsed / trailDurationMs);
+            const p = pacingMapperRef.current(linearT);
+            const pt = getPointAtProgress(p);
+            const currentDistKm = p * flyoverMaxDistKm;
+
+            try {
+              if (map.getStyle() && map.getLayer("trail-route-line")) {
+                const stops = computeSafeGradientStops(p, "#00E5FF", "rgba(0, 229, 255, 0.2)");
+                map.setPaintProperty("trail-route-line", "line-gradient", stops);
+              }
+            } catch {}
+
+            const puckSource = map.getSource("hiker-puck-source") as mapboxgl.GeoJSONSource;
+            if (puckSource) {
+              puckSource.setData({
+                type: "Feature",
+                properties: {},
+                geometry: { type: "Point", coordinates: [pt.lng, pt.lat] },
+              });
+            }
+
+            const stravaCamera = computeStravaChaseCamera(
+              pt.lng,
+              pt.lat,
+              pt.bearing,
+              pt.gradientPct
+            );
+
+            camCenterLng += (pt.lng - camCenterLng) * 0.12;
+            camCenterLat += (pt.lat - camCenterLat) * 0.12;
+
+            const groundClearanceM = readCameraGroundClearanceMeters(map);
+            pitchCeiling = computeNextPitchLimitDeg({
+              currentLimitDeg: pitchCeiling,
+              pitchDeg: cameraPitch,
+              clearanceMeters: groundClearanceM,
+              ceilingDeg: stravaCamera.pitch,
+              floorDeg: 30,
+              elapsedMs: 1000 / fps,
+            });
+
+            const sightlinePitch = computeSightlinePitchLimit(
+              map,
+              [pt.lng, pt.lat],
+              pt.ele,
+              [camCenterLng, camCenterLat],
+              pitchCeiling,
+              1.25
+            );
+
+            const targetPitch = Math.min(pitchCeiling, sightlinePitch);
+            cameraPitch += (targetPitch - cameraPitch) * 0.04;
+
+            const maxTurn = isCinematic ? 0.50 : 0.85;
+            currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.045, maxTurn);
+
+            map.jumpTo({
+              center: [camCenterLng, camCenterLat],
+              zoom: stravaCamera.zoom,
+              pitch: cameraPitch,
+              bearing: currentBearing,
+              padding: isPortrait
+                ? { top: 0, bottom: 200, left: 0, right: 0 }
+                : { top: 0, bottom: 130, left: 0, right: 0 },
+            });
+
+            let activeMidMilestone: { milestone: RouteMilestone; opacity: number } | null = null;
+            for (const mid of intermediateMilestones) {
+              const triggerTimeMs = startHoldMs + mid.progress * trailDurationMs;
+              const windowStart = triggerTimeMs - 200;
+              const windowEnd = triggerTimeMs + 1000;
+              if (elapsed >= windowStart && elapsed <= windowEnd) {
+                const t = elapsed - windowStart;
+                let op = 1.0;
+                if (t < 200) op = t / 200;
+                else if (t > 900) op = Math.max(0, (1200 - t) / 300);
+                activeMidMilestone = { milestone: mid, opacity: op };
+                break;
+              }
+            }
+
+            let activeAdvisoryAlert: { advisory: TacticalAdvisory; opacity: number } | null = null;
+            for (const adv of tacticalAdvisories) {
+              const triggerTimeMs = startHoldMs + adv.progress * trailDurationMs;
+              const windowStart = triggerTimeMs - 150;
+              const windowEnd = triggerTimeMs + 1250;
+              if (elapsed >= windowStart && elapsed <= windowEnd) {
+                const t = elapsed - windowStart;
+                let op = 1.0;
+                if (t < 200) op = t / 200;
+                else if (t > 1050) op = Math.max(0, (1400 - t) / 350);
+                activeAdvisoryAlert = { advisory: adv, opacity: op };
+                break;
+              }
+            }
+
+            renderCompositeFrame(
+              pt.lng,
+              pt.lat,
+              p,
+              currentBearing,
+              pt.ele,
+              currentDistKm,
+              pt.gradientPct,
+              activeMidMilestone,
+              null,
+              activeAdvisoryAlert
+            );
+          } else {
+            const orbitElapsed = elapsed - orbitStartMs;
+            const orbitProgress = Math.min(1, orbitElapsed / orbitDurationMs);
+
+            const spiralT = orbitProgress * orbitProgress * (3 - 2 * orbitProgress);
+            const targetZoom = 13.8 - spiralT * 0.4;
+            const targetPitch = 66 - spiralT * 4;
+
+            const baseBearing = startStravaCamera.bearing;
+            const summitBearing = (baseBearing + orbitProgress * 360) % 360;
+
+            const transitionT = Math.min(1, orbitElapsed / 800);
+            const easeIn = transitionT * transitionT * (3 - 2 * transitionT);
+            const currentCenterLng = camCenterLng + (summitCoord[0] - camCenterLng) * easeIn;
+            const currentCenterLat = camCenterLat + (summitCoord[1] - camCenterLat) * easeIn;
+            const currentZoom = 15.3 * (1 - easeIn) + targetZoom * easeIn;
+            const currentPitch = cameraPitch * (1 - easeIn) + targetPitch * easeIn;
+            const initialPadding = isPortrait ? 200 : 130;
+            const targetPadding = isPortrait ? 110 : 80;
+            const bottomPadding = Math.round(initialPadding * (1 - easeIn) + targetPadding * easeIn);
+
+            map.jumpTo({
+              center: [currentCenterLng, currentCenterLat],
+              zoom: currentZoom,
+              pitch: currentPitch,
+              bearing: summitBearing,
+              padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 },
+            });
+
+            const activePeakSighting = findActivePeakSighting(summitBearing, visiblePeaks, 18);
+            let activePeakAlert: { peak: VisibleSummitPeak; opacity: number } | null = null;
+            if (activePeakSighting && orbitElapsed > 350) {
+              activePeakAlert = { peak: activePeakSighting, opacity: 1.0 };
+            }
+
+            const summitOpacity = Math.min(1.0, orbitElapsed / 300);
+
+            renderCompositeFrame(
+              summitCoord[0],
+              summitCoord[1],
+              1.0,
+              summitBearing,
+              summitCoord[2] || apexElevationM,
+              flyoverMaxDistKm,
+              0,
+              activePeakAlert ? null : (summitMilestone ? { milestone: summitMilestone, opacity: summitOpacity } : null),
+              activePeakAlert
+            );
+          }
+        } else {
+          const t = Math.min(1, elapsed / totalDurationMs);
+          const spiralT = t * t * (3 - 2 * t);
+          const spiralZoom = 14.6 - spiralT * 0.8;
+          const spiralPitch = 68 - spiralT * 4;
+          const angleDeg = (t * 360) % 360;
+
+          map.jumpTo({
+            center: [summitCoord[0], summitCoord[1]],
+            zoom: spiralZoom,
+            pitch: spiralPitch,
+            bearing: angleDeg,
+            padding: { top: 0, bottom: isPortrait ? 110 : 80, left: 0, right: 0 },
+          });
+
+          const activePeakSighting = findActivePeakSighting(angleDeg, visiblePeaks, 18);
+          let activePeakAlert: { peak: VisibleSummitPeak; opacity: number } | null = null;
+          if (activePeakSighting && elapsed > 400) {
+            activePeakAlert = { peak: activePeakSighting, opacity: 1.0 };
+          }
+
+          renderCompositeFrame(
+            summitCoord[0],
+            summitCoord[1],
+            1.0,
+            angleDeg,
+            summitCoord[2] || apexElevationM,
+            flyoverMaxDistKm,
+            0,
+            activePeakAlert ? null : (summitMilestone ? { milestone: summitMilestone, opacity: 1.0 } : null),
+            activePeakAlert
+          );
+        }
+
+        await waitForMapSettle(map, 80);
+        await mp4Encoder.encodeCanvas(compositeCanvas);
+
+        const pct = Math.min(99, Math.round(((frameIndex + 1) / totalFrames) * 100));
+        setProgress({
+          status: "recording",
+          progressPct: pct,
+          currentFrame: frameIndex + 1,
+          totalFrames,
+          elapsedSec: elapsed / 1000,
+        });
+
+        if (frameIndex % 4 === 0) {
+          await new Promise((r) => setTimeout(r, 0));
+        }
+      }
+
+      setProgress((prev) => ({ ...prev, status: "encoding", progressPct: 100 }));
+      const finalBlob = await mp4Encoder.finalize();
+      mp4EncoderRef.current = null;
+      const url = URL.createObjectURL(finalBlob);
+      const sizeMb = Math.round((finalBlob.size / (1024 * 1024)) * 10) / 10;
+      const filename = `dht-${placeSlug}-${mode}-${resolution}.mp4`;
+
+      setProgress({
+        status: "completed",
+        progressPct: 100,
+        currentFrame: totalFrames,
+        totalFrames,
+        elapsedSec: totalDurationMs / 1000,
+        downloadUrl: url,
+        downloadFilename: filename,
+        fileSizeMb: sizeMb,
+      });
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+
+    // 6. Start MediaRecorder (Legacy fallback if WebCodecs unavailable)
+    if (recorder) {
+      recorder.start(100);
+    }
 
     setProgress({
       status: "recording",
@@ -569,10 +891,18 @@ export function FlyoverVideoExportModal({
 
     const startTime = performance.now();
     let frameCount = 0;
+    cameraPitch = startStravaCamera.pitch;
+    pitchCeiling = 50;
+    currentBearing = startStravaCamera.bearing;
+    camCenterLng = startPt.lng;
+    camCenterLat = startPt.lat;
+    trailInitialized = false;
 
     const frameStep = (now: number) => {
       if (abortControllerRef.current) {
-        recorder.stop();
+        if (recorder && recorder.state === "recording") {
+          recorder.stop();
+        }
         setProgress((prev) => ({ ...prev, status: "cancelled" }));
         return;
       }
@@ -649,7 +979,28 @@ export function FlyoverVideoExportModal({
           camCenterLng += (pt.lng - camCenterLng) * 0.12;
           camCenterLat += (pt.lat - camCenterLat) * 0.12;
 
-          cameraPitch += (stravaCamera.pitch - cameraPitch) * 0.035;
+          // Closed-Loop Dynamic Terrain Clearance Servo & Sightline Raycast
+          const groundClearanceM = readCameraGroundClearanceMeters(map);
+          pitchCeiling = computeNextPitchLimitDeg({
+            currentLimitDeg: pitchCeiling,
+            pitchDeg: cameraPitch,
+            clearanceMeters: groundClearanceM,
+            ceilingDeg: stravaCamera.pitch,
+            floorDeg: 30,
+            elapsedMs: 16.6,
+          });
+
+          const sightlinePitch = computeSightlinePitchLimit(
+            map,
+            [pt.lng, pt.lat],
+            pt.ele,
+            [camCenterLng, camCenterLat],
+            pitchCeiling,
+            1.25
+          );
+
+          const targetPitch = Math.min(pitchCeiling, sightlinePitch);
+          cameraPitch += (targetPitch - cameraPitch) * 0.04;
 
           const maxTurn = isCinematic ? 0.50 : 0.85;
           currentBearing = rateLimitedBearingLerp(currentBearing, pt.bearing, 0.045, maxTurn);
@@ -814,7 +1165,9 @@ export function FlyoverVideoExportModal({
         animFrameIdRef.current = requestAnimationFrame(frameStep);
       } else {
         setProgress((prev) => ({ ...prev, status: "encoding", progressPct: 100 }));
-        recorder.stop();
+        if (recorder && recorder.state === "recording") {
+          recorder.stop();
+        }
       }
     };
 
@@ -853,6 +1206,10 @@ export function FlyoverVideoExportModal({
     }
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
       mediaRecorderRef.current.stop();
+    }
+    if (mp4EncoderRef.current) {
+      mp4EncoderRef.current.close();
+      mp4EncoderRef.current = null;
     }
     setProgress((prev) => ({ ...prev, status: "idle" }));
   };
