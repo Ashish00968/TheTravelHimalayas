@@ -21,6 +21,7 @@ import {
 import { MountainWeatherWidget } from "@/components/shared/MountainWeatherWidget";
 import { GoldenRulesCallout } from "@/components/shared/GoldenRulesCallout";
 import { motion, useReducedMotion } from "framer-motion";
+import { getSeasonalMatrix } from "@/lib/season-conditions";
 
 interface TrekInformationProps {
   title: string;
@@ -62,70 +63,25 @@ export function TrekInformation({
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6", glow: "rgba(59,130,246,0.2)" };
 
-  // Seasonal cycle dataset
-  const seasons = isPatalsu
-    ? [
-        {
-          icon: Sun,
-          season: "Summer & Spring Snow (May – June)",
-          badge: "Spring Greenery & Snow",
-          description: "Lush meadows in Shagadugh, pleasant daytime temperatures (12°C to 18°C), with crisp snow patches on the high summit crest — ideal for snow Manali treks.",
-          status: "Prime Season",
-        },
-        {
-          icon: CloudRain,
-          season: "Monsoon (July – August)",
-          badge: "Early Departures",
-          description: "Dense pine woodland is vibrant and green. Convective clouds gather by early afternoon; 5:00 AM alpine departures are critical to summit safely.",
-          status: "Feasible with Care",
-        },
-        {
-          icon: Wind,
-          season: "Post-Monsoon / Autumn (Sept – Oct)",
-          badge: "Optimal Clarity",
-          description: "Crisp, transparent atmosphere with sharpest panoramic visibility of Hanuman Tibba and Dhauladhar ranges. Ideal window for speed hiking.",
-          status: "Best Window",
-          highlight: true,
-        },
-        {
-          icon: Snowflake,
-          season: "Winter (Nov – April)",
-          badge: "Heavy Snow Pack",
-          description: "Upper meadows and ridge buried under heavy snow drifts. Snow trekking to Shagadugh (3,250m) is accessible; summit push requires winter mountaineering equipment.",
-          status: "Winter Snow Trek",
-        },
-      ]
-    : [
-        {
-          icon: Sun,
-          season: "Summer & Spring (May – June)",
-          badge: "Pleasant Temperatures",
-          description: `Clear morning skies, blooming alpine meadows across ${subRegionName}, and comfortable daytime trekking conditions with residual high pass snow.`,
-          status: "Prime Season",
-        },
-        {
-          icon: CloudRain,
-          season: "Monsoon (July – August)",
-          badge: "Vibrant Flora",
-          description: "Lush green valley trails and vibrant mountain ecology. Afternoon showers require early morning departures and waterproof shells.",
-          status: "Feasible with Care",
-        },
-        {
-          icon: Wind,
-          season: "Post-Monsoon / Autumn (Sept – Oct)",
-          badge: "Crystalline Visibility",
-          description: "Unparalleled long-range visibility, stable atmospheric pressure, and crisp dry conditions across the Himalayan summits.",
-          status: "Best Window",
-          highlight: true,
-        },
-        {
-          icon: Snowflake,
-          season: "Winter & Early Spring (Nov – April)",
-          badge: "Snow-Covered Trails",
-          description: "High elevation terrain covered in heavy seasonal snow. Lower valley trails accessible; high cols demand specialized cold-weather preparation.",
-          status: "Winter Conditions",
-        },
-      ];
+  // Seasonal cycle dataset generated dynamically based on territory and altitude
+  const iconMap: Record<string, React.ElementType> = {
+    "sun": Sun,
+    "cloud-rain": CloudRain,
+    "wind": Wind,
+    "snowflake": Snowflake,
+  };
+
+  const seasons = getSeasonalMatrix(
+    bestSeason,
+    maxAltitude,
+    stateSlug,
+    subRegionName,
+    title,
+    isPatalsu
+  ).map((item) => ({
+    ...item,
+    icon: iconMap[item.iconType] || Sun,
+  }));
 
   // Emergency hospital & rescue contact based on territory
   const nearestHospital = isPatalsu

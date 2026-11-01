@@ -277,7 +277,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
             elevation: "4,334 m",
             bestSeason: "May to June, September to October",
             difficulty: "Difficult",
-            duration: "4–5 Days",
+            duration: "4 Days",
             distance: "21 km return (35 km from McLeod Ganj)",
             overview: "The definitive high-altitude pass trek across the Dhauladhar crest. Originating from McLeod Ganj and continuing past Triund and the glacial amphitheater of Ilaqa Got, the route ascends steep boulder moraines and the famous Lahesh cave (3,500m) before tackling a grueling climb over steep stone steps and snow gullies to reach Indrahar Pass (4,334m / 14,219 ft). The pass connects Kangra with the Ravi river basin in Bharmour.",
             routeDescription: "Climbs from Galu Devi Temple through mixed oak and rhododendron forests to the iconic Triund ridge (2,853m), traverses to Snowline Cafe and the glacial pastures of Ilaqa Got (3,153m), ascends past ancient Lahesh Cave (3,506m), and scrambles through 35°–40° boulder fields and snow gullies to reach Indrahar Pass (4,334m).",
@@ -422,6 +422,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
               routeDescription: t.routeDescription,
               experience,
               tips,
+              fieldVerified: isPatalsu || isJogni ? true : undefined,
               itinerary: t.itinerary,
               packingList: t.packingList,
               faqs: t.faqs,
@@ -440,7 +441,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
                 : undefined,
             };
           }),
-          ...peaks.map((p) => ({
+          ...peaks.filter(p => p.region.includes("Kullu-Manali") || p.slug === "friendship-peak" || p.slug === "hanuman-tibba" || p.slug === "deo-tibba" || p.slug === "indrasan").map((p) => ({
             id: p.slug,
             name: p.title,
             type: "peak" as PlaceType,

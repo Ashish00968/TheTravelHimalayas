@@ -2,7 +2,7 @@
   "placeId": "markha-valley",
   "version": 1,
   "source": "dht-recorded",
-  "sourceNote": "Ground-surveyed complete expedition GPS trace across Hemis National Park and Kongmaru La (5,269m)",
+  "sourceNote": "Ground-surveyed complete expedition GPS trace across Hemis National Park via Ganda La (4,969m) and Kongmaru La (5,269m) [Extended Circuit]",
   "recordedOn": "2026-10-30",
   "verified": true,
   "verifiedOn": "2026-10-30",
@@ -2832,12 +2832,12 @@
   },
   "waypoints": [
     {
-      "name": "Chilling / Skiu Trailhead",
+      "name": "Spituk / Zingchen Trailhead (Extended Circuit)",
       "lat": 34.1257,
       "lng": 77.5063,
       "eleM": 3200,
       "type": "trailhead",
-      "note": "Zanskar River confluence and western gateway to Hemis National Park."
+      "note": "Northern trailhead near the Indus River for the extended 97 km Markha Valley circuit via Ganda La (4,969m)."
     },
     {
       "name": "Markha Village Oases",

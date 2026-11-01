@@ -6,7 +6,7 @@ export const uttarakhandTreks: Trek[] = [
     title: "Kedarnath Temple Trek",
     region: "Garhwal",
     difficulty: "Moderate",
-    duration: "2–3 Days",
+    duration: "2 Days",
     distance: "16 km",
     maxAltitude: "3,583 m",
     bestSeason: "May to June, September to October",
@@ -102,7 +102,7 @@ export const uttarakhandTreks: Trek[] = [
     ],
     "startPoint": "Munsiyari / Lilam",
     "guideRatePerDay": 2200,
-    "overview": "The crown jewel trekking expedition of Kumaon, following the ancient salt and silk trade route through the dramatic Goriganga gorge to the base of Nanda Devi East Peak (7,434m).",
+    "overview": "The crown jewel trekking expedition of Kumaon, following the ancient salt and silk trade route through the dramatic Goriganga gorge to the base of Nanda Devi East Peak (7,434m). Standard expedition runs 8–9 days with essential acclimatization at Martoli village and a high-altitude weather buffer.",
     "routeDescription": "Starts from Munsiyari to Lilam, ascends through the vertical gorge of Goriganga past Bugdiyar and Rilkot to Martoli stone village, and pushes to Nanda Devi East Base Camp beneath the 3,000m ice wall.",
     "itinerary": [
       {
@@ -135,22 +135,29 @@ export const uttarakhandTreks: Trek[] = [
       },
       {
         "day": 5,
+        "title": "Martoli Acclimatization & Ridge Exploration",
+        "description": "Acclimatization day at Martoli (3,385m). Explore ancient Shauka stone houses, Sun Temple, and high vantage ridges facing Nanda Devi East and Nanda Kot.",
+        "elevationMeters": 3385,
+        "distanceKm": 4
+      },
+      {
+        "day": 6,
         "title": "Martoli to Nanda Devi East Base Camp & Return",
-        "description": "Hike 7 km into the glacial amphitheater to Base Camp (4,150m) and return to Martoli.",
+        "description": "Hike into the glacial amphitheater to Base Camp (4,150m) beneath the 3,000m ice wall and return to Martoli.",
         "elevationMeters": 4150,
         "distanceKm": 14
       },
       {
-        "day": 6,
+        "day": 7,
         "title": "Martoli to Bugdiyar",
         "description": "Descend the valley past Rilkot to Bugdiyar (2,450m).",
         "elevationMeters": 2450,
         "distanceKm": 22
       },
       {
-        "day": 7,
+        "day": 8,
         "title": "Bugdiyar to Lilam & Drive to Munsiyari",
-        "description": "Trek to Lilam roadhead and drive back to Munsiyari (2,200m).",
+        "description": "Trek through the Goriganga gorge to Lilam roadhead and drive back to Munsiyari (2,200m). A 9th buffer day is recommended for mountain weather contingency.",
         "elevationMeters": 2200,
         "distanceKm": 19
       }
@@ -195,7 +202,8 @@ export const uttarakhandTreks: Trek[] = [
         "title": "Kathgodam to Dharchula",
         "description": "Scenic 280 km drive along the Kali River to Dharchula (915m).",
         "elevationMeters": 915,
-        "distanceKm": 280
+        "distanceKm": 280,
+        "isRoadTransfer": true
       },
       {
         "day": 2,
@@ -230,7 +238,8 @@ export const uttarakhandTreks: Trek[] = [
         "title": "Dharchula to Kathgodam",
         "description": "Return drive across Kumaon hills to Kathgodam.",
         "elevationMeters": 554,
-        "distanceKm": 280
+        "distanceKm": 280,
+        "isRoadTransfer": true
       }
     ],
     "packingList": [
@@ -255,7 +264,7 @@ export const uttarakhandTreks: Trek[] = [
     "title": "Roopkund Mystery Lake Trek",
     "region": "Garhwal",
     "difficulty": "Challenging",
-    "duration": "6–7 Days",
+    "duration": "6 Days",
     "distance": "53 km",
     "maxAltitude": "4,800 m",
     "bestSeason": "May to June, September to October",
@@ -273,7 +282,8 @@ export const uttarakhandTreks: Trek[] = [
         "title": "Kathgodam/Rishikesh to Lohajung",
         "description": "Drive 210 km to Lohajung (2,300m).",
         "elevationMeters": 2300,
-        "distanceKm": 210
+        "distanceKm": 210,
+        "isRoadTransfer": true
       },
       {
         "day": 2,
@@ -333,7 +343,7 @@ export const uttarakhandTreks: Trek[] = [
     "title": "Satopanth Tal Glacial Lake Trek",
     "region": "Garhwal",
     "difficulty": "Difficult",
-    "duration": "5–6 Days",
+    "duration": "5 Days",
     "distance": "44 km",
     "maxAltitude": "4,600 m",
     "bestSeason": "May to June, September to mid-October",

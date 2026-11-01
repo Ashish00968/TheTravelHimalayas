@@ -16,6 +16,7 @@ import {
   buildBreadcrumbJsonLd 
 } from "@/lib/json-ld";
 import { getRouteData } from "@/data/routes";
+import { generateTrekFaqs } from "@/lib/faq-generator";
 
 export function generateStaticParams() {
   const params: { state: string; division: string; place: string }[] = [];
@@ -29,6 +30,73 @@ export function generateStaticParams() {
   params.push({ state: "uttarakhand", division: "garhwal", place: "char-dham-yatra" });
   return params;
 }
+
+const ELIGIBLE_SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
+  "markha-valley": {
+    title: "Markha Valley Trek (5,200m) — Route, Best Time | DHT",
+    description: "Trek Markha Valley in Ladakh: standard 72 km itinerary (6–7 days) via Kongmaru La (5,200m), with verified 97.4 km extended GPS circuit from Spituk.",
+  },
+  "hampta-pass": {
+    title: "Hampta Pass Trek (4,270m) — Route, Best Time | DHT",
+    description: "Cross the Hampta Pass (4,270m) high pass in Himachal Pradesh. 26 km, 5-day classic crossover trail with prime trekking season from June to September.",
+  },
+  "triund": {
+    title: "Triund Trek (2,850m) — Route, Best Time | DHT",
+    description: "Hike Triund ridge (2,850m) in Kangra, Himachal Pradesh. 18 km, 2-day round-trip trail with Dhauladhar panoramas and prime season from March to December.",
+  },
+  "bhrigu-lake": {
+    title: "Bhrigu Lake Trek (4,300m) — Route, Best Time | DHT",
+    description: "Trek to Bhrigu Lake (4,300m) alpine lake in Himachal Pradesh: 22 km, 3-day mountain trail with sweeping views and prime season May to June & September.",
+  },
+  "kareri-lake": {
+    title: "Kareri Lake Trek (2,934m) — Route, Best Time | DHT",
+    description: "Trek to Kareri Lake (2,934m) glacial lake in Kangra, Himachal Pradesh. 26 km, 3-day round-trip trail with prime trekking season from April to November.",
+  },
+  "chandrakhani-pass": {
+    title: "Chandrakhani Pass Trek (3,660m) — Route, Best Time | DHT",
+    description: "Traverse Chandrakhani Pass (3,660m) high pass in Himachal Pradesh. 30 km, 4-day mountain trail from Naggar with prime season from May to October.",
+  },
+  "pin-bhaba-pass": {
+    title: "Pin Bhaba Pass Trek (4,915m) — Route, Best Time | DHT",
+    description: "Cross Pin Bhaba Pass (4,915m) high pass from Kinnaur to Spiti in Himachal Pradesh. 50 km, 8-day route with prime trekking season from July to September.",
+  },
+  "pangong-tso": {
+    title: "Pangong Tso Lake — Guide, Best Time & Access | DHT",
+    description: "Visit Pangong Tso Lake (4,350m) in Leh, Ladakh. Road access guidance, altitude tips, scenic shoreline viewpoints, and best season from May to September.",
+  },
+  "chandratal-lake": {
+    title: "Chandratal Lake — Guide, Best Time & Access | DHT",
+    description: "Explore Chandratal Lake (4,300m) in Lahaul & Spiti, Himachal. Complete road access guide, camping protocols, and prime season from Mid-June to Mid-October.",
+  },
+  "turtuk": {
+    title: "Turtuk Balti Village — Guide & Best Time | DHT",
+    description: "Explore Turtuk Balti Village (2,900m) in Nubra, Ladakh. Apricot orchards, historic borderland heritage, road access, and best season from May to October.",
+  },
+  "tirthan-valley": {
+    title: "Tirthan Valley & GHNP — Guide & Best Time | DHT",
+    description: "Travel guide to Tirthan Valley (1,600m) & GHNP in Himachal Pradesh. Riverside stays, hiking trails, trout angling, and best season March to June & autumn.",
+  },
+  "friendship-peak": {
+    title: "Friendship Peak (5289m) — Route & Permits | DHT",
+    description: "Climb Friendship Peak (5,289m) in Himachal Pradesh: 6–7 day mountaineering expedition from Solang. Climbing route, base camp, and best time May to October.",
+  },
+  "deo-tibba": {
+    title: "Mt. Deo Tibba (6001m) — Route & Permits | DHT",
+    description: "Climb Mt. Deo Tibba (6,001m) in Himachal Pradesh: technical alpine route from Sethan, 29.3 km route, and prime climbing season from May to October.",
+  },
+  "hanuman-tibba": {
+    title: "Hanuman Tibba Peak (5982m) — Route & Permits | DHT",
+    description: "Mountaineering guide for Hanuman Tibba (5,982m) in Himachal Pradesh. Technical route, ice wall climbing, permits, and prime season May to June, Sep to Oct.",
+  },
+  "thiksey-monastery": {
+    title: "Thiksey Monastery — Guide, Best Time & Route | DHT",
+    description: "Visit Thiksey Monastery (3,600m) in Leh, Ladakh. Twelve-story monastery complex, morning prayer timings, Maitreya Buddha, and year-round travel guide.",
+  },
+  "diskit-monastery": {
+    title: "Diskit Monastery — Guide, Best Time & Route | DHT",
+    description: "Visit Diskit Monastery (3,144m) in Nubra, Ladakh. 32-meter Maitreya Buddha statue, prayer hall access, scenic valley views, and best time May to October.",
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -49,6 +117,7 @@ export async function generateMetadata({
   const isPatalsu = placeId === "patalsu-peak";
   const isJogni = placeId === "jogni-falls";
   const isBeasKund = placeId === "beas-kund";
+  const eligibleSeo = ELIGIBLE_SEO_OVERRIDES[resolvedPlaceId] || ELIGIBLE_SEO_OVERRIDES[placeId];
 
   const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);
   const durationStr = place.duration || place.trekData?.duration;
@@ -63,6 +132,8 @@ export async function generateMetadata({
     pageTitle = "Jogni Falls Trek (2,280m) Vashisht, Manali — Route, Map & Photo Story";
   } else if (isBeasKund) {
     pageTitle = "Beas Kund Trek (3,700m) Manali — Route, Height & Cost | DHT";
+  } else if (eligibleSeo) {
+    pageTitle = eligibleSeo.title;
   } else if (isExpedition) {
     const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
@@ -93,6 +164,8 @@ export async function generateMetadata({
     description = "Complete trail guide to Jogni Falls (Jogini Waterfall, 2,280m) in Vashisht, Manali. Verified GPS route, 13-stage photo story, lower cascades vs upper amphitheater, timings, and insider tips.";
   } else if (isBeasKund) {
     description = "Complete guide to Beas Kund Trek (3,700m / 12,139 ft) in Manali. 15.5km trail from Dhundi, glacial source of Beas River, weather, cost, and GPS route.";
+  } else if (eligibleSeo) {
+    description = eligibleSeo.description;
   }
 
   const heroImg = place.heroImage || place.trekData?.heroImage || place.peakData?.heroImage;
@@ -328,7 +401,9 @@ export default async function PlacePage({
     );
   }
 
-  const faqs = place.trekData?.faqs || place.peakData?.faqs || place.faqs || [];
+  const faqs = isTrek
+    ? generateTrekFaqs(place, subRegion.name, region.name)
+    : (place.trekData?.faqs || place.peakData?.faqs || place.faqs || []);
   if (faqs.length > 0) schemas.push(buildFAQJsonLd(faqs));
   schemas.push(buildBreadcrumbJsonLd(breadcrumbItems));
 

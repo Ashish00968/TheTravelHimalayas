@@ -11,7 +11,7 @@ export interface Trek {
   bestSeason: string;
   overview: string;
   routeDescription: string;
-  itinerary: { day: number; title: string; description: string; elevationMeters?: number; distanceKm?: number }[];
+  itinerary: { day: number; title: string; description: string; elevationMeters?: number; distanceKm?: number; isRoadTransfer?: boolean }[];
   packingList: string[];
   permits: string;
   faqs: { question: string; answer: string }[];
@@ -22,13 +22,25 @@ export interface Trek {
   coords?: [number, number]; // [latitude, longitude] of the trailhead
   pathCoords?: [number, number][]; // Array of [latitude, longitude] for route path
   startPoint?: string;       // Human-readable trailhead name
+  trailhead?: string;        // Specific trail roadhead entry
   guideRatePerDay?: number;  // INR per day for a local guide
+  howToReach?: string;
+  permitsAndFees?: string;
+  costRange?: string;
+  stays?: string;
+  networkAndATM?: string;
+  waterPoints?: string;
+  fitnessPrep?: string;
+  lastVerified?: string;
+  fieldVerified?: boolean;
+  authorNote?: string;
 }
 
 export interface Peak {
   slug: string;
   title: string;
   region: string;
+  territory?: "himachal-pradesh" | "jammu-kashmir" | "ladakh" | "uttarakhand";
   difficulty: "Easy" | "Moderate" | "Difficult" | "Challenging";
   height: number;
   expeditionSeason: string;

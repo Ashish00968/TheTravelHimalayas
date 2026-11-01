@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { HimalayaPlace, HimalayaRegion, HimalayaSubRegion } from "@/data/atlas";
+import { getRouteData } from "@/data/routes";
 import { TrekHero } from "./TrekHero";
 import { TrekOverview } from "./TrekOverview";
 import { TrekContextNav } from "./TrekContextNav";
@@ -10,10 +11,12 @@ import { TrekTrailStory } from "./TrekTrailStory";
 import { TrekRouteMap } from "./TrekRouteMap";
 import { TrekElevation } from "./TrekElevation";
 import { TrekItinerary } from "./TrekItinerary";
+import { TrekLogistics } from "./TrekLogistics";
 import { TrekInformation } from "./TrekInformation";
 import { TrekFAQ } from "./TrekFAQ";
 import { TrekEnding } from "./TrekEnding";
 import { AlpineFieldDossierModal } from "./AlpineFieldDossierModal";
+import { generateTrekFaqs } from "@/lib/faq-generator";
 
 interface TrekTemplateProps {
   place: HimalayaPlace;
@@ -37,6 +40,8 @@ export function TrekTemplate({
   const isPatalsu = place.id === "patalsu-peak";
   const isJogni = place.id === "jogni-falls";
   const isBeasKund = place.id === "beas-kund";
+  const routeData = getRouteData(place.id);
+  const isRouteVerified = Boolean(routeData?.verified);
 
   // Best available authentic photography (strictly no repeating territory fallback)
   const heroImage = isPatalsu
@@ -55,10 +60,11 @@ export function TrekTemplate({
   const durationVal = place.duration || trek?.duration || (isPatalsu ? "2–3 Days or 1-Day Push" : isJogni ? "Half Day (2–3 Hours)" : "Multi-Day");
   const distanceVal = place.distance || trek?.distance || (isPatalsu ? "16 km Loop" : isJogni ? "3.2 km round-trip" : "Mountain Trail");
   const difficultyVal = place.difficulty || trek?.difficulty || (isJogni ? "Easy" : "Moderate");
-  const startPointVal = trek?.startPoint || (isPatalsu ? "Solang Village (2,480m)" : isJogni ? "Vashisht Village (2,050m)" : "Base Trailhead");
+  const startPointVal = place.trailhead || trek?.trailhead || trek?.startPoint || (isPatalsu ? "Solang Village (2,480m)" : isJogni ? "Vashisht Village (2,050m)" : undefined);
+  const endPointVal = place.itinerary && place.itinerary.length > 0 ? place.itinerary[place.itinerary.length - 1].title : (place.elevation ? `${place.name} (${place.elevation})` : place.name);
   const bestSeasonVal = place.bestSeason || trek?.bestSeason || (isJogni ? "March to November" : "May to October");
   const itinerary = trek?.itinerary || place.itinerary || [];
-  const faqs = trek?.faqs || place.faqs || [];
+  const faqs = generateTrekFaqs(place, subRegion.name, region.name);
   const packingList = trek?.packingList || place.packingList || [];
   const images = place.images || trek?.images || [];
   const coords = place.coords || trek?.coords;
@@ -84,16 +90,20 @@ export function TrekTemplate({
 
       {/* 2. TREK OVERVIEW (Horizontal Field Instrument Bar) */}
       <TrekOverview
+        placeId={place.id}
         elevation={maxAltitudeVal}
         distance={distanceVal}
         duration={durationVal}
         difficulty={difficultyVal}
-        startPoint={startPointVal}
+        startPoint={startPointVal || (subRegion.name ? `${subRegion.name} Gateway` : "Regional Trailhead")}
         bestSeason={bestSeasonVal}
         stateSlug={state}
         subRegionName={subRegion.name}
         regionName={region.name}
         isPatalsu={isPatalsu}
+        isRouteVerified={isRouteVerified}
+        fieldVerified={Boolean(place.fieldVerified || trek?.fieldVerified)}
+        lastVerified={place.lastVerified || trek?.lastVerified}
         onOpenDossier={() => setIsDossierOpen(true)}
       />
 
@@ -108,12 +118,14 @@ export function TrekTemplate({
         title={place.name}
         overview={place.overview || trek?.overview || trek?.description || ""}
         routeDescription={place.routeDescription || trek?.routeDescription}
-        startPoint={startPointVal}
+        startPoint={startPointVal || "Regional Trailhead"}
         stateSlug={state}
         subRegionName={subRegion.name}
         isPatalsu={isPatalsu}
         isJogni={isJogni}
         isBeasKund={isBeasKund}
+        isRouteVerified={isRouteVerified}
+        aboutCards={place.aboutCards}
         breadcrumbItems={breadcrumbItems}
       />
 
@@ -133,7 +145,7 @@ export function TrekTemplate({
         slug={place.id}
         coords={coords}
         pathCoords={pathCoords}
-        startPoint={startPointVal}
+        startPoint={startPointVal || "Trailhead Entry"}
         maxAltitude={maxAltitudeVal}
         distance={distanceVal}
         regionName={region.name}
@@ -151,7 +163,7 @@ export function TrekTemplate({
         slug={place.id}
         itinerary={itinerary}
         maxAltitude={maxAltitudeVal}
-        startPoint={startPointVal}
+        startPoint={startPointVal || "Regional Gateway"}
         stateSlug={state}
         isPatalsu={isPatalsu}
       />
@@ -162,6 +174,14 @@ export function TrekTemplate({
         itinerary={itinerary}
         stateSlug={state}
         isPatalsu={isPatalsu}
+        startPoint={startPointVal}
+        endPoint={endPointVal}
+      />
+
+      {/* 8.5 OPTIONAL FIELD LOGISTICS & APPROACH (Zero-box Gated) */}
+      <TrekLogistics
+        place={place}
+        stateSlug={state}
       />
 
       {/* 9. UNIFIED TRAIL INFORMATION & LOGISTICS (Weather, Tips, Safety, Packing) */}

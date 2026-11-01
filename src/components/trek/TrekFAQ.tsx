@@ -85,7 +85,7 @@ export function TrekFAQ({
             Frequently Asked Questions
           </h2>
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
-            Clear answers regarding distance, altitude, how to reach, opening hours, winter conditions, and permits for {title}.
+            Clear, authoritative answers regarding altitude, trail distance, duration, seasonal conditions, trailhead access, and permits for {title}.
           </p>
         </div>
 

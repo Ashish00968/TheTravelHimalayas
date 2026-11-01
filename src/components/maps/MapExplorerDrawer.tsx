@@ -10,9 +10,11 @@ import {
   Mountain,
   Layers,
   PanelLeftClose,
+  ArrowUpDown,
 } from "lucide-react";
-import { HimalayaPlace } from "@/data/atlas";
+import { HimalayaPlace, placeLocationIndex } from "@/data/atlas";
 import { Peak } from "@/data/types";
+import { useHimalayanTheme } from "@/lib/use-theme";
 
 export interface VerifiedRouteMeta {
   id: string;
@@ -451,12 +453,27 @@ export const VERIFIED_ROUTES_CATALOG: VerifiedRouteMeta[] = [
 ];
 
 const TERRITORY_OPTIONS = [
-  { id: "all", label: "ALL", full: "All Territories", accent: "#38BDF8" },
-  { id: "himachal-pradesh", label: "HP", full: "Himachal Pradesh", accent: "#F59E0B" },
-  { id: "jammu-kashmir", label: "J&K", full: "Jammu & Kashmir", accent: "#60A5FA" },
-  { id: "ladakh", label: "LD", full: "Ladakh", accent: "#A855F7" },
-  { id: "uttarakhand", label: "UK", full: "Uttarakhand", accent: "#14B8A6" },
+  { id: "all", label: "ALL", full: "All Territories", accent: "#0284C7" },
+  { id: "himachal-pradesh", label: "HP", full: "Himachal Pradesh", accent: "#D97706" },
+  { id: "jammu-kashmir", label: "J&K", full: "Jammu & Kashmir", accent: "#2563EB" },
+  { id: "ladakh", label: "LD", full: "Ladakh", accent: "#9333EA" },
+  { id: "uttarakhand", label: "UK", full: "Uttarakhand", accent: "#0D9488" },
 ] as const;
+
+export type SortMode = "default" | "alt-desc" | "alt-asc" | "alpha";
+
+const SORT_OPTIONS: { id: SortMode; label: string; tooltip: string }[] = [
+  { id: "default", label: "Default", tooltip: "Curated canonical order" },
+  { id: "alt-desc", label: "Alt ↓", tooltip: "Highest altitude first" },
+  { id: "alt-asc", label: "Alt ↑", tooltip: "Lowest altitude first" },
+  { id: "alpha", label: "A–Z", tooltip: "Alphabetical order" },
+];
+
+function parseAltitudeMeters(alt?: string | number): number {
+  if (typeof alt === "number") return alt;
+  if (!alt) return 0;
+  return parseInt(alt.replace(/\D/g, "") || "0", 10);
+}
 
 interface MapExplorerDrawerProps {
   isOpen: boolean;
@@ -483,11 +500,22 @@ export function MapExplorerDrawer({
   peaks,
   allPlaces,
 }: MapExplorerDrawerProps) {
+  const theme = useHimalayanTheme();
+  const isDark = theme === "dark";
+
   const [activeTab, setActiveTab] = useState<"trails" | "peaks" | "all">("trails");
   const [searchQuery, setSearchQuery] = useState("");
   const [territoryFilter, setTerritoryFilter] = useState<string>(() => activeRegionId ?? "all");
+  const [sortMode, setSortMode] = useState<SortMode>("default");
 
-  // Filtered Verified Routes
+  // Keep internal territory filter synchronized if activeRegionId changes externally
+  const [prevActiveRegionId, setPrevActiveRegionId] = useState(activeRegionId);
+  if (activeRegionId !== prevActiveRegionId) {
+    setPrevActiveRegionId(activeRegionId);
+    setTerritoryFilter(activeRegionId ?? "all");
+  }
+
+  // 1. Symmetrically Filtered & Sorted Verified Routes
   const filteredRoutes = useMemo(() => {
     let list = VERIFIED_ROUTES_CATALOG;
     if (territoryFilter !== "all") {
@@ -496,7 +524,9 @@ export function MapExplorerDrawer({
           ? "himachal"
           : territoryFilter === "jammu-kashmir"
           ? "kashmir"
-          : territoryFilter.toLowerCase();
+          : territoryFilter === "ladakh"
+          ? "ladakh"
+          : "uttarakhand";
       list = list.filter((r) => r.region.toLowerCase().includes(targetSlug));
     }
     if (searchQuery.trim()) {
@@ -509,12 +539,36 @@ export function MapExplorerDrawer({
           r.difficulty.toLowerCase().includes(q)
       );
     }
-    return list;
-  }, [territoryFilter, searchQuery]);
 
-  // Filtered Peaks
+    if (sortMode === "alt-desc") {
+      list = [...list].sort((a, b) => parseAltitudeMeters(b.maxAltitude) - parseAltitudeMeters(a.maxAltitude));
+    } else if (sortMode === "alt-asc") {
+      list = [...list].sort((a, b) => parseAltitudeMeters(a.maxAltitude) - parseAltitudeMeters(b.maxAltitude));
+    } else if (sortMode === "alpha") {
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return list;
+  }, [territoryFilter, searchQuery, sortMode]);
+
+  // 2. Symmetrically Filtered & Sorted Summits (Peaks)
   const filteredPeaks = useMemo(() => {
     let list = peaks;
+    if (territoryFilter !== "all") {
+      list = list.filter((p) => {
+        if (p.territory) return p.territory === territoryFilter;
+        const reg = p.region.toLowerCase();
+        const targetSlug =
+          territoryFilter === "himachal-pradesh"
+            ? "himachal"
+            : territoryFilter === "jammu-kashmir"
+            ? "kashmir"
+            : territoryFilter === "ladakh"
+            ? "ladakh"
+            : "uttarakhand";
+        return reg.includes(targetSlug);
+      });
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(
@@ -524,12 +578,36 @@ export function MapExplorerDrawer({
           String(p.height).includes(q)
       );
     }
-    return list;
-  }, [peaks, searchQuery]);
 
-  // Filtered Atlas Destinations
+    if (sortMode === "alt-desc") {
+      list = [...list].sort((a, b) => b.height - a.height);
+    } else if (sortMode === "alt-asc") {
+      list = [...list].sort((a, b) => a.height - b.height);
+    } else if (sortMode === "alpha") {
+      list = [...list].sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    return list;
+  }, [peaks, territoryFilter, searchQuery, sortMode]);
+
+  // 3. Symmetrically Filtered & Sorted Atlas Destinations (Places)
   const filteredPlaces = useMemo(() => {
     let list = allPlaces;
+
+    // Deduplicate by place ID so each destination appears exactly once
+    const seen = new Set<string>();
+    list = list.filter((p) => {
+      if (seen.has(p.id)) return false;
+      seen.add(p.id);
+      return true;
+    });
+
+    if (territoryFilter !== "all") {
+      list = list.filter((p) => {
+        const loc = placeLocationIndex.get(p.id);
+        return loc?.regionId === territoryFilter;
+      });
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(
@@ -539,8 +617,17 @@ export function MapExplorerDrawer({
           p.type.toLowerCase().includes(q)
       );
     }
-    return list.slice(0, 40);
-  }, [allPlaces, searchQuery]);
+
+    if (sortMode === "alt-desc") {
+      list = [...list].sort((a, b) => parseAltitudeMeters(b.elevation) - parseAltitudeMeters(a.elevation));
+    } else if (sortMode === "alt-asc") {
+      list = [...list].sort((a, b) => parseAltitudeMeters(a.elevation) - parseAltitudeMeters(b.elevation));
+    } else if (sortMode === "alpha") {
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return list;
+  }, [allPlaces, territoryFilter, searchQuery, sortMode]);
 
   return (
     <>
@@ -550,11 +637,23 @@ export function MapExplorerDrawer({
           onClick={onToggleOpen}
           title="Open Himalayan Explorer Drawer"
           aria-label="Open Himalayan Explorer Drawer"
-          className="absolute top-4 sm:top-6 left-0 z-30 flex items-center gap-2.5 px-3.5 py-2.5 rounded-r-2xl bg-[#060a14]/90 hover:bg-[#080e1c] border-y border-r border-white/15 text-white shadow-[0_8px_32px_rgba(0,0,0,0.85)] backdrop-blur-2xl transition-all cursor-pointer group hover:border-sky-400/40"
+          className={`absolute top-4 sm:top-6 left-0 z-30 flex items-center gap-2.5 px-3.5 py-2.5 rounded-r-2xl border-y border-r backdrop-blur-2xl transition-all cursor-pointer group ${
+            isDark
+              ? "bg-[#060a14]/90 hover:bg-[#080e1c] border-white/15 text-white shadow-[0_8px_32px_rgba(0,0,0,0.85)] hover:border-sky-400/40"
+              : "bg-white hover:bg-slate-50 border-slate-300 text-slate-900 shadow-[0_8px_32px_rgba(15,23,42,0.12)] hover:border-sky-500"
+          }`}
         >
-          <Compass className="w-4 h-4 text-sky-400 group-hover:rotate-45 transition-transform duration-300" />
-          <span className="text-xs font-semibold tracking-wide">Trail Directory</span>
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md bg-sky-500/15 text-sky-300 border border-sky-500/30">
+          <Compass className="w-4 h-4 text-sky-600 dark:text-sky-400 group-hover:rotate-45 transition-transform duration-300" />
+          <span className={`text-xs font-bold tracking-wide ${isDark ? "text-white" : "text-slate-900"}`}>
+            Trail Directory
+          </span>
+          <span
+            className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md border ${
+              isDark
+                ? "bg-sky-500/15 text-sky-300 border-sky-500/30"
+                : "bg-sky-50 text-sky-800 border-sky-300 font-bold"
+            }`}
+          >
             {VERIFIED_ROUTES_CATALOG.length} GPS
           </span>
         </button>
@@ -562,13 +661,17 @@ export function MapExplorerDrawer({
 
       {/* ── Main Collapsible Explorer Drawer ─────────────────────────────── */}
       <div
-        className={`absolute top-0 left-0 bottom-0 z-20 w-[330px] sm:w-[370px] max-w-[calc(100vw-36px)] transition-transform duration-300 ease-out flex flex-col border-r border-white/[0.08] shadow-[16px_0_48px_rgba(0,0,0,0.85)] select-none ${
+        className={`absolute top-0 left-0 bottom-0 z-20 w-[330px] sm:w-[370px] max-w-[calc(100vw-36px)] transition-transform duration-300 ease-out flex flex-col border-r select-none ${
           isOpen ? "translate-x-0" : "-translate-x-full"
+        } ${
+          isDark
+            ? "border-white/[0.08] shadow-[16px_0_48px_rgba(0,0,0,0.85)] bg-[#060a14]/95 text-white"
+            : "border-slate-200/90 shadow-[16px_0_48px_rgba(15,23,42,0.08)] bg-white/95 text-slate-900 backdrop-blur-2xl"
         }`}
         style={{
-          background: "linear-gradient(180deg, rgba(6, 10, 20, 0.95) 0%, rgba(4, 7, 15, 0.98) 100%)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
+          background: isDark
+            ? "linear-gradient(180deg, rgba(6, 10, 20, 0.96) 0%, rgba(4, 7, 15, 0.98) 100%)"
+            : "linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
         }}
       >
         {/* Integrated Edge Tab Handle (Attached directly to right border) */}
@@ -577,33 +680,63 @@ export function MapExplorerDrawer({
             onClick={onToggleOpen}
             title="Collapse Explorer Drawer"
             aria-label="Collapse Explorer Drawer"
-            className="absolute top-5 -right-9 z-30 w-9 h-11 rounded-r-xl flex items-center justify-center bg-[#060a14]/95 border-y border-r border-white/15 text-slate-400 hover:text-white hover:bg-white/10 hover:border-sky-400/40 backdrop-blur-2xl shadow-xl transition-all cursor-pointer group"
+            className={`absolute top-5 -right-9 z-30 w-9 h-11 rounded-r-xl flex items-center justify-center border-y border-r backdrop-blur-2xl transition-all cursor-pointer group shadow-xl ${
+              isDark
+                ? "bg-[#060a14]/95 border-white/15 text-slate-400 hover:text-white hover:bg-white/10 hover:border-sky-400/40"
+                : "bg-white border-slate-300 text-slate-700 hover:text-slate-950 hover:bg-slate-50 shadow-md"
+            }`}
           >
-            <PanelLeftClose className="w-4 h-4 text-slate-400 group-hover:text-sky-400 transition-colors" />
+            <PanelLeftClose
+              className={`w-4 h-4 transition-colors ${
+                isDark ? "text-slate-400 group-hover:text-sky-400" : "text-slate-700 group-hover:text-sky-600"
+              }`}
+            />
           </button>
         )}
 
         {/* ── Drawer Header ─────────────────────────────────────────────── */}
-        <div className="p-3.5 sm:p-4 border-b border-white/[0.08] flex-shrink-0">
+        <div
+          className={`p-3.5 sm:p-4 border-b flex-shrink-0 ${
+            isDark ? "border-white/[0.08]" : "border-slate-200"
+          }`}
+        >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-xl bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400">
+              <div
+                className={`w-7 h-7 rounded-xl flex items-center justify-center ${
+                  isDark
+                    ? "bg-sky-500/10 border border-sky-500/25 text-sky-400"
+                    : "bg-sky-50 border border-sky-300 text-sky-700"
+                }`}
+              >
                 <Compass className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-xs uppercase tracking-wider text-slate-100 leading-none">
+                <h3
+                  className={`font-display font-bold text-xs uppercase tracking-wider leading-none ${
+                    isDark ? "text-slate-100" : "text-slate-950 font-extrabold"
+                  }`}
+                >
                   Himalayan 3D Atlas
                 </h3>
-                <span className="text-[10px] font-mono text-emerald-400/90 leading-none flex items-center gap-1 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  10 Verified GPS Tracks
+                <span
+                  className={`text-[10px] font-mono leading-none flex items-center gap-1 mt-1 ${
+                    isDark ? "text-emerald-400/90 font-medium" : "text-emerald-700 font-bold"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {VERIFIED_ROUTES_CATALOG.length} Verified GPS Tracks
                 </span>
               </div>
             </div>
 
             <button
               onClick={onToggleOpen}
-              className="w-7 h-7 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className={`w-7 h-7 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+                isDark
+                  ? "text-slate-400 hover:text-white hover:bg-white/10"
+                  : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+              }`}
               title="Close Drawer"
             >
               <X className="w-4 h-4" />
@@ -611,19 +744,29 @@ export function MapExplorerDrawer({
           </div>
 
           {/* Search Input */}
-          <div className="relative mb-3">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+          <div className="relative mb-2.5">
+            <Search
+              className={`w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${
+                isDark ? "text-slate-400" : "text-slate-500"
+              }`}
+            />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search trails, peaks, elevations…"
-              className="w-full pl-8 pr-7 py-1.5 text-xs bg-white/[0.04] border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:outline-none focus:border-sky-400/60 focus:bg-white/[0.06] transition-all"
+              className={`w-full pl-8 pr-7 py-1.5 text-xs rounded-xl focus:outline-none transition-all ${
+                isDark
+                  ? "bg-white/[0.04] border border-white/10 text-white placeholder:text-slate-400 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                  : "bg-slate-100/90 border border-slate-300 text-slate-950 placeholder:text-slate-500 focus:border-sky-500 focus:bg-white focus:ring-1 focus:ring-sky-500 font-medium"
+              }`}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className={`absolute right-2 top-1/2 -translate-y-1/2 ${
+                  isDark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900"
+                }`}
               >
                 <X className="w-3 h-3" />
               </button>
@@ -631,7 +774,13 @@ export function MapExplorerDrawer({
           </div>
 
           {/* Territory Segmented Bar */}
-          <div className="grid grid-cols-5 gap-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl mb-3">
+          <div
+            className={`grid grid-cols-5 gap-1 p-1 rounded-xl mb-2.5 ${
+              isDark
+                ? "bg-white/[0.03] border border-white/[0.06]"
+                : "bg-slate-100 border border-slate-200"
+            }`}
+          >
             {TERRITORY_OPTIONS.map((opt) => {
               const isSelected = territoryFilter === opt.id;
               return (
@@ -639,23 +788,37 @@ export function MapExplorerDrawer({
                   key={opt.id}
                   onClick={() => {
                     setTerritoryFilter(opt.id);
-                    if (opt.id !== "all") {
-                      onSelectRegion(opt.id);
-                    }
+                    onSelectRegion(opt.id);
                   }}
                   title={opt.full}
-                  className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-[10px] font-mono font-semibold transition-all cursor-pointer ${
+                  className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-[10px] font-mono transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-white/10 text-white shadow-sm border border-white/15"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                      ? isDark
+                        ? "bg-white/10 text-white shadow-sm border border-white/15"
+                        : "bg-white text-slate-950 font-bold shadow-sm border border-slate-300"
+                      : isDark
+                      ? "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                      : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/60"
                   }`}
                 >
                   <div className="flex items-center gap-1">
                     <span
-                      className="w-1.5 h-1.5 rounded-full"
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                       style={{ backgroundColor: opt.accent }}
                     />
-                    <span>{opt.label}</span>
+                    <span
+                      className={
+                        isSelected
+                          ? isDark
+                            ? "text-white font-bold"
+                            : "text-slate-950 font-extrabold"
+                          : isDark
+                          ? "text-slate-400"
+                          : "text-slate-700 font-semibold"
+                      }
+                    >
+                      {opt.label}
+                    </span>
                   </div>
                 </button>
               );
@@ -663,54 +826,171 @@ export function MapExplorerDrawer({
           </div>
 
           {/* Drawer Navigation Tabs */}
-          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+          <div
+            className={`grid grid-cols-3 gap-1 p-1 rounded-xl mb-2.5 ${
+              isDark
+                ? "bg-white/[0.03] border border-white/[0.06]"
+                : "bg-slate-100 border border-slate-200"
+            }`}
+          >
             <button
               onClick={() => setActiveTab("trails")}
-              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer ${
                 activeTab === "trails"
-                  ? "bg-white/10 text-white shadow-sm border border-white/15"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isDark
+                    ? "bg-white/10 text-white shadow-sm border border-white/15 font-semibold"
+                    : "bg-white text-slate-950 shadow-sm border border-slate-300 font-bold"
+                  : isDark
+                  ? "text-slate-400 hover:text-slate-200 font-medium"
+                  : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-semibold"
               }`}
             >
-              <Footprints className="w-3.5 h-3.5 text-sky-400" />
-              <span>Trails ({filteredRoutes.length})</span>
+              <Footprints className="w-3.5 h-3.5 text-sky-500" />
+              <span
+                className={
+                  activeTab === "trails"
+                    ? isDark
+                      ? "text-white font-semibold"
+                      : "text-slate-950 font-bold"
+                    : isDark
+                    ? "text-slate-400"
+                    : "text-slate-700 font-medium"
+                }
+              >
+                Trails ({filteredRoutes.length})
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("peaks")}
-              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer ${
                 activeTab === "peaks"
-                  ? "bg-white/10 text-white shadow-sm border border-white/15"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isDark
+                    ? "bg-white/10 text-white shadow-sm border border-white/15 font-semibold"
+                    : "bg-white text-slate-950 shadow-sm border border-slate-300 font-bold"
+                  : isDark
+                  ? "text-slate-400 hover:text-slate-200 font-medium"
+                  : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-semibold"
               }`}
             >
-              <Mountain className="w-3.5 h-3.5 text-amber-400" />
-              <span>Summits ({filteredPeaks.length})</span>
+              <Mountain className="w-3.5 h-3.5 text-amber-500" />
+              <span
+                className={
+                  activeTab === "peaks"
+                    ? isDark
+                      ? "text-white font-semibold"
+                      : "text-slate-950 font-bold"
+                    : isDark
+                    ? "text-slate-400"
+                    : "text-slate-700 font-medium"
+                }
+              >
+                Summits ({filteredPeaks.length})
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("all")}
-              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer ${
                 activeTab === "all"
-                  ? "bg-white/10 text-white shadow-sm border border-white/15"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isDark
+                    ? "bg-white/10 text-white shadow-sm border border-white/15 font-semibold"
+                    : "bg-white text-slate-950 shadow-sm border border-slate-300 font-bold"
+                  : isDark
+                  ? "text-slate-400 hover:text-slate-200 font-medium"
+                  : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-semibold"
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-teal-400" />
-              <span>Places</span>
+              <Layers className="w-3.5 h-3.5 text-teal-500" />
+              <span
+                className={
+                  activeTab === "all"
+                    ? isDark
+                      ? "text-white font-semibold"
+                      : "text-slate-950 font-bold"
+                    : isDark
+                    ? "text-slate-400"
+                    : "text-slate-700 font-medium"
+                }
+              >
+                Places ({filteredPlaces.length})
+              </span>
             </button>
+          </div>
+
+          {/* Symmetrical Sorting Control Bar across Trails, Summits, Places */}
+          <div
+            className={`flex items-center justify-between px-2 py-1 rounded-lg border text-[10.5px] font-mono ${
+              isDark
+                ? "bg-white/[0.02] border-white/[0.06]"
+                : "bg-slate-100/80 border-slate-200"
+            }`}
+          >
+            <div className="flex items-center gap-1">
+              <ArrowUpDown className="w-3 h-3 text-sky-500" />
+              <span className={isDark ? "text-slate-400 font-medium" : "text-slate-700 font-bold"}>
+                Sort:
+              </span>
+            </div>
+            <div className="flex items-center gap-1">
+              {SORT_OPTIONS.map((opt) => {
+                const isActive = sortMode === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => setSortMode(opt.id)}
+                    title={opt.tooltip}
+                    className={`px-1.5 py-0.5 rounded transition-all cursor-pointer ${
+                      isActive
+                        ? isDark
+                          ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold"
+                          : "bg-white text-sky-800 shadow-sm border border-sky-300 font-bold"
+                        : isDark
+                        ? "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                        : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium"
+                    }`}
+                  >
+                    <span
+                      className={
+                        isActive
+                          ? isDark
+                            ? "text-sky-300 font-semibold"
+                            : "text-sky-800 font-bold"
+                          : isDark
+                          ? "text-slate-400"
+                          : "text-slate-700 font-medium"
+                      }
+                    >
+                      {opt.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* ── Drawer Body: Curated Cards ─────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-2 scrollbar-thin scrollbar-thumb-white/15">
+        <div
+          className={`flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-2 scrollbar-thin ${
+            isDark ? "scrollbar-thumb-white/15" : "scrollbar-thumb-slate-300"
+          }`}
+        >
           {activeTab === "trails" && (
             <>
-              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono text-slate-400 uppercase tracking-wider">
-                <span>Verified Field Routes</span>
-                <span className="text-slate-400">{filteredRoutes.length} Available</span>
+              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono uppercase tracking-wider">
+                <span className={isDark ? "text-slate-400" : "text-slate-700 font-bold"}>
+                  Verified Field Routes
+                </span>
+                <span className={isDark ? "text-slate-400" : "text-slate-600 font-semibold"}>
+                  {filteredRoutes.length} Available
+                </span>
               </div>
 
               {filteredRoutes.length === 0 ? (
-                <div className="text-center py-8 text-slate-400 text-xs font-mono">
+                <div
+                  className={`text-center py-8 text-xs font-mono ${
+                    isDark ? "text-slate-400" : "text-slate-600 font-medium"
+                  }`}
+                >
                   No matching verified trails found.
                 </div>
               ) : (
@@ -724,50 +1004,94 @@ export function MapExplorerDrawer({
                       onMouseLeave={() => onHoverEntity(null)}
                       className={`group relative p-3.5 rounded-xl transition-all duration-200 cursor-pointer border ${
                         isSelected
-                          ? "bg-sky-500/[0.08] border-sky-400/60 shadow-[0_4px_24px_rgba(56,189,248,0.15)] border-l-4 border-l-sky-400"
-                          : "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.07] hover:border-white/15"
+                          ? isDark
+                            ? "bg-sky-500/[0.08] border-sky-400/60 shadow-[0_4px_24px_rgba(56,189,248,0.15)] border-l-4 border-l-sky-400"
+                            : "bg-sky-50/90 border-2 border-sky-500 shadow-md border-l-4 border-l-sky-600"
+                          : isDark
+                          ? "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.07] hover:border-white/15"
+                          : "bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 shadow-sm hover:shadow"
                       }`}
                     >
                       {/* Overline & Elevation Badge */}
                       <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-[9.5px] font-mono tracking-wider uppercase text-slate-400 truncate">
+                        <span
+                          className={`text-[9.5px] font-mono tracking-wider uppercase truncate ${
+                            isDark ? "text-slate-400" : "text-slate-600 font-semibold"
+                          }`}
+                        >
                           {route.valley} · {route.region}
                         </span>
-                        <span className="text-[10px] font-mono font-medium text-slate-200 bg-white/[0.05] border border-white/10 px-2 py-0.5 rounded-md flex-shrink-0">
+                        <span
+                          className={`text-[10px] font-mono px-2 py-0.5 rounded-md flex-shrink-0 border ${
+                            isDark
+                              ? "text-slate-200 bg-white/[0.05] border-white/10 font-medium"
+                              : "text-slate-900 bg-slate-100 border-slate-300 font-bold"
+                          }`}
+                        >
                           ▲ {route.maxAltitude}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h4 className="font-display font-semibold text-[13px] text-slate-100 group-hover:text-sky-300 transition-colors mb-1.5">
+                      <h4
+                        className={`font-display text-[13.5px] transition-colors mb-1.5 ${
+                          isDark
+                            ? "text-slate-100 font-semibold group-hover:text-sky-300"
+                            : "text-slate-950 font-bold group-hover:text-sky-700"
+                        }`}
+                      >
                         {route.name}
                       </h4>
 
                       {/* Overview */}
-                      <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed mb-3">
+                      <p
+                        className={`text-[11.5px] line-clamp-2 leading-relaxed mb-3 ${
+                          isDark ? "text-slate-400" : "text-slate-700 font-normal"
+                        }`}
+                      >
                         {route.overview}
                       </p>
 
                       {/* Metrics Bar */}
-                      <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 pt-2 border-t border-white/[0.06]">
+                      <div
+                        className={`flex items-center justify-between text-[10.5px] font-mono pt-2 border-t ${
+                          isDark
+                            ? "text-slate-400 border-white/[0.06]"
+                            : "text-slate-600 border-slate-200"
+                        }`}
+                      >
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-200 font-medium">{route.distance}</span>
-                          <span className="text-white/20">|</span>
-                          <span>{route.gain}</span>
-                          <span className="text-white/20">|</span>
+                          <span
+                            className={
+                              isDark ? "text-slate-200 font-medium" : "text-slate-950 font-bold"
+                            }
+                          >
+                            {route.distance}
+                          </span>
+                          <span className={isDark ? "text-white/20" : "text-slate-300"}>|</span>
+                          <span className={isDark ? "text-slate-400" : "text-slate-700 font-medium"}>
+                            {route.gain}
+                          </span>
+                          <span className={isDark ? "text-white/20" : "text-slate-300"}>|</span>
                           <span
                             className={
                               route.difficulty.includes("Extreme")
-                                ? "text-rose-400"
+                                ? "text-rose-600 dark:text-rose-400 font-semibold"
                                 : route.difficulty.includes("Demanding")
-                                ? "text-amber-400"
-                                : "text-emerald-400"
+                                ? "text-amber-600 dark:text-amber-400 font-semibold"
+                                : "text-emerald-700 dark:text-emerald-400 font-semibold"
                             }
                           >
                             {route.difficulty}
                           </span>
                         </div>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-400 group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight
+                          className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all ${
+                            isDark
+                              ? "text-slate-500 group-hover:text-sky-400"
+                              : "text-slate-400 group-hover:text-sky-700"
+                          }`}
+                        />
                       </div>
                     </div>
                   );
@@ -778,85 +1102,201 @@ export function MapExplorerDrawer({
 
           {activeTab === "peaks" && (
             <>
-              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono text-slate-400 uppercase tracking-wider">
-                <span>Himalayan Summits</span>
-                <span className="text-slate-400">{filteredPeaks.length} Peaks</span>
+              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono uppercase tracking-wider">
+                <span className={isDark ? "text-slate-400" : "text-slate-700 font-bold"}>
+                  Himalayan Summits
+                </span>
+                <span className={isDark ? "text-slate-400" : "text-slate-600 font-semibold"}>
+                  {filteredPeaks.length} Peaks
+                </span>
               </div>
 
-              {filteredPeaks.map((peak) => {
-                const isSelected = selectedId === peak.slug;
-                return (
-                  <div
-                    key={peak.slug}
-                    onClick={() => {
-                      const placeMatch = allPlaces.find((p) => p.id === peak.slug);
-                      if (placeMatch) onSelectPlace(placeMatch);
-                      else onSelectRoute(peak.slug);
-                    }}
-                    onMouseEnter={() => onHoverEntity(peak.slug)}
-                    onMouseLeave={() => onHoverEntity(null)}
-                    className={`group relative p-3.5 rounded-xl transition-all duration-200 cursor-pointer border ${
-                      isSelected
-                        ? "bg-amber-500/[0.08] border-amber-400/60 shadow-[0_4px_24px_rgba(245,158,11,0.15)] border-l-4 border-l-amber-400"
-                        : "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.07] hover:border-white/15"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-[9.5px] font-mono tracking-wider uppercase text-slate-400">
-                        {peak.region}
-                      </span>
-                      <span className="text-[10px] font-mono font-medium text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md flex-shrink-0">
-                        ▲ {peak.height}m
-                      </span>
-                    </div>
+              {filteredPeaks.length === 0 ? (
+                <div
+                  className={`text-center py-8 text-xs font-mono ${
+                    isDark ? "text-slate-400" : "text-slate-600 font-medium"
+                  }`}
+                >
+                  No summits found for this territory.
+                </div>
+              ) : (
+                filteredPeaks.map((peak) => {
+                  const isSelected = selectedId === peak.slug;
+                  return (
+                    <div
+                      key={peak.slug}
+                      onClick={() => {
+                        const placeMatch = allPlaces.find((p) => p.id === peak.slug);
+                        if (placeMatch) {
+                          onSelectPlace(placeMatch);
+                        } else if (peak.coords) {
+                          onSelectPlace({
+                            id: peak.slug,
+                            name: peak.title,
+                            type: "peak",
+                            emoji: "▲",
+                            coords: peak.coords,
+                            elevation: `${peak.height}m`,
+                            description: peak.description,
+                          } as HimalayaPlace);
+                        } else {
+                          onSelectRoute(peak.slug);
+                        }
+                      }}
+                      onMouseEnter={() => onHoverEntity(peak.slug)}
+                      onMouseLeave={() => onHoverEntity(null)}
+                      className={`group relative p-3.5 rounded-xl transition-all duration-200 cursor-pointer border ${
+                        isSelected
+                          ? isDark
+                            ? "bg-amber-500/[0.08] border-amber-400/60 shadow-[0_4px_24px_rgba(245,158,11,0.15)] border-l-4 border-l-amber-400"
+                            : "bg-amber-50/90 border-2 border-amber-500 shadow-md border-l-4 border-l-amber-600"
+                          : isDark
+                          ? "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.07] hover:border-white/15"
+                          : "bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 shadow-sm hover:shadow"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span
+                          className={`text-[9.5px] font-mono tracking-wider uppercase ${
+                            isDark ? "text-slate-400" : "text-slate-600 font-semibold"
+                          }`}
+                        >
+                          {peak.region}
+                        </span>
+                        <span
+                          className={`text-[10px] font-mono px-2 py-0.5 rounded-md flex-shrink-0 border ${
+                            isDark
+                              ? "text-amber-300 bg-amber-500/10 border-amber-500/20 font-medium"
+                              : "text-amber-900 bg-amber-100 border-amber-300 font-bold"
+                          }`}
+                        >
+                          ▲ {peak.height.toLocaleString()}m
+                        </span>
+                      </div>
 
-                    <h4 className="font-display font-semibold text-[13px] text-slate-100 group-hover:text-amber-300 transition-colors mb-1.5">
-                      {peak.title}
-                    </h4>
+                      <h4
+                        className={`font-display text-[13.5px] transition-colors mb-1.5 ${
+                          isDark
+                            ? "text-slate-100 font-semibold group-hover:text-amber-300"
+                            : "text-slate-950 font-bold group-hover:text-amber-800"
+                        }`}
+                      >
+                        {peak.title}
+                      </h4>
 
-                    <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 pt-2 border-t border-white/[0.06]">
-                      <span className="text-amber-300/80">{peak.difficulty} Expedition</span>
-                      <div className="flex items-center gap-1 text-slate-400 group-hover:text-amber-300 group-hover:translate-x-0.5 transition-all">
-                        <span className="text-[10px]">3D Orbit</span>
-                        <ChevronRight className="w-3 h-3" />
+                      <p
+                        className={`text-[11.5px] line-clamp-2 leading-relaxed mb-3 ${
+                          isDark ? "text-slate-400" : "text-slate-700 font-normal"
+                        }`}
+                      >
+                        {peak.description || peak.overview}
+                      </p>
+
+                      <div
+                        className={`flex items-center justify-between text-[10.5px] font-mono pt-2 border-t ${
+                          isDark
+                            ? "text-slate-400 border-white/[0.06]"
+                            : "text-slate-600 border-slate-200"
+                        }`}
+                      >
+                        <span
+                          className={
+                            isDark
+                              ? "text-amber-300/80 font-medium"
+                              : "text-amber-800 font-bold"
+                          }
+                        >
+                          {peak.difficulty} Expedition
+                        </span>
+                        <div
+                          className={`flex items-center gap-1 group-hover:translate-x-0.5 transition-all ${
+                            isDark
+                              ? "text-slate-400 group-hover:text-amber-300"
+                              : "text-slate-600 group-hover:text-amber-800"
+                          }`}
+                        >
+                          <span className="text-[10px] font-medium">3D Orbit</span>
+                          <ChevronRight className="w-3 h-3" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </>
           )}
 
           {activeTab === "all" && (
             <>
-              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono text-slate-400 uppercase tracking-wider">
-                <span>Featured Destinations</span>
-                <span className="text-slate-400">{filteredPlaces.length} Results</span>
+              <div className="flex items-center justify-between px-1 text-[9.5px] font-mono uppercase tracking-wider">
+                <span className={isDark ? "text-slate-400" : "text-slate-700 font-bold"}>
+                  Featured Destinations
+                </span>
+                <span className={isDark ? "text-slate-400" : "text-slate-600 font-semibold"}>
+                  {filteredPlaces.length} Results
+                </span>
               </div>
 
-              {filteredPlaces.map((place) => (
+              {filteredPlaces.length === 0 ? (
                 <div
-                  key={place.id}
-                  onClick={() => onSelectPlace(place)}
-                  onMouseEnter={() => onHoverEntity(place.id)}
-                  onMouseLeave={() => onHoverEntity(null)}
-                  className="group flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.07] hover:border-white/15 transition-all cursor-pointer"
+                  className={`text-center py-8 text-xs font-mono ${
+                    isDark ? "text-slate-400" : "text-slate-600 font-medium"
+                  }`}
                 >
-                  <div className="min-w-0 pr-2">
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="text-xs">{place.emoji}</span>
-                      <span className="text-xs font-semibold text-slate-100 group-hover:text-sky-300 truncate">
-                        {place.name}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[9.5px] font-mono text-slate-400">
-                      <span className="capitalize">{place.type}</span>
-                      {place.elevation && <span>• {place.elevation}</span>}
-                    </div>
-                  </div>
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
+                  No places found for this territory.
                 </div>
-              ))}
+              ) : (
+                filteredPlaces.map((place, idx) => {
+                  const isSelected = selectedId === place.id;
+                  return (
+                    <div
+                      key={`${place.id}-${idx}`}
+                      onClick={() => onSelectPlace(place)}
+                      onMouseEnter={() => onHoverEntity(place.id)}
+                      onMouseLeave={() => onHoverEntity(null)}
+                      className={`group flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                        isSelected
+                          ? isDark
+                            ? "bg-sky-500/[0.08] border-sky-400/60 shadow-[0_4px_24px_rgba(56,189,248,0.15)] border-l-4 border-l-sky-400"
+                            : "bg-sky-50/90 border-2 border-sky-500 shadow-md border-l-4 border-l-sky-600"
+                          : isDark
+                          ? "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.07] hover:border-white/15"
+                          : "bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 shadow-sm hover:shadow"
+                      }`}
+                    >
+                      <div className="min-w-0 pr-2">
+                        <div className="flex items-center gap-1.5 mb-0.5">
+                          <span className="text-xs">{place.emoji}</span>
+                          <span
+                            className={`text-xs truncate ${
+                              isDark
+                                ? "text-slate-100 font-semibold group-hover:text-sky-300"
+                                : "text-slate-950 font-bold group-hover:text-sky-700"
+                            }`}
+                          >
+                            {place.name}
+                          </span>
+                        </div>
+                        <div
+                          className={`flex items-center gap-1.5 text-[9.5px] font-mono ${
+                            isDark ? "text-slate-400" : "text-slate-600 font-medium"
+                          }`}
+                        >
+                          <span className="capitalize">{place.type}</span>
+                          {place.elevation && <span>• {place.elevation}</span>}
+                        </div>
+                      </div>
+                      <ChevronRight
+                        className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0 ${
+                          isDark
+                            ? "text-slate-500 group-hover:text-white"
+                            : "text-slate-500 group-hover:text-slate-950"
+                        }`}
+                      />
+                    </div>
+                  );
+                })
+              )}
             </>
           )}
         </div>

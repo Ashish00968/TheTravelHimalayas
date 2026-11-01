@@ -36,7 +36,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Haridwar/Rishikesh to Barkot via Mussoorie",
                                                                     "description": "Drive 220 km through Dehradun and the Mussoorie foothills past Kempty Falls and Yamuna Bridge to the apple valley base of Barkot (1,220m).",
                                                                     "elevationMeters": 1220,
-                                                                    "distanceKm": 220
+                                                                    "distanceKm": 220,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -50,42 +52,54 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Barkot across Radi Top to Uttarkashi",
                                                                     "description": "Scenic drive over Radi Top pass (panoramic Bandarpoonch vistas) to Uttarkashi (1,158m). Visit ancient Kashi Vishwanath Temple, touch the vibrating Shakti Trishul, and tour NIM.",
                                                                     "elevationMeters": 1158,
-                                                                    "distanceKm": 100
+                                                                    "distanceKm": 100,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 4,
                                                                     "title": "Uttarkashi to Harsil Valley & Mukhba Village",
                                                                     "description": "Drive along the Bhagirathi canyon to Harsil Valley (2,620m). Tour Wilson's apple orchards, Dharali wooden village, and cross to Mukhba—the sacred winter seat of Goddess Ganga.",
                                                                     "elevationMeters": 2620,
-                                                                    "distanceKm": 75
+                                                                    "distanceKm": 75,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 5,
                                                                     "title": "Gangotri Temple Darshan, Surya Kund Gorge & Pandava Gufa",
                                                                     "description": "Drive 25 km to Gangotri (3,100m). Attend Bhagirathi river rituals, see the submerged Shivalinga, explore Surya Kund waterfall, and hike to Pandava Gufa. Return to Harsil.",
                                                                     "elevationMeters": 3100,
-                                                                    "distanceKm": 50
+                                                                    "distanceKm": 50,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 6,
                                                                     "title": "Harsil across Tehri Lake to Srinagar Garhwal",
                                                                     "description": "Scenic cross-ridge mountain drive past Chamba, the turquoise reservoir of Tehri Lake, to the historic educational hub of Srinagar Garhwal (560m).",
                                                                     "elevationMeters": 560,
-                                                                    "distanceKm": 210
+                                                                    "distanceKm": 210,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 7,
                                                                     "title": "The Guardian Deity: Dhari Devi Mandir to Guptkashi",
                                                                     "description": "Crucial stop at Dhari Devi Temple over the Alaknanda (guardian protector of Char Dham). Continue past Rudraprayag confluence and up the Mandakini valley to Guptkashi (1,319m).",
                                                                     "elevationMeters": 1319,
-                                                                    "distanceKm": 85
+                                                                    "distanceKm": 85,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 8,
                                                                     "title": "Triyuginarayan (Akhand Dhuni) & Sonprayag Staging",
                                                                     "description": "Visit Triyuginarayan Temple (1,980m), site of Lord Shiva and Parvati's celestial wedding with the eternal Akhand Dhuni fire. Rest in Sitapur/Sonprayag for the early trek.",
                                                                     "elevationMeters": 1980,
-                                                                    "distanceKm": 40
+                                                                    "distanceKm": 40,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 9,
@@ -106,21 +120,27 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "The Panch Kedar Secret: Madhyamaheshwar Link or Chopta-Tungnath",
                                                                     "description": "Option to diversion to Madhyamaheshwar (3,497m) or scenic drive through Chopta meadows with day-hike to Tungnath (highest Shiva temple, 3,680m) and Chandrashila summit (4,000m).",
                                                                     "elevationMeters": 2680,
-                                                                    "distanceKm": 60
+                                                                    "distanceKm": 60,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 12,
                                                                     "title": "Gateway to the Heights: Joshimath & Urgam Valley",
                                                                     "description": "Drive past Karnaprayag to Joshimath (1,890m). Visit Shankaracharya Math, Narsimha Temple (winter seat of Badrinath), and Kalpavriksha. Explore pristine Urgam Valley (Kalpeshwar Mahadev).",
                                                                     "elevationMeters": 1890,
-                                                                    "distanceKm": 90
+                                                                    "distanceKm": 90,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 13,
                                                                     "title": "Joshimath to Badrinath Dham (3,133m)",
                                                                     "description": "Drive through Vishnuprayag gorge to Badrinath. Bathe in thermal Tapt Kund (45°C) before darshan. Experience evening aarti under the golden alpenglow of Mount Nilkantha.",
                                                                     "elevationMeters": 3133,
-                                                                    "distanceKm": 45
+                                                                    "distanceKm": 45,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 14,
@@ -134,14 +154,18 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Panch Prayag Confluence Descent to Rishikesh",
                                                                     "description": "Follow the holy confluences down the Alaknanda highway: Vishnuprayag, Nandaprayag, Karnaprayag, Rudraprayag, and Devprayag. Attend evening Ganga Aarti at Triveni Ghat.",
                                                                     "elevationMeters": 372,
-                                                                    "distanceKm": 290
+                                                                    "distanceKm": 290,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 16,
                                                                     "title": "Haridwar Har Ki Pauri Morning Dip & Departure",
                                                                     "description": "Final holy dip at Har Ki Pauri in Haridwar, visit Mansa Devi Siddhpeeth, and conclude the grand sacred circuit.",
                                                                     "elevationMeters": 314,
-                                                                    "distanceKm": 25
+                                                                    "distanceKm": 25,
+
+                                                                    "isRoadTransfer": true
                                                           }
                                                 ],
                                                 "packingList": [
@@ -222,7 +246,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "elevation": "4,800 m",
                                                 "bestSeason": "May to June, September to October",
                                                 "difficulty": "Challenging",
-                                                "duration": "6–7 Days",
+                                                "duration": "6 Days",
                                                 "distance": "53 km",
                                                 "overview": "One of the most legendary high-altitude alpine treks in the Garhwal Himalayas, journeying from Lohajung through the twin rolling bugyals of Ali and Bedni to the glaciated tarn of Roopkund at 4,800m beneath the sheer rock face of Mount Trishul (7,120m). Famed for hundreds of ancient human skeletons dating to the 9th century CE preserved in the glacial ice, the trail commands sweeping vistas of Trishul, Nanda Ghunti, and Chaukhamba.",
                                                 "routeDescription": "Starts at Lohajung (2,300m), climbs through oak forests to Didna village, traverses the vast highland meadows of Ali Bugyal and Bedni Bugyal (3,354m), climbs past Kalu Vinayak temple to Bhagwabasa high camp (4,300m), and scrambles up frozen scree to Roopkund Lake (4,800m) and Junargali Ridge (5,150m).",
@@ -233,7 +257,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Kathgodam/Rishikesh to Lohajung",
                                                                     "description": "Scenic 210 km mountain drive to the trekking base camp village of Lohajung (2,300m).",
                                                                     "elevationMeters": 2300,
-                                                                    "distanceKm": 210
+                                                                    "distanceKm": 210,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -571,7 +597,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Haridwar/Rishikesh to Govindghat",
                                                                     "description": "Drive along the Alaknanda River through Devprayag, Rudraprayag, Karnaprayag, and Joshimath to Govindghat (1,828m).",
                                                                     "elevationMeters": 1828,
-                                                                    "distanceKm": 275
+                                                                    "distanceKm": 275,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -659,7 +687,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Drive Rishikesh to Govindghat",
                                                                     "description": "Drive 275 km along the Alaknanda River via Devprayag, Rudraprayag, and Joshimath to Govindghat (1,828m).",
                                                                     "elevationMeters": 1828,
-                                                                    "distanceKm": 275
+                                                                    "distanceKm": 275,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -781,7 +811,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Rishikesh to Joshimath",
                                                                     "description": "Drive 255 km along the Alaknanda River to the mountain hub of Joshimath (1,890m).",
                                                                     "elevationMeters": 1890,
-                                                                    "distanceKm": 255
+                                                                    "distanceKm": 255,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -816,7 +848,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Joshimath to Rishikesh",
                                                                     "description": "Drive back along the river valleys to Rishikesh.",
                                                                     "elevationMeters": 372,
-                                                                    "distanceKm": 255
+                                                                    "distanceKm": 255,
+
+                                                                    "isRoadTransfer": true
                                                           }
                                                 ],
                                                 "packingList": [
@@ -905,7 +939,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "elevation": "4,600 m",
                                                 "bestSeason": "May to June, September to mid-October",
                                                 "difficulty": "Difficult",
-                                                "duration": "5–6 Days",
+                                                "duration": "5 Days",
                                                 "distance": "44 km",
                                                 "overview": "A sacred and strenuous high-altitude glacial expedition venturing into the untamed wilderness beyond Mana Village and Badrinath. Satopanth Tal is an emerald triangular lake of crystal-clear water sitting at 4,600m beneath the colossal glaciated amphitheater of Chaukhamba I (7,138m), Nilkantha, and Swargarohini peaks. Revered in Hindu cosmology, the three corners of the lake are the sacred meditation thrones of Brahma, Vishnu, and Maheshwar. According to the Mahabharata, the Pandavas crossed this lake to climb the stairway of Swargarohini glacier toward heaven.",
                                                 "routeDescription": "Starts from Mana village (3,200m), traverses past Vasudhara Falls to Laxmiban (3,600m) amidst ancient bhojpatra birch groves, navigates glacial moraine to Chakratirtha (4,250m), and follows knife-edge moraine ridges to the shores of Satopanth Tal (4,600m).",
@@ -1182,7 +1216,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "elevation": "2,438 m",
                                                 "bestSeason": "Year-round (Best: March to June, October to December)",
                                                 "difficulty": "Easy",
-                                                "duration": "1–2 Days",
+                                                "duration": "2 Days",
                                                 "distance": "6 km return",
                                                 "overview": "A crystalline freshwater alpine lake sitting at 2,438m surrounded by dense rhododendron and oak forests in Rudraprayag district. Famed for its mirror-like reflection of the snow-clad Chaukhamba massif on clear mornings, it is associated with the Yaksha Prashna legend from the Mahabharata. The 3 km uphill cobblestone trail starts from the picturesque village of Sari.",
                                                 "routeDescription": "Begins from Sari village (2,000m), ascending 3 km through terraced farms and oak forests to the grassy perimeter of Deoria Tal lake.",
@@ -1567,7 +1601,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "elevation": "4,463 m (Tapovan) / 4,000 m (Gaumukh)",
                                                 "bestSeason": "May to June, September to October",
                                                 "difficulty": "Difficult",
-                                                "duration": "6–7 Days",
+                                                "duration": "6 Days",
                                                 "distance": "46 km",
                                                 "overview": "One of the most awe-inspiring glacier expeditions on Earth, the Gaumukh Tapovan trek journeys along the holy Bhagirathi River to Gaumukh—the snout of the 30-km Gangotri Glacier and the true origin of River Ganga. Ascending the steep terminal moraine leads to Tapovan (4,463m), a high-altitude alpine meadow where sadhus meditate directly beneath the sheer 2,000-meter vertical granite spire of Mount Shivling (6,543m) and the Bhagirathi peaks.",
                                                 "routeDescription": "Starts from Gangotri temple town (3,100m), hikes 14 km along the river canyon to Bhojwasa (3,792m), crosses Gaumukh glacier snout (4,000m), and scrambles up the steep rocky moraine to the high meadow of Tapovan (4,463m).",
@@ -1578,7 +1612,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Dehradun/Rishikesh to Gangotri",
                                                                     "description": "Drive 240 km along the Bhagirathi River through Uttarkashi and Harsil to the sacred temple town of Gangotri (3,100m).",
                                                                     "elevationMeters": 3100,
-                                                                    "distanceKm": 240
+                                                                    "distanceKm": 240,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -1671,7 +1707,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Dehradun to Raithal",
                                                                     "description": "Drive 220 km along the Bhagirathi River past Uttarkashi to the heritage mountain village of Raithal (2,250m).",
                                                                     "elevationMeters": 2250,
-                                                                    "distanceKm": 220
+                                                                    "distanceKm": 220,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -1756,7 +1794,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Dehradun to Sankri",
                                                                     "description": "Drive 200 km along the Yamuna and Tons rivers through Mussoorie and Purola to the village base of Sankri (1,950m).",
                                                                     "elevationMeters": 1950,
-                                                                    "distanceKm": 200
+                                                                    "distanceKm": 200,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -1842,7 +1882,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Dehradun to Sankri",
                                                                     "description": "Drive 200 km through Mussoorie and the scenic Tons river valley to Sankri (1,950m).",
                                                                     "elevationMeters": 1950,
-                                                                    "distanceKm": 200
+                                                                    "distanceKm": 200,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -1884,7 +1926,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Sankri to Dehradun",
                                                                     "description": "Return drive from Sankri to Dehradun railway station or airport.",
                                                                     "elevationMeters": 450,
-                                                                    "distanceKm": 200
+                                                                    "distanceKm": 200,
+
+                                                                    "isRoadTransfer": true
                                                           }
                                                 ],
                                                 "packingList": [
@@ -2036,7 +2080,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "elevation": "3,024 m (Lake) / 4,150 m (Darwa Pass)",
                                                 "bestSeason": "March to June, September to December",
                                                 "difficulty": "Moderate",
-                                                "duration": "4–5 Days",
+                                                "duration": "4 Days",
                                                 "distance": "44 km",
                                                 "overview": "A serene freshwater alpine lake enveloped in dense oak, pine, and rhododendron forests in Uttarkashi district, revered as the legendary birthplace of Lord Ganesha (Dodi Tal). Famed for its rare Himalayan Golden Trout, the trail continues past the lake to the wind-whipped crest of Darwa Pass (4,150m), opening breathtaking panoramic vistas of the Bandarpoonch and Swargarohini mountain massifs.",
                                                 "routeDescription": "Starts at Sangam Chatti roadhead (1,600m), walks 7 km to Agoda/Bebra, climbs through virgin rhododendron forests to Dodital lake (3,024m), and pushes up a steep ridge to Darwa Pass (4,150m).",
@@ -2834,14 +2878,18 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Kathgodam to Munsiyari",
                                                                     "description": "Scenic 280 km drive through Almora, Bageshwar, and Birthi Falls to Munsiyari (2,200m).",
                                                                     "elevationMeters": 2200,
-                                                                    "distanceKm": 280
+                                                                    "distanceKm": 280,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
                                                                     "title": "Munsiyari to Dharchula & Drive to Dar",
                                                                     "description": "Drive along the Kali River to Dharchula, then continue up the Dhauliganga valley to Dar village roadhead.",
                                                                     "elevationMeters": 2100,
-                                                                    "distanceKm": 90
+                                                                    "distanceKm": 90,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 3,
@@ -2958,7 +3006,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "difficulty": "Difficult",
                                                 "duration": "9–10 Days",
                                                 "distance": "60 km",
-                                                "overview": "One of the most storied trans-Himalayan trail expeditions, the Milam Glacier trek follows the ancient Indo-Tibetan trade route up the rugged Johar Valley along the roaring Goriganga River. Passing through ancient, abandoned stone villages of the Shauka community (Martoli, Burfu, Milam), the trek culminates at the snout of the 37-km long Milam Glacier beneath the colossal peaks of Trishuli (7,074m) and Hardeol (7,151m).",
+                                                "overview": "One of the most storied trans-Himalayan trail expeditions, the Milam Glacier trek follows the ancient Indo-Tibetan trade route up the rugged Johar Valley along the roaring Goriganga River. Passing through ancient, abandoned stone villages of the Shauka community (Martoli, Burfu, Milam), the trek culminates at the snout of the 37-km long Milam Glacier beneath the colossal peaks of Trishuli (7,074m) and Hardeol (7,151m). Standard expedition runs 9–10 days, allowing an essential high-altitude acclimatization day at Milam village before the glacier snout push.",
                                                 "routeDescription": "Starts at Munsiyari/Lilam, treks through steep Goriganga river gorges to Bugdiyar, Rilkot, Martoli, and Milam village, and makes an excursion to the glacier snout (4,267m).",
                                                 "experience": "Walking through the silent, historic stone ruins of Martoli village under the shadow of Mount Nanda Devi East while Tibetan prayer flags flutter in frontier winds.",
                                                 "itinerary": [
@@ -3199,7 +3247,13 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "bestSeason": "April to June, September to November",
                                                 "difficulty": "Moderate",
                                                 "duration": "6 Days",
-                                                "distance": "45 km",
+                                                "distance": "49 km",
+                                                "trailhead": "Kharkiya",
+                                                "lastVerified": "October 2026",
+                                                "permitsAndFees": "Uttarakhand Forest Department trekking registration and local entry fees payable at Kapkot or the forest checkpoint at Kharkiya roadhead.",
+                                                "stays": "KMVN (Kumaon Mandal Vikas Nigam) rest houses and local village homestays are available at Khati, Dwali, and Phurkia during the operating trekking season (KMVN huts are seasonal, usually closed Nov to mid-Apr).",
+                                                "networkAndATM": "Intermittent mobile connectivity (BSNL) operates up to Khati village; zero network beyond Dwali towards Zero Point. The last reliable ATMs are in Bageshwar and Kapkot.",
+                                                "authorNote": "Start the hike from Phurkia to Zero Point before 6:00 AM to enjoy clear views of the glacier icefall before afternoon clouds roll in across the Pindar valley.",
                                                 "overview": "One of the oldest and most celebrated glacier treks in the Indian Himalayas, Pindari Glacier has captivated mountain explorers for over a century. Walking through the pristine Pindar River gorge from the roadhead at Kharkiya, the trail ascends past traditional wooden villages (Lohar Khet, Khati) and dense rhododendron forests to Zero Point (3,860m), directly facing the vast icefall of Pindari Glacier wedged between Mount Nanda Devi and Nanda Kot.",
                                                 "routeDescription": "Begins at Kharkiya roadhead, treks 4 km to Khati (the last inhabited village), continues through Dwali and Phurkia, and reaches Zero Point (3,860m) facing the Pindari icefall.",
                                                 "experience": "Standing at Zero Point watching colossal chunks of blue glacial ice calving into the Pindar River source beneath the sheer south wall of Nanda Devi.",
@@ -3209,7 +3263,9 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                                     "title": "Kathgodam to Bageshwar to Kharkiya",
                                                                     "description": "Scenic drive from Kathgodam through Bageshwar and Kapkot to the roadhead at Kharkiya (2,200m).",
                                                                     "elevationMeters": 2200,
-                                                                    "distanceKm": 210
+                                                                    "distanceKm": 210,
+
+                                                                    "isRoadTransfer": true
                                                           },
                                                           {
                                                                     "day": 2,
@@ -3372,7 +3428,7 @@ export const uttarakhandRegion: HimalayaRegion =   {
                                                 "difficulty": "Moderate",
                                                 "duration": "7 Days",
                                                 "distance": "48 km",
-                                                "overview": "Branching east from the Pindari trail at Dwali, the Kafni Glacier trek leads into a wilder, broader, and far less frequented alpine valley beneath the glaciated foot of Mount Nanda Kot (6,860m). The route crosses vibrant alpine bugyals carpeted in wild anemones and gentians to reach the lateral moraine of Kafni Glacier at 3,860m.",
+                                                "overview": "Branching east from the Pindari trail at Dwali, the Kafni Glacier trek leads into a wilder, broader, and far less frequented alpine valley beneath the glaciated foot of Mount Nanda Kot (6,860m). The route crosses vibrant alpine bugyals carpeted in wild anemones and gentians to reach the lateral moraine of Kafni Glacier at 3,860m. The complete 7-day expedition incorporates 2 staging and transit days from Kathgodam railhead alongside 5 active alpine trekking stages.",
                                                 "routeDescription": "Shares the Pindari trail from Kharkiya to Dwali via Khati, then branches southeast along the Kafni River through Khatia to the terminal moraine of Kafni Glacier (3,860m).",
                                                 "experience": "The vast alpine solitude of the Kafni river basin where wide meadows blanketed in yellow Himalayan poppies give way to the glaciated mass of Mount Nanda Kot.",
                                                 "itinerary": [

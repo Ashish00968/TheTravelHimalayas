@@ -7,24 +7,25 @@
  * An objective, mathematical difficulty evaluation model formulated specifically
  * for the extreme geography of the Indian Himalayas.
  *
- * Unlike generic Western rating systems (like AllTrails or Yosemite Decimal)
- * that treat a 15 km sea-level hike the same as a 15 km hike at 4,000 meters,
- * HADI mathematically accounts for:
- *   1. Horizontal Distance (km)
- *   2. Cumulative Vertical Elevation Gain (meters)
- *   3. Non-linear Barometric Altitude Hypoxia Multiplier (Φ_alt)
- *   4. Technical Terrain & Moraine Penalty Modifier (τ)
+ * HADI decouples and quantifies four distinct physical and environmental dimensions:
+ *   1. Physical Endurance Demand (Base Effort): Horizontal distance (km) and
+ *      vertical ascent work (gain / 100 * 1.8).
+ *   2. Atmospheric Altitude Hypoxia Exposure (Φ_alt): Non-linear multiplier scaling
+ *      with barometric pressure decline and arterial oxygen desaturation from
+ *      the physiological onset of hypoxia (~2,500m) up to extreme high altitude.
+ *   3. Technical Terrain Demand (τ): Moraine scree, talus, hard snow, and glacial ice.
+ *   4. Objective Alpine Hazard & Exposure Gate: High cols (>=4,800m) and arête exposure.
  *
  * Mathematical Formula:
  *   HADI = [ Distance(km) + (ElevationGain(m) / 100 * 1.8) ] * Φ_alt + τ
  *
  * Where:
  *   Φ_alt (Altitude Hypoxia Multiplier):
- *     - < 2,500m:      1.00x (Full atmospheric pressure ~100% effective O₂)
- *     - 2,500m–3,500m: 1.15x (Mild hypoxia onset, AMS threshold ~75% O₂)
- *     - 3,500m–4,500m: 1.35x (Severe hypoxia, reduced aerobic capacity ~63% O₂)
- *     - 4,500m–5,500m: 1.55x (Extreme hypoxia, critical HAPE/HACE zone ~53% O₂)
- *     - > 5,500m:      1.75x (Death zone approach, mountaineering scale <48% O₂)
+ *     - < 2,500m:      1.00x (Normobaric baseline; full atmospheric pressure ~100% effective O₂)
+ *     - 2,500m–3,500m: 1.15x (Hypoxia onset & initial AMS threshold; effective O₂ ~75%)
+ *     - 3,500m–4,500m: 1.35x (High-altitude hypoxia; aerobic capacity curtailed ~30%; effective O₂ ~63%)
+ *     - 4,500m–5,500m: 1.55x (Severe high-altitude hypoxia; acute HAPE/HACE danger zone; effective O₂ ~53%)
+ *     - > 5,500m:      1.75x (Extreme altitude / death zone approach; effective O₂ <48%)
  *
  *   τ (Technical Terrain Penalty):
  *     - trail:         +0  (Well-defined forest or meadow footpath)
@@ -33,10 +34,20 @@
  *     - exposed-ridge: +10 (Knife-edge arête, class 3/4 scrambling, fixed rope assist)
  *
  * HADI Grade Calibration:
- *   - 0  to 25: Grade 1 (Gentle Valley / Beginner Alpine)
- *   - 26 to 45: Grade 2 (Moderate Ridge / Established Alpine Trek)
- *   - 46 to 70: Grade 3 (Challenging High-Pass / Strenuous Alpine Summit)
- *   - 71+:      Grade 4 (Formidable Alpine / Expedition Grade)
+ *   - 0  to 25:  Grade 1 (Gentle Valley / Beginner Alpine)
+ *   - 26 to 55:  Grade 2 (Moderate Ridge / Established Alpine Trek)
+ *   - 56 to 139: Grade 3 (Challenging High-Pass / Classic Multi-Day Alpine)
+ *   - 140+ with altitude >= 4,800m or technical terrain (snow-glacier/exposed-ridge):
+ *                Grade 4 (Formidable Alpine / Expedition Grade)
+ *
+ * Grade 4 Gate (Extreme Alpine Exposure / Technical Terrain):
+ *   Hypoxia onset begins clinically at 2,500m, but Grade 4 is strictly reserved for
+ *   routes entering the extreme alpine zone crossing passes at or above 4,800m (where
+ *   atmospheric pressure drops below 55% of sea level and acclimatization demands peak)
+ *   or traversing technical glacial / knife-edge terrain.
+ *   High-endurance multi-day treks below 4,800m on non-technical trails (e.g. Kashmir
+ *   Great Lakes at 4,190m max, scoring 159; Pindari Glacier at 3,860m) are calibrated
+ *   as Grade 3 Classic Multi-Day routes.
  */
 
 export type TerrainType = "trail" | "moraine" | "snow-glacier" | "exposed-ridge";
@@ -55,6 +66,7 @@ export interface HadiResult {
   badgeBg: string;
   amsWarning: boolean;
   extremeHypoxia: boolean;
+  gradeGateReason?: string;
 }
 
 /**
@@ -107,11 +119,15 @@ export function calculateHadi(
   const rawScore = baseEffort * altMultiplier + terrainPenalty;
   const score = Math.round(rawScore * 10) / 10;
 
+  // Grade 4 gate: Strictly reserved for passes above ~4,800m or technical terrain
+  const isGrade4Eligible = alt >= 4800 || terrain === "snow-glacier" || terrain === "exposed-ridge";
+
   let grade: HadiGrade;
   let gradeTitle: string;
   let description: string;
   let badgeColor: string;
   let badgeBg: string;
+  let gradeGateReason: string | undefined = undefined;
 
   if (score <= 25) {
     grade = "Grade 1";
@@ -119,22 +135,25 @@ export function calculateHadi(
     description = "Accessible walking trail with mild elevation change and low altitude risk. Suitable for beginner hikers and families.";
     badgeColor = "#10B981"; // Emerald
     badgeBg = "rgba(16, 185, 129, 0.12)";
-  } else if (score <= 45) {
+  } else if (score <= 55) {
     grade = "Grade 2";
     gradeTitle = "Moderate Ridge • Established Trek";
     description = "Sustained climbing on clear mountain trails. Moderate aerobic demand requiring baseline fitness and altitude awareness.";
     badgeColor = "#3B82F6"; // Glacier Blue
     badgeBg = "rgba(59, 130, 246, 0.12)";
-  } else if (score <= 70) {
+  } else if (!isGrade4Eligible || score < 140) {
     grade = "Grade 3";
-    gradeTitle = "Challenging High-Pass • Strenuous";
-    description = "Demanding alpine route crossing high moraines, steep passes, or summit ridges above 4,000m. Prior trekking experience essential.";
+    gradeTitle = "Challenging High-Pass • Classic Multi-Day";
+    description = "Demanding alpine route crossing high valleys, sustained moraines, or passes up to 4,800m. Prior trekking experience essential.";
     badgeColor = "#F59E0B"; // Amber
     badgeBg = "rgba(245, 158, 11, 0.12)";
+    if (score >= 140 && !isGrade4Eligible) {
+      gradeGateReason = `High aerobic endurance demand (Score: ${score}), calibrated as Grade 3 Classic Multi-Day because all pass crests remain below 4,800m on established non-technical trails without extreme alpine exposure or glacial hazards.`;
+    }
   } else {
     grade = "Grade 4";
     gradeTitle = "Formidable Alpine • Expedition Grade";
-    description = "Extreme high-altitude traversal exceeding 4,500m with technical terrain, glacial crossings, or severe exposure. Mountaineering acumen required.";
+    description = "Extreme high-altitude traversal exceeding 4,800m with technical terrain, glacial crossings, or severe exposure. Mountaineering acumen required.";
     badgeColor = "#EF4444"; // Rose/Red
     badgeBg = "rgba(239, 68, 68, 0.12)";
   }
@@ -151,6 +170,7 @@ export function calculateHadi(
     badgeBg,
     amsWarning: alt >= 3000,
     extremeHypoxia: alt >= 4500,
+    gradeGateReason,
   };
 }
 
@@ -178,14 +198,17 @@ export function parseAndComputeHadi(
   if (isPatalsu) {
     gainM = 1685;
     terrain = "moraine";
-  } else if (maxAltitudeM >= 4200) {
+  } else if (maxAltitudeM >= 4800) {
+    gainM = Math.max(1200, maxAltitudeM - 2600);
+    terrain = "moraine";
+  } else if (maxAltitudeM >= 4000) {
     gainM = Math.max(800, maxAltitudeM - 2600);
     terrain = "moraine";
-  } else if (maxAltitudeM >= 3500) {
-    gainM = Math.max(600, maxAltitudeM - 2800);
-    terrain = "moraine";
+  } else if (maxAltitudeM >= 3000) {
+    gainM = Math.max(500, maxAltitudeM - 2400);
+    terrain = "trail";
   } else {
-    gainM = Math.max(200, Math.round(distanceKm * 40));
+    gainM = Math.max(150, Math.round(distanceKm * 35));
     terrain = "trail";
   }
 

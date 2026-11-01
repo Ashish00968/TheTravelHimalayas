@@ -203,7 +203,9 @@ export function TrekRouteMap({
             {hasCoordinates ? `${coords![0].toFixed(4)}° N, ${coords![1].toFixed(4)}° E` : "32.3539° N, 77.1911° E"}
           </h3>
           <p className="text-slate-600 dark:text-slate-300 text-xs font-light font-mono">
-            {waypointCount > 0 ? `${waypointCount} verified trail waypoints` : "Mapped trail route"}
+            {routeData?.verified
+              ? (waypointCount > 0 ? `${waypointCount} verified trail waypoints` : "Mapped trail route")
+              : "Approximate location map"}
           </p>
         </motion.div>
       </div>
@@ -242,7 +244,7 @@ export function TrekRouteMap({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">
-                  Verified GPS Trace
+                  {routeData?.placeId === "markha-valley" ? "Extended GPS Circuit (97.4 km)" : "Verified GPS Trace"}
                 </span>
                 <span className="text-[10px] font-mono text-slate-500 dark:text-white/40">
                   WGS 84 • {routeData.stats.pointCount} Waypoints

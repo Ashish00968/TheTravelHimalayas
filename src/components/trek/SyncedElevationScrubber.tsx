@@ -25,6 +25,7 @@ interface ItineraryDay {
   title: string;
   elevationMeters?: number;
   distanceKm?: number;
+  isRoadTransfer?: boolean;
 }
 
 interface SyncedElevationScrubberProps {
@@ -173,34 +174,98 @@ export function SyncedElevationScrubber({
     }
 
     // Strategy B: Smooth cubic interpolation from Itinerary Days (Universal Fallback)
-    const itinPoints = itinerary.filter((d) => d.elevationMeters !== undefined);
-    if (itinPoints.length >= 2) {
-      const dayCount = itinPoints.length;
-      const totalDist = itinPoints.reduce((sum, d) => sum + (d.distanceKm || 4), 0);
+    const validDays = itinerary.filter((d) => d.elevationMeters !== undefined);
+    if (validDays.length >= 2) {
+      // Helper to check if a day is purely a motorized road transfer
+      const isTransfer = (d: ItineraryDay) => Boolean(
+        d.isRoadTransfer || 
+        (d.distanceKm && d.distanceKm > 50 && /drive/i.test(d.title)) ||
+        (d.distanceKm && d.distanceKm > 100)
+      );
+
+      // 1. Strip trailing road transfers (drives back home after the trek is finished)
+      let endIdx = validDays.length - 1;
+      while (endIdx > 0 && isTransfer(validDays[endIdx])) {
+        endIdx--;
+      }
+      const activeDays = validDays.slice(0, endIdx + 1);
+
+      // 2. Detect leading road transfers (drives to trailhead)
+      let firstTrekIdx = 0;
+      while (firstTrekIdx < activeDays.length && isTransfer(activeDays[firstTrekIdx])) {
+        firstTrekIdx++;
+      }
+
+      // 3. Build sequence of authentic trail waypoints with cumulative distance
+      interface TrailWaypoint {
+        label: string;
+        elevationM: number;
+        cumDist: number;
+      }
+      const waypoints: TrailWaypoint[] = [];
+
+      if (firstTrekIdx > 0) {
+        // Leading road transfer: the day right before hiking starts is the trailhead arrival (distance 0 km)
+        const thDay = activeDays[firstTrekIdx - 1];
+        waypoints.push({
+          label: thDay.title.split(" to ").pop()?.trim() || startPoint || "Trailhead",
+          elevationM: thDay.elevationMeters!,
+          cumDist: 0,
+        });
+        let curDist = 0;
+        for (let i = firstTrekIdx; i < activeDays.length; i++) {
+          const d = activeDays[i];
+          const stageDist = isTransfer(d) ? 0 : (d.distanceKm || 4);
+          curDist += stageDist;
+          waypoints.push({
+            label: d.title,
+            elevationM: d.elevationMeters!,
+            cumDist: Math.round(curDist * 10) / 10,
+          });
+        }
+      } else {
+        // Day 1 is already an alpine hiking stage.
+        // Point 0 represents the starting trailhead at 0 km
+        const d0 = activeDays[0];
+        const initialEle = Math.max(800, (d0.elevationMeters || 2000) - Math.round((d0.distanceKm || 5) * 40));
+        waypoints.push({
+          label: startPoint || "Trailhead",
+          elevationM: initialEle,
+          cumDist: 0,
+        });
+        let curDist = 0;
+        for (let i = 0; i < activeDays.length; i++) {
+          const d = activeDays[i];
+          const stageDist = isTransfer(d) ? 0 : (d.distanceKm || 4);
+          curDist += stageDist;
+          waypoints.push({
+            label: d.title,
+            elevationM: d.elevationMeters!,
+            cumDist: Math.round(curDist * 10) / 10,
+          });
+        }
+      }
+
+      const totalDist = Math.max(1, waypoints[waypoints.length - 1].cumDist);
       const resSamples: ElevationSample[] = [];
       const msList: ElevationSample[] = [];
       const steps = 100;
-
-      // Cumulative distances for key days
-      const dayDists: number[] = [0];
-      for (let i = 1; i < dayCount; i++) {
-        dayDists.push(dayDists[i - 1] + (itinPoints[i].distanceKm || totalDist / (dayCount - 1)));
-      }
 
       for (let s = 0; s <= steps; s++) {
         const p = s / steps;
         const curDist = p * totalDist;
 
-        // Find day segment
+        // Find waypoint segment
         let idx = 0;
-        while (idx < dayDists.length - 1 && dayDists[idx + 1] < curDist) {
+        while (idx < waypoints.length - 1 && waypoints[idx + 1].cumDist < curDist) {
           idx++;
         }
 
-        const e1 = itinPoints[idx].elevationMeters!;
-        const e2 = itinPoints[Math.min(idx + 1, dayCount - 1)].elevationMeters!;
-        const segStart = dayDists[idx];
-        const segEnd = dayDists[Math.min(idx + 1, dayCount - 1)];
+        const nextIdx = Math.min(idx + 1, waypoints.length - 1);
+        const e1 = waypoints[idx].elevationM;
+        const e2 = waypoints[nextIdx].elevationM;
+        const segStart = waypoints[idx].cumDist;
+        const segEnd = waypoints[nextIdx].cumDist;
         const segLen = segEnd - segStart;
         const t = segLen > 0 ? (curDist - segStart) / segLen : 0;
 
@@ -219,17 +284,21 @@ export function SyncedElevationScrubber({
         };
 
         if (s === 0) {
-          sample.label = itinPoints[0].title;
+          sample.label = waypoints[0].label;
           sample.isMilestone = true;
           msList.push(sample);
         } else if (s === steps) {
-          sample.label = itinPoints[dayCount - 1].title;
+          sample.label = waypoints[waypoints.length - 1].label;
           sample.isMilestone = true;
-          msList.push(sample);
-        } else if (Math.abs(curDist - dayDists[idx + 1]) < 0.1 && idx + 1 < dayCount - 1) {
-          sample.label = itinPoints[idx + 1].title;
+          if (!msList.some(m => m.label === sample.label)) {
+            msList.push(sample);
+          }
+        } else if (Math.abs(curDist - waypoints[nextIdx].cumDist) < 0.2 && nextIdx < waypoints.length - 1) {
+          sample.label = waypoints[nextIdx].label;
           sample.isMilestone = true;
-          msList.push(sample);
+          if (!msList.some(m => m.label === sample.label)) {
+            msList.push(sample);
+          }
         }
 
         resSamples.push(sample);
@@ -405,7 +474,9 @@ export function SyncedElevationScrubber({
             <span className="font-bold text-white">
               {displaySample.distanceKm} km
             </span>
-            <span className="text-[9.5px] text-white/40">/ {totalDistanceKm} km</span>
+            <span className="text-[9.5px] text-white/40">
+              / {routeData?.placeId === "markha-valley" ? "97.4 km (Extended GPS circuit)" : `${totalDistanceKm} km`}
+            </span>
           </div>
 
           {/* Slope Gradient Indicator */}
@@ -470,7 +541,7 @@ export function SyncedElevationScrubber({
                 style={{ backgroundColor: accentColor }}
               />
               <span className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                Interactive Scrubber • Synced 3D Telemetry
+                {routeData?.verified ? "Verified GPS Profile • Synced 3D Telemetry" : "Itinerary-Derived Profile (Approx) • Synced 3D Telemetry"}
               </span>
             </div>
             <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-white">
@@ -498,7 +569,9 @@ export function SyncedElevationScrubber({
               <span className="font-bold text-slate-900 dark:text-white">
                 {displaySample.distanceKm} km
               </span>
-              <span className="text-[10px] text-slate-400">/ {totalDistanceKm} km</span>
+              <span className="text-[10px] text-slate-400">
+                / {routeData?.placeId === "markha-valley" ? "97.4 km (Extended GPS circuit)" : `${totalDistanceKm} km ${routeData?.verified ? "(GPS)" : "(Approx)"}`}
+              </span>
             </div>
 
             {/* Slope Gradient Indicator */}

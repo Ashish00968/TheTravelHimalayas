@@ -28,6 +28,11 @@ import { peaks } from "@/data/peaks";
 import { shortestAngleDiff } from "@/lib/camera-math";
 import { registerPulsingBeacon } from "@/lib/mapbox-canvas-beacon";
 import {
+  buildAtlasLandmarksGeoJSON,
+  ALL_ATLAS_PLACES,
+} from "@/lib/atlas-landmarks";
+import { useHimalayanTheme } from "@/lib/use-theme";
+import {
   MapExplorerDrawer,
   VERIFIED_ROUTES_CATALOG,
   VerifiedRouteMeta,
@@ -89,201 +94,17 @@ const SUBREGION_CAM: Record<string, [number, number, number, number, number]> = 
   zanskar:             [33.10, 76.98,  9.5, 68, 10],
 };
 
-/* ── Colour per Adventure Type ──────────────────────────────────────────── */
-const TYPE_COLOR: Record<string, string> = {
-  trek: "#10B981",       // Alpine Emerald Green
-  peak: "#F59E0B",       // Summit Gold
-  lake: "#06B6D4",       // Glacial Cyan Tarn
-  spiritual: "#A855F7",  // High Alpine Violet
-  scenic: "#38BDF8",     // Sky Blue
-  adventure: "#F97316",  // Expedition Orange
-  road: "#EAB308",       // High Pass Amber
-};
-
-/* ── Category Icon SVG Generator ────────────────────────────────────────── */
-function getCategoryIconSvg(type: string, color: string): string {
-  switch (type) {
-    case "peak":
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`;
-    case "trek":
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><path d="m9 20 3-6 3 6"/><path d="m6 17 4-5-2-4 4-2 3 3"/></svg>`;
-    case "lake":
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/><path d="M2 15c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/></svg>`;
-    case "spiritual":
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg>`;
-    case "scenic":
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5 10 6.5 10 6.5-3.5 6.5-10 6.5-10-6.5Z"/><circle cx="12" cy="12" r="2.8"/></svg>`;
-    case "road":
-    default:
-      return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><polygon points="16 8 13.5 13.5 8 16 10.5 10.5 16 8"/></svg>`;
-  }
-}
-
-/* ── DOM Marker Builder ─────────────────────────────────────────────────── */
-function buildPlaceMarkerEl(
-  place: HimalayaPlace,
-  isSelected = false,
-  isCompact = false
-): HTMLElement {
-  const isPeak = place.type === "peak";
-  const color = isPeak ? "#F59E0B" : (TYPE_COLOR[place.type] ?? "#38BDF8");
-  const el = document.createElement("div");
-  el.className = "group pointer-events-auto cursor-pointer place-marker-node";
-  el.setAttribute("data-place-id", place.id);
-  el.style.cssText = `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    user-select: none;
-    cursor: pointer;
-    transition: opacity 0.2s ease-out;
-    z-index: ${isSelected ? "500" : isPeak ? "60" : isCompact ? "15" : "35"};
-  `;
-
-  const rawEle = place.elevation || (place as unknown as { altitude?: string }).altitude || "";
-  const eleClean = rawEle ? rawEle.replace(/\s*m$/i, "") + "m" : "";
-
-  const capsule = document.createElement("div");
-  capsule.className = "place-marker-capsule";
-  capsule.style.cssText = `
-    display: flex;
-    align-items: center;
-    gap: ${isCompact && !isSelected ? "0px" : "4.5px"};
-    padding: ${isSelected ? "3px 9px 3px 6px" : isCompact ? "3px" : "2px 7px 2px 4px"};
-    background: ${isSelected ? "rgba(6, 12, 26, 0.96)" : isPeak ? "rgba(12, 10, 4, 0.92)" : "rgba(6, 10, 20, 0.90)"};
-    border: 1px solid ${isSelected ? "#38BDF8" : isPeak ? "rgba(245, 158, 11, 0.45)" : "rgba(255, 255, 255, 0.12)"};
-    border-radius: 9999px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: ${
-      isSelected
-        ? "0 0 20px rgba(56, 189, 248, 0.45), 0 8px 16px rgba(0,0,0,0.85)"
-        : isPeak
-        ? "0 0 14px rgba(245, 158, 11, 0.2), 0 4px 12px rgba(0,0,0,0.75)"
-        : "0 4px 12px rgba(0,0,0,0.7)"
-    };
-    transform: ${isSelected ? "scale(1.06)" : "scale(1)"};
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  `;
-
-  const iconBox = document.createElement("div");
-  iconBox.style.cssText = `
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 9999px;
-    background: ${color}22;
-    border: 1px solid ${color}55;
-    flex-shrink: 0;
-  `;
-  iconBox.innerHTML = getCategoryIconSvg(place.type, color);
-
-  const contentWrapper = document.createElement("div");
-  contentWrapper.style.cssText = `
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    overflow: hidden;
-    white-space: nowrap;
-    transition: max-width 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
-    max-width: ${isCompact && !isSelected ? "0px" : "180px"};
-    opacity: ${isCompact && !isSelected ? "0" : "1"};
-    pointer-events: ${isCompact && !isSelected ? "none" : "auto"};
-  `;
-
-  const label = document.createElement("span");
-  label.style.cssText = `
-    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-    font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    color: ${isSelected ? "#38BDF8" : isPeak ? "#FDE68A" : "#F1F5F9"};
-    white-space: nowrap;
-    max-width: 130px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  `;
-  label.textContent = place.name;
-  contentWrapper.appendChild(label);
-
-  if (eleClean) {
-    const eleTag = document.createElement("span");
-    eleTag.style.cssText = `
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 8px;
-      font-weight: 600;
-      color: ${isPeak ? "#F59E0B" : color};
-      background: ${isPeak ? "rgba(245, 158, 11, 0.15)" : `${color}15`};
-      padding: 0.5px 3.5px;
-      border-radius: 3px;
-      border: 1px solid ${isPeak ? "rgba(245, 158, 11, 0.35)" : `${color}35`};
-      letter-spacing: 0.02em;
-    `;
-    eleTag.textContent = eleClean;
-    contentWrapper.appendChild(eleTag);
-  }
-
-  capsule.appendChild(iconBox);
-  capsule.appendChild(contentWrapper);
-
-  // Micro pointer (4px)
-  const pointer = document.createElement("div");
-  pointer.style.cssText = `
-    width: 0;
-    height: 0;
-    border-left: 3.5px solid transparent;
-    border-right: 3.5px solid transparent;
-    border-top: 4px solid ${isSelected ? "#38BDF8" : isPeak ? "#F59E0B" : "rgba(255, 255, 255, 0.3)"};
-    margin-top: -1px;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.8));
-    pointer-events: none;
-  `;
-
-  el.appendChild(capsule);
-  el.appendChild(pointer);
-
-  el.addEventListener("mouseenter", () => {
-    el.style.zIndex = "9999";
-    capsule.style.borderColor = "#FFFFFF";
-    capsule.style.transform = "scale(1.08) translateY(-2px)";
-    if (isCompact && !isSelected) {
-      capsule.style.gap = "4.5px";
-      capsule.style.padding = "2px 7px 2px 4px";
-      contentWrapper.style.maxWidth = "180px";
-      contentWrapper.style.opacity = "1";
-    }
-  });
-
-  el.addEventListener("mouseleave", () => {
-    el.style.zIndex = isSelected ? "500" : isPeak ? "60" : isCompact ? "15" : "35";
-    capsule.style.borderColor = isSelected ? "#38BDF8" : isPeak ? "rgba(245, 158, 11, 0.45)" : "rgba(255, 255, 255, 0.12)";
-    capsule.style.transform = isSelected ? "scale(1.06)" : "scale(1)";
-    if (isCompact && !isSelected) {
-      capsule.style.gap = "0px";
-      capsule.style.padding = "3px";
-      contentWrapper.style.maxWidth = "0px";
-      contentWrapper.style.opacity = "0";
-    }
-  });
-
-  return el;
-}
-
-/* ── Flat list of all places ────────────────────────────────────────────── */
-const ALL_PLACES: HimalayaPlace[] = himalayaAtlas.flatMap((r) =>
-  r.subregions.flatMap((s) => s.places)
-);
+const ALL_PLACES: HimalayaPlace[] = ALL_ATLAS_PLACES;
 
 export default function GlobalMapClient({ treks: _treks, initialFocusId }: GlobalMapClientProps) {
   void _treks;
+  const theme = useHimalayanTheme();
+  const isDark = theme === "dark";
+
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
-  const placeMarkerNodesRef = useRef<{ el: HTMLElement; lng: number; lat: number }[]>([]);
   const activeTrailIdsRef = useRef<Set<string>>(new Set());
   const flowTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -294,7 +115,6 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
   const [activeSubRegionId, setActiveSubRegionId] = useState<string | null>(() => initialPlaceLoc?.subRegionId ?? null);
   const [selectedPlaceId, setSelectedPlaceId]     = useState<string | null>(() => initialFocusId ?? null);
   const [hoveredEntityId, setHoveredEntityId]     = useState<string | null>(null);
-  const [currentZoom, setCurrentZoom]             = useState<number>(INIT_CAM.zoom);
   const [isDrawerOpen, setIsDrawerOpen]           = useState<boolean>(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth >= 768;
@@ -316,11 +136,6 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
     [activeRegionId]
   );
 
-  const activeSubRegion = useMemo(
-    () => activeRegion?.subregions.find((s) => s.id === activeSubRegionId) ?? null,
-    [activeRegion, activeSubRegionId]
-  );
-
   const selectedPlace = useMemo(
     () => (selectedPlaceId ? (ALL_PLACES.find((p) => p.id === selectedPlaceId) ?? null) : null),
     [selectedPlaceId]
@@ -339,48 +154,6 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
   const currentAccent = activeRegionId
     ? (TERRITORY_ACCENT[activeRegionId] ?? "#3B82F6")
     : "#3B82F6";
-
-  // Filtered places matching active scope
-  const scopedPlaces = useMemo(() => {
-    if (activeSubRegion) {
-      return activeSubRegion.places;
-    }
-    if (activeRegion) {
-      return activeRegion.subregions.flatMap((s) => s.places);
-    }
-    return ALL_PLACES;
-  }, [activeRegion, activeSubRegion]);
-
-  // Level-of-Detail (LOD) Scoped Display Places: Prevents marker overcrowding
-  const displayPlaces = useMemo(() => {
-    if (activeSubRegion) {
-      return scopedPlaces.slice(0, 30);
-    }
-    // Wide Overview (Zoom < 9.2): Only major summits (>= 5,000m) and selected place
-    if (currentZoom < 9.2) {
-      return scopedPlaces
-        .filter((p) => {
-          if (p.id === selectedPlaceId) return true;
-          if (p.type === "peak") {
-            const eleNum = parseInt((p.elevation || "").replace(/\D/g, "") || "0", 10);
-            return eleNum >= 5000;
-          }
-          return false;
-        })
-        .slice(0, 16);
-    }
-    // Mid Zoom (9.2 to 11.0): Peaks, high tarns, passes, and main trailheads
-    if (currentZoom < 11.0) {
-      return scopedPlaces
-        .filter((p) => {
-          if (p.id === selectedPlaceId) return true;
-          return p.type === "peak" || p.type === "lake" || p.type === "road" || p.type === "trek";
-        })
-        .slice(0, 24);
-    }
-    // Close Zoom (>= 11.0): Full local fidelity
-    return scopedPlaces.slice(0, 38);
-  }, [scopedPlaces, currentZoom, activeSubRegion, selectedPlaceId]);
 
   // ── Cinematic 3D Camera Controls ──────────────────────────────────────
   const flyTo = useCallback(
@@ -515,13 +288,17 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
 
   const handleRegionSelect = useCallback(
     (regionId: string) => {
+      if (regionId === "all") {
+        handleResetAtlas();
+        return;
+      }
       setActiveRegionId(regionId);
       setActiveSubRegionId(null);
       setSelectedPlaceId(null);
       const cam = TERRITORY_CAM[regionId] ?? [INIT_CAM.lat, INIT_CAM.lng, INIT_CAM.zoom, INIT_CAM.pitch, 0];
       flyTo(cam[0], cam[1], cam[2], cam[3], cam[4], 2200);
     },
-    [flyTo]
+    [flyTo, handleResetAtlas]
   );
 
   const handleSelectPlace = useCallback(
@@ -656,15 +433,26 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
       });
       map.setTerrain({ source: "mapbox-dem", exaggeration: 1.25 });
 
-      // Atmospheric Himalayan Midnight Fog & Skybox
-      map.setFog({
-        range: [0.6, 12.0],
-        color: "#050914",
-        "horizon-blend": 0.18,
-        "high-color": "#020409",
-        "space-color": "#010206",
-        "star-intensity": 0.85,
-      });
+      // Atmospheric Himalayan Fog & Skybox (Theme-Aware)
+      if (theme === "light") {
+        map.setFog({
+          range: [1.0, 12.0],
+          color: "rgb(186, 210, 235)",
+          "horizon-blend": 0.15,
+          "high-color": "rgb(36, 92, 223)",
+          "space-color": "rgb(11, 24, 44)",
+          "star-intensity": 0.0,
+        });
+      } else {
+        map.setFog({
+          range: [0.6, 12.0],
+          color: "#050914",
+          "horizon-blend": 0.18,
+          "high-color": "#020409",
+          "space-color": "#010206",
+          "star-intensity": 0.85,
+        });
+      }
 
       // Hide clutter default vector labels
       const layers = map.getStyle()?.layers || [];
@@ -716,10 +504,266 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
         }
       }
 
-      // Track zoom level for dynamic Level-of-Detail (LOD)
-      map.on("zoomend", () => {
-        setCurrentZoom(map.getZoom());
+      // Ingest all Himalayan landmarks into native GPU source
+      const landmarksGeoJSON = buildAtlasLandmarksGeoJSON(initialFocusId, activeRegionId);
+      map.addSource("atlas-landmarks-source", {
+        type: "geojson",
+        data: landmarksGeoJSON,
       });
+
+      // Layer 1: Ambient Ground Halo on 3D terrain mesh
+      map.addLayer({
+        id: "atlas-landmarks-halo",
+        type: "circle",
+        source: "atlas-landmarks-source",
+        paint: {
+          "circle-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            7,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 12,
+              ["<=", ["get", "priority"], 2], 9,
+              5
+            ],
+            11,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 18,
+              ["<=", ["get", "priority"], 2], 13,
+              8
+            ],
+            14,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 24,
+              ["<=", ["get", "priority"], 2], 18,
+              12
+            ]
+          ],
+          "circle-color": [
+            "case",
+            ["==", ["get", "isSelected"], true], "#38BDF8",
+            ["get", "color"]
+          ],
+          "circle-opacity": [
+            "step",
+            ["zoom"],
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.65,
+              ["<=", ["get", "priority"], 2], 0.40,
+              0.0
+            ],
+            7.5,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.65,
+              ["<=", ["get", "priority"], 3], 0.35,
+              0.0
+            ],
+            9.0,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.65,
+              ["<=", ["get", "priority"], 4], 0.30,
+              0.0
+            ],
+            10.5,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.65,
+              0.28
+            ]
+          ],
+          "circle-blur": 0.65,
+          "circle-pitch-alignment": "map",
+        },
+      });
+
+      // Layer 2: Core crisp circular beacon
+      map.addLayer({
+        id: "atlas-landmarks-circle",
+        type: "circle",
+        source: "atlas-landmarks-source",
+        paint: {
+          "circle-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            7,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 6.0,
+              ["<=", ["get", "priority"], 2], 4.5,
+              2.2
+            ],
+            10,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 8.0,
+              ["<=", ["get", "priority"], 2], 6.0,
+              4.2
+            ],
+            13,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 11.0,
+              ["<=", ["get", "priority"], 2], 7.5,
+              5.8
+            ]
+          ],
+          "circle-color": [
+            "case",
+            ["==", ["get", "isSelected"], true], "#38BDF8",
+            ["get", "color"]
+          ],
+          "circle-stroke-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            8,
+            ["case", ["==", ["get", "isSelected"], true], 2.5, 1.2],
+            12,
+            ["case", ["==", ["get", "isSelected"], true], 2.8, 1.8]
+          ],
+          "circle-stroke-color": "#FFFFFF",
+          "circle-opacity": [
+            "step",
+            ["zoom"],
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.98,
+              ["<=", ["get", "priority"], 2], 0.95,
+              0.0
+            ],
+            7.5,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.98,
+              ["<=", ["get", "priority"], 3], 0.95,
+              0.0
+            ],
+            9.0,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], 0.98,
+              ["<=", ["get", "priority"], 4], 0.95,
+              0.0
+            ],
+            10.5,
+            0.98
+          ],
+          "circle-pitch-alignment": "map",
+        },
+      });
+
+      // Layer 3: Viewport-aligned typography with 2-line altitude label
+      map.addLayer({
+        id: "atlas-landmarks-label",
+        type: "symbol",
+        source: "atlas-landmarks-source",
+        layout: {
+          "text-field": [
+            "step",
+            ["zoom"],
+            ["case", ["==", ["get", "isSelected"], true], ["get", "fullLabel"], ""],
+            7.2,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], ["get", "fullLabel"],
+              ["<=", ["get", "priority"], 2], ["get", "shortLabel"],
+              ""
+            ],
+            8.5,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], ["get", "fullLabel"],
+              ["<=", ["get", "priority"], 3], ["get", "shortLabel"],
+              ""
+            ],
+            10.0,
+            [
+              "case",
+              ["==", ["get", "isSelected"], true], ["get", "fullLabel"],
+              ["<=", ["get", "priority"], 4], ["get", "shortLabel"],
+              ""
+            ],
+            11.0,
+            ["get", "fullLabel"]
+          ],
+          "text-size": [
+            "interpolate", ["linear"], ["zoom"],
+            8, 10,
+            10.5, 11,
+            13, 12.5
+          ],
+          "text-variable-anchor": ["top", "bottom", "left", "right"],
+          "text-radial-offset": [
+            "interpolate", ["linear"], ["zoom"],
+            8, 0.7,
+            12, 1.0
+          ],
+          "text-justify": "center",
+          "text-optional": true,
+          "text-allow-overlap": false,
+          "text-ignore-placement": false,
+          "symbol-sort-key": ["get", "priority"],
+          "text-pitch-alignment": "viewport",
+          "text-max-width": 12,
+        },
+        paint: {
+          "text-color": [
+            "case",
+            ["==", ["get", "isSelected"], true], "#38BDF8",
+            ["==", ["get", "isApex"], true], "#FDE047",
+            ["==", ["get", "isTrailhead"], true], "#6EE7B7",
+            "#F8FAFC"
+          ],
+          "text-halo-color": "rgba(4, 8, 18, 0.96)",
+          "text-halo-width": 2.2,
+          "text-halo-blur": 0.5,
+        },
+      });
+
+      // Native WebGL Click & Hover Event Handlers
+      const onLandmarkClick = (e: mapboxgl.MapLayerMouseEvent) => {
+        if (!e.features || e.features.length === 0) return;
+        e.originalEvent.stopPropagation();
+        const props = e.features[0].properties;
+        if (!props) return;
+        const entityId = props.entityId as string;
+        const isRoute = props.isRoute === true || props.isRoute === "true";
+        if (isRoute) {
+          handleSelectRoute(entityId);
+        } else {
+          const place = ALL_PLACES.find((p) => p.id === entityId);
+          if (place) handleSelectPlace(place);
+        }
+      };
+
+      map.on("click", "atlas-landmarks-circle", onLandmarkClick);
+      map.on("click", "atlas-landmarks-label", onLandmarkClick);
+
+      const onLandmarkEnter = (e: mapboxgl.MapLayerMouseEvent) => {
+        map.getCanvas().style.cursor = "pointer";
+        if (e.features && e.features.length > 0) {
+          const entityId = e.features[0].properties?.entityId as string;
+          setHoveredEntityId(entityId);
+        }
+      };
+
+      const onLandmarkLeave = () => {
+        map.getCanvas().style.cursor = "";
+        setHoveredEntityId(null);
+      };
+
+      map.on("mouseenter", "atlas-landmarks-circle", onLandmarkEnter);
+      map.on("mouseleave", "atlas-landmarks-circle", onLandmarkLeave);
+      map.on("mouseenter", "atlas-landmarks-label", onLandmarkEnter);
+      map.on("mouseleave", "atlas-landmarks-label", onLandmarkLeave);
 
       setMapLoaded(true);
     });
@@ -727,14 +771,13 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
     return () => {
       if (orbitAnimRef.current) cancelAnimationFrame(orbitAnimRef.current);
       if (flowTimerRef.current) clearInterval(flowTimerRef.current);
-      markersRef.current.forEach((m) => m.remove());
-      markersRef.current = [];
       map.remove();
       mapRef.current = null;
     };
-  }, [mapboxToken, initialFocusId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapboxToken, initialFocusId, handleSelectRoute, handleSelectPlace]);
 
-  // ── Pre-Load All 10 Verified Route GeoJSON Lines on Map ────────────────
+  // ── Pre-Load All 35 Verified Route GeoJSON Lines on Map ────────────────
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -885,37 +928,42 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
     });
   }, [hoveredEntityId, selectedPlaceId, mapLoaded]);
 
-  // ── Place Markers Rendering ───────────────────────────────────────────
+  // ── Synchronize GPU Landmarks with Selection & Region State ───────────
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
 
-    // Clean existing DOM markers
-    markersRef.current.forEach((m) => m.remove());
-    markersRef.current = [];
-    placeMarkerNodesRef.current = [];
+    const source = map.getSource("atlas-landmarks-source") as mapboxgl.GeoJSONSource | undefined;
+    if (source) {
+      source.setData(buildAtlasLandmarksGeoJSON(selectedPlaceId, activeRegionId));
+    }
+  }, [selectedPlaceId, activeRegionId, mapLoaded]);
 
-    // Render LOD-filtered places to prevent marker clumping
-    displayPlaces.forEach((place) => {
-      if (!place.coords || place.coords.length !== 2) return;
-      const [lat, lng] = place.coords;
-      const isSelected = selectedPlaceId === place.id;
-      const isCompact = !isSelected && place.type !== "peak";
+  // ── Dynamically Update Mapbox Fog upon Theme Toggle ───────────────────
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded) return;
 
-      const el = buildPlaceMarkerEl(place, isSelected, isCompact);
-      el.addEventListener("click", (e) => {
-        e.stopPropagation();
-        handleSelectPlace(place);
+    if (theme === "light") {
+      map.setFog({
+        range: [1.0, 12.0],
+        color: "rgb(186, 210, 235)",
+        "horizon-blend": 0.15,
+        "high-color": "rgb(36, 92, 223)",
+        "space-color": "rgb(11, 24, 44)",
+        "star-intensity": 0.0,
       });
-
-      const marker = new mapboxgl.Marker({ element: el, anchor: "bottom" })
-        .setLngLat([lng, lat])
-        .addTo(map);
-
-      markersRef.current.push(marker);
-      placeMarkerNodesRef.current.push({ el, lng, lat });
-    });
-  }, [displayPlaces, selectedPlaceId, mapLoaded, handleSelectPlace]);
+    } else {
+      map.setFog({
+        range: [0.6, 12.0],
+        color: "#050914",
+        "horizon-blend": 0.18,
+        "high-color": "#020409",
+        "space-color": "#010206",
+        "star-intensity": 0.85,
+      });
+    }
+  }, [theme, mapLoaded]);
 
   // ── GPU Radar Beacon Synchronization ──────────────────────────────────
   useEffect(() => {
@@ -989,11 +1037,11 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
   return (
     <div
       ref={containerRef}
-      className={`map-canvas-container preserve-white-text relative w-full h-full overflow-hidden ${
+      className={`map-canvas-container relative w-full h-full overflow-hidden ${
         isFullscreen
           ? "fixed inset-0 z-[9999] rounded-none border-none shadow-none h-screen w-screen"
           : "rounded-none border-none shadow-none"
-      } bg-[#03060d] select-none text-white`}
+      } ${isDark ? "bg-[#03060d] text-white" : "bg-slate-100 text-slate-900"} select-none`}
     >
       {/* ── 3D Map Canvas ────────────────────────────────────────── */}
       <div ref={mapContainerRef} className="w-full h-full" />
@@ -1001,17 +1049,27 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
       {/* ── Active Territory Indicator / Reset (Top Right) ─────── */}
       {activeRegion && (
         <div className="absolute top-4 sm:top-6 right-16 sm:right-20 z-20 pointer-events-auto">
-          <div className="flex items-center gap-2 bg-[#060a14]/90 backdrop-blur-2xl border border-white/12 px-3.5 py-2 rounded-2xl text-xs font-mono shadow-2xl animate-in fade-in">
+          <div
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-mono backdrop-blur-2xl transition-all shadow-2xl animate-in fade-in ${
+              isDark
+                ? "bg-[#060a14]/90 border border-white/12 text-white"
+                : "bg-white/95 border border-slate-200/90 text-slate-900 shadow-xl"
+            }`}
+          >
             <span
               className="w-2 h-2 rounded-full animate-pulse"
               style={{ backgroundColor: currentAccent }}
             />
-            <span className="text-white font-medium">{activeRegion.name}</span>
+            <span className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>{activeRegion.name}</span>
             <button
               onClick={handleResetAtlas}
               title="Reset View to Western Himalayas"
               aria-label="Reset View"
-              className="ml-1 pl-1.5 border-l border-white/15 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              className={`ml-1 pl-1.5 border-l transition-colors cursor-pointer ${
+                isDark
+                  ? "border-white/15 text-slate-400 hover:text-white"
+                  : "border-slate-200 text-slate-500 hover:text-slate-900"
+              }`}
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -1034,15 +1092,25 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
       />
 
       {/* ── Minimalist Consolidated Camera Controls (Right Side Island) ── */}
-      <div className="absolute right-3 sm:right-4 top-4 sm:top-6 z-20 flex flex-col bg-[#050914]/90 backdrop-blur-xl border border-white/15 rounded-2xl p-1 shadow-2xl pointer-events-auto">
+      <div
+        className={`absolute right-3 sm:right-4 top-4 sm:top-6 z-20 flex flex-col backdrop-blur-xl rounded-2xl p-1 pointer-events-auto transition-all ${
+          isDark
+            ? "bg-[#050914]/90 border border-white/15 text-white/70 shadow-2xl"
+            : "bg-white/95 border border-slate-200/90 text-slate-600 shadow-xl"
+        }`}
+      >
         {/* Reset North Compass */}
         <button
           onClick={handleResetNorth}
           title="Reset North & Pitch"
           aria-label="Reset North"
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+            isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100"
+          }`}
         >
-          <NavigationIcon className="w-4 h-4 text-sky-400" />
+          <NavigationIcon className="w-4 h-4 text-sky-500" />
         </button>
 
         {/* 3D / 2D Perspective Toggle */}
@@ -1050,7 +1118,11 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
           onClick={togglePerspective}
           title="Toggle 3D Horizon vs 2D Plan View"
           aria-label="Toggle 3D View"
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors text-[10px] font-mono font-bold border-t border-white/10 cursor-pointer"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors text-[10px] font-mono font-bold border-t cursor-pointer ${
+            isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border-slate-200"
+          }`}
         >
           3D
         </button>
@@ -1060,8 +1132,14 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
           onClick={toggleOrbit}
           title={isOrbiting ? "Pause 3D Orbit" : "Start 360° Orbit"}
           aria-label="Orbit 3D"
-          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors border-t border-white/10 cursor-pointer ${
-            isOrbiting ? "text-amber-400 bg-amber-400/20" : "text-white/70 hover:text-white hover:bg-white/10"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors border-t cursor-pointer ${
+            isDark ? "border-white/10" : "border-slate-200"
+          } ${
+            isOrbiting
+              ? "text-amber-500 bg-amber-500/20"
+              : isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100"
           }`}
         >
           <Orbit className={`w-4 h-4 ${isOrbiting ? "animate-spin" : ""}`} />
@@ -1072,7 +1150,11 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
           onClick={handleZoomIn}
           title="Zoom In"
           aria-label="Zoom In"
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10 cursor-pointer"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors border-t cursor-pointer ${
+            isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border-slate-200"
+          }`}
         >
           <Plus className="w-4 h-4" />
         </button>
@@ -1082,7 +1164,11 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
           onClick={handleZoomOut}
           title="Zoom Out"
           aria-label="Zoom Out"
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10 cursor-pointer"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors border-t cursor-pointer ${
+            isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border-slate-200"
+          }`}
         >
           <Minus className="w-4 h-4" />
         </button>
@@ -1092,9 +1178,13 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
           onClick={toggleFullscreen}
           title={isFullscreen ? "Exit Fullscreen (Esc or F)" : "Fullscreen Mode (F)"}
           aria-label="Fullscreen"
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/10 cursor-pointer"
+          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors border-t cursor-pointer ${
+            isDark
+              ? "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+              : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border-slate-200"
+          }`}
         >
-          {isFullscreen ? <Minimize2 className="w-4 h-4 text-sky-400" /> : <Maximize2 className="w-4 h-4" />}
+          {isFullscreen ? <Minimize2 className="w-4 h-4 text-sky-500" /> : <Maximize2 className="w-4 h-4" />}
         </button>
       </div>
 
@@ -1102,13 +1192,19 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
       {(selectedPlace || selectedRouteMeta) && (
         <div className="absolute bottom-5 inset-x-3 sm:inset-x-0 sm:left-1/2 sm:-translate-x-1/2 z-30 pointer-events-none sm:w-[500px]">
           <div
-            className="pointer-events-auto relative w-full rounded-2xl p-4 overflow-hidden border shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all animate-in fade-in slide-in-from-bottom-3 duration-300"
+            className={`pointer-events-auto relative w-full rounded-2xl p-4 overflow-hidden border transition-all animate-in fade-in slide-in-from-bottom-3 duration-300 ${
+              isDark
+                ? "text-white shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+                : "text-slate-900 shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+            }`}
             style={{
-              background: "rgba(6, 10, 20, 0.95)",
+              background: isDark ? "rgba(6, 10, 20, 0.95)" : "rgba(255, 255, 255, 0.97)",
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
-              borderColor: `${currentAccent}55`,
-              boxShadow: `0 20px 50px rgba(0,0,0,0.85), 0 0 30px ${currentAccent}20, inset 0 1px 0 rgba(255,255,255,0.12)`,
+              borderColor: isDark ? `${currentAccent}55` : "rgba(226, 232, 240, 0.9)",
+              boxShadow: isDark
+                ? `0 20px 50px rgba(0,0,0,0.85), 0 0 30px ${currentAccent}20, inset 0 1px 0 rgba(255,255,255,0.12)`
+                : `0 20px 50px rgba(0,0,0,0.15), 0 0 20px ${currentAccent}15, inset 0 1px 0 rgba(255,255,255,0.8)`,
             }}
           >
             {/* Top Accent Strip */}
@@ -1132,7 +1228,11 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
                 >
                   {selectedRouteMeta ? "VERIFIED GPS ROUTE" : selectedPlace?.type}
                 </span>
-                <span className="text-[11px] text-slate-400 font-mono truncate">
+                <span
+                  className={`text-[11px] font-mono truncate ${
+                    isDark ? "text-slate-400" : "text-slate-500"
+                  }`}
+                >
                   {selectedRouteMeta
                     ? `${selectedRouteMeta.valley} • ${selectedRouteMeta.region}`
                     : selectedPlaceLocation
@@ -1146,34 +1246,66 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
                 onClick={handleCloseSelection}
                 title="Dismiss (Esc)"
                 aria-label="Dismiss selection"
-                className="w-6 h-6 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer flex-shrink-0"
+                className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors cursor-pointer flex-shrink-0 ${
+                  isDark
+                    ? "text-slate-400 hover:text-white hover:bg-white/10"
+                    : "text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                }`}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Title */}
-            <h3 className="text-base sm:text-lg font-display font-semibold text-white mb-2.5 truncate">
+            <h3
+              className={`text-base sm:text-lg font-display font-semibold mb-2.5 truncate ${
+                isDark ? "text-white" : "text-slate-900"
+              }`}
+            >
               {selectedRouteMeta ? selectedRouteMeta.name : selectedPlace?.name}
             </h3>
 
             {/* Key Telemetry Chips */}
             <div className="flex items-center gap-2 mb-3.5 font-mono text-xs">
-              <span className="px-2 py-0.5 rounded-md bg-white/[0.05] text-slate-200 border border-white/10 font-medium">
+              <span
+                className={`px-2 py-0.5 rounded-md font-medium border ${
+                  isDark
+                    ? "bg-white/[0.05] text-slate-200 border-white/10"
+                    : "bg-slate-100 text-slate-700 border-slate-200"
+                }`}
+              >
                 ▲ {selectedRouteMeta ? selectedRouteMeta.maxAltitude : selectedPlace?.elevation || "Summit Apex"}
               </span>
               {selectedRouteMeta && (
                 <>
-                  <span className="px-2 py-0.5 rounded-md bg-white/[0.05] text-slate-300 border border-white/10">
+                  <span
+                    className={`px-2 py-0.5 rounded-md border ${
+                      isDark
+                        ? "bg-white/[0.05] text-slate-300 border-white/10"
+                        : "bg-slate-100 text-slate-600 border-slate-200"
+                    }`}
+                  >
                     {selectedRouteMeta.distance}
                   </span>
-                  <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                  <span
+                    className={`px-2 py-0.5 rounded-md border ${
+                      isDark
+                        ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20"
+                        : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                    }`}
+                  >
                     {selectedRouteMeta.difficulty}
                   </span>
                 </>
               )}
               {selectedPlace?.difficulty && !selectedRouteMeta && (
-                <span className="px-2 py-0.5 rounded-md bg-white/[0.05] text-slate-300 border border-white/10">
+                <span
+                  className={`px-2 py-0.5 rounded-md border ${
+                    isDark
+                      ? "bg-white/[0.05] text-slate-300 border-white/10"
+                      : "bg-slate-100 text-slate-600 border-slate-200"
+                  }`}
+                >
                   {selectedPlace.difficulty}
                 </span>
               )}
@@ -1187,10 +1319,12 @@ export default function GlobalMapClient({ treks: _treks, initialFocusId }: Globa
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer min-h-[38px] ${
                   isOrbiting
                     ? "bg-amber-400 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.6)]"
-                    : "bg-white/10 text-slate-200 hover:bg-white/15 hover:text-white border border-white/15"
+                    : isDark
+                    ? "bg-white/10 text-slate-200 hover:bg-white/15 hover:text-white border border-white/15"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-950 border border-slate-200"
                 }`}
               >
-                <Orbit className={`w-3.5 h-3.5 ${isOrbiting ? "animate-spin" : "text-amber-400"}`} />
+                <Orbit className={`w-3.5 h-3.5 ${isOrbiting ? "animate-spin" : "text-amber-500"}`} />
                 <span>{isOrbiting ? "Orbiting 3D" : "360° Orbit"}</span>
               </button>
 

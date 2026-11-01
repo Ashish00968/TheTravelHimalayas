@@ -29,7 +29,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
             elevation: "2,024 m",
             bestSeason: "April to November, Dec to Feb for snow",
             difficulty: "Easy",
-            duration: "1–2 Days",
+            duration: "2 Days",
             overview: "Patnitop is a scenic hill plateau situated amidst dense deodar, fir, and pine forests in Jammu's Udhampur district at an altitude of 2,024 meters. Overlooking the dramatic Chenab river basin, the plateau is renowned for its sweeping alpine meadows, crisp mountain climate, and the historic 600-year-old Nag Mandir (Naag Temple) hidden in the sacred cedar groves.\n\nThe Nag Mandir stands as the spiritual heart of Patnitop. Constructed from seasoned deodar timber and native Himalayan stone with traditional steeply pitched roofs to shed heavy winter snowfalls, the shrine is dedicated to the serpent deity (Naag Devta). Thousands of pilgrims gather here during the annual Naag Panchami festival, honoring traditions that link this ridge to the celestial wedding celebrations of Lord Shiva and Goddess Parvati in the surrounding hills.",
             experience: "Listening to the distant bronze temple bells of the 600-year-old Nag Mandir drifting through centuries-old deodar groves, with the scent of wild mountain pine in the air.",
             tips: [

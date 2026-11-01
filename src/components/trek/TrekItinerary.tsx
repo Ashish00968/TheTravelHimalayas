@@ -17,6 +17,8 @@ interface TrekItineraryProps {
   itinerary: ItineraryDay[];
   stateSlug: string;
   isPatalsu?: boolean;
+  startPoint?: string;
+  endPoint?: string;
 }
 
 const TERRITORY_ACCENTS: Record<string, { accent: string }> = {
@@ -31,11 +33,22 @@ export function TrekItinerary({
   itinerary,
   stateSlug,
   isPatalsu = false,
+  startPoint,
+  endPoint,
 }: TrekItineraryProps) {
   const shouldReduceMotion = useReducedMotion();
   const style = TERRITORY_ACCENTS[stateSlug] ?? { accent: "#3B82F6" };
 
   if (!itinerary || itinerary.length === 0) return null;
+
+  let subtitleText = "Recommended day-by-day stage progression and trail milestones.";
+  if (isPatalsu) {
+    subtitleText = "Recommended day-by-day progression from Solang Village to the high meadows and summit ridge.";
+  } else if (startPoint && endPoint) {
+    subtitleText = `Recommended day-by-day progression from ${startPoint} to ${endPoint}.`;
+  } else if (startPoint) {
+    subtitleText = `Recommended day-by-day progression commencing from ${startPoint}.`;
+  }
 
   return (
     <motion.section 
@@ -68,7 +81,7 @@ export function TrekItinerary({
             Itinerary
           </h2>
           <p className="text-slate-700 dark:text-slate-300 font-light text-base sm:text-lg max-w-2xl">
-            Recommended day-by-day progression from Solang Village to the high meadows and summit ridge.
+            {subtitleText}
           </p>
         </div>
 

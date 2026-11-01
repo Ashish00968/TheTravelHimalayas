@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight, Globe, Send, Map, Mountain, Mail, Compass, Shield, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Globe, Map, Mountain, Mail, Compass, Shield, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
+import { placeIndex } from "@/data/atlas";
 
 export function Footer() {
   return (
@@ -104,7 +105,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <Link href="/explore" className="text-primary hover:underline text-sm font-semibold transition-colors flex items-center gap-1.5">
-                  <Compass className="w-3.5 h-3.5" /> All Destinations (172)
+                  <Compass className="w-3.5 h-3.5" /> All Destinations ({placeIndex.size})
                 </Link>
               </li>
               <li>
@@ -122,11 +123,6 @@ export function Footer() {
                   <Globe className="w-3.5 h-3.5" /> Instagram
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-foreground/80 hover:text-primary text-sm font-light transition-colors flex items-center gap-2">
-                  <Send className="w-3.5 h-3.5" /> Telegram
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -142,7 +138,7 @@ export function Footer() {
               href="/explore"
               className="text-xs font-mono font-bold text-primary hover:underline flex items-center gap-1"
             >
-              View Full Atlas Directory (172 Places) →
+              View Full Atlas Directory ({placeIndex.size} Places) →
             </Link>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -173,16 +169,16 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Development & Legal Disclaimer Box */}
+        {/* Mountain Safety & Trailhead Verification Note */}
         <div 
-          className="mb-10 p-5 sm:p-6 rounded-2xl relative overflow-hidden border border-amber-500/30 bg-amber-500/[0.06] dark:bg-[#0d1422]/60"
+          className="mb-10 p-5 sm:p-6 rounded-2xl relative overflow-hidden border border-slate-200/80 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02]"
         >
           <div className="flex items-start gap-3">
-            <Shield className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+            <Shield className="w-4 h-4 text-primary shrink-0 mt-0.5" />
             <div className="text-xs text-foreground/80 font-light leading-relaxed">
-              <strong className="text-amber-600 dark:text-amber-300 font-semibold">Development Phase &amp; Legal Disclaimer:</strong> Discover Himalayan Trails is currently in an active development preview. All photography, location imagery, coordinates, and route metadata are illustrative placeholders for technical demonstration and may not reflect real-world locations or current terrain conditions. High-altitude trekking involves inherent dangers. Users must independently verify all route logistics with local authorities. The platform accepts no legal liability for expedition decisions or outcomes.{" "}
-              <Link href="/disclaimer" className="text-amber-600 dark:text-amber-400 hover:underline font-mono font-medium">
-                Read Full Terms &amp; Disclaimer →
+              <strong className="text-foreground font-semibold">Mountain Safety &amp; Field Verification:</strong> Trail data across Discover Himalayan Trails is field-checked and ground-surveyed where explicitly marked &ldquo;Verified GPS&rdquo;. High-altitude Himalayan weather and pass conditions shift rapidly. Always independently verify live trail status with local forest departments and district authorities before departure.{" "}
+              <Link href="/disclaimer" className="text-primary hover:underline font-mono font-medium">
+                Read Mountain Disclaimer →
               </Link>
             </div>
           </div>

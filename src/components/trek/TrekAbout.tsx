@@ -15,6 +15,8 @@ interface TrekAboutProps {
   isPatalsu?: boolean;
   isJogni?: boolean;
   isBeasKund?: boolean;
+  isRouteVerified?: boolean;
+  aboutCards?: { title: string; description: string; icon?: string }[];
   breadcrumbItems?: { label: string; href: string }[];
 }
 
@@ -29,12 +31,13 @@ export function TrekAbout({
   title,
   overview,
   routeDescription,
-  startPoint = "Base Trailhead",
+  startPoint = "Regional Trailhead",
   stateSlug,
-  subRegionName,
   isPatalsu = false,
   isJogni = false,
   isBeasKund = false,
+  isRouteVerified = false,
+  aboutCards,
   breadcrumbItems,
 }: TrekAboutProps) {
   const [showFullDossier, setShowFullDossier] = useState(false);
@@ -84,7 +87,7 @@ export function TrekAbout({
       ]
     : [
         { label: "Alpine Wilderness Sanctuary" },
-        { label: "Verified GPS Spatial Track" },
+        { label: isRouteVerified ? "Verified GPS Spatial Track" : "Approximate location map" },
         { label: "Himalayan Ridge Crest" },
       ];
 
@@ -191,8 +194,9 @@ export function TrekAbout({
         </div>
       )}
 
-      {/* 3 Pillars of the Trail (Short, Scannable Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-200/80 dark:border-white/10">
+      {/* 3 Pillars of the Trail (Short, Scannable Cards) — rendered ONLY when verified custom content exists */}
+      {(isJogni || isPatalsu || isBeasKund || (aboutCards && aboutCards.length > 0)) && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-200/80 dark:border-white/10">
         {isJogni ? (
           <>
             <motion.div 
@@ -325,52 +329,26 @@ export function TrekAbout({
               </p>
             </motion.div>
           </>
-        ) : (
-          <>
+        ) : aboutCards && aboutCards.length > 0 ? (
+          aboutCards.map((card, idx) => (
             <motion.div 
-              whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
-              transition={{ duration: 0.2 }}
-              className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
-            >
-              <div className="flex items-center gap-2.5 mb-2.5">
-                <Trees className="w-4 h-4" style={{ color: style.accent }} />
-                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Trailhead Approach</h3>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-                Commences from {startPoint.split("(")[0].trim()}, following established mountain corridors through valley topography.
-              </p>
-            </motion.div>
-
-            <motion.div 
+              key={idx}
               whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
               transition={{ duration: 0.2 }}
               className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
             >
               <div className="flex items-center gap-2.5 mb-2.5">
                 <Mountain className="w-4 h-4" style={{ color: style.accent }} />
-                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Alpine Progression</h3>
+                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">{card.title}</h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-                Rises steadily into open mountain zones with panoramic vantages across {subRegionName || "the surrounding range"}.
+                {card.description}
               </p>
             </motion.div>
-
-            <motion.div 
-              whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: `${style.accent}50` }}
-              transition={{ duration: 0.2 }}
-              className="p-5 rounded-2xl bg-white dark:bg-[#080e1a] border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all"
-            >
-              <div className="flex items-center gap-2.5 mb-2.5">
-                <ShieldAlert className="w-4 h-4" style={{ color: style.accent }} />
-                <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">High Vantage &amp; Crest</h3>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-                Reaches high elevation vantage points where disciplined alpine pacing and weather awareness ensure a safe journey.
-              </p>
-            </motion.div>
-          </>
-        )}
+          ))
+        ) : null}
       </div>
+    )}
     </motion.section>
   );
 }

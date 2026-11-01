@@ -16,6 +16,7 @@ if (fs.existsSync(SNAPSHOT_PATH)) {
 
 const errors: string[] = [];
 const currentCounts: Record<string, number> = {};
+const seenPlaceIds = new Map<string, string>();
 
 let totalPlaces = 0;
 
@@ -26,18 +27,39 @@ for (const region of himalayaAtlas) {
 
     // Check count against snapshot
     const lastCount = snapshot[subKey];
-    if (typeof lastCount === "number" && sub.places.length < lastCount) {
-      errors.push(
-        `[COUNT REGRESSION] ${subKey} has ${sub.places.length} places, fewer than snapshot count ${lastCount}`
-      );
+    if (typeof lastCount === "number") {
+      if (sub.places.length < lastCount) {
+        errors.push(
+          `[COUNT REGRESSION] ${subKey} has ${sub.places.length} places, fewer than snapshot count ${lastCount}`
+        );
+      } else if (sub.places.length > lastCount + 5) {
+        console.warn(
+          `⚠️  [GROWTH_SURGE] ${subKey} grew by ${sub.places.length - lastCount} places (from ${lastCount} to ${sub.places.length})`
+        );
+      }
     }
 
     for (const place of sub.places) {
       totalPlaces++;
-      const placeId = place.id || "UNKNOWN_ID";
 
-      // 1. Required fields: id, name, type, elevation
-      if (!place.id) errors.push(`[REQUIRED] Missing 'id' in ${subKey}`);
+      // Dedicated Missing ID check
+      if (!place.id) {
+        errors.push(`[MISSING_ID] Place missing 'id' in ${subKey}`);
+        continue;
+      }
+
+      // Dedicated Duplicate ID check
+      if (seenPlaceIds.has(place.id)) {
+        errors.push(
+          `[DUPLICATE_ID] Duplicate place id '${place.id}' in ${subKey} (already defined in ${seenPlaceIds.get(place.id)})`
+        );
+      } else {
+        seenPlaceIds.set(place.id, subKey);
+      }
+
+      const placeId = place.id;
+
+      // 1. Required fields: name, type, elevation
       if (!place.name) errors.push(`[REQUIRED] Missing 'name' for ${placeId} in ${subKey}`);
       if (!place.type) errors.push(`[REQUIRED] Missing 'type' for ${placeId} in ${subKey}`);
       if (!place.elevation) errors.push(`[REQUIRED] Missing 'elevation' for ${placeId} in ${subKey}`);
@@ -214,13 +236,19 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-// On a passing run, update snapshot
-fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(currentCounts, null, 2) + "\n");
+// On a passing run, only update snapshot if explicitly requested via --update-snapshot
+const shouldUpdateSnapshot = process.argv.includes("--update-snapshot");
+if (shouldUpdateSnapshot) {
+  fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(currentCounts, null, 2) + "\n");
+  console.log(`📸 Updated snapshot at ${SNAPSHOT_PATH}`);
+} else {
+  console.log(`ℹ️  Snapshot unchanged (use --update-snapshot to persist changes).`);
+}
+
 console.log(
   `✅ All ${totalPlaces} places across ${Object.keys(currentCounts).length} subregions validated successfully.`
 );
 if (validatedRoutesCount > 0) {
   console.log(`🧭 Validated ${validatedRoutesCount} route data file(s) successfully.`);
 }
-console.log(`📸 Updated snapshot at ${SNAPSHOT_PATH}`);
 

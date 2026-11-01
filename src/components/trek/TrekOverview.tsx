@@ -15,12 +15,14 @@ import {
   ShieldAlert,
   Gauge,
   FileText,
+  CheckCircle2,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { parseAndComputeHadi } from "@/lib/hadi";
 import { getTrailSeasonCondition } from "@/lib/season-conditions";
 
 interface TrekOverviewProps {
+  placeId?: string;
   elevation?: string;
   distance?: string;
   duration?: string;
@@ -31,6 +33,9 @@ interface TrekOverviewProps {
   subRegionName?: string;
   regionName?: string;
   isPatalsu?: boolean;
+  isRouteVerified?: boolean;
+  fieldVerified?: boolean;
+  lastVerified?: string;
   onOpenDossier?: () => void;
 }
 
@@ -42,6 +47,7 @@ const TERRITORY_ACCENTS: Record<string, { accent: string; glow: string }> = {
 };
 
 export function TrekOverview({
+  placeId,
   elevation = "High Alpine",
   distance = "Varies",
   duration = "Standard Pace",
@@ -52,6 +58,9 @@ export function TrekOverview({
   subRegionName,
   regionName,
   isPatalsu = false,
+  isRouteVerified = false,
+  fieldVerified = false,
+  lastVerified,
   onOpenDossier,
 }: TrekOverviewProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -98,7 +107,9 @@ export function TrekOverview({
       icon: Footprints,
       label: "Total Distance",
       value: distance.split(" ")[0] ? `${distance.split(" ")[0]} km` : distance,
-      subtext: distance.toLowerCase().includes("loop") ? "Round-Trip Loop" : "Mountain Track",
+      subtext: placeId === "markha-valley"
+        ? "Standard itinerary"
+        : isRouteVerified ? "Verified GPS Track" : "Itinerary-Derived (Approx)",
     },
     {
       icon: Clock,
@@ -151,7 +162,7 @@ export function TrekOverview({
       >
         {/* Top Header Bar with Live Season Condition & Clinical AMS Directive Pill */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200/80 dark:border-white/[0.08]">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center flex-wrap gap-2.5">
             <span 
               className="w-2.5 h-2.5 rounded-full" 
               style={{ backgroundColor: style.accent }} 
@@ -159,6 +170,17 @@ export function TrekOverview({
             <h2 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-foreground">
               Alpine Field Dossier &bull; Route Metrics
             </h2>
+            {lastVerified && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/20 shadow-xs">
+                <span>Data reviewed: {lastVerified}</span>
+              </span>
+            )}
+            {fieldVerified && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 shadow-xs">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                <span>Field Verified</span>
+              </span>
+            )}
           </div>
 
           <div className="flex items-center flex-wrap gap-2.5">
@@ -245,6 +267,14 @@ export function TrekOverview({
           </div>
         </div>
 
+        {/* Grade Calibration Gate Rationale (e.g. Kashmir Great Lakes high effort vs non-technical pass terrain) */}
+        {hadi.gradeGateReason && (
+          <div className="mt-2.5 px-3 py-1.5 rounded-xl bg-amber-500/[0.08] dark:bg-amber-400/[0.08] border border-amber-500/20 text-[11px] font-mono text-amber-800 dark:text-amber-300 flex items-center gap-2 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+            <span><strong>Grade Gate:</strong> {hadi.gradeGateReason}</span>
+          </div>
+        )}
+
         {/* Secondary Context & Waypoint Access Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-5 pt-5 border-t border-slate-100 dark:border-white/[0.06]">
           {secondarySpecs.map((spec, idx) => {
@@ -313,7 +343,7 @@ export function TrekOverview({
           </div>
 
           <span className="text-[11px] text-slate-400 dark:text-slate-500 hidden sm:inline">
-            Datum: WGS 84 &bull; Verified Alpine Cartography
+            Datum: WGS 84 &bull; {isRouteVerified ? "Verified Alpine Cartography" : "Approximate location map"}
           </span>
         </div>
       </div>
