@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import { SeasonFinderClient } from "@/components/plan/SeasonFinderClient";
+import { SeasonFinderClient, LightweightSeasonTrek } from "@/components/plan/SeasonFinderClient";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
+import { placeLocationIndex } from "@/data/atlas";
 import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -41,6 +42,16 @@ export default function SeasonFinderPage() {
     { label: "Season Matrix", href: "/plan/season" },
   ]);
 
+  const seasonTreks: LightweightSeasonTrek[] = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    duration: t.duration,
+    maxAltitude: t.maxAltitude,
+    region: t.region,
+    bestSeason: t.bestSeason,
+    href: placeLocationIndex.get(t.slug)?.href || `/explore/himachal-pradesh/kullu/${t.slug}`,
+  }));
+
   return (
     <PageTransition>
       <script
@@ -56,7 +67,7 @@ export default function SeasonFinderPage() {
         subtitle="Explore Himalayan conditions and find the perfect trek for your travel dates."
       />
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <SeasonFinderClient allTreks={treks} />
+        <SeasonFinderClient allTreks={seasonTreks} />
       </div>
     </PageTransition>
   );

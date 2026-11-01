@@ -12,11 +12,16 @@ import { TrekRouteMap } from "./TrekRouteMap";
 import { TrekElevation } from "./TrekElevation";
 import { TrekItinerary } from "./TrekItinerary";
 import { TrekLogistics } from "./TrekLogistics";
+import dynamic from "next/dynamic";
 import { TrekInformation } from "./TrekInformation";
 import { TrekFAQ } from "./TrekFAQ";
 import { TrekEnding } from "./TrekEnding";
-import { AlpineFieldDossierModal } from "./AlpineFieldDossierModal";
 import { generateTrekFaqs } from "@/lib/faq-generator";
+
+const AlpineFieldDossierModal = dynamic(
+  () => import("./AlpineFieldDossierModal").then((m) => m.AlpineFieldDossierModal),
+  { ssr: false }
+);
 
 interface TrekTemplateProps {
   place: HimalayaPlace;

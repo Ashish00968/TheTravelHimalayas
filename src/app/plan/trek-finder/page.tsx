@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import { TrekFinderClient } from "@/components/plan/TrekFinderClient";
+import { TrekFinderClient, LightweightFinderTrek } from "@/components/plan/TrekFinderClient";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
+import { placeLocationIndex } from "@/data/atlas";
 import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -42,6 +43,18 @@ export default function TrekFinderPage() {
     { label: "Trek Finder", href: "/plan/trek-finder" },
   ]);
 
+  const finderTreks: LightweightFinderTrek[] = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    difficulty: t.difficulty,
+    duration: t.duration,
+    maxAltitude: t.maxAltitude,
+    distance: t.distance,
+    bestSeason: t.bestSeason,
+    region: t.region,
+    href: placeLocationIndex.get(t.slug)?.href || `/explore/himachal-pradesh/kullu/${t.slug}`,
+  }));
+
   return (
     <PageTransition>
       <script
@@ -57,7 +70,7 @@ export default function TrekFinderPage() {
         subtitle="Match with the perfect Himalayan trail based on your preferences."
       />
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <TrekFinderClient allTreks={treks} />
+        <TrekFinderClient allTreks={finderTreks} />
       </div>
     </PageTransition>
   );

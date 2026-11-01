@@ -1,5 +1,3 @@
-import { Trek } from "@/data/types";
-
 // ── Module-level regex constants (compiled once, not per call) ──────────────
 const DIGIT_RE = /(\d+)/;
 const COMMA_RE = /,/g;
@@ -19,8 +17,20 @@ export interface TrekPreferences {
   budget: number | "any";
 }
 
-export interface TrekMatch {
-  trek: Trek;
+export interface ScorableTrek {
+  slug: string;
+  title: string;
+  difficulty: "Easy" | "Moderate" | "Difficult" | "Challenging" | string;
+  duration: string;
+  maxAltitude: string;
+  distance: string;
+  bestSeason: string;
+  region: string;
+  href?: string;
+}
+
+export interface TrekMatch<T = ScorableTrek> {
+  trek: T;
   score: number;
   reasons: string[];
 }
@@ -54,7 +64,7 @@ export function parseDistance(distStr: string): number {
   return match ? parseInt(match[0], 10) : 0;
 }
 
-export function scoreTrek(trek: Trek, prefs: TrekPreferences): TrekMatch {
+export function scoreTrek<T extends ScorableTrek>(trek: T, prefs: TrekPreferences): TrekMatch<T> {
   let score = 0;
   const reasons: string[] = [];
 

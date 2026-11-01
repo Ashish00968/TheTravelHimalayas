@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Trek } from "@/data/types";
 import { parseAltitude, parseDuration } from "@/lib/scoring";
 import { Package, CloudRain, Snowflake, Sun, Cloud, CheckSquare, Square, Printer, Copy, Check } from "lucide-react";
 
+export interface LightweightPackingTrek {
+  slug: string;
+  title: string;
+  maxAltitude: string;
+  duration: string;
+}
+
 type SeasonCategory = "summer" | "monsoon" | "autumn" | "winter";
 
-export function PackingGeneratorClient({ allTreks }: { allTreks: Trek[] }) {
+export function PackingGeneratorClient({ allTreks }: { allTreks: LightweightPackingTrek[] }) {
   const [selectedTrekId, setSelectedTrekId] = useState<string>(allTreks[0]?.slug || "");
   const [season, setSeason] = useState<SeasonCategory>("summer");
   const [gender, setGender] = useState<"unisex" | "female">("unisex");

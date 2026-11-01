@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
@@ -57,7 +58,11 @@ import {
   computeNextPitchLimitDeg,
   computeSightlinePitchLimit,
 } from "@/lib/camera-clearance";
-import { FlyoverVideoExportModal } from "./FlyoverVideoExportModal";
+
+const FlyoverVideoExportModal = dynamic(
+  () => import("./FlyoverVideoExportModal").then((m) => m.FlyoverVideoExportModal),
+  { ssr: false }
+);
 
 interface RouteMap3DProps {
   routeData: RouteData;

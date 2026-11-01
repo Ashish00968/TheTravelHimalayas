@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { PackingGeneratorClient } from "@/components/plan/PackingGeneratorClient";
+import { PackingGeneratorClient, LightweightPackingTrek } from "@/components/plan/PackingGeneratorClient";
 import { HeroSection } from "@/components/content/HeroSection";
- import { PageTransition } from "@/components/animation/PageTransition";
- import { treks } from "@/data/treks";
+import { PageTransition } from "@/components/animation/PageTransition";
+import { treks } from "@/data/treks";
 import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -41,6 +41,13 @@ export default function PackingGeneratorPage() {
     { label: "Packing Generator", href: "/plan/packing" },
   ]);
 
+  const packingTreks: LightweightPackingTrek[] = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    maxAltitude: t.maxAltitude,
+    duration: t.duration,
+  }));
+
   return (
     <PageTransition>
       <script
@@ -56,7 +63,7 @@ export default function PackingGeneratorPage() {
         subtitle="Generate a personalized gear checklist for your specific trek and season."
       />
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <PackingGeneratorClient allTreks={treks} />
+        <PackingGeneratorClient allTreks={packingTreks} />
       </div>
     </PageTransition>
   );

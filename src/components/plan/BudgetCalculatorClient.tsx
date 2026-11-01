@@ -1,15 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Trek } from "@/data/types";
 import { parseDuration } from "@/lib/scoring";
 import { Calculator, IndianRupee, Users, Tent, MapPin, Package } from "lucide-react";
 
+export interface LightweightBudgetTrek {
+  slug: string;
+  title: string;
+  duration: string;
+}
 
 type TrekkingStyle = "independent" | "local_guide" | "agency";
 type Nationality = "indian" | "foreigner";
 
-export function BudgetCalculatorClient({ allTreks }: { allTreks: Trek[] }) {
+export function BudgetCalculatorClient({ allTreks }: { allTreks: LightweightBudgetTrek[] }) {
   const [selectedTrekId, setSelectedTrekId] = useState<string>(allTreks[0]?.slug || "");
   const [groupSize, setGroupSize] = useState<number>(2);
   const [style, setStyle] = useState<TrekkingStyle>("local_guide");

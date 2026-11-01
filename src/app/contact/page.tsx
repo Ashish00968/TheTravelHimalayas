@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ContactClient } from "./ContactClient";
+import { ContactClient, ContactTerritorySummary } from "./ContactClient";
+import { himalayaAtlas } from "@/data/atlas";
 import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
@@ -22,13 +23,21 @@ export default function ContactPage() {
     { label: "About & Contact", href: "/contact" },
   ]);
 
+  const territories: ContactTerritorySummary[] = himalayaAtlas.map((region) => ({
+    id: region.id,
+    name: region.name,
+    emoji: region.emoji,
+    cardDesc: region.cardDesc,
+    divisionsCount: region.subregions.length,
+  }));
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbsSchema) }}
       />
-      <ContactClient />
+      <ContactClient territories={territories} />
     </>
   );
 }

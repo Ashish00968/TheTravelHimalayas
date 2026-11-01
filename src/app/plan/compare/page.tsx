@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import { TrekComparisonClient } from "@/components/plan/TrekComparisonClient";
+import { TrekComparisonClient, LightweightComparisonTrek } from "@/components/plan/TrekComparisonClient";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
+import { placeLocationIndex } from "@/data/atlas";
 import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -41,6 +42,19 @@ export default function TrekComparisonPage() {
     { label: "Trek Comparison", href: "/plan/compare" },
   ]);
 
+  const comparisonTreks: LightweightComparisonTrek[] = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    region: t.region,
+    difficulty: t.difficulty,
+    duration: t.duration,
+    maxAltitude: t.maxAltitude,
+    distance: t.distance,
+    bestSeason: t.bestSeason,
+    startPoint: t.startPoint,
+    href: placeLocationIndex.get(t.slug)?.href || `/explore/himachal-pradesh/kullu/${t.slug}`,
+  }));
+
   return (
     <PageTransition>
       <script
@@ -56,7 +70,7 @@ export default function TrekComparisonPage() {
         subtitle="Compare side-by-side stats, altitudes, and itineraries to make the right choice."
       />
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <TrekComparisonClient allTreks={treks} />
+        <TrekComparisonClient allTreks={comparisonTreks} />
       </div>
     </PageTransition>
   );

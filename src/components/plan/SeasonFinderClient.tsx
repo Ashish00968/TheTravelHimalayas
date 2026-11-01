@@ -1,10 +1,18 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Trek } from "@/data/types";
-import { placeLocationIndex } from "@/data/atlas";
 import { Calendar, Thermometer, CloudRain, Snowflake, Sun, Map, Mountain, ChevronRight } from "lucide-react";
 import Link from "next/link";
+
+export interface LightweightSeasonTrek {
+  slug: string;
+  title: string;
+  duration: string;
+  maxAltitude: string;
+  region: string;
+  bestSeason: string;
+  href: string;
+}
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June", 
@@ -26,7 +34,7 @@ const SEASON_INFO: Record<string, { title: string, temp: string, conditions: str
   "December": { title: "Winter", temp: "-10°C to 5°C", conditions: "First heavy snowfalls. High passes close for the season. Clear skies but extremely cold.", icon: <Snowflake />, color: "text-blue-400" },
 };
 
-export function SeasonFinderClient({ allTreks }: { allTreks: Trek[] }) {
+export function SeasonFinderClient({ allTreks }: { allTreks: LightweightSeasonTrek[] }) {
   const [selectedMonth, setSelectedMonth] = useState<string>("September");
 
   const info = SEASON_INFO[selectedMonth];
@@ -119,7 +127,7 @@ export function SeasonFinderClient({ allTreks }: { allTreks: Trek[] }) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {matchingTreks.map(trek => {
-                const trekHref = placeLocationIndex.get(trek.slug)?.href || `/explore/himachal-pradesh/kullu/${trek.slug}`;
+                const trekHref = trek.href || `/explore/himachal-pradesh/kullu/${trek.slug}`;
                 return (
                   <Link href={trekHref} key={trek.slug} className="block group">
                     <div className="bg-card hover:bg-muted/40 border border-border hover:border-primary/40 rounded-3xl p-6 transition-all duration-300 shadow-md hover:shadow-xl h-full flex flex-col justify-between">

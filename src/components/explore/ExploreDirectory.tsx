@@ -69,6 +69,15 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<"featured" | "elevation" | "alpha">("featured");
 
+  const filterKey = `${selectedCategory}-${selectedTerritory}-${selectedDifficulty}-${searchQuery}-${sortBy}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  const [visibleCount, setVisibleCount] = useState<number>(24);
+
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey);
+    setVisibleCount(24);
+  }
+
   // Filter & Search Logic
   const filteredPlaces = useMemo(() => {
     return places
@@ -268,8 +277,9 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPlaces.map((place) => {
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPlaces.slice(0, visibleCount).map((place) => {
             const style = TERRITORY_ACCENTS[place.regionId] ?? {
               accent: "#3B82F6",
               glow: "rgba(59,130,246,0.15)",
@@ -409,6 +419,25 @@ export function ExploreDirectory({ places }: ExploreDirectoryProps) {
             );
           })}
         </div>
+
+        {visibleCount < filteredPlaces.length && (
+          <div className="mt-10 flex flex-col items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => prev + 24)}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-md active:scale-95"
+            >
+              <span>Load More Destinations</span>
+              <span className="text-[10px] opacity-75">
+                ({filteredPlaces.length - visibleCount} remaining)
+              </span>
+            </button>
+            <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+              Showing {Math.min(visibleCount, filteredPlaces.length)} of {filteredPlaces.length} verified destinations
+            </p>
+          </div>
+        )}
+      </>
       )}
     </div>
   );

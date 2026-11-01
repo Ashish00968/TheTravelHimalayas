@@ -1,20 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { Trek } from "@/data/types";
-import { placeLocationIndex } from "@/data/atlas";
 import { Mountain, Calendar, Activity, MapPin, Route, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-export function TrekComparisonClient({ allTreks }: { allTreks: Trek[] }) {
+export interface LightweightComparisonTrek {
+  slug: string;
+  title: string;
+  region: string;
+  difficulty: string;
+  duration: string;
+  maxAltitude: string;
+  distance: string;
+  bestSeason: string;
+  startPoint?: string;
+  href: string;
+}
+
+export function TrekComparisonClient({ allTreks }: { allTreks: LightweightComparisonTrek[] }) {
   const [trek1Id, setTrek1Id] = useState<string>(allTreks[0]?.slug || "");
   const [trek2Id, setTrek2Id] = useState<string>(allTreks.length > 1 ? allTreks[1].slug : allTreks[0]?.slug || "");
 
   const trek1 = allTreks.find(t => t.slug === trek1Id);
   const trek2 = allTreks.find(t => t.slug === trek2Id);
 
-  const trek1Href = trek1 ? (placeLocationIndex.get(trek1.slug)?.href || `/explore/himachal-pradesh/kullu/${trek1.slug}`) : "#";
-  const trek2Href = trek2 ? (placeLocationIndex.get(trek2.slug)?.href || `/explore/himachal-pradesh/kullu/${trek2.slug}`) : "#";
+  const trek1Href = trek1?.href || (trek1 ? `/explore/himachal-pradesh/kullu/${trek1.slug}` : "#");
+  const trek2Href = trek2?.href || (trek2 ? `/explore/himachal-pradesh/kullu/${trek2.slug}` : "#");
 
   return (
     <div className="space-y-12">

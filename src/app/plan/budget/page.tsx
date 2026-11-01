@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { BudgetCalculatorClient } from "@/components/plan/BudgetCalculatorClient";
+import { BudgetCalculatorClient, LightweightBudgetTrek } from "@/components/plan/BudgetCalculatorClient";
 import { HeroSection } from "@/components/content/HeroSection";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { treks } from "@/data/treks";
@@ -41,6 +41,12 @@ export default function TrekBudgetPage() {
     { label: "Budget Calculator", href: "/plan/budget" },
   ]);
 
+  const budgetTreks: LightweightBudgetTrek[] = treks.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    duration: t.duration,
+  }));
+
   return (
     <PageTransition>
       <script
@@ -56,7 +62,7 @@ export default function TrekBudgetPage() {
         subtitle="Estimate your total costs based on trekking style, group size, and gear requirements."
       />
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <BudgetCalculatorClient allTreks={treks} />
+        <BudgetCalculatorClient allTreks={budgetTreks} />
       </div>
     </PageTransition>
   );

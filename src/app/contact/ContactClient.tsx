@@ -3,8 +3,15 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Mail, MapPin, ArrowRight, BookOpen } from "lucide-react";
-import { himalayaAtlas } from "@/data/atlas";
 import { LogoSeal } from "@/components/brand/LogoSeal";
+
+export interface ContactTerritorySummary {
+  id: string;
+  name: string;
+  emoji: string;
+  cardDesc: string;
+  divisionsCount: number;
+}
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -18,7 +25,11 @@ function InstagramIcon({ className }: { className?: string }) {
 
 const TRANSITION_EASE = [0.23, 1, 0.32, 1] as const;
 
-export function ContactClient() {
+export function ContactClient({
+  territories = [],
+}: {
+  territories?: ContactTerritorySummary[];
+}) {
   return (
     <main className="relative min-h-[90vh] pt-28 pb-24 bg-background overflow-hidden">
       {/* Ambient Radial Glows */}
@@ -170,7 +181,7 @@ export function ContactClient() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {himalayaAtlas.map((region) => (
+            {territories.map((region) => (
               <Link
                 key={region.id}
                 href={`/explore/${region.id}`}
@@ -186,7 +197,7 @@ export function ContactClient() {
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between text-xs font-mono text-muted-foreground">
-                  <span>{region.subregions.length} Divisions</span>
+                  <span>{region.divisionsCount} Divisions</span>
                   <span className="text-primary group-hover:translate-x-1 transition-transform">
                     Explore →
                   </span>

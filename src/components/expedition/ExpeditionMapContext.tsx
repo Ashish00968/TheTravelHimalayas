@@ -6,7 +6,17 @@ import dynamic from "next/dynamic";
 import { Map, ArrowRight, Download } from "lucide-react";
 import { Peak } from "@/data/types";
 import { HimalayaPlace } from "@/data/atlas";
-import { TopoMiniMap } from "@/components/maps/TopoMiniMap";
+const TopoMiniMap = dynamic(
+  () => import("@/components/maps/TopoMiniMap").then((m) => m.TopoMiniMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[540px] rounded-3xl bg-slate-900/60 border border-white/10 flex items-center justify-center animate-pulse">
+        <div className="w-6 h-6 border-2 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin" />
+      </div>
+    ),
+  }
+);
 import { getRouteData } from "@/data/routes";
 
 function RouteMap3DSkeleton() {

@@ -54,7 +54,14 @@ export function Navigation() {
   const { count: savedCount } = useSavedExpeditions();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let prev = window.scrollY > 24;
+    const onScroll = () => {
+      const now = window.scrollY > 24;
+      if (now !== prev) {
+        prev = now;
+        setScrolled(now);
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);

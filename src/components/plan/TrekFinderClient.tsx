@@ -1,18 +1,20 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Trek } from "@/data/types";
-import { placeLocationIndex } from "@/data/atlas";
 import Link from "next/link";
 import { ChevronRight, Map, Mountain, Calendar } from "lucide-react";
-import { TrekPreferences, scoreTrek } from "@/lib/scoring";
+import { TrekPreferences, scoreTrek, ScorableTrek } from "@/lib/scoring";
+
+export interface LightweightFinderTrek extends ScorableTrek {
+  href: string;
+}
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June", 
   "July", "August", "September", "October", "November", "December"
 ];
 
-export function TrekFinderClient({ allTreks }: { allTreks: Trek[] }) {
+export function TrekFinderClient({ allTreks }: { allTreks: LightweightFinderTrek[] }) {
   const [prefs, setPrefs] = useState<TrekPreferences>({
     experience: "any",
     fitness: "any",
@@ -125,7 +127,7 @@ export function TrekFinderClient({ allTreks }: { allTreks: Trek[] }) {
         )}
 
         {results.map(({ trek, score, reasons }) => {
-          const trekHref = placeLocationIndex.get(trek.slug)?.href || `/explore/himachal-pradesh/kullu/${trek.slug}`;
+          const trekHref = trek.href || `/explore/himachal-pradesh/kullu/${trek.slug}`;
           return (
             <Link href={trekHref} key={trek.slug} className="block group">
               <div className="bg-card hover:bg-muted/40 border border-border hover:border-primary/40 rounded-3xl p-6 transition-all duration-300 shadow-md hover:shadow-xl flex flex-col md:flex-row gap-6 items-start md:items-center">
