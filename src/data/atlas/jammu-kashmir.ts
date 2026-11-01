@@ -19,35 +19,75 @@ export const jammuKashmirRegion: HimalayaRegion = {
             emoji: "🌲",
             heroImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Beauty_of_India_-_Patnitop_Hills.jpg/1920px-Beauty_of_India_-_Patnitop_Hills.jpg",
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Beauty_of_India_-_Patnitop_Hills.jpg/1920px-Beauty_of_India_-_Patnitop_Hills.jpg",
+            images: [
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Beauty_of_India_-_Patnitop_Hills.jpg/1920px-Beauty_of_India_-_Patnitop_Hills.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/f/f8/Patnitop_hill.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/c/c5/CjPatnitop.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/2/2b/Patnitop_Park.jpg"
+            ],
             coords: [33.21, 75.31],
             elevation: "2,024 m",
             bestSeason: "April to November, Dec to Feb for snow",
             difficulty: "Easy",
             duration: "1–2 Days",
-            overview: "Patnitop is a scenic hill resort situated on a plateau surrounded by dense deodar and pine forests in Udhampur district. It offers gentle ridge walks, cedar canopy trails, and paragliding with panoramic views of the Chenab basin.",
-            experience: "Walking under centuries-old Himalayan cedars with the scent of pine needles in the mountain air.",
+            overview: "Patnitop is a scenic hill plateau situated amidst dense deodar, fir, and pine forests in Jammu's Udhampur district at an altitude of 2,024 meters. Overlooking the dramatic Chenab river basin, the plateau is renowned for its sweeping alpine meadows, crisp mountain climate, and the historic 600-year-old Nag Mandir (Naag Temple) hidden in the sacred cedar groves.\n\nThe Nag Mandir stands as the spiritual heart of Patnitop. Constructed from seasoned deodar timber and native Himalayan stone with traditional steeply pitched roofs to shed heavy winter snowfalls, the shrine is dedicated to the serpent deity (Naag Devta). Thousands of pilgrims gather here during the annual Naag Panchami festival, honoring traditions that link this ridge to the celestial wedding celebrations of Lord Shiva and Goddess Parvati in the surrounding hills.",
+            experience: "Listening to the distant bronze temple bells of the 600-year-old Nag Mandir drifting through centuries-old deodar groves, with the scent of wild mountain pine in the air.",
             tips: [
-              "Try the local Kalari cheese (Kashmiri mozzarella) at street stalls.",
-              "Combine with a short hike to Sanasar or Nathatop."
+              "Visit the 600-Year-Old Nag Mandir: Walk 1.5 km through towering deodar woods from the main meadow to reach this ancient wooden pagoda shrine dedicated to Naag Devta.",
+              "Witness the Naag Panchami Festival: If visiting in July/August, observe traditional community rituals, folk singing, and serpent deity offerings by pilgrims from across the Jammu hills.",
+              "Savor Authentic Kalari Cheese: Try freshly griddled Kalari (traditional Dogra artisanal raw-milk cheese) with mint and red chili chutney at local meadow stalls.",
+              "Day Trips to Nathatop & Sanasar: Combine your visit with panoramic 360-degree Pir Panjal views at Nathatop (2,710m) and the quiet alpine cup-lake at Sanasar (2,050m)."
+            ],
+            itinerary: [
+              {
+                day: 1,
+                title: "Patnitop Meadows, Cedar Forest Trail & Ancient Nag Mandir",
+                description: "Arrive at the Patnitop plateau (2,024m). Settle in and walk the gentle pine-shaded forest path leading to the 600-year-old Nag Mandir. Admire its classic Himalayan deodar timber and stone architecture, learn about its connection to the serpent deity and Shiva-Parvati legends, and take a circular walk along the ridge for sunset views over the Chenab river gorge.",
+                elevationMeters: 2024,
+                distanceKm: 4
+              },
+              {
+                day: 2,
+                title: "Nathatop Panoramic Ridge & Sanasar Lake Meadow Excursion",
+                description: "Take a scenic morning drive or hike 14 km up to Nathatop Ridge (2,710m) for breathtaking 360-degree panoramas of snow-clad Pir Panjal and Kishtwar peaks. Continue down to the secluded cup-shaped meadow of Sanasar Lake (2,050m) for peaceful lakeside strolls and local meadow tea before returning to Patnitop.",
+                elevationMeters: 2710,
+                distanceKm: 19
+              }
             ],
             faqs: [
               {
+                question: "What is the historical significance of Nag Mandir in Patnitop?",
+                answer: "Nag Mandir (Naag Temple) is an ancient shrine estimated to be over 600 years old, dedicated to Naag Devta (the Serpent King). Built with traditional deodar timber and local stone with a steeply pitched roof to withstand heavy Himalayan snow, it is one of the most revered heritage sanctuaries in the Jammu hills, with folklore linking it to the wedding of Lord Shiva and Goddess Parvati."
+              },
+              {
+                question: "How do I reach Nag Mandir from the main Patnitop meadow?",
+                answer: "The temple is situated approximately 1.5 to 2 kilometers from the central Patnitop meadow. It can be easily reached on foot via a scenic pine-shaded walking path, by pony ride, or by a short local cab drive along the circular road."
+              },
+              {
+                question: "When is the Nag Panchami festival celebrated at Nag Mandir?",
+                answer: "Nag Panchami is celebrated annually during the monsoon months (typically July or August). Thousands of devotees from across Jammu & Kashmir gather at the shrine to offer milk, prayers, and participate in community rituals."
+              },
+              {
                 question: "Is Patnitop suitable for beginners and families?",
-                answer: "Yes, the gentle meadows and paved trails make it ideal for family day hikes and easy strolls."
+                answer: "Yes, the gentle meadows, paved walking tracks, and mild altitude (2,024m) make it ideal for family vacations, leisurely walks, and beginner nature exploration."
               },
               {
                 question: "When is the best time to see snow in Patnitop?",
-                answer: "December through February offers regular snowfall across Patnitop and Nathatop, turning the plateau into a winter playground."
+                answer: "December through February offers regular snowfall across Patnitop, Nag Mandir groves, and Nathatop, turning the plateau into a winter snowscape."
               }
             ],
-            seoTitle: "Patnitop Meadow, J&K — Meadows",
-            seoDescription: "Explore Patnitop (2,024m) in Jammu & Kashmir. Pine-clad meadow walks, Chenab basin views, seasonal snow, family day hikes, and local mountain travel guide.",
+            seoTitle: "Patnitop Meadow & Nag Mandir Guide — J&K",
+            seoDescription: "Guide to Patnitop (2,024m) and the ancient 600-year-old Nag Mandir in J&K. Pine-clad meadows, cedar canopy walks, Chenab basin vistas, and local mountain tips.",
             keywords: [
               "Patnitop Jammu",
+              "Nag Mandir Patnitop",
+              "Naag Temple Patnitop",
               "Patnitop altitude",
               "Patnitop snowfall season",
               "Patnitop hill station",
+              "Nag Panchami Patnitop",
               "Chenab basin viewpoint",
+              "ancient temple Patnitop",
               "Udhampur hill station"
             ]
           },
