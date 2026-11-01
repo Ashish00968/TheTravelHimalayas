@@ -15,13 +15,15 @@ export const jammuKashmirRegion: HimalayaRegion = {
           {
             id: "patnitop",
             name: "Patnitop Meadow",
-            type: "day-hike",
+            type: "scenic",
             emoji: "🌲",
+            heroImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Beauty_of_India_-_Patnitop_Hills.jpg/1920px-Beauty_of_India_-_Patnitop_Hills.jpg",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Beauty_of_India_-_Patnitop_Hills.jpg/1920px-Beauty_of_India_-_Patnitop_Hills.jpg",
             coords: [33.21, 75.31],
             elevation: "2,024 m",
             bestSeason: "April to November, Dec to Feb for snow",
             difficulty: "Easy",
-            duration: "1 Day (3-4 hours)",
+            duration: "1–2 Days",
             overview: "Patnitop is a scenic hill resort situated on a plateau surrounded by dense deodar and pine forests in Udhampur district. It offers gentle ridge walks, cedar canopy trails, and paragliding with panoramic views of the Chenab basin.",
             experience: "Walking under centuries-old Himalayan cedars with the scent of pine needles in the mountain air.",
             tips: [
@@ -44,7 +46,7 @@ export const jammuKashmirRegion: HimalayaRegion = {
               "Patnitop Jammu",
               "Patnitop altitude",
               "Patnitop snowfall season",
-              "Patnitop day hike",
+              "Patnitop hill station",
               "Chenab basin viewpoint",
               "Udhampur hill station"
             ]
