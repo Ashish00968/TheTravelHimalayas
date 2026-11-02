@@ -98,6 +98,36 @@ const ELIGIBLE_SEO_OVERRIDES: Record<string, { title: string; description: strin
   },
 };
 
+function streamlineSeoTitle(title: string): string {
+  let t = title.trim();
+  if (t.length <= 54) return t;
+
+  if (t.includes(" — ")) {
+    const parts = t.split(" — ");
+    const main = parts[0].trim();
+    const suffix = parts.slice(1).join(" — ").trim();
+    if (main.length <= 44) {
+      if (/guide$/i.test(main)) {
+        t = main;
+      } else {
+        const shortSuffix = /trek/i.test(suffix) ? "Trek Guide" : /peak/i.test(suffix) ? "Peak Guide" : "3D Guide";
+        t = `${main} — ${shortSuffix}`;
+      }
+    } else {
+      t = main;
+    }
+  } else if (t.includes(": ")) {
+    const parts = t.split(": ");
+    const main = parts[0].trim();
+    t = main.length <= 46 && !/guide$/i.test(main) ? `${main} Guide` : main;
+  }
+
+  if (t.length > 54) {
+    t = t.slice(0, 53).trim();
+  }
+  return t;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -117,35 +147,45 @@ export async function generateMetadata({
   const isPatalsu = placeId === "patalsu-peak";
   const isJogni = placeId === "jogni-falls";
   const isBeasKund = placeId === "beas-kund";
+  const isProtectedPlace =
+    isPatalsu ||
+    isJogni ||
+    isBeasKund ||
+    placeId === "pangi-valley" ||
+    placeId === "darma-valley" ||
+    placeId === "pin-parvati-pass";
+
   const eligibleSeo = ELIGIBLE_SEO_OVERRIDES[resolvedPlaceId] || ELIGIBLE_SEO_OVERRIDES[placeId];
 
   const altitudeStr = place.elevation || place.trekData?.maxAltitude || (place.peakData?.height ? `${place.peakData.height}m` : null);
   const durationStr = place.duration || place.trekData?.duration;
   const diffStr = place.difficulty || place.trekData?.difficulty || place.peakData?.difficulty;
 
-  let pageTitle = `${place.name} Guide — Altitude, Route, Best Season & Map`;
+  let pageTitle = `${place.name} Guide — Route & Map`;
   if (place.seoTitle) {
     pageTitle = place.seoTitle;
   } else if (isPatalsu) {
-    pageTitle = "Patalsu Peak Trek (4,261m) Manali — Route, Height, Best Season & Cost";
+    pageTitle = "Patalsu Peak Trek (4,261m) Manali — Route & Cost";
   } else if (isJogni) {
-    pageTitle = "Jogni Falls Trek (2,280m) Vashisht, Manali — Route, Map & Photo Story";
+    pageTitle = "Jogni Falls Trek (2,280m) Manali — Route & Guide";
   } else if (isBeasKund) {
-    pageTitle = "Beas Kund Trek (3,700m) Manali — Route, Height & Cost | DHT";
+    pageTitle = "Beas Kund Trek (3,700m) Manali — Route & Cost";
   } else if (eligibleSeo) {
-    pageTitle = eligibleSeo.title;
+    pageTitle = eligibleSeo.title.replace(/\s*\|\s*DHT.*$/i, "").trim();
   } else if (isExpedition) {
     const cleanPeakName = place.name.replace(/\s+Peak$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
-    pageTitle = `${cleanPeakName} Peak${altTag} Expedition Dossier — Route, Permits & 3D Map`;
+    pageTitle = `${cleanPeakName} Peak${altTag} — Expedition Guide`;
   } else if (isTrek) {
     const cleanTrekName = place.name.replace(/\s+Trek(\s*\(.*\))?$/i, "").replace(/\s+Trek$/i, "").trim();
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
-    pageTitle = `${cleanTrekName} Trek${altTag} — Itinerary, Difficulty, Best Time & 3D Map`;
+    pageTitle = `${cleanTrekName} Trek${altTag} — Route & Guide`;
   } else {
     const altTag = altitudeStr ? ` (${altitudeStr})` : "";
-    pageTitle = `${place.name}${altTag} Guide — Best Season, Access & 3D Map`;
+    pageTitle = `${place.name}${altTag} — Guide & 3D Map`;
   }
+
+  const finalPageTitle = isProtectedPlace ? pageTitle : streamlineSeoTitle(pageTitle);
 
   const descSnippets = [
     altitudeStr ? `Altitude: ${altitudeStr}` : null,
@@ -273,7 +313,7 @@ export async function generateMetadata({
   ]);
 
   return generatePageMetadata({
-    title: pageTitle,
+    title: finalPageTitle,
     description,
     path: `/explore/${state}/${division}/${place.id}`,
     image: heroImg,

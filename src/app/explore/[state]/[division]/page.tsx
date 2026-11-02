@@ -43,7 +43,7 @@ export async function generateMetadata({
     const placeCount = districts.reduce((acc, d) => acc + d.places.length, 0);
 
     return generatePageMetadata({
-      title: `${divName} Division Treks & Districts — Uttarakhand Alpine Guide`,
+      title: `${divName} Division Treks & Districts`,
       description: isGarhwal
         ? `Explore Garhwal Division across 7 districts (Chamoli, Rudraprayag, Uttarkashi, Pauri, Tehri, Dehradun, Haridwar) with ${placeCount} verified destinations, Char Dham trails, and high bugyals.`
         : `Explore Kumaon Division across 6 districts (Pithoragarh, Bageshwar, Almora, Nainital, Champawat, Udham Singh Nagar) with ${placeCount} verified destinations, Pindari and Milam glaciers, and Panchachuli peaks.`,
@@ -74,13 +74,9 @@ export async function generateMetadata({
   const subRegion = getSubRegion(state, division);
   if (!subRegion) return {};
 
-  const placeNames = subRegion.places.slice(0, 5).map((p) => p.name).join(", ");
-
   return generatePageMetadata({
-    title: `Treks & Trails in ${subRegion.name} — ${region.name} Valley Guide`,
-    description:
-      subRegion.tagline ||
-      `Explore ${subRegion.places.length} verified treks, peaks, and alpine passes in ${subRegion.name}, ${region.name}. Featuring ${placeNames}.`,
+    title: `${subRegion.name} Treks & Trails — ${region.name}`,
+    description: `${subRegion.tagline ? `${subRegion.tagline}. ` : ""}Explore ${subRegion.places.length} verified treks, peaks, and alpine passes in ${subRegion.name}, ${region.name}.`,
     path: `/explore/${state}/${division}`,
     image: region.image,
     keywords: [

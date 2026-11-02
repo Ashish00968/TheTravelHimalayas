@@ -13,6 +13,7 @@ export interface AtlasLandmarkProperties {
   elevation: string;
   type: string;
   color: string;
+  tier: number; // 0 = Selected (always visible), 1 = Regional Anchor (zoom 7+), 2 = Subregional Highlight (zoom 9.5+), 3 = Valley Detail (zoom 11.2+)
   priority: number;
   isRoute: boolean;
   isApex: boolean;
@@ -28,45 +29,6 @@ const TYPE_COLOR: Record<string, string> = {
   scenic: "#38BDF8",     // Sky Blue
   adventure: "#F97316",  // Expedition Orange
   road: "#EAB308",       // High Pass Amber
-};
-
-/** Authentic, verified Himalayan trailhead departure points */
-const ROUTE_TRAILHEAD_NAMES: Record<string, string> = {
-  "patalsu-peak": "Solang Trailhead",
-  "beas-kund": "Dhundi Trailhead",
-  "hampta-pass": "Jobra Trailhead",
-  "bhrigu-lake": "Gulaba Trailhead",
-  "jogni-falls": "Vashisht Trailhead",
-  "lamadugh": "Old Manali Trailhead",
-  "chandrakhani-pass": "Naggar Trailhead",
-  "jalori-pass-serolsar": "Jalori Pass Trailhead",
-  "kheerganga": "Barshaini Trailhead",
-  "deo-tibba": "Khanol Trailhead",
-  "triund": "Galu Devi Trailhead",
-  "kareri-lake": "Ghera Trailhead",
-  "indrahar-pass": "Galu Devi Trailhead",
-  "hemkund-sahib": "Govindghat Trailhead",
-  "valley-of-flowers": "Govindghat Trailhead",
-  "kedarkantha": "Sankri Trailhead",
-  "markha-valley": "Chilling Trailhead",
-  "tarsar-marsar": "Aru Trailhead",
-  "kashmir-great-lakes": "Sonmarg Trailhead",
-  "roopkund-trek": "Lohajung Trailhead",
-  "gangotri-gaumukh": "Gangotri Trailhead",
-  "dayara-bugyal": "Barsu Trailhead",
-  "chopta-tungnath": "Chopta Trailhead",
-  "kuari-pass": "Dharkot Trailhead",
-  "dodital": "Sangam Chatti Trailhead",
-  "deoria-tal": "Sari Village Trailhead",
-  "kamrunag-lake": "Rohanda Trailhead",
-  "kinner-kailash": "Tangling Trailhead",
-  "madhyamaheshwar": "Ransi Trailhead",
-  "manimahesh-kailash": "Hadsar Trailhead",
-  "pin-bhaba-pass": "Kafnu Trailhead",
-  "pin-parvati-pass": "Barsheni Trailhead",
-  "rupin-pass-kinnaur": "Dhaula Trailhead",
-  "satopanth-tal-trek": "Mana Trailhead",
-  "vasudhara-falls": "Mana Trailhead",
 };
 
 /**
@@ -92,6 +54,76 @@ export function getCleanRouteName(name: string): string {
     .replace(/\s+Winter Summit Trek$/i, "")
     .replace(/\s+Alpine Lakes Trek$/i, "")
     .trim();
+}
+
+/**
+ * Helper to match entity region string with the active territory id
+ */
+export function isEntityInRegion(
+  entityRegion: string | undefined | null,
+  activeRegionId: string | null | undefined
+): boolean {
+  if (!activeRegionId || activeRegionId === "all") return true;
+  if (!entityRegion) return false;
+  const normEntity = entityRegion.toLowerCase().replace(/[^a-z]/g, "");
+  const normActive = activeRegionId.toLowerCase().replace(/[^a-z]/g, "");
+  return normEntity.includes(normActive) || normActive.includes(normEntity);
+}
+
+/**
+ * Tier 1: Regional Hubs & Widely Dispersed Anchors (Google Earth Style)
+ * These are spaced 30-70km apart across valleys so at territory zoom,
+ * only the primary anchor appears (e.g. Manali, Prashar Lake, Jalori Pass)
+ * without overcrowding dense local valleys.
+ */
+export const TIER_1_IDS = new Set<string>([
+  // Himachal Pradesh
+  "mall-road", "manali", "kullu-town", "prashar-lake", "jalori-pass-serolsar",
+  "dharamshala-mcleodganj", "kaza-spiti", "chandratal-lake", "dalhousie-dainkund",
+  "kalpa", "mandi-chhoti-kashi", "pangi-valley",
+  // Jammu & Kashmir
+  "srinagar", "gulmarg", "sonmarg", "pahalgam", "patnitop", "kishtwar",
+  // Ladakh
+  "leh", "kargil-town", "suru-valley", "diskit-monastery", "hunder-sand-dunes",
+  "pangong-tso", "padum",
+  // Uttarakhand
+  "rishikesh", "joshimath", "uttarkashi-town", "nainital-naina-peak",
+  "badrinath", "kedarnath", "gangotri", "roopkund-trek", "munsiyari-panchachuli"
+]);
+
+/**
+ * Tier 2: Sub-regional Highlights, Iconic Treks & Major Passes
+ * Revealed progressively as user zooms into subregions (zoom >= 9.5).
+ */
+export const TIER_2_IDS = new Set<string>([
+  // Himachal
+  "rohtang-pass", "hampta-pass", "bhrigu-lake", "triund", "kareri-lake",
+  "pin-parvati-pass", "pin-bhaba-pass", "kinner-kailash", "manimahesh-kailash",
+  "sach-pass", "bir-billing", "tirthan-valley", "rewalsar-lake", "kamrunag-lake",
+  "indrahar-pass", "chandrakhani-pass", "kheerganga", "chitkul", "sangla-kamru-fort",
+  "key-monastery", "dhankar-monastery-lake", "jispa", "chicham-bridge",
+  "khajjiar-meadow", "bharmour-chaurasi", "barot-valley", "reckong-peo",
+  "deo-tibba",
+  // Jammu & Kashmir
+  "kashmir-great-lakes", "tarsar-marsar", "zojila-pass", "gurez-valley", "yusmarg",
+  "sanasar", "pir-ki-gali", "doodhpathri", "nathatop", "vaishno-devi", "aharbal",
+  // Ladakh
+  "markha-valley", "khardung-la", "thiksey-monastery", "mulbekh-monastery",
+  "chadar-trek", "phuktal-monastery", "turtuk", "gurudwara-pathar-sahib",
+  // Uttarakhand
+  "valley-of-flowers", "hemkund-sahib", "kedarkantha", "chopta-tungnath",
+  "dayara-bugyal", "kuari-pass", "har-ki-dun", "dodital", "deoria-tal",
+  "madhyamaheshwar", "satopanth-tal-trek", "gangotri-gaumukh", "auli",
+  "mana-village", "harsil-valley", "pindari-glacier", "panchachuli-base-camp",
+  "mussoorie-george-everest", "chakrata-tiger-falls", "har-ki-pauri", "lansdowne",
+  "tehri-lake", "devprayag", "char-dham", "yamunotri", "ali-bedni-bugyal"
+]);
+
+export function getLandmarkTier(id: string, isSelected: boolean): number {
+  if (isSelected) return 0; // Always visible
+  if (TIER_1_IDS.has(id)) return 1;
+  if (TIER_2_IDS.has(id)) return 2;
+  return 3; // Detailed valley landmark (zoom 11.2+)
 }
 
 export const ALL_ATLAS_PLACES: HimalayaPlace[] = (() => {
@@ -122,22 +154,15 @@ export function buildAtlasLandmarksGeoJSON(
     const coords = routeData.line.coordinates as [number, number, number][];
     const routeMeta = VERIFIED_ROUTES_CATALOG.find((r) => r.id === slug);
     const isSelected = selectedPlaceId === slug;
+
+    // Strict Territory Scoping: Skip routes outside active territory unless selected
+    const isRouteInActiveRegion = isEntityInRegion(routeMeta?.region, activeRegionId);
+    if (activeRegionId && activeRegionId !== "all" && !isRouteInActiveRegion && !isSelected) {
+      return;
+    }
+
     const rawName = routeMeta ? routeMeta.name : slug;
     const cleanName = getCleanRouteName(rawName);
-
-    // Territory scoping check
-    const isRouteInActiveRegion = Boolean(
-      activeRegionId &&
-      activeRegionId !== "all" &&
-      routeMeta?.region &&
-      routeMeta.region.toLowerCase().includes(
-        activeRegionId === "himachal-pradesh"
-          ? "himachal"
-          : activeRegionId === "jammu-kashmir"
-          ? "kashmir"
-          : activeRegionId.toLowerCase()
-      )
-    );
 
     // Find the Summit Apex / Highest Point along the route
     let apexPt = coords[0];
@@ -166,14 +191,18 @@ export function buildAtlasLandmarksGeoJSON(
     if (isLake) symbol = "◆";
     else if (isPass) symbol = "⬡";
 
+    const tier = getLandmarkTier(slug, isSelected);
+
     let priority = isPeak ? 3 : 4;
     if (isSelected) {
       priority = 1;
-    } else if (isRouteInActiveRegion) {
-      priority = 2; // Elevate priority when territory is selected
+    } else if (tier === 1) {
+      priority = 2;
+    } else if (tier === 2) {
+      priority = 3;
     }
 
-    // PRIMARY DESTINATION POINT (Always visible at the mountain summit/lake/pass)
+    // PRIMARY DESTINATION POINT (Visible at summit/lake/pass)
     features.push({
       type: "Feature",
       geometry: {
@@ -184,11 +213,9 @@ export function buildAtlasLandmarksGeoJSON(
         id: `apex-${slug}`,
         entityId: slug,
         kind: isPeak ? "peak" : isLake ? "lake" : isPass ? "pass" : "apex",
-        name: isSelected ? `${cleanName} (Summit Apex)` : cleanName,
+        name: cleanName,
         shortLabel: `${symbol} ${cleanName}`,
-        fullLabel: isSelected
-          ? `${symbol} ${cleanName}\nSummit Apex • ${apexEleStr}`
-          : `${symbol} ${cleanName}\n${apexEleStr}`,
+        fullLabel: `${symbol} ${cleanName}\n${apexEleStr}`,
         elevation: apexEleStr,
         type: routeMeta?.type || "trek",
         color: isSelected
@@ -198,6 +225,7 @@ export function buildAtlasLandmarksGeoJSON(
           : isLake
           ? "#06B6D4"
           : "#00E5FF",
+        tier,
         priority,
         isRoute: true,
         isApex: true,
@@ -205,38 +233,6 @@ export function buildAtlasLandmarksGeoJSON(
         isSelected,
       },
     });
-
-    // PROGRESSIVE DISCLOSURE: Trailhead is revealed ONLY when this route is actively selected
-    if (isSelected) {
-      const startPt = coords[0];
-      const startEleNum = Math.round(startPt[2] || 0);
-      const startEleStr = startEleNum > 0 ? `${startEleNum.toLocaleString()}m` : "";
-      const thName = ROUTE_TRAILHEAD_NAMES[slug] || `${routeMeta?.valley || "Trailhead"}`;
-
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [startPt[0], startPt[1]],
-        },
-        properties: {
-          id: `th-${slug}`,
-          entityId: slug,
-          kind: "trailhead",
-          name: `${thName} (Start)`,
-          shortLabel: `▶ ${thName}`,
-          fullLabel: `▶ ${thName}\nStart • ${startEleStr}`,
-          elevation: startEleStr,
-          type: "trek",
-          color: "#10B981", // Alpine Emerald
-          priority: 1,      // Highest priority during selection
-          isRoute: true,
-          isApex: false,
-          isTrailhead: true,
-          isSelected: true,
-        },
-      });
-    }
   });
 
   // 2. Process all non-route Atlas Places (surrounding towns, valleys, passes, monasteries)
@@ -245,15 +241,17 @@ export function buildAtlasLandmarksGeoJSON(
     if (routesMap[place.id as keyof typeof routesMap]) return;
     if (!place.coords || place.coords.length !== 2) return;
 
-    const [lat, lng] = place.coords;
-    const isSelected = selectedPlaceId === place.id;
-    const cleanEle = place.elevation ? place.elevation.replace(/\s*m$/i, "") + "m" : "";
-    const eleNum = parseInt((place.elevation || "").replace(/\D/g, "") || "0", 10);
-
     const placeLoc = placeLocationIndex.get(place.id);
-    const isPlaceInActiveRegion = Boolean(
-      activeRegionId && activeRegionId !== "all" && placeLoc?.regionId === activeRegionId
-    );
+    const isSelected = selectedPlaceId === place.id;
+
+    // Strict Territory Scoping: Skip places outside active territory unless selected
+    const isPlaceInActiveRegion = !activeRegionId || activeRegionId === "all" || placeLoc?.regionId === activeRegionId;
+    if (activeRegionId && activeRegionId !== "all" && !isPlaceInActiveRegion && !isSelected) {
+      return;
+    }
+
+    const [lat, lng] = place.coords;
+    const cleanEle = place.elevation ? place.elevation.replace(/\s*m$/i, "") + "m" : "";
 
     const isPeak = place.type === "peak";
     const isPass = place.type === "road" || place.name.toLowerCase().includes("pass");
@@ -268,18 +266,19 @@ export function buildAtlasLandmarksGeoJSON(
     const baseColor = isPass ? "#EAB308" : (TYPE_COLOR[place.type] || "#38BDF8");
     const color = isSelected ? "#38BDF8" : baseColor;
 
+    // Standardize display name for central town anchor (e.g. mall-road -> Manali)
+    const displayName = place.id === "mall-road" ? "Manali" : place.name;
+    const tier = getLandmarkTier(place.id, isSelected);
+
     let priority = 6;
     if (isSelected) {
       priority = 1;
-    } else if (isPlaceInActiveRegion) {
-      // Prioritize places in the actively selected territory so they appear immediately
-      priority = (isPeak || isPass || isLake) ? 2 : 3;
-    } else if (isPeak && eleNum >= 5000) {
-      priority = 3; // Prominent Himalayan Massif
+    } else if (tier === 1) {
+      priority = 2;
+    } else if (tier === 2) {
+      priority = 3;
     } else if (isPeak || isPass || isLake) {
-      priority = 4; // High alpine landmarks
-    } else if (place.type === "trek") {
-      priority = 5;
+      priority = 4;
     }
 
     features.push({
@@ -292,12 +291,13 @@ export function buildAtlasLandmarksGeoJSON(
         id: place.id,
         entityId: place.id,
         kind: isPeak ? "peak" : isPass ? "pass" : isLake ? "lake" : "place",
-        name: place.name,
-        shortLabel: `${symbol} ${place.name}`,
-        fullLabel: cleanEle ? `${symbol} ${place.name}\n${cleanEle}` : `${symbol} ${place.name}`,
+        name: displayName,
+        shortLabel: `${symbol} ${displayName}`,
+        fullLabel: cleanEle ? `${symbol} ${displayName}\n${cleanEle}` : `${symbol} ${displayName}`,
         elevation: cleanEle,
         type: place.type,
         color,
+        tier,
         priority,
         isRoute: false,
         isApex: false,
@@ -314,16 +314,19 @@ export function buildAtlasLandmarksGeoJSON(
     if (ALL_ATLAS_PLACES.some((p) => p.id === peak.slug)) return;
     if (!peak.coords || peak.coords.length !== 2) return;
 
-    const [lat, lng] = peak.coords;
     const isSelected = selectedPlaceId === peak.slug;
-    const isPeakInActiveRegion = Boolean(
-      activeRegionId && activeRegionId !== "all" && peak.territory === activeRegionId
-    );
+    const isPeakInActiveRegion = !activeRegionId || activeRegionId === "all" || peak.territory === activeRegionId;
+    if (activeRegionId && activeRegionId !== "all" && !isPeakInActiveRegion && !isSelected) {
+      return;
+    }
+
+    const [lat, lng] = peak.coords;
+    const tier = getLandmarkTier(peak.slug, isSelected);
 
     let priority = 4;
     if (isSelected) priority = 1;
-    else if (isPeakInActiveRegion) priority = 2;
-    else if (peak.height >= 5000) priority = 3;
+    else if (tier === 1) priority = 2;
+    else if (tier === 2) priority = 3;
 
     const eleStr = `${peak.height.toLocaleString()}m`;
     const cleanName = peak.title;
@@ -345,6 +348,7 @@ export function buildAtlasLandmarksGeoJSON(
         elevation: eleStr,
         type: "peak",
         color: isSelected ? "#38BDF8" : "#F59E0B",
+        tier,
         priority,
         isRoute: false,
         isApex: false,

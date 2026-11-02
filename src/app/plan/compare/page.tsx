@@ -8,9 +8,9 @@ import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } fro
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trek Comparison Matrix — Head-to-Head Altitude & Difficulty",
+  title: "Head-to-Head Trek Comparison Matrix",
   description:
-    "Compare two or more Himalayan treks side-by-side. Analyze maximum altitude, daily elevation gain, grade, duration, budget, and best trekking seasons.",
+    "Compare Himalayan treks side-by-side: analyze maximum altitudes, daily elevation gains, distances, terrain difficulties, and required fitness levels.",
   path: "/plan/compare",
   keywords: [
     "Himalayan trek comparison",

@@ -14,10 +14,10 @@ export function serializeJsonLd(obj: unknown): string {
 }
 
 /** Site-wide Organization entity. Helps Google build a brand knowledge panel. */
-export function buildOrganizationJsonLd() {
+export function buildOrganizationJsonLd(options?: { omitContext?: boolean }) {
   const sameAs = Object.values(SITE.social).filter((url) => url && url !== "#");
   return {
-    "@context": "https://schema.org",
+    ...(options?.omitContext ? {} : { "@context": "https://schema.org" }),
     "@type": "Organization",
     "@id": `${SITE.url}/#organization`,
     name: SITE.name,
@@ -30,15 +30,34 @@ export function buildOrganizationJsonLd() {
 }
 
 /** Site-wide WebSite entity. Enables the sitelinks search box in Google. */
-export function buildWebSiteJsonLd() {
+export function buildWebSiteJsonLd(options?: { omitContext?: boolean }) {
   return {
-    "@context": "https://schema.org",
+    ...(options?.omitContext ? {} : { "@context": "https://schema.org" }),
     "@type": "WebSite",
     "@id": `${SITE.url}/#website`,
     name: SITE.name,
     url: SITE.url,
     description: SITE.description,
     publisher: { "@id": `${SITE.url}/#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE.url}/explore?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+/** Root Schema Graph combining Organization and WebSite for RootLayout */
+export function buildRootSchemaGraph() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildOrganizationJsonLd({ omitContext: true }),
+      buildWebSiteJsonLd({ omitContext: true }),
+    ],
   };
 }
 
@@ -49,6 +68,7 @@ export interface TouristTripOptions {
   subRegionName?: string;
   regionName?: string;
   alternateName?: string;
+  omitContext?: boolean;
 }
 
 /** Rich TouristTrip Schema: day-by-day itineraries, geo coordinates, provider, and difficulty */
@@ -60,7 +80,7 @@ export function buildTouristTripJsonLd(item: Trek | DayHike, options?: TouristTr
   const coords = options?.coords || trek?.coords;
 
   const schema: Record<string, unknown> = {
-    "@context": "https://schema.org",
+    ...(options?.omitContext ? {} : { "@context": "https://schema.org" }),
     "@type": "TouristTrip",
     name: item.title,
     ...(options?.alternateName ? { alternateName: options.alternateName } : {}),
@@ -186,7 +206,6 @@ export function buildPlaceAttractionJsonLd(
     url: canonicalUrl,
     image: heroImage,
     touristType: ["High-Altitude Trekker", "Himalayan Explorer", "Alpine Backpacker"],
-    provider: { "@id": `${SITE.url}/#organization` },
   };
 
   if (coords && coords.length === 2) {
@@ -303,7 +322,6 @@ export function buildTouristDestinationJsonLd(params: TouristDestinationParams) 
     url: absoluteUrl(params.url),
     image: params.image || absoluteUrl(SITE.ogImage),
     touristType: params.touristType || ["Trekkers", "Mountaineers", "Adventure Travelers"],
-    provider: { "@id": `${SITE.url}/#organization` },
     ...(params.containedInPlace
       ? {
           containedInPlace: {
@@ -315,9 +333,45 @@ export function buildTouristDestinationJsonLd(params: TouristDestinationParams) 
   };
 }
 
-export function buildFAQJsonLd(faqs: { question: string; answer: string }[]) {
+/** CollectionPage & ItemList Schema for Field Dispatches and Stories */
+export function buildStoriesCollectionJsonLd(stories: { title: string; excerpt?: string; url: string; image?: string; datePublished?: string }[]) {
   return {
     "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Field Dispatches & Alpine Stories — Discover Himalayan Trails",
+    description: "First-hand expedition chronicles, route reconnaissance reports, and authentic photography across the Indian Himalayas.",
+    url: absoluteUrl("/stories"),
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: stories.length,
+      itemListElement: stories.map((s, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        item: {
+          "@type": "Article",
+          headline: s.title,
+          description: s.excerpt || s.title,
+          url: absoluteUrl(s.url),
+          image: s.image ? (s.image.startsWith("http") ? s.image : absoluteUrl(s.image)) : absoluteUrl(SITE.ogImage),
+          author: {
+            "@type": "Organization",
+            name: "Discover Himalayan Trails",
+          },
+          publisher: {
+            "@id": `${SITE.url}/#organization`,
+          },
+        },
+      })),
+    },
+  };
+}
+
+export function buildFAQJsonLd(
+  faqs: { question: string; answer: string }[],
+  options?: { omitContext?: boolean }
+) {
+  return {
+    ...(options?.omitContext ? {} : { "@context": "https://schema.org" }),
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",

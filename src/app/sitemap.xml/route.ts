@@ -210,12 +210,6 @@ export async function GET(): Promise<Response> {
         changefreq: "weekly",
         priority: 0.85,
       });
-      divisionRoutes.push({
-        url: `${BASE_URL}/explore/uttarakhand/garhwal/char-dham-yatra`,
-        lastmod,
-        changefreq: "weekly",
-        priority: 0.95,
-      });
     }
   }
 

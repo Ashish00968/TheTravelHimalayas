@@ -7,9 +7,9 @@ import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Expedition Preparation — Fitness, Gear, Permits & Training",
+  title: "Himalayan Expedition Prep: Fitness, Gear & Permits",
   description:
-    "Master your Himalayan expedition preparation. Comprehensive training regimens, sub-zero packing lists, inner line permits, and alpine safety protocols.",
+    "Master high-altitude expedition preparation: endurance fitness regimens, sub-zero alpine gear checklists, inner line permits, and mountain safety rules.",
   path: "/prepare",
   keywords: [
     "Himalayan trek preparation",

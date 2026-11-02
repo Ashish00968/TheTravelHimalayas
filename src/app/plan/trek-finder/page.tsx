@@ -8,9 +8,9 @@ import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } fro
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trek Finder — Filter Trails by Altitude, Difficulty & Season",
+  title: "Deterministic Himalayan Trek Finder",
   description:
-    "Find your ideal Himalayan trek from 45+ verified trails. Filter by maximum altitude, fitness level, season, duration, and region across Himachal, Kashmir, Ladakh, and Uttarakhand.",
+    "Find your ideal Himalayan trail by filtering verified routes by altitude, technical difficulty, duration, and optimal climbing season across 4 regions.",
   path: "/plan/trek-finder",
   keywords: [
     "Himalayan trek finder",

@@ -5,7 +5,7 @@ import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "About & Basecamp Operations — Discover Himalayan Trails",
+  title: "About & Basecamp Operations",
   description:
     "Learn about Discover Himalayan Trails, our field reconnaissance operations, high-altitude safety standards, and direct contact dispatch.",
   path: "/contact",

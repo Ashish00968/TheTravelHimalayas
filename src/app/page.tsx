@@ -11,7 +11,7 @@ import {
 import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
+  title: "Discover Himalayan Trails | High-Altitude Trekking & Atlas",
   description:
     "Definitive guide to 59+ verified Himalayan treks, technical peak profiles, interactive 3D terrain maps, AMS medical safety protocols, and expedition planning across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir.",
   keywords: [
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
     description:
-      "Definitive authority platform for trekking and alpine exploration in the Indian Himalayas. 59+ mapped trails, interactive 3D terrain, real-time safety telemetry, and expedition planning instruments.",
+      "Definitive guide to 59+ verified Himalayan treks, peak profiles, 3D terrain maps, AMS medical safety protocols, and planning across HP, J&K, Ladakh & Uttarakhand.",
     url: absoluteUrl("/"),
     siteName: SITE.name,
     images: [
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Discover Himalayan Trails | High-Altitude Trekking & Expedition Guides",
     description:
-      "Definitive authority platform for trekking and alpine exploration in the Indian Himalayas. 59+ mapped trails, 3D terrain, and comprehensive safety protocols.",
+      "Definitive guide to 59+ verified Himalayan treks, peak profiles, 3D terrain maps, AMS medical safety protocols, and planning across HP, J&K, Ladakh & Uttarakhand.",
     images: ["https://res.cloudinary.com/dehriwm1o/image/upload/f_auto,q_auto,w_1200/v1777213099/Wallpaper.jpg"],
   },
 };
@@ -74,9 +74,10 @@ export default function HomePage() {
         HOMEPAGE_FAQS.map((faq) => ({
           question: faq.question,
           answer: `${faq.shortAnswer} ${faq.detailedAnswer}`,
-        }))
+        })),
+        { omitContext: true }
       ),
-      ...featuredTreks.map((t) => buildTouristTripJsonLd(t)),
+      ...featuredTreks.map((t) => buildTouristTripJsonLd(t, { omitContext: true })),
     ],
   };
 

@@ -7,10 +7,9 @@ import { generatePageMetadata } from "@/lib/seo";
 import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = generatePageMetadata({
-
-  title: "Interactive Himalayan 3D Map Atlas — Satellite Terrain, Trails & Passes",
+  title: "Interactive 3D Map Atlas: Trails & Terrain",
   description:
-    "Navigate the Indian Himalayas in interactive 3D satellite terrain. Explore trailheads, mountain passes, campsites, and summit routes with elevation profiles across Himachal, Kashmir, Ladakh, and Uttarakhand.",
+    "Explore the Indian Himalayas in 3D satellite terrain. View GPS trailheads, alpine passes, high campsites, and summit routes across 4 mountain territories.",
   path: "/map",
   keywords: [
     "Himalayan 3D map",

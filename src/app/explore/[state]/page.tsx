@@ -28,7 +28,7 @@ export async function generateMetadata({
   );
 
   return generatePageMetadata({
-    title: `Treks & Expeditions in ${region.name} — Best Himalayan Trails & Map`,
+    title: `${region.name} Treks & Expeditions — 3D Atlas`,
     description: `Explore ${totalPlaces} verified high-altitude treks, peak climbs, and alpine valleys across ${region.name}. Itineraries, elevation maps, permits, and season guides.`,
     path: `/explore/${region.id}`,
     image: region.image,

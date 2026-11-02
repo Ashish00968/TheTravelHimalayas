@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/site";
-import { buildOrganizationJsonLd, buildWebSiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { buildRootSchemaGraph, serializeJsonLd } from "@/lib/json-ld";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
@@ -50,8 +50,8 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Discover Himalayan Trails | Himalayan Trekking & Expedition Guides",
-    template: "%s | Discover Himalayan Trails",
+    default: "Discover Himalayan Trails | High-Altitude Trekking & Atlas",
+    template: "%s | DHT",
   },
   description: SITE.description,
   keywords: [
@@ -107,10 +107,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [buildOrganizationJsonLd(), buildWebSiteJsonLd()],
-  };
+  const jsonLd = buildRootSchemaGraph();
 
   return (
     <html

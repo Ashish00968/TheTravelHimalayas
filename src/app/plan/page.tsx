@@ -8,9 +8,9 @@ import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Expedition Planning Suite — Trek Finder, Budget & Gear Tools",
+  title: "Himalayan Expedition Planning Suite & Tools",
   description:
-    "Professional deterministic tools for Himalayan trekking: Trek Finder, Head-to-Head Comparison Matrix, Budget Estimator, Packing List Generator, and Seasonal Matrix.",
+    "Comprehensive Himalayan expedition planning suite: deterministic trek finder, budget calculator, packing list generator, and seasonal weather matrix.",
   path: "/plan",
   keywords: [
     "Himalayan expedition planning",

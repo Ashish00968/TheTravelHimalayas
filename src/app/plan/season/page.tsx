@@ -8,9 +8,9 @@ import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } fro
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trek Season Matrix — Best Months for Weather & Passes",
+  title: "Himalayan Seasonal Trek Matrix & Windows",
   description:
-    "Month-by-month guide to trekking in the Himalayas. Discover trail accessibility, monsoon windows, winter snow levels, and pass opening dates across all 4 territories.",
+    "Month-by-month guide to trekking seasons in the Indian Himalayas. Find optimal weather windows, monsoon-shadow routes, and winter snow summit windows.",
   path: "/plan/season",
   keywords: [
     "Himalayan trek season matrix",

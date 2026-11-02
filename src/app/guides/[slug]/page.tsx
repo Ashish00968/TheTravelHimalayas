@@ -25,8 +25,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const guide = guides.find((g) => g.slug === slug);
   if (!guide) return {};
 
+  const pageTitle = /guide/i.test(guide.title) ? guide.title : `${guide.title}: Alpine Guide`;
+
   return generatePageMetadata({
-    title: `${guide.title} — Himalayan Expedition & Alpine Field Guide`,
+    title: pageTitle,
     description: guide.description,
     path: `/guides/${guide.slug}`,
     keywords: [

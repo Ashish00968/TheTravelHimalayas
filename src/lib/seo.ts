@@ -43,7 +43,10 @@ export function generatePageMetadata({
 }: SeoParams): Metadata {
   const url = absoluteUrl(path);
   // Strip duplicate brand name if passed in the title so layout.tsx's template handles it cleanly once
-  const cleanTitle = title.replace(/\s*\|\s*Discover Himalayan Trails.*$/i, "").trim();
+  const cleanTitle = title
+    .replace(/\s*\|\s*Discover Himalayan Trails.*$/i, "")
+    .replace(/\s*\|\s*DHT.*$/i, "")
+    .trim();
   
   // Clean description to avoid mid-sentence clipping
   const cleanDescription = truncateDescription(description, 158);

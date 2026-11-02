@@ -9,9 +9,9 @@ import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "All 177 Himalayan Destinations & Trail Directory — Discover Himalayan Trails",
+  title: "All 177 Himalayan Treks, Peaks & Trail Directory",
   description:
-    "Comprehensive master directory of all 177 verified high-altitude treks, technical peaks, sacred pilgrimage shrines, and alpine passes across Himachal Pradesh, Uttarakhand, Ladakh, and Jammu & Kashmir.",
+    "Directory of 177 verified Himalayan destinations: high-altitude treks, technical peaks, alpine passes, and trails across HP, J&K, Ladakh, and Uttarakhand.",
   path: "/explore",
   keywords: [
     "Himalayan atlas",

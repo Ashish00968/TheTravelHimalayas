@@ -9,9 +9,9 @@ export const SITE = {
   shortName: "Discover Himalayas",
   /** Production origin, no trailing slash */
   url: "https://discoverhimalayantrails.com",
-  /** Default meta description */
+  /** Default meta description (Optimized for SERP sweet spot: ~150 chars) */
   description:
-    "The authoritative guide and geospatial atlas for trekking, peak expeditions, and alpine exploration across the Indian Himalayas: Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand. Verified trails, interactive 3D terrain maps, and high-altitude safety protocols.",
+    "Authoritative guide & 3D geospatial atlas for Himalayan trekking and peak expeditions across Himachal Pradesh, Jammu & Kashmir, Ladakh, and Uttarakhand.",
   /** Author/byline used on guide articles */
   author: "Discover Himalayan Trails Team",
   /** Contact addresses */

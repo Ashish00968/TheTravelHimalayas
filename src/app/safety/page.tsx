@@ -9,9 +9,9 @@ import {
 } from "@/lib/json-ld";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Mountain Altitude Safety & Medical Protocol — AMS, HAPE, HACE & Courses",
+  title: "Mountain Altitude Safety & AMS Protocols",
   description:
-    "Authoritative clinical protocol for Acute Mountain Sickness (AMS), HAPE, HACE, Diamox dosages, acclimatization schedules, and IMF mountaineering courses (BMC, AMC).",
+    "Authoritative protocol for Acute Mountain Sickness (AMS), HAPE, HACE, Diamox dosages, acclimatization schedules, and BMC/AMC mountaineering courses.",
   path: "/safety",
   keywords: [
     "AMS symptoms high altitude",

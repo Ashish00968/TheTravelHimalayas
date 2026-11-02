@@ -7,9 +7,9 @@ import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } fro
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trek Budget Calculator — Estimate Expedition & Guide Costs",
+  title: "Himalayan Trek & Expedition Budget Estimator",
   description:
-    "Calculate the complete cost of any Himalayan trek. Get itemized estimates for trail permits, certified guides, mule support, equipment rentals, and transport.",
+    "Calculate realistic costs for Himalayan trekking: permits, certified alpine guides, porters, equipment rentals, transportation, and basecamp logistics.",
   path: "/plan/budget",
   keywords: [
     "Himalayan trek budget calculator",

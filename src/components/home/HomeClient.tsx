@@ -513,7 +513,7 @@ function DesktopHero() {
           className="relative z-[20] flex flex-col items-center max-w-[1150px] w-full mx-auto my-auto pointer-events-none"
         >
           {/* Accessible Semantic Header */}
-          <h1 className="sr-only">Discover Himalayan Trails — Explore the Himalayas</h1>
+          <h2 className="sr-only">Discover Himalayan Trails — Explore the Himalayas</h2>
 
           <div className="w-full flex flex-col select-none mb-2 pointer-events-auto">
             {/* Step 1: DISCOVER on the LEFT (Visible in open sky from landing) */}

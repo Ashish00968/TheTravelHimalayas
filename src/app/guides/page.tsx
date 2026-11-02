@@ -6,9 +6,9 @@ import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Field Guides & Expedition Planning — Logistics, Permits & Gear",
+  title: "Himalayan Field Guides & Logistics Directory",
   description:
-    "Authoritative field dispatches and alpine guides covering inner line permits, trailhead transport, gear checklists, and acclimatization strategy.",
+    "Authoritative field guides for trekking in the Indian Himalayas: inner line permits, mountain safety protocols, high-altitude gear, and transit logistics.",
   path: "/guides",
   keywords: [
     "Himalayan field guides",

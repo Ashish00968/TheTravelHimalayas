@@ -8,7 +8,7 @@ import { generatePageMetadata } from "@/lib/seo";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trail Conditions & Weather Radar — Pass Status & Snow Reports",
+  title: "Trail Conditions & Weather Radar",
   description:
     "Real-time Himalayan trail conditions, live valley weather radar, high mountain pass status, monsoon storm tracking, and mountain safety advisories.",
   path: "/conditions",

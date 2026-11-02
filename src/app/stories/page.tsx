@@ -18,7 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { generatePageMetadata } from "@/lib/seo";
-import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { buildBreadcrumbJsonLd, buildStoriesCollectionJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -42,7 +42,7 @@ function InstagramIcon({ className }: { className?: string }) {
 }
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Field Dispatches & Expedition Stories — First-Hand Trail Chronicles",
+  title: "Field Dispatches & Alpine Stories",
   description:
     "First-hand alpine narratives, route reconnaissance chronicles, and authentic photographic dispatches from high passes and peaks across the Indian Himalayas.",
   path: "/stories",
@@ -109,6 +109,15 @@ export default function StoriesPage() {
     { label: "Stories & Dispatches", href: "/stories" },
   ]);
 
+  const storiesSchema = buildStoriesCollectionJsonLd(
+    FEATURED_STORIES.map((s) => ({
+      title: s.title,
+      excerpt: s.excerpt,
+      url: `/stories#${s.id}`,
+      image: s.image,
+    }))
+  );
+
   const submissionEmail = SITE.email.explore || "explore@discoverhimalayantrails.com";
   const mailtoSubject = encodeURIComponent("Trail Story Submission — Discover Himalayan Trails");
   const mailtoBody = encodeURIComponent(
@@ -129,6 +138,10 @@ export default function StoriesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(storiesSchema) }}
       />
       <HeroSection
         title="Field Dispatches & Alpine Stories"

@@ -430,7 +430,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
               images: t.images || [],
               trekData: t,
               seoTitle: isJogni
-                ? "Jogni Falls Trek (2,280m) Vashisht, Manali — Route & Guide"
+                ? "Jogni Falls Trek (2,280m) Manali — Route & Guide"
                 : isBeasKund
                 ? "Beas Kund Trek (3,700m) Manali — Route, Height & Cost | DHT"
                 : undefined,
@@ -680,7 +680,7 @@ export const himachalPradeshRegion: HimalayaRegion =   {
           },
           {
             id: "mall-road",
-            name: "Manali Mall Road",
+            name: "Manali",
             type: "scenic",
             emoji: "🛍️",
             coords: [32.2396, 77.1887],

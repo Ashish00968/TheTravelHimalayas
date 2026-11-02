@@ -483,7 +483,7 @@ interface MapExplorerDrawerProps {
   onSelectRoute: (routeId: string) => void;
   onSelectPlace: (place: HimalayaPlace) => void;
   onSelectRegion: (regionId: string) => void;
-  onHoverEntity: (id: string | null) => void;
+  onHoverEntity?: (id: string | null) => void;
   peaks: Peak[];
   allPlaces: HimalayaPlace[];
 }
@@ -1000,8 +1000,8 @@ export function MapExplorerDrawer({
                     <div
                       key={route.id}
                       onClick={() => onSelectRoute(route.id)}
-                      onMouseEnter={() => onHoverEntity(route.id)}
-                      onMouseLeave={() => onHoverEntity(null)}
+                      onMouseEnter={() => onHoverEntity?.(route.id)}
+                      onMouseLeave={() => onHoverEntity?.(null)}
                       className={`group relative p-3.5 rounded-xl transition-all duration-200 cursor-pointer border ${
                         isSelected
                           ? isDark
@@ -1143,8 +1143,8 @@ export function MapExplorerDrawer({
                           onSelectRoute(peak.slug);
                         }
                       }}
-                      onMouseEnter={() => onHoverEntity(peak.slug)}
-                      onMouseLeave={() => onHoverEntity(null)}
+                      onMouseEnter={() => onHoverEntity?.(peak.slug)}
+                      onMouseLeave={() => onHoverEntity?.(null)}
                       className={`group relative p-3.5 rounded-xl transition-all duration-200 cursor-pointer border ${
                         isSelected
                           ? isDark
@@ -1252,8 +1252,8 @@ export function MapExplorerDrawer({
                     <div
                       key={`${place.id}-${idx}`}
                       onClick={() => onSelectPlace(place)}
-                      onMouseEnter={() => onHoverEntity(place.id)}
-                      onMouseLeave={() => onHoverEntity(null)}
+                      onMouseEnter={() => onHoverEntity?.(place.id)}
+                      onMouseLeave={() => onHoverEntity?.(null)}
                       className={`group flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
                         isSelected
                           ? isDark

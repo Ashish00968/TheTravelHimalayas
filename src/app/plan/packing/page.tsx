@@ -7,9 +7,9 @@ import { buildWebApplicationJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } fro
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Himalayan Trek Packing List Generator — Altitude-Adjusted Gear Checklist",
+  title: "Alpine Trek Packing Checklist Generator",
   description:
-    "Generate an altitude-calibrated Himalayan packing list. Customized gear checklists for summer, monsoon, and winter expeditions above 4,000m.",
+    "Generate custom high-altitude gear checklists adjusted for season, sleeping altitude, and weather conditions across the Indian Himalayan ranges.",
   path: "/plan/packing",
   keywords: [
     "Himalayan trek packing list",
